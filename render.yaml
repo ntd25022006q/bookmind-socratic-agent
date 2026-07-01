@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: bookmind-socratic-agent
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: OLLAMA_API_KEY
+        value: 95ce9b918b0f489ea48744214b0836ef.qLsxKO6_mE2WCb-QwxeJ7DMm
+      - key: OLLAMA_BASE_URL
+        value: https://openrouter.ai/api/v1
+      - key: OPENROUTER_API_KEY
+        value: 95ce9b918b0f489ea48744214b0836ef.qLsxKO6_mE2WCb-QwxeJ7DMm
+      - key: OPENROUTER_BASE_URL
+        value: https://openrouter.ai/api/v1

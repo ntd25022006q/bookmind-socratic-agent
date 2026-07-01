@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPT Software — Nền Tảng Báo Cáo Chi Tiết Chiến Lược Multi-Agent AI</title>
+    <meta name="description" content="Hệ thống nghiên cứu và báo cáo chi tiết AI-First của FPT Software, vận hành bởi kiến trúc Multi-Agent.">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="lib/all.min.css?v=20">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=38">
+    <!-- Markdown Parser -->
+    <script src="lib/marked.min.js"></script>
+    <!-- KaTeX for LaTeX rendering -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js" crossorigin="anonymous"></script>
+    <!-- Mermaid Diagram Library -->
+    <script src="lib/mermaid.min.js"></script>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'base',
+            themeVariables: {
+                'primaryColor': '#ffffff',
+                'primaryTextColor': '#1a1a1a',
+                'primaryBorderColor': '#333333',
+                'lineColor': '#333333',
+                'secondaryColor': '#f5f5f5',
+                'tertiaryColor': '#e8e8e8',
+                'nodeTextColor': '#1a1a1a',
+                'fontSize': '13px',
+                'fontFamily': 'Inter, sans-serif'
+            },
+            securityLevel: 'strict',
+            flowchart: { useMaxWidth: true, htmlLabels: false }
+        });
+    </script>
+</head>
+<body>
+    <div class="app-container">
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+
+            <!-- ═══ Left Sidebar ═══ -->
+            <section class="sidebar-left">
+
+                <!-- Input & Action Panel -->
+                <div class="panel input-panel">
+                    <h2>
+                        <i class="fa-solid fa-pen-to-square"></i> Câu Hỏi &amp; Yêu Cầu
+                        <span class="header-actions" style="float: right; display: flex; gap: 12px; align-items: center;">
+                            <span id="connection-status-dot" style="width: 8px; height: 8px; border-radius: 50%; background-color: #94a3b8; display: inline-block; transition: background-color 0.3s; box-shadow: 0 0 4px rgba(148, 163, 184, 0.5);" title="Đang kiểm tra kết nối..."></span>
+                            <i class="fa-solid fa-plus" id="new-chat-btn" style="cursor: pointer; opacity: 0.6; font-size: 13.5px; transition: opacity 0.2s;" title="Trò chuyện mới"></i>
+                        </span>
+                    </h2>
+
+                    <div class="form-group">
+                        <label for="topic-input">Nhập nội dung cần phân tích</label>
+                        <div class="chat-input-wrapper" style="position: relative;">
+                            <textarea
+                                id="topic-input"
+                                class="glass-input"
+                                rows="7"
+                                placeholder="Ví dụ: Đánh giá mức độ phù hợp của kiến trúc Microservices với hệ thống Core Banking của FPT Software…"></textarea>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button id="run-btn" class="glow-button" style="flex-grow: 1;">
+                            <i class="fa-solid fa-bolt"></i> Kích Hoạt Phân Tích
+                        </button>
+                        <button id="stop-btn" type="button" class="glow-button" style="background: var(--fpt-orange); display: none; width: auto; padding: 10px 14px;" title="Dừng Phân Tích">
+                            <i class="fa-solid fa-stop"></i> Dừng
+                        </button>
+                    </div>
+
+                    <!-- Download Buttons (hidden until report is ready) -->
+                    <div id="download-group" style="display:none; flex-direction:column; gap:6px; margin-top:10px;">
+                        <button id="download-pdf-btn" class="action-btn" style="width:100%;justify-content:center;gap:8px;padding:10px;font-size:11px;border-radius:6px;border-color: #93c5fd; color: #1d4ed8; background: #ffffff;">
+                            <i class="fa-solid fa-file-export"></i> Xuất báo cáo chi tiết
+                        </button>
+                        <button id="download-diagram-btn" class="action-btn" style="width:100%;justify-content:center;gap:8px;padding:10px;font-size:11px;border-radius:6px;">
+                            <i class="fa-solid fa-image"></i> Xuất sơ đồ quy trình
+                        </button>
+                    </div>
+
+
+                </div>
+
+                <!-- Metrics Panel -->
+                <div class="panel metrics-panel">
+                    <h2><i class="fa-solid fa-chart-line"></i> Chỉ Số Vận Hành</h2>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <span class="metric-label">Thời Gian</span>
+                            <span id="stat-time" class="metric-value">0.0s</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Tổng Token</span>
+                            <span id="stat-tokens" class="metric-value">0</span>
+                        </div>
+                        <div class="metric-card full-width">
+                            <span class="metric-label">Tác Nhân Đã Xử Lý</span>
+                            <span id="stat-agents" class="metric-value">0 / 6</span>
+                        </div>
+                        <div class="metric-card full-width">
+                            <span class="metric-label">Trạng Thái</span>
+                            <span id="stat-status" class="metric-value" style="color: var(--text-secondary);">Sẵn sàng</span>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ Middle: Graph + Console ═══ -->
+            <section class="middle-content">
+
+                <!-- LangGraph Pipeline Visualizer -->
+                <div class="panel graph-panel">
+                    <h2><i class="fa-solid fa-diagram-project"></i> Sơ Đồ Phối Hợp Tác Nhân</h2>
+
+                    <div class="graph-visualizer">
+                        <!-- SVG Edges -->
+                        <svg class="graph-edges"
+                             viewBox="0 0 100 100"
+                             preserveAspectRatio="none"
+                             style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;">
+                            <defs>
+                                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+                                        markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                    <path d="M 0 2 L 8 5 L 0 8 z" fill="rgba(120,136,160,0.5)"/>
+                                </marker>
+                                <marker id="arrow-researcher" viewBox="0 0 10 10" refX="9" refY="5"
+                                        markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                    <path d="M 0 2 L 8 5 L 0 8 z" fill="#2f88d4"/>
+                                </marker>
+                                <marker id="arrow-analyst" viewBox="0 0 10 10" refX="9" refY="5"
+                                        markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                    <path d="M 0 2 L 8 5 L 0 8 z" fill="#8b5cf6"/>
+                                </marker>
+                                <marker id="arrow-risk" viewBox="0 0 10 10" refX="9" refY="5"
+                                        markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                    <path d="M 0 2 L 8 5 L 0 8 z" fill="#d97706"/>
+                                </marker>
+                                <marker id="arrow-recommender" viewBox="0 0 10 10" refX="9" refY="5"
+                                        markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                    <path d="M 0 2 L 8 5 L 0 8 z" fill="#16a069"/>
+                                </marker>
+                                <marker id="arrow-reporter" viewBox="0 0 10 10" refX="9" refY="5"
+                                        markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                    <path d="M 0 2 L 8 5 L 0 8 z" fill="#0d9488"/>
+                                </marker>
+                            </defs>
+
+                            <!-- Pipeline edges -->
+                            <line id="edge-guardrail-researcher"
+                                  x1="12" y1="50" x2="25" y2="50"
+                                  stroke="rgba(120,136,160,0.4)" stroke-width="1.5"
+                                  stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+                            <line id="edge-researcher-analyst"
+                                  x1="29" y1="50" x2="43" y2="50"
+                                  stroke="rgba(120,136,160,0.4)" stroke-width="1.5"
+                                  stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+                            <line id="edge-analyst-risk_assessor"
+                                  x1="47" y1="50" x2="61" y2="50"
+                                  stroke="rgba(120,136,160,0.4)" stroke-width="1.5"
+                                  stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+                            <line id="edge-risk_assessor-recommender"
+                                  x1="65" y1="50" x2="79" y2="50"
+                                  stroke="rgba(120,136,160,0.4)" stroke-width="1.5"
+                                  stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+                            <line id="edge-recommender-reporter"
+                                  x1="83" y1="50" x2="93" y2="50"
+                                  stroke="rgba(120,136,160,0.4)" stroke-width="1.5"
+                                  stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+                            <line id="edge-researcher-reporter"
+                                  x1="29" y1="50" x2="93" y2="50"
+                                  stroke="rgba(120,136,160,0.4)" stroke-width="1.5"
+                                  stroke-dasharray="4 3" marker-end="url(#arrow)"
+                                  style="display: none;"/>
+                        </svg>
+
+                        <!-- Nodes -->
+                        <div class="nodes-container">
+                            <div class="graph-node" id="node-guardrail" data-agent="Lọc Ngữ Cảnh">
+                                <div class="node-icon"><i class="fa-solid fa-filter"></i></div>
+                                <span class="node-label">Lọc Ngữ Cảnh</span>
+                                <span class="node-metrics-badge" id="metrics-guardrail">0.000s | 0 tk</span>
+                            </div>
+                            <div class="graph-node" id="node-researcher" data-agent="Nghiên Cứu">
+                                <div class="node-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                                <span class="node-label">Nghiên Cứu</span>
+                                <span class="node-metrics-badge" id="metrics-researcher">0.000s | 0 tk</span>
+                            </div>
+                            <div class="graph-node" id="node-analyst" data-agent="Phân Tích">
+                                <div class="node-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                                <span class="node-label">Phân Tích</span>
+                                <span class="node-metrics-badge" id="metrics-analyst">0.000s | 0 tk</span>
+                            </div>
+                            <div class="graph-node" id="node-risk_assessor" data-agent="Kiểm Soát Rủi Ro">
+                                <div class="node-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                <span class="node-label">Kiểm Soát Rủi Ro</span>
+                                <span class="node-metrics-badge" id="metrics-risk_assessor">0.000s | 0 tk</span>
+                            </div>
+                            <div class="graph-node" id="node-recommender" data-agent="Đề Xuất Chiến Lược">
+                                <div class="node-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                                <span class="node-label">Đề Xuất</span>
+                                <span class="node-metrics-badge" id="metrics-recommender">0.000s | 0 tk</span>
+                            </div>
+                            <div class="graph-node" id="node-reporter" data-agent="Biên Soạn Báo Cáo">
+                                <div class="node-icon"><i class="fa-solid fa-file-lines"></i></div>
+                                <span class="node-label">Biên Soạn</span>
+                                <span class="node-metrics-badge" id="metrics-reporter">0.000s | 0 tk</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Agent Console -->
+                <div class="panel console-panel">
+                    <div class="console-header">
+                        <h2><i class="fa-solid fa-terminal"></i> Nhật Ký Xử Lý Thời Gian Thực</h2>
+                        <div id="active-agent-badge" class="agent-badge inactive">Chờ lệnh</div>
+                    </div>
+                    <div class="console-body" id="console-output">
+                        <div class="console-welcome">
+                            <p class="welcome-title"><i class="fa-solid fa-network-wired"></i> Hệ Thống Báo Cáo Chi Tiết Tri Thức Doanh Nghiệp — FPT Software</p>
+                            <p>Sáu tác nhân chuyên biệt phối hợp xử lý yêu cầu theo chuỗi, từ xác thực đầu vào đến biên soạn báo cáo học thuật hoàn chỉnh:</p>
+                            <div class="welcome-grid">
+                                <div class="welcome-card">
+                                    <h4><i class="fa-solid fa-filter"></i> Lọc Ngữ Cảnh</h4>
+                                    <p>Xác thực tính liên quan của yêu cầu, phân loại loại truy vấn và định tuyến luồng xử lý phù hợp.</p>
+                                </div>
+                                <div class="welcome-card">
+                                    <h4><i class="fa-solid fa-magnifying-glass"></i> Nghiên Cứu</h4>
+                                    <p>Truy xuất tri thức từ kho dữ liệu FPT qua cơ chế Hybrid Search kết hợp Chroma &amp; BM25.</p>
+                                </div>
+                                <div class="welcome-card">
+                                    <h4><i class="fa-solid fa-chart-simple"></i> Phân Tích</h4>
+                                    <p>Xây dựng ma trận so sánh đa chiều, đánh giá các phương án kiến trúc và lợi thế cạnh tranh.</p>
+                                </div>
+                                <div class="welcome-card">
+                                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Kiểm Soát Rủi Ro</h4>
+                                    <p>Nhận diện rủi ro kỹ thuật &amp; vận hành, đề xuất biện pháp kiểm soát theo chuẩn FPT Secure-First.</p>
+                                </div>
+                                <div class="welcome-card">
+                                    <h4><i class="fa-solid fa-lightbulb"></i> Đề Xuất Chiến Lược</h4>
+                                    <p>Thiết lập lộ trình triển khai đa giai đoạn và hệ thống KPI đo lường hiệu quả thực thi.</p>
+                                </div>
+                                <div class="welcome-card">
+                                    <h4><i class="fa-solid fa-file-lines"></i> Biên Soạn Báo Cáo</h4>
+                                    <p>Tổng hợp toàn bộ đầu ra, biên soạn báo cáo học thuật và trực quan hóa kiến trúc qua sơ đồ Mermaid.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ Right Sidebar: Output Tabs ═══ -->
+            <section class="sidebar-right">
+                <div class="panel tabs-panel">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="report-tab" id="tab-btn-report" style="flex-grow:1;">
+                            <i class="fa-solid fa-file-invoice"></i> Báo Cáo Chi Tiết
+                        </button>
+                        <button class="tab-btn" data-tab="diagram-tab" id="tab-btn-diagram" style="flex-grow:1;">
+                            <i class="fa-solid fa-diagram-project"></i> Sơ Đồ Quy Trình
+                        </button>
+                    </div>
+
+                    <div class="tabs-content">
+                        <!-- Report Tab -->
+                        <div class="tab-pane active" id="report-tab">
+                            <div class="markdown-report" id="report-view">
+                                <p class="placeholder-text">Báo cáo chi tiết chiến lược sẽ được hiển thị tại đây sau khi phân tích hoặc tải tệp hoàn tất.</p>
+                            </div>
+                        </div>
+
+                        <!-- Diagram Tab -->
+                        <div class="tab-pane" id="diagram-tab">
+                            <div class="diagram-container">
+                                <div class="diagram-toolbar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <h3 style="margin: 0; display: none;"><i class="fa-solid fa-share-nodes"></i> Sơ Đồ Luồng Quy Trình Hệ Thống</h3>
+                                    <div class="scale-controls" style="display: flex; gap: 4px; align-items: center;">
+                                        <button id="zoom-out-btn" class="action-btn" title="Thu nhỏ" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; height: 22px; width: 22px;"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                                        <span id="zoom-level" style="font-size: 10px; color: var(--text-muted); min-width: 32px; text-align: center; font-weight: 600;">100%</span>
+                                        <button id="zoom-in-btn" class="action-btn" title="Phóng to" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; height: 22px; width: 22px;"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                                        <button id="zoom-reset-btn" class="action-btn" title="Đặt lại" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; height: 22px; width: 22px; margin-left: 2px;"><i class="fa-solid fa-arrows-to-eye"></i></button>
+                                    </div>
+                                </div>
+                                <div id="mermaid-render-output" class="mermaid-diagram-output" style="position: relative; overflow: auto; min-height: 250px; max-height: 450px; border: 1px solid var(--panel-border); border-radius: 6px; background: #ffffff; padding: 10px; text-align: center; display: flex; justify-content: center; align-items: center;">
+                                    <p class="placeholder-text">Sơ đồ quy trình sẽ được hiển thị tại đây sau khi phân tích hoàn tất.</p>
+                                </div>
+                                <div id="mermaid-explanation-container" class="diagram-explanation-container" style="display:none; margin-top: 15px; padding: 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                                    <h4 style="margin-top:0; margin-bottom:8px; color: var(--fpt-blue); font-size:12px; font-weight:700;"><i class="fa-solid fa-circle-info"></i> Mô tả chi tiết sơ đồ</h4>
+                                    <div id="mermaid-explanation-content" style="font-size:11.5px; line-height:1.6; color: var(--text-secondary);"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- App Script -->
+    <script src="app.js?v=50"></script>
+</body>
+</html>
