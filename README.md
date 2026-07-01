@@ -1,3 +1,5 @@
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ntd25022006q/bookmind-socratic-agent)
+
 # VNU BookMind Socratic — Trợ lý Độc lập & Phản biện Sách Socratic Đa tác nhân
 
 Giải pháp hỗ trợ đọc sâu, tự học và phản biện học thuật cho sinh viên Đại học Quốc gia Hà Nội (ĐHQGHN) sử dụng kiến trúc đồ thị trạng thái LangGraph kết hợp Koha ILS API của Trung tâm Thư viện và Tri thức số (VNU-LIC).

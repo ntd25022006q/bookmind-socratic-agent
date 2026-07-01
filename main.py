@@ -121,8 +121,12 @@ def main():
     
     if args.server:
         import uvicorn
-        console.print("[bold green]Starting FPT Software AI-First Research & Consulting Dashboard Server on http://127.0.0.1:8000...[/]")
-        uvicorn.run("server:app", host="127.0.0.1", port=8000, reload=False)
+        
+        # Read PORT and HOST from env dynamically for compatibility with Render/Cloud hosting
+        host = os.environ.get("HOST", "0.0.0.0" if os.environ.get("PORT") else "127.0.0.1")
+        port = int(os.environ.get("PORT", 8000))
+        console.print(f"[bold green]Starting Dashboard Server on http://{host}:{port}...[/]")
+        uvicorn.run("server:app", host=host, port=port, reload=False)
     elif args.demo:
         run_pipeline("Should we switch to microservices?")
     elif args.topic:
