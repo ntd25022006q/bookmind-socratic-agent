@@ -62,17 +62,43 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ── Serve frontend assets from a single source (no duplicate static/ dir) ────
-FRONTEND_DIR = Path(WORKSPACE_DIR) / "frontend"
-FRONTEND_DIR.mkdir(exist_ok=True)
-(FRONTEND_DIR / "lib").mkdir(parents=True, exist_ok=True)
-(FRONTEND_DIR / "webfonts").mkdir(parents=True, exist_ok=True)
+# ── Serve frontend assets with read-only/serverless compatibility ────
+try:
+    FRONTEND_DIR = Path(WORKSPACE_DIR) / "frontend"
+    # Find customized frontend directory dynamically
+    if not FRONTEND_DIR.exists():
+        for d in os.listdir(WORKSPACE_DIR):
+            if d.endswith("-frontend") and os.path.isdir(os.path.join(WORKSPACE_DIR, d)):
+                FRONTEND_DIR = Path(WORKSPACE_DIR) / d
+                break
+                
+    # Only make directories if they don't exist yet to reduce write operations
+    if not FRONTEND_DIR.exists():
+        try:
+            FRONTEND_DIR.mkdir(exist_ok=True)
+        except Exception:
+            pass
+            
+    lib_dir = FRONTEND_DIR / "lib"
+    if not lib_dir.exists():
+        try:
+            lib_dir.mkdir(parents=True, exist_ok=True)
+        except Exception:
+            pass
+            
+    fonts_dir = FRONTEND_DIR / "webfonts"
+    if not fonts_dir.exists():
+        try:
+            fonts_dir.mkdir(parents=True, exist_ok=True)
+        except Exception:
+            pass
 
-# Mount static assets under /assets (CSS, JS, fonts etc.)
-# We do NOT mount at "/" to avoid swallowing /api/* routes
-app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIR)), name="assets")
-app.mount("/lib", StaticFiles(directory=str(FRONTEND_DIR / "lib")), name="lib")
-app.mount("/webfonts", StaticFiles(directory=str(FRONTEND_DIR / "webfonts")), name="webfonts")
+    # Mount static assets under /assets, /lib, /webfonts
+    app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIR)), name="assets")
+    app.mount("/lib", StaticFiles(directory=str(lib_dir)), name="lib")
+    app.mount("/webfonts", StaticFiles(directory=str(fonts_dir)), name="webfonts")
+except Exception as e:
+    print(f"Skipping static files mount on read-only serverless: {e}")
 
 
 # ── Bypass header helper (only tunnel/CDN bypass headers, no encoding) ───────
@@ -380,7 +406,10 @@ async def run_agents(request: RunRequest):
 
                     # Clean internal filenames programmatically
                     final_report = clean_internal_filenames(final_report)
-                    Path(OUTPUT_DIR).mkdir(exist_ok=True)
+                    try:
+    Path(OUTPUT_DIR).mkdir(exist_ok=True)
+except Exception:
+    pass
                     (Path(OUTPUT_DIR) / "research_report.md").write_text(final_report, encoding="utf-8")
 
                     # Read diagram and explanation if they exist to pass directly in SSE done event
