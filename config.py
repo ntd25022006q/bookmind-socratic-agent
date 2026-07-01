@@ -12,12 +12,12 @@ OLLAMA_API_KEY = os.environ.get("OLLAMA_API_KEY", "")
 OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "https://ollama.com/v1")
 
 # Best specialized models on Ollama Cloud — optimized for functional strengths and low latency (free tier compatible)
-MODEL_GUARDRAIL_AGENT    = "ministral-3:8b"     # High-speed instruction-following gatekeeper (free)
-MODEL_RESEARCHER_AGENT   = "qwen3-coder-next"   # Extremely fast factual synthesis and RAG context summary (free)
-MODEL_ANALYST_AGENT      = "qwen3-coder-next"   # Extremely fast reasoning for trade-offs & complex evaluation matrix (free)
-MODEL_RISK_ASSESSOR_AGENT= "qwen3-coder-next"   # Extremely fast reasoning for compliance & multi-dimensional risk matrix (free)
-MODEL_RECOMMENDER_AGENT  = "qwen3-coder-next"   # Extremely fast strategic roadmap and KPI planner (free)
-MODEL_REPORTER_AGENT     = "qwen3-coder-next"   # Code-specialized model for reports & syntax-valid Mermaid flowcharts (free)
+MODEL_GUARDRAIL_AGENT    = "deepseek-v4-flash"     # High-speed instruction-following gatekeeper (free)
+MODEL_RESEARCHER_AGENT   = "deepseek-v4-flash"   # Extremely fast factual synthesis and RAG context summary (free)
+MODEL_ANALYST_AGENT      = "deepseek-v4-flash"   # Extremely fast reasoning for trade-offs & complex evaluation matrix (free)
+MODEL_RISK_ASSESSOR_AGENT= "deepseek-v4-flash"   # Extremely fast reasoning for compliance & multi-dimensional risk matrix (free)
+MODEL_RECOMMENDER_AGENT  = "deepseek-v4-flash"   # Extremely fast strategic roadmap and KPI planner (free)
+MODEL_REPORTER_AGENT     = "deepseek-v4-flash"   # Code-specialized model for reports & syntax-valid Mermaid flowcharts (free)
 
 
 import sys
@@ -34,4 +34,8 @@ else:
 DATA_DIR = os.path.join(RUNNING_DIR, "data")
 RAW_DATA_DIR = os.path.join(DATA_DIR, "raw")
 CHROMA_DB_DIR = os.path.join(DATA_DIR, "chroma_db")
-OUTPUT_DIR = os.path.join(RUNNING_DIR, "output")
+# If running on Vercel Serverless, use /tmp as it is the only writeable directory
+if "VERCEL" in os.environ:
+    OUTPUT_DIR = "/tmp"
+else:
+    OUTPUT_DIR = os.path.join(RUNNING_DIR, "output")

@@ -35,11 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Settings panel removed — API prefix auto-detected, no manual config needed
 
     function getApiPrefix() {
-        // Auto-detect: use current origin for local, or Render URL for production
-        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '0.0.0.0' || window.location.port !== '';
-        if (isLocal) {
-            return window.location.origin;
-        }
+    const saved = localStorage.getItem("BACKEND_API_URL");
+    if (saved) {
+        return saved;
+    }
+    // Relative path routes to the same Vercel domain automatically!
+    return "";
+}
         return 'https://bookmind-socratic-agent.onrender.com';
     }
 
