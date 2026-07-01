@@ -1,3 +1,4 @@
+import asyncio
 from src.state import ResearchState
 from src.utils.llm_factory import create_llm, parse_agent_json
 from src.tools.vnu_lic_api import search_koha_api, search_dspace_api
@@ -9,8 +10,8 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
     profile = state.get("user_profile", "")
     
     # 1. Query live VNU-LIC Koha and VNU DSpace Repository REST API
-    koha_results = search_koha_api(topic)
-    dspace_results = search_dspace_api(topic)
+    koha_results = await asyncio.to_thread(search_koha_api, topic)
+    dspace_results = await asyncio.to_thread(search_dspace_api, topic)
     
     # 2. Get Local RAG context for VNU recommended books
     rag_context, citations = get_rag_context(topic, query_type="consulting")

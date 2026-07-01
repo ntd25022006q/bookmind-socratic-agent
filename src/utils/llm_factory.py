@@ -41,10 +41,29 @@ _latency_lock = threading.Lock()
 def check_model_latencies_sync():
     """Verify availability and latency of Ollama models to build an optimized fallback list."""
     global _model_latencies
-    models_to_check = ["gemma3:12b", "ministral-3:8b", "qwen3-coder-next", "gemma3:27b"]
+    models_to_check = ["deepseek-v4-flash", "qwen3-coder-next", "gemma3:12b", "ministral-3:8b", "deepseek-v4-pro", "gemma3:27b"]
     new_latencies = {}
     
+    # Quick check of models list first to verify what is online
+    available_models = []
+    try:
+        req = urllib.request.Request(
+            f"{OLLAMA_BASE_URL}/models",
+            headers={"Authorization": f"Bearer {OLLAMA_API_KEY}"},
+            method="GET"
+        )
+        with urllib.request.urlopen(req, timeout=5.0) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            available_models = [m.get("id") for m in data.get("data", [])]
+    except Exception:
+        pass
+
     for model in models_to_check:
+        # If we fetched available models, and the model is not present in the account list
+        if available_models and model not in available_models:
+            new_latencies[model] = 999.0  # Not present in account penalty
+            continue
+            
         payload = {
             "model": model,
             "messages": [{"role": "user", "content": "ping"}],
@@ -63,12 +82,13 @@ def check_model_latencies_sync():
         
         t0 = time.time()
         try:
-            with urllib.request.urlopen(req, timeout=3.0) as response:
+            with urllib.request.urlopen(req, timeout=6.0) as response:
                 response.read()
                 latency = time.time() - t0
                 new_latencies[model] = latency
         except Exception:
-            new_latencies[model] = 999.0  # Offline / Unhealthy penalty
+            # Cold model loading might take time, give a small latency penalty but DO NOT mark as dead
+            new_latencies[model] = 15.0
             
     with _latency_lock:
         _model_latencies = new_latencies
@@ -82,7 +102,6 @@ def start_latency_checker():
         _latency_checker_started = True
         
     def worker():
-        # Quick initial check
         try:
             check_model_latencies_sync()
         except Exception:
@@ -106,7 +125,6 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
     """Create a ChatOpenAI wrapper instance pointing to the Ollama Cloud API,
     equipped with fallbacks from the best free Ollama Cloud models sorted by latency.
     """
-    # Start latency checker in background
     try:
         start_latency_checker()
     except Exception:
@@ -114,7 +132,6 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
 
     # Extract custom keys from config if provided
     custom_ollama_key = ""
-    custom_openrouter_key = ""
     if config:
         if isinstance(config, dict):
             configurable = config.get("configurable", {})
@@ -122,33 +139,35 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
             configurable = getattr(config, "configurable", {})
         if isinstance(configurable, dict):
             custom_ollama_key = configurable.get("ollama_api_key", "")
-            custom_openrouter_key = configurable.get("openrouter_api_key", "")
 
     active_ollama_key = custom_ollama_key or OLLAMA_API_KEY
-    active_openrouter_key = custom_openrouter_key or os.environ.get("OPENROUTER_API_KEY", "")
 
     latencies = _model_latencies
+    default_candidates = ["deepseek-v4-flash", "qwen3-coder-next", "gemma3:12b", "ministral-3:8b", "deepseek-v4-pro", "gemma3:27b"]
+    
     if not latencies:
-        # Default order if cache is not populated yet
-        sorted_models = ["gemma3:12b", "ministral-3:8b", "qwen3-coder-next", "gemma3:27b"]
+        sorted_models = default_candidates
     else:
         # Sort based on latency (lowest/healthiest first)
         sorted_models = sorted(
-            ["gemma3:12b", "ministral-3:8b", "qwen3-coder-next", "gemma3:27b"],
+            default_candidates,
             key=lambda m: latencies.get(m, 1.0)
         )
+
+    # Filter out models that are strictly offline (latency >= 999s)
+    healthy_models = [m for m in sorted_models if latencies.get(m, 1.0) < 999.0]
+    if not healthy_models:
+        healthy_models = default_candidates
 
     # Determine primary model and fallback candidates
     primary_latency = latencies.get(model, 1.0)
     
-    # If the requested primary model is healthy (latency < 10s), try it first
     if primary_latency < 10.0:
         primary_model = model
-        fallback_candidates = [m for m in sorted_models if m != model]
+        fallback_candidates = [m for m in healthy_models if m != model]
     else:
-        # If primary model is offline/unhealthy, bypass it and try the healthiest model first
-        primary_model = sorted_models[0]
-        fallback_candidates = [m for m in sorted_models if m != primary_model] + [model]
+        primary_model = healthy_models[0]
+        fallback_candidates = [m for m in healthy_models if m != primary_model] + [model]
 
     primary_llm = ChatOpenAI(
         model=primary_model,
@@ -163,9 +182,6 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
     
     fallbacks = []
     for fallback_model in fallback_candidates:
-        # Skip models that are known to be down (latency >= 999s) to avoid unnecessary timeouts
-        if latencies.get(fallback_model, 1.0) >= 999.0:
-            continue
         fallbacks.append(
             ChatOpenAI(
                 model=fallback_model,
@@ -179,7 +195,6 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
             )
         )
         
-            
     llm = primary_llm.with_fallbacks(fallbacks=fallbacks)
     return llm
 
