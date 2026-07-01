@@ -10,11 +10,11 @@ async def reporter_node(state: ResearchState, config=None) -> dict:
     citations = state.get("citations", [])
     
     llm = create_llm(MODEL_RESEARCHER_AGENT, config=config)
-    prompt = f"""Bạn là Reporter Agent tổng hợp của VNU BookMind Socratic. Hãy tổng hợp báo cáo đọc sách chi tiết, đẹp mắt bằng Markdown.
+    prompt = f"""Bạn là Reporter Agent tổng hợp của VNU BookMind Socratic. Hãy tổng hợp báo cáo đọc sách chi tiết, đẹp mắt bằng Markdown. Đảm bảo giữ lại đầy đủ các liên kết [Đọc bản PDF / Đọc trực tuyến tại đây](địa_chỉ_pdf_url) cho mỗi cuốn sách và tài liệu nghiên cứu.
     Báo cáo bao gồm:
     - Bối cảnh và Tinh thần Đọc sách Socratic tại VNU
     - Hồ sơ học thuật của độc giả
-    - Danh sách gợi ý từ quầy học liệu số VNU-LIC
+    - Danh sách gợi ý từ quầy học liệu số VNU-LIC (kèm liên kết đọc PDF)
     - Các câu hỏi phản biện mở giúp đọc sâu
     - Trích dẫn thư mục nguồn.
     
