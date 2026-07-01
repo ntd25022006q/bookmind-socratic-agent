@@ -39,6 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (saved) {
         return saved;
     }
+    // Connected to the Render backend Web Service
+    return "https://bookmind-socratic-agent-backend.onrender.com";
+}
     // Relative path routes to the same Vercel domain automatically!
     return "";
 }
