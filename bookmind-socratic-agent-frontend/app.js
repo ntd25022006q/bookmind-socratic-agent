@@ -2683,3 +2683,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initializeOrSyncWithServer();
 });
+
+// ── Settings Button Event Listener ──────────────────────────────────────────
+document.getElementById('settings-btn')?.addEventListener('click', () => {
+    const currentUrl = getApiPrefix();
+    const newUrl = prompt("Nhập địa chỉ Backend API của bạn (ví dụ: http://localhost:8000 hoặc Render URL):\n\nĐể trống và nhấn OK để khôi phục mặc định.", currentUrl);
+    if (newUrl !== null) {
+        const trimmed = newUrl.trim();
+        if (trimmed) {
+            localStorage.setItem("BACKEND_API_URL", trimmed);
+            alert("Đã lưu địa chỉ Backend API: " + trimmed + ". Trang web sẽ tự động tải lại.");
+            window.location.reload();
+        } else {
+            localStorage.removeItem("BACKEND_API_URL");
+            alert("Đã khôi phục địa chỉ API mặc định. Trang web sẽ tự động tải lại.");
+            window.location.reload();
+        }
+    }
+});
