@@ -39,6 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (saved) {
         return saved;
     }
+    // Connected to the User-Created Render backend Web Service
+    return "https://bookmind-socratic-agent.onrender.com";
+}
     // Connected to the Render backend Web Service
     return "https://bookmind-socratic-agent-backend.onrender.com";
 }
