@@ -1,0 +1,15 @@
+src/
+data/
+tests/
+main.py
+server.py
+config.py
+requirements.txt
+render.yaml
+.env
+.env.example
+.python-version
+.git/
+.github/
+README.md
+LICENSE

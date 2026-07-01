@@ -1,9 +1,9 @@
 from langgraph.graph import StateGraph, END
 from src.state import ResearchState
 from src.agents.guardrail_agent import guardrail_node
-from src.agents.researcher_agent import researcher_node as profiler_node
-from src.agents.analyst_agent import analyst_node as recommender_node
-from src.agents.risk_assessor_agent import risk_assessor_node as questioner_node
+from src.agents.profiler_agent import profiler_node
+from src.agents.recommender_agent import recommender_node
+from src.agents.questioner_agent import questioner_node
 from src.agents.reporter_agent import reporter_node
 
 def route_after_guardrail(state: ResearchState) -> str:
@@ -11,7 +11,6 @@ def route_after_guardrail(state: ResearchState) -> str:
         return END
     return "profiler"
 
-# StateGraph
 graph = StateGraph(ResearchState)
 
 graph.add_node("guardrail", guardrail_node)

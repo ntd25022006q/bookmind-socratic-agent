@@ -7,31 +7,39 @@ async def reporter_node(state: ResearchState, config=None) -> dict:
     profile = state.get("user_profile", "")
     books = state.get("analysis", "")
     questions = state.get("risks", "")
+    citations = state.get("citations", [])
     
     llm = create_llm(MODEL_RESEARCHER_AGENT, config=config)
+    prompt = f"""Bạn là Reporter Agent tổng hợp của VNU BookMind Socratic. Hãy tổng hợp báo cáo đọc sách chi tiết, đẹp mắt bằng Markdown.
+    Báo cáo bao gồm:
+    - Bối cảnh và Tinh thần Đọc sách Socratic tại VNU
+    - Hồ sơ học thuật của độc giả
+    - Danh sách gợi ý từ quầy học liệu số VNU-LIC
+    - Các câu hỏi phản biện mở giúp đọc sâu
+    - Trích dẫn thư mục nguồn.
     
-    prompt = f"""Bạn là Reporter Agent của hệ thống VNU BookMind. Hãy tổng hợp toàn bộ thông tin từ các tác nhân trước để tạo nên một Báo cáo Gợi ý & Định hướng đọc sâu Socratic hoàn chỉnh cho độc giả. 
-    Báo cáo phải trình bày đẹp mắt bằng Markdown, bao gồm bối cảnh chủ đề, hồ sơ độc giả, danh sách sách nên đọc, và các câu hỏi phản biện Socrates. Vẽ thêm sơ đồ Mermaid mô tả lộ trình đọc sách (ví dụ: Đọc -> Phản biện -> Tự suy ngẫm).
-    
-    Chủ đề đọc: {topic}
-    Hồ sơ độc giả: {profile}
+    Chủ đề: {topic}
+    Hồ sơ: {profile}
     Sách gợi ý: {books}
     Câu hỏi Socrates: {questions}
+    Tài liệu trích nguồn: {citations}
     
-    Hãy trả về dưới định dạng:
+    Hãy trả về dưới dạng:
     === QUÁ TRÌNH TƯ DUY ===
-    [Tổng hợp và thiết lập định dạng báo cáo]
+    [Hệ thống hóa bố cục báo cáo đọc sâu]
     === CONSOLE MESSAGE ===
-    Báo cáo đọc sâu VNU BookMind đã được tổng hợp thành công.
+    Đã kết xuất báo cáo đọc sâu Socratic hoàn chỉnh.
     === DETAILED REPORT ===
-    [Nội dung báo cáo chi tiết sử dụng Markdown]
+    # BÁO CÁO ĐỌC SÂU SOCRATES VNU BOOKMIND
+    [Nội dung Markdown chuyên nghiệp]
     === MERMAID DIAGRAM ===
     graph TD
-        A[Đọc Sách Chủ Động] --> B[S Socrates Agent Hỏi]
-        B --> C[Độc Giả Tranh Biện]
-        C --> D[Ghi Nhật Ký Tư Duy]
+        A[Độc giả đặt câu hỏi] --> B[Profiler xây hồ sơ]
+        B --> C[Recommender tìm Koha API]
+        C --> D[Socrates đặt câu hỏi phản biện]
+        D --> E[Sinh viên ghi nhật ký đọc sâu]
     === DIAGRAM EXPLANATION ===
-    [Giải thích sơ đồ lộ trình đọc]
+    Sơ đồ mô tả quy trình tư duy phản biện 4 tác tử hỗ trợ sinh viên tự học chủ động.
     """
     
     res = await llm.ainvoke(prompt)

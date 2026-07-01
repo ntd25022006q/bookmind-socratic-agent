@@ -108,7 +108,7 @@
                         </div>
                         <div class="metric-card full-width">
                             <span class="metric-label">Tác Nhân Đã Xử Lý</span>
-                            <span id="stat-agents" class="metric-value">0 / 6</span>
+                            <span id="stat-agents" class="metric-value">0 / 5</span>
                         </div>
                         <div class="metric-card full-width">
                             <span class="metric-label">Trạng Thái</span>
@@ -173,11 +173,11 @@
                                   stroke="rgba(120,136,160,0.4)" stroke-width="1.5"
                                   stroke-dasharray="4 3" marker-end="url(#arrow)"/>
                             <line id="edge-risk_assessor-recommender"
-                                  x1="65" y1="50" x2="79" y2="50"
+                                  x1="65" y1="50" x2="93" y2="50" id="edge-risk_assessor-reporter"
                                   stroke="rgba(120,136,160,0.4)" stroke-width="1.5"
                                   stroke-dasharray="4 3" marker-end="url(#arrow)"/>
                             <line id="edge-recommender-reporter"
-                                  x1="83" y1="50" x2="93" y2="50"
+                                  x1="83" y1="50" x2="93" y2="50" style="display:none;"
                                   stroke="rgba(120,136,160,0.4)" stroke-width="1.5"
                                   stroke-dasharray="4 3" marker-end="url(#arrow)"/>
                             <line id="edge-researcher-reporter"
@@ -189,33 +189,33 @@
 
                         <!-- Nodes -->
                         <div class="nodes-container">
-                            <div class="graph-node" id="node-guardrail" data-agent="Lọc Ngữ Cảnh">
+                            <div class="graph-node" id="node-guardrail" data-agent="Cảnh Giới">
                                 <div class="node-icon"><i class="fa-solid fa-filter"></i></div>
-                                <span class="node-label">Lọc Ngữ Cảnh</span>
+                                <span class="node-label">Cảnh Giới</span>
                                 <span class="node-metrics-badge" id="metrics-guardrail">0.000s | 0 tk</span>
                             </div>
-                            <div class="graph-node" id="node-researcher" data-agent="Nghiên Cứu">
-                                <div class="node-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-                                <span class="node-label">Nghiên Cứu</span>
+                            <div class="graph-node" id="node-researcher" data-agent="Hồ Sơ">
+                                <div class="node-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                                <span class="node-label">Hồ Sơ</span>
                                 <span class="node-metrics-badge" id="metrics-researcher">0.000s | 0 tk</span>
                             </div>
-                            <div class="graph-node" id="node-analyst" data-agent="Phân Tích">
-                                <div class="node-icon"><i class="fa-solid fa-chart-simple"></i></div>
-                                <span class="node-label">Phân Tích</span>
+                            <div class="graph-node" id="node-analyst" data-agent="Gợi Ý Sách">
+                                <div class="node-icon"><i class="fa-solid fa-book"></i></div>
+                                <span class="node-label">Gợi Ý Sách</span>
                                 <span class="node-metrics-badge" id="metrics-analyst">0.000s | 0 tk</span>
                             </div>
-                            <div class="graph-node" id="node-risk_assessor" data-agent="Kiểm Soát Rủi Ro">
-                                <div class="node-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                                <span class="node-label">Kiểm Soát Rủi Ro</span>
+                            <div class="graph-node" id="node-risk_assessor" data-agent="Socrates">
+                                <div class="node-icon"><i class="fa-solid fa-brain"></i></div>
+                                <span class="node-label">Socrates</span>
                                 <span class="node-metrics-badge" id="metrics-risk_assessor">0.000s | 0 tk</span>
                             </div>
-                            <div class="graph-node" id="node-recommender" data-agent="Đề Xuất Chiến Lược">
+                            <div class="graph-node" id="node-recommender" data-agent="Hệ thống" style="display:none;">
                                 <div class="node-icon"><i class="fa-solid fa-lightbulb"></i></div>
-                                <span class="node-label">Đề Xuất</span>
+                                <span class="node-label">N/A</span>
                                 <span class="node-metrics-badge" id="metrics-recommender">0.000s | 0 tk</span>
                             </div>
-                            <div class="graph-node" id="node-reporter" data-agent="Biên Soạn Báo Cáo">
-                                <div class="node-icon"><i class="fa-solid fa-file-lines"></i></div>
+                            <div class="graph-node" id="node-reporter" data-agent="Biên Soạn">
+                                <div class="node-icon"><i class="fa-solid fa-file-signature"></i></div>
                                 <span class="node-label">Biên Soạn</span>
                                 <span class="node-metrics-badge" id="metrics-reporter">0.000s | 0 tk</span>
                             </div>
@@ -231,8 +231,8 @@
                     </div>
                     <div class="console-body" id="console-output">
                         <div class="console-welcome">
-                            <p class="welcome-title"><i class="fa-solid fa-network-wired"></i> Hệ Thống Báo Cáo Chi Tiết Tri Thức Doanh Nghiệp — FPT Software</p>
-                            <p>Sáu tác nhân chuyên biệt phối hợp xử lý yêu cầu theo chuỗi, từ xác thực đầu vào đến biên soạn báo cáo học thuật hoàn chỉnh:</p>
+                            <p class="welcome-title"><i class="fa-solid fa-book-open"></i> VNU BookMind — Trợ lý Độc lập & Phản biện Sách Socratic</p>
+                            <p>Quy trình đa tác nhân hỗ trợ đọc sâu, tự học và phản biện học thuật cho sinh viên ĐHQGHN:</p>
                             <div class="welcome-grid">
                                 <div class="welcome-card">
                                     <h4><i class="fa-solid fa-filter"></i> Lọc Ngữ Cảnh</h4>

@@ -935,14 +935,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (nodeKey === 'reporter' && !hasAnalystRun) {
             // QA Flow: Hide intermediate nodes and their edges
-            document.getElementById('node-analyst')?.classList.add('node-hidden');
-            document.getElementById('node-risk_assessor')?.classList.add('node-hidden');
-            document.getElementById('node-recommender')?.classList.add('node-hidden');
+            // document.getElementById('node-analyst')?.classList.add('node-hidden');
+            // document.getElementById('node-risk_assessor')?.classList.add('node-hidden');
+            // document.getElementById('node-recommender')?.classList.add('node-hidden');
             
-            document.getElementById('edge-researcher-analyst')?.classList.add('edge-hidden');
-            document.getElementById('edge-analyst-risk_assessor')?.classList.add('edge-hidden');
-            document.getElementById('edge-risk_assessor-recommender')?.classList.add('edge-hidden');
-            document.getElementById('edge-recommender-reporter')?.classList.add('edge-hidden');
+            // document.getElementById('edge-researcher-analyst')?.classList.add('edge-hidden');
+            // document.getElementById('edge-analyst-risk_assessor')?.classList.add('edge-hidden');
+            // document.getElementById('edge-risk_assessor-recommender')?.classList.add('edge-hidden');
+            // document.getElementById('edge-recommender-reporter')?.classList.add('edge-hidden');
             
             const directEdge = document.getElementById('edge-researcher-reporter');
             if (directEdge) {
