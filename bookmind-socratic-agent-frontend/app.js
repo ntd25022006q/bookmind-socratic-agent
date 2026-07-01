@@ -168,7 +168,7 @@ function checkServerConnection() {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${safeTopic} — FPT Software</title>
+<title>${safeTopic} — VNU BookMind</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -369,7 +369,7 @@ function checkServerConnection() {
             downloadDiagBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tạo PNG…';
             downloadDiagBtn.disabled = true;
 
-            const topic = topicInput?.value || 'FPT Software';
+            const topic = topicInput?.value || 'VNU BookMind';
             const now = new Date();
             const dateStr = now.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
@@ -430,7 +430,7 @@ function checkServerConnection() {
                         const fallbackUrl = URL.createObjectURL(fallbackBlob);
                         const a = document.createElement('a');
                         a.href     = fallbackUrl;
-                        a.download = `FPT_SoDo_QuyTrinh_${now.toISOString().slice(0,10)}.svg`;
+                        a.download = `VNU BookMind_SoDo_QuyTrinh_${now.toISOString().slice(0,10)}.svg`;
                         document.body.appendChild(a);
                         a.click();
                         document.body.removeChild(a);
@@ -491,7 +491,7 @@ function checkServerConnection() {
                         ctx.font = '11px Inter, system-ui, sans-serif';
                         ctx.fillStyle = 'rgba(255,255,255,0.8)';
                         ctx.textAlign = 'right';
-                        ctx.fillText('FPT Software \u2022 Multi-Agent AI System', exportW - 18, HEADER_H / 2 - 2);
+                        ctx.fillText('VNU BookMind \u2022 Multi-Agent AI System', exportW - 18, HEADER_H / 2 - 2);
                         ctx.textAlign = 'left';
 
                         // ── Diagram body (centered) ──
@@ -510,7 +510,7 @@ function checkServerConnection() {
                         ctx.fillStyle = 'rgba(255,255,255,0.85)';
                         ctx.font = '10px Inter, system-ui, sans-serif';
                         ctx.textBaseline = 'middle';
-                        ctx.fillText('\u{1F6E1}  FPT Software \u00A9 ' + now.getFullYear(), 18, HEADER_H + h + FOOTER_H / 2);
+                        ctx.fillText('\u{1F6E1}  VNU BookMind \u00A9 ' + now.getFullYear(), 18, HEADER_H + h + FOOTER_H / 2);
                         ctx.textAlign = 'right';
                         ctx.fillText(dateStr, exportW - 18, HEADER_H + h + FOOTER_H / 2);
                         ctx.textAlign = 'left';
@@ -523,7 +523,7 @@ function checkServerConnection() {
                                 const pngUrl = URL.createObjectURL(blob);
                                 const a = document.createElement('a');
                                 a.href     = pngUrl;
-                                a.download = `FPT_SoDo_QuyTrinh_${now.toISOString().slice(0,10)}.png`;
+                                a.download = `VNU BookMind_SoDo_QuyTrinh_${now.toISOString().slice(0,10)}.png`;
                                 document.body.appendChild(a);
                                 a.click();
                                 document.body.removeChild(a);
@@ -1052,25 +1052,25 @@ function checkServerConnection() {
         "agentvista_testvista.md": "Tài liệu Khảo sát AgentVista & TestVista",
         "ai_first_challenges.md": "Báo cáo Thách thức Chiến lược AI-First",
         "codevista_features.md": "Tài liệu Tính năng CodeVista",
-        "coding_standards.md": "Quy chuẩn Phát triển Phần mềm FPT Software",
+        "coding_standards.md": "Quy chuẩn Phát triển Phần mềm VNU BookMind",
         "flezi_foundry_adlc.md": "Báo cáo Quy trình Vận hành Flezi Foundry ADLC",
         "flezipt_architecture.md": "Kiến trúc Nền tảng Flezi Platform (FlezIPT)",
-        "fpt_academic_publications.md": "Các Công trình Nghiên cứu Khoa học FPT Software",
-        "fpt_agentic_ai_2026.md": "Báo cáo Phát triển Agentic AI FPT Software 2026",
-        "fpt_ai_initiatives_2026.md": "Sáng kiến Chiến lược AI FPT Software 2026",
-        "fpt_ai_research_lab_2026.md": "Tài liệu Phòng Nghiên cứu Trí tuệ Nhân tạo FPT AI Research Lab",
-        "fpt_ai_strategy_advisory_2026.md": "Báo cáo Tư vấn Chiến lược AI FPT Software 2026",
-        "fpt_architecture_consulting_2026.md": "Quy trình Tư vấn Kiến trúc Công nghệ FPT Software 2026",
-        "fpt_enterprise_products_2026.md": "Danh mục Sản phẩm Doanh nghiệp FPT Software 2026",
-        "fpt_financial_growth_2026.md": "Báo cáo Phát triển Tài chính FPT Software 2026",
-        "fpt_flezi_ecosystem.md": "Tài liệu Hệ sinh thái Flezi Ecosystem FPT",
-        "fpt_global_presence_2026.md": "Báo cáo Năng lực Toàn cầu FPT Software 2026",
-        "fpt_global_verticals_2026.md": "Tài liệu Lĩnh vực Kinh doanh Toàn cầu FPT Software 2026",
-        "fpt_research.md": "Báo cáo Nghiên cứu và Phát triển Công nghệ FPT Software",
-        "fpt_risk_compliance_2026.md": "Tài liệu Quản trị Rủi ro & Tuân thủ FPT Software 2026",
-        "fpt_software_overview_2026.md": "Tài liệu Tổng quan FPT Software 2026",
-        "sdlc_evolution.md": "Tài liệu Tiến trình Phát triển Phần mềm SDLC FPT",
-        "security_best_practices.md": "Quy chuẩn Bảo mật Thông tin FPT Software",
+        "fpt_academic_publications.md": "Các Công trình Nghiên cứu Khoa học VNU BookMind",
+        "fpt_agentic_ai_2026.md": "Báo cáo Phát triển Agentic AI VNU BookMind 2026",
+        "fpt_ai_initiatives_2026.md": "Sáng kiến Chiến lược AI VNU BookMind 2026",
+        "fpt_ai_research_lab_2026.md": "Tài liệu Phòng Nghiên cứu Trí tuệ Nhân tạo VNU BookMind AI Research Lab",
+        "fpt_ai_strategy_advisory_2026.md": "Báo cáo Tư vấn Chiến lược AI VNU BookMind 2026",
+        "fpt_architecture_consulting_2026.md": "Quy trình Tư vấn Kiến trúc Công nghệ VNU BookMind 2026",
+        "fpt_enterprise_products_2026.md": "Danh mục Sản phẩm Doanh nghiệp VNU BookMind 2026",
+        "fpt_financial_growth_2026.md": "Báo cáo Phát triển Tài chính VNU BookMind 2026",
+        "fpt_flezi_ecosystem.md": "Tài liệu Hệ sinh thái Flezi Ecosystem VNU BookMind",
+        "fpt_global_presence_2026.md": "Báo cáo Năng lực Toàn cầu VNU BookMind 2026",
+        "fpt_global_verticals_2026.md": "Tài liệu Lĩnh vực Kinh doanh Toàn cầu VNU BookMind 2026",
+        "fpt_research.md": "Báo cáo Nghiên cứu và Phát triển Công nghệ VNU BookMind",
+        "fpt_risk_compliance_2026.md": "Tài liệu Quản trị Rủi ro & Tuân thủ VNU BookMind 2026",
+        "fpt_software_overview_2026.md": "Tài liệu Tổng quan VNU BookMind 2026",
+        "sdlc_evolution.md": "Tài liệu Tiến trình Phát triển Phần mềm SDLC VNU BookMind",
+        "security_best_practices.md": "Quy chuẩn Bảo mật Thông tin VNU BookMind",
     };
 
     function cleanInternalFilenames(text) {
@@ -2598,7 +2598,7 @@ function checkServerConnection() {
 
         consoleOutput.innerHTML = `
             <div class="console-welcome">
-                <p class="welcome-title"><i class="fa-solid fa-network-wired"></i> Hệ Thống Báo Cáo Chi Tiết Tri Thức Doanh Nghiệp — FPT Software</p>
+                <p class="welcome-title"><i class="fa-solid fa-network-wired"></i> Hệ Thống Báo Cáo Chi Tiết Tri Thức Doanh Nghiệp — VNU BookMind</p>
                 <p>Sáu tác nhân chuyên biệt phối hợp xử lý yêu cầu theo chuỗi, từ xác thực đầu vào đến biên soạn báo cáo học thuật hoàn chỉnh:</p>
                 <div class="welcome-grid">
                     <div class="welcome-card">
@@ -2607,7 +2607,7 @@ function checkServerConnection() {
                     </div>
                     <div class="welcome-card">
                         <h4><i class="fa-solid fa-magnifying-glass"></i> Nghiên Cứu</h4>
-                        <p>Truy xuất tri thức từ kho dữ liệu FPT qua cơ chế Hybrid Search kết hợp Chroma &amp; BM25.</p>
+                        <p>Truy xuất tri thức từ kho dữ liệu VNU BookMind qua cơ chế Hybrid Search kết hợp Chroma &amp; BM25.</p>
                     </div>
                     <div class="welcome-card">
                         <h4><i class="fa-solid fa-chart-simple"></i> Phân Tích</h4>
@@ -2615,7 +2615,7 @@ function checkServerConnection() {
                     </div>
                     <div class="welcome-card">
                         <h4><i class="fa-solid fa-triangle-exclamation"></i> Kiểm Soát Rủi Ro</h4>
-                        <p>Nhận diện rủi ro kỹ thuật &amp; vận hành, đề xuất biện pháp kiểm soát theo chuẩn FPT Secure-First.</p>
+                        <p>Nhận diện rủi ro kỹ thuật &amp; vận hành, đề xuất biện pháp kiểm soát theo chuẩn VNU BookMind Secure-First.</p>
                     </div>
                     <div class="welcome-card">
                         <h4><i class="fa-solid fa-lightbulb"></i> Đề Xuất Chiến Lược</h4>

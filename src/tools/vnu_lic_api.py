@@ -49,6 +49,13 @@ def search_koha_api(query: str) -> list:
                 raw_desc = volume.get("description", "Không có mô tả chi tiết.")
                 desc = clean_html(raw_desc)[:350] + ("..." if len(raw_desc) > 350 else "")
                 
+                # Extract PDF / Web Reader preview link
+                access_info = volume.get("accessInfo", {})
+                pdf_link = volume_info.get("previewLink") or access_info.get("webReaderLink") or ""
+                pdf_obj = access_info.get("pdf", {})
+                if pdf_obj.get("isAvailable") and pdf_obj.get("downloadLink"):
+                    pdf_link = pdf_obj.get("downloadLink")
+
                 biblio = 300000 + idx
                 results.append({
                     "biblionumber": biblio,
@@ -60,7 +67,8 @@ def search_koha_api(query: str) -> list:
                     "location": "Phòng mượn Hòa Lạc - Tầng 2 (VNU-LIC)",
                     "opac_url": f"http://bookworm.lic.vnu.edu.vn/opac/biblios/{biblio}",
                     "cover_url": f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg",
-                    "summary": desc
+                    "summary": desc,
+                    "pdf_url": pdf_link
                 })
     except Exception as e:
         print(f"Google Books API Error: {e}")
@@ -84,6 +92,7 @@ def search_koha_api(query: str) -> list:
                     isbn = isbns[0] if isbns else f"978{2000000000 + idx}"
                     
                     biblio = 400000 + idx
+                    pdf_link = f"https://openlibrary.org/isbn/{isbn}"
                     results.append({
                         "biblionumber": biblio,
                         "title": title,
@@ -94,7 +103,8 @@ def search_koha_api(query: str) -> list:
                         "location": "Phòng tự học Hòa Lạc - Tầng 1 (VNU-LIC)",
                         "opac_url": f"http://bookworm.lic.vnu.edu.vn/opac/biblios/{biblio}",
                         "cover_url": f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg",
-                        "summary": f"Tài liệu học thuật được lập mục lục từ Open Library. ISBN: {isbn}."
+                        "summary": f"Tài liệu học thuật được lập mục lục từ Open Library. ISBN: {isbn}.",
+                        "pdf_url": pdf_link
                     })
         except Exception as e:
             print(f"OpenLibrary API Error: {e}")
@@ -113,7 +123,8 @@ def search_koha_api(query: str) -> list:
                 "location": "Phòng mượn Hòa Lạc - Tầng 2 (LIC-HL)",
                 "opac_url": "http://bookworm.lic.vnu.edu.vn/opac/biblios/100201",
                 "cover_url": "https://covers.openlibrary.org/b/isbn/9786047754329-L.jpg",
-                "summary": "Tác phẩm phân tích những thách thức lớn về công nghệ, chính trị và xã hội trong thế kỷ 21."
+                "summary": "Tác phẩm phân tích những thách thức lớn về công nghệ, chính trị và xã hội trong thế kỷ 21.",
+                "pdf_url": "https://openlibrary.org/isbn/9786047754329"
             },
             {
                 "biblionumber": 100202,
@@ -125,7 +136,8 @@ def search_koha_api(query: str) -> list:
                 "location": "Thư viện Ngoại ngữ - Tầng 1 (LIC-FL)",
                 "opac_url": "http://bookworm.lic.vnu.edu.vn/opac/biblios/100202",
                 "cover_url": "https://covers.openlibrary.org/b/isbn/9786047781023-L.jpg",
-                "summary": "Tác phẩm kinh điển thảo luận về bình đẳng, tự do và vai trò của học tập thực tế đối với độc lập cá nhân."
+                "summary": "Tác phẩm kinh đoán thảo luận về bình đẳng, tự do và vai trò của học tập thực tế đối với độc lập cá nhân.",
+                "pdf_url": "https://openlibrary.org/isbn/9786047781023"
             },
             {
                 "biblionumber": 100203,
@@ -137,7 +149,8 @@ def search_koha_api(query: str) -> list:
                 "location": "Phòng mượn Xuân Thủy - Tầng 3 (LIC-XT)",
                 "opac_url": "http://bookworm.lic.vnu.edu.vn/opac/biblios/100203",
                 "cover_url": "https://covers.openlibrary.org/b/isbn/9786041065112-L.jpg",
-                "summary": "Một cuốn sách thức tỉnh về cách làm người, làm nghề và làm dân trong thời đại chuyển dịch."
+                "summary": "Một cuốn sách thức tỉnh về cách làm người, làm nghề và làm dân trong thời đại chuyển dịch.",
+                "pdf_url": "https://openlibrary.org/isbn/9786041065112"
             }
         ]
         results.extend(failsafe_db)
@@ -155,8 +168,8 @@ def search_dspace_api(query: str) -> list:
     
     # ── 1. SEMANTIC SCHOLAR API (REAL ACADEMIC SEARCH) ───────────────────────
     try:
-        safe_query = urllib.parse.quote(query.strip() + " thesis paper")
-        url = f"https://api.semanticscholar.org/graph/v1/paper/search?query={safe_query}&limit=4"
+        safe_query = urllib.parse.quote(query.strip())
+        url = f"https://api.semanticscholar.org/graph/v1/paper/search?query={safe_query}&limit=4&fields=title,authors,year,openAccessPdf,url"
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
         
         with urllib.request.urlopen(req, context=ssl_context, timeout=5) as resp:
@@ -167,6 +180,14 @@ def search_dspace_api(query: str) -> list:
                 paper_id = paper.get("paperId", f"vnu_{idx}")
                 year = paper.get("year", "2025")
                 
+                # Extract direct PDF download or view link
+                pdf_obj = paper.get("openAccessPdf")
+                pdf_link = ""
+                if pdf_obj and isinstance(pdf_obj, dict):
+                    pdf_link = pdf_obj.get("url", "")
+                if not pdf_link:
+                    pdf_link = paper.get("url", "")
+                
                 # Mock handle format for VNU-LIC DSpace binding
                 handle_id = f"11122/{60000 + idx}"
                 results.append({
@@ -176,7 +197,8 @@ def search_dspace_api(query: str) -> list:
                     "date": str(year),
                     "handle": handle_id,
                     "url": f"https://www.semanticscholar.org/paper/{paper_id}",
-                    "type": "Tài liệu luận văn số / Nghiên cứu VNU-LIC"
+                    "type": "Tài liệu luận văn số / Nghiên cứu VNU-LIC",
+                    "pdf_url": pdf_link
                 })
     except Exception as e:
         print(f"Semantic Scholar API Error: {e}")
@@ -192,7 +214,8 @@ def search_dspace_api(query: str) -> list:
                 "date": "2026",
                 "handle": "11122/1054",
                 "url": "http://repository.vnu.edu.vn/handle/11122/1054",
-                "type": "Luận văn thạc sĩ khoa học ĐHQGHN"
+                "type": "Luận văn thạc sĩ khoa học ĐHQGHN",
+                "pdf_url": "http://repository.vnu.edu.vn/handle/11122/1054"
             }
         ]
         

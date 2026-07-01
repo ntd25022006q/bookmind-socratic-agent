@@ -17,7 +17,7 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
     llm = create_llm(MODEL_RESEARCHER_AGENT, config=config)
     prompt = f"""Bạn là Recommender Agent của VNU BookMind Socratic. Hãy gợi ý 3 cuốn sách phù hợp nhất với độc giả dựa trên hồ sơ: {profile}.
     Sử dụng thông tin sách từ thư viện VNU-LIC: {koha_results} và tài liệu bổ trợ: {rag_context}.
-    Mỗi cuốn sách gợi ý phải nêu rõ: Tên sách, Tác giả, Nhà xuất bản, Mã sách (Biblionumber/ISBN), vị trí kệ sách tại quầy thư viện VNU-LIC, và lý do tại sao cuốn sách này giúp nâng cao tư duy của họ.
+    Mỗi cuốn sách gợi ý phải nêu rõ: Tên sách, Tác giả, Nhà xuất bản, Mã sách (Biblionumber/ISBN), vị trí kệ sách tại quầy thư viện VNU-LIC, lý do tại sao cuốn sách này giúp nâng cao tư duy của họ, và đặc biệt bắt buộc phải hiển thị một liên kết Markdown có nhãn [Đọc bản PDF / Đọc trực tuyến tại đây](địa_chỉ_pdf_url) sử dụng trường 'pdf_url' từ dữ liệu sách được truyền vào.
     
     Hãy trả về dưới dạng:
     === QUÁ TRÌNH TƯ DUY ===
@@ -26,7 +26,7 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
     Đã gợi ý danh sách sách học trình cá nhân hóa từ cơ sở dữ liệu VNU-LIC Koha.
     === BÁO CÁO CHI TIẾT ===
     DANH MỤC GỢI Ý (VNU-LIC):
-    [Liệt kê 3 sách kèm Biblionumber, ISBN, Vị trí kệ mượn và lý do]
+    [Liệt kê 3 sách kèm Biblionumber, ISBN, Vị trí kệ mượn, lý do và liên kết đọc PDF]
     """
     
     res = await llm.ainvoke(prompt)
