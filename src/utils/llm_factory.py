@@ -179,27 +179,7 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
             )
         )
         
-    # OpenRouter fallback integration to thoroughly resolve Ollama weekly limits (429)
-    if active_openrouter_key:
-        openrouter_base_url = os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
-        for or_model in ["google/gemini-2.5-flash:free", "meta-llama/llama-3.3-70b-instruct:free", "deepseek/deepseek-chat:free"]:
-            fallbacks.append(
-                ChatOpenAI(
-                    model=or_model,
-                    api_key=active_openrouter_key,
-                    base_url=openrouter_base_url,
-                    temperature=temperature,
-                    timeout=120,         # 120s — generous timeout for OpenRouter
-                    max_retries=0,
-                    max_tokens=max_tokens,
-                    streaming=streaming,
-                    default_headers={
-                        "HTTP-Referer": "https://github.com/ntd25022006q/fpt-multi-agent-system",
-                        "X-Title": "FPT Multi-Agent System"
-                    }
-                )
-            )
-        
+            
     llm = primary_llm.with_fallbacks(fallbacks=fallbacks)
     return llm
 
