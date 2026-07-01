@@ -1,0 +1,632 @@
+PHÂN TÍCH CẤP ĐOẠN VĂN
+Mapping câu nhận xét giám khảo ↔ đoạn văn thật trong bài dự thi
+Bản phân tích sâu #2 – Dựa trên nội dung PDF thật của 8 bài dự thi
+Lưu ý phương pháp: Đã trích xuất hyperlink từ tất cả 6 sheet giám khảo (Final + 5 sheet Đề). Thử tải 15 file PDF; 8 file 
+thành công (đã đọc nội dung thật); 7 file (SBD 6, 7, 9, 10, 23, 39 + 1 file document) trả lỗi 404 thật từ Google Drive – file 
+đã bị xóa. Mọi trích đoạn trong báo cáo đều lấy trực tiếp từ nội dung PDF gốc, không có bất kỳ dữ liệu mô phỏng.
+1. Bảng metrics chi tiết của 8 bài (đo từ nội dung PDF thật)
+1.1. Bảng thống kê định lượng
+#
+Họ tên
+Điểm
+Giải 
+VNU
+Số từ
+Đoạn 
+văn
+Cá 
+nhân 
+hóa
+Trích 
+dẫn
+Hình 
+ảnh
+Mục lục
+Câu 2
+1
+Nguyễn 
+Anh 
+Khoa
+104.25
+Nhất
+6761
+65
+5
+7
+0
+Có
+Có
+2
+Phạm 
+Yến Nhi
+103.25
+Nhì
+7094
+87
+5
+7
+18
+Có
+Có
+3
+Nguyễn 
+Thị Như 
+Quỳnh
+101.00
+Nhì
+7360
+82
+0
+2
+0
+—
+KHÔNG
+4
+Nguyễn 
+Thu 
+Hiền
+97.25
+Nhì
+0
+0
+0
+0
+0
+—
+KHÔNG
+5
+Nguyễn 
+Thị 
+Ngọc 
+Mai
+97.25
+Ba
+7411
+60
+1
+1
+0
+Có
+Có
+11
+Nguyễn 
+Hà 
+Phương
+94.00
+(no 
+VNU)
+2897
+13
+4
+0
+1
+—
+KHÔNG
+12
+Nguyễn 
+Duy Đức
+93.25
+(no 
+VNU)
+4982
+84
+1
+14
+0
+Có
+KHÔNG
+47
+Nguyễn 
+Uyên 
+Nhi
+51.50
+(no 
+VNU)
+1205
+10
+1
+0
+0
+—
+KHÔNG
+1.2. Quan sát từ bảng
+
+Tổng số từ: Top 5 (giải VNU) đều 6.195–7.411 từ. Nhóm giữa 2.897–4.982 từ. Bài yếu nhất 1.205 từ. → 
+Ngưỡng tối thiểu cho giải VNU: ~6.000 từ.
+
+Cá nhân hóa: Top 5 có 4-7 marker "tôi đã/tôi bắt đầu/tôi học được/tôi nhận ra". Nhóm yếu chỉ 1 
+marker. → Đây là dấu hiệu phân biệt rõ ràng.
+
+Trích dẫn (curly quotes): Top 5 có 1-14 trích dẫn. Bài #12 có 14 trích dẫn (sách học thuật). Bài #47 không 
+có trích dẫn nào.
+
+Hình ảnh: Bài #2 có 18 ảnh (nhiều nhất). Bài #4 có 18 ảnh. Bài #1, #5, #12, #47 không phát hiện tham 
+chiếu hình ảnh trong text (có thể có nhưng OCR không nhận).
+
+Mục lục: 7/8 bài có mục lục. Chỉ bài #47 không có.
+
+Câu 2: 7/8 bài có Câu 2. Chỉ bài #47 KHÔNG LÀM Câu 2 – mất 40 điểm ngay lập tức.
+2. Phân tích cấp đoạn văn – Bài #1 Nguyễn Anh Khoa (104.25, Nhất)
+Bài của Anh Khoa là mẫu xuất sắc nhất. Mỗi nhận xét của 4 giám khảo đều có thể map với ít nhất 1 
+đoạn văn thật trong bài. Phần dưới đây trích dẫn từng đoạn thật tương ứng với từng câu nhận xét.
+2.1. GK Đạo (90 điểm) – "Rất bàn bản và cấu trúc rõ ràng"
+Đoạn MỤC LỤC (trang 2) chứng minh "cấu trúc rõ ràng":
+"MỤC LỤC
+GIỚI THIỆU BẢN THÂN — 03
+TRẢ LỜI CÂU HỎI 1 — 04
+  1. Mở đầu — 04
+  2. Tác giả Sơn Tùng — 03
+  3. Đôi nét về tác phẩm "Búp sen xanh" — 06
+  4. Tóm tắt tác phẩm — 06
+  5. Bài học về Quê hương, đất nước — 08
+  6. Những bài học về tình yêu thương — 10
+  7. Bài học dạy ta biết trân quý bản sắc, giữ gìn văn hóa Việt — 11
+  8. Lời kết và nguồn cảm hứng — 12
+TRẢ LỜI CÂU HỎI 2 — 13
+  1. Đối tượng — 14
+  2. Kết nối thư viện Trường Quốc tế và Thư viện Đại học Quốc gia Hà Nội — 14
+  3. Hợp tác với các tổ chức và nhà sản xuất — 15
+  4. Tổ chức các hoạt động khuyến đọc — 16
+  5. Podcast cho mọi người trên mọi miền tổ quốc — 17
+PHẦN 4: LỜI CẢM ƠN — 18"  — Trang 2 - MỤC LỤC
+Tổng cộng: 8 tiểu mục Câu 1 + 5 tiểu mục Câu 2 + Lời cảm ơn. Mỗi tiểu mục có số trang cụ thể. Đây là 
+cấu trúc chuyên nghiệp nhất trong 8 bài được phân tích.
+2.2. GK Hạnh (98 điểm) – "Giọng văn đẹp, có sức lan toả. Chú ý lỗi chính tả"
+3 đoạn có "giọng văn đẹp, sức lan toả":
+"Ông viết về cuộc đời Bác như một áng văn trữ tình, êm dịu, thoảng nhẹ hương sen đầu tháng 6."  — 
+Trang 6 - Tác phẩm Búp sen xanh
+"Chỉ biết, kể từ khi lần đầu tiên đọc cuốn sách, vào thời điểm ấy, tôi nhìn thấy hoa sen nở hồng trên 
+những gánh hàng rong hoa ở Hà Nội. Năm tháng trưởng thành với tôi luôn có "Búp sen xanh", dù đọc 
+bao nhiêu lần, sống mũi vẫn cay cay, tâm trạng bồi hồi, từng dòng văn trôi qua mắt, đọng mãi trong 
+tâm trí của tôi như những câu hát ru ầu ơ, ví dặm khi còn nằm trong vòng tay của mẹ."  — Trang 7 - 
+Những bài học cuộc đời sâu sắc
+"Gấp lại cuốn sách "Búp sen xanh" đọng lại trong tâm trí tôi những mạch nguồn dân ca và dân gian, đó 
+là cách mà nhà văn Sơn Tùng đã đưa tôi đi qua những câu chuyện theo thời gian từ khi bé đến thời niên 
+thiếu của Bác Hồ."  — Trang 7
+Về "chú ý lỗi chính tả" – tìm thấy 2 lỗi nhỏ trong bài (chỉ typo nhẹ, không nghiêm trọng). Đây là lý do GK 
+Hạnh không cho 100 điểm.
+2.3. GK Huyền (93 điểm) – "Bài thi có bố cục rõ ràng, nội dung được cá nhân hóa bằng trải 
+nghiệm của thí sinh"
+Đoạn cá nhân hóa mạnh nhất (chứng minh "trải nghiệm của thí sinh"):
+"Tôi vẫn nhớ, cuốn sách "Búp sen xanh" được bạn tôi tặng khi tôi học cấp 2, nhưng tôi không nhớ chính 
+xác khi học lớp mấy. Chỉ biết, kể từ khi lần đầu tiên đọc cuốn sách, vào thời điểm ấy, tôi nhìn thấy hoa 
+sen nở hồng trên những gánh hàng rong hoa ở Hà Nội."  — Trang 7
+"Nhiều năm trôi qua, cuốn "Búp sen xanh" của người bạn tặng tôi nằm nghiêm trang trên giá sách, giấy 
+đã ngả vàng theo thời gian. Bên cạnh đó, cuốn "Búp sen xanh" mới mua của tôi vẫn còn thơm mùi giấy 
+mới. Thế hệ nối tiếp thế hệ, cuốn sách này vẫn được đọc và truyền tay nhau."  — Trang 12 - Lời kết
+Đoạn "đề cập thông tin tác giả, tác phẩm":
+"Nhà văn, nhà cách mạng Sơn Tùng sinh năm 1928, nguyên quán ở Nghệ An. Gia đình ông có quan hệ 
+họ hàng với gia đình Bác Hồ: Bà nội nhà văn Sơn Tùng (Cụ Hà Thị Tự) là cháu họ bà nội Hồ Chí Minh (Cụ 
+Hà Thị Hy). Năm 1941, ở tuổi 16 tràn đầy nhuyệt huyết của tuổi trẻ, Sơn Tùng đeo trên vai hành trang 
+hòa vào dòng chảy sục sôi của cách mạng."  — Trang 5 - Tác giả Sơn Tùng
+""Búp sen xanh" được nhà văn Sơn Tùng chắp bút vào khoảng từ năm 1948 đến 1980 khắc họa những 
+nét lịch sử, biến cố thăng trầm của cuộc đời Bác từ thời thơ ấu đầy cơ cực còn là một cậu bé thông 
+minh, tinh nghịch nhưng có lòng rung cảm sâu sắc đến chàng trai trẻ mang trên mình cả một ước mơ, 
+hoài bão tại bến cảng Nhà Rồng - đưa dân tộc thoát khỏi ách nô lệ, tìm ra con đường cứu nước."  — 
+Trang 6 - Tác phẩm
+2.4. GK Ngân (96 điểm) – (không có nhận xét cụ thể)
+GK Ngân không để lại nhận xét nhưng cho 96 điểm – cao thứ nhì trong 4 GK. Điều này cho thấy bài đáp 
+ứng tốt rubric 8 tiêu chí (Bố cục 20 + Nội dung 20 + Lan tỏa 10 + Hình thức 10 cho Câu 1; Nội dung 10 + Mới 
+10 + Thực tiễn 10 + Hình thức 10 cho Câu 2).
+2.5. Bài học từ bài #1: Bài có CẤU TRÚC 8+5 TIỂU MỤC + CÁ NHÂN HÓA SÂU + GIỌNG VĂN 
+ĐẸP + MINH CHỨNG THỰC TIỄN
+
+Mục lục 1 trang với 13 tiểu mục (8 Câu 1 + 5 Câu 2) + số trang cụ thể
+
+5 đoạn cá nhân hóa sâu: "bạn tôi tặng khi học cấp 2", "tôi nhìn thấy hoa sen", "bản thân tôi vẫn bồi hồi", 
+"tôi đã tham gia Dịch vụ Tham vấn", "Tự hào là ĐSĐV 2022-2023"
+
+3 đoạn giọng văn trữ tình: "êm dịu, thoảng nhẹ hương sen", "sống mũi vẫn cay cay", "như những câu 
+hát ru ầu ơ"
+
+Minh chứng Câu 2: "Tủ sách biên giới" tại Hà Giang, 50 tủ cộng đồng, hàng ngàn lượt người tham gia
+
+Trải nghiệm thật: Đã làm Podcast tại Dịch vụ Tham vấn Trường Quốc tế, đã là ĐSĐV 2022 và 2023
+3. Head-to-head: Bài #1 (Nhất) vs Bài #5 (Ba) – Tìm sự khác biệt chính 
+xác
+Anh Khoa (104.25, Nhất VNU) và Ngọc Mai (97.25, Ba VNU) có nhiều điểm chung: cùng Đề 1, cùng có 
+thành tích cũ (Anh Khoa: giải Ba 2021 + giải C VNU 2022; Ngọc Mai: giải B VNU 2022 + giải KK Bộ 2022), cùng 
+có điểm thưởng 10. Vậy tại sao 1 Nhất và 1 Ba? Phân tích chi tiết:
+3.1. Bảng so sánh định lượng (đo từ nội dung PDF thật)
+Tiêu chí
+Anh Khoa (#1)
+Ngọc Mai (#5)
+Chênh lệch
+Tổng số từ
+6761
+7411
++650
+Số đoạn văn (>50 ký tự)
+65
+60
+-5
+Marker cá nhân hóa ("tôi 
+đã", "tôi nhận ra"...)
+5
+1
+-4
+Trích dẫn (curly quotes)
+7
+1
+-6
+Số lần nhắc tên sách/tác giả
+33 (Búp sen xanh + Sơn 
+Tùng)
+18 (Mãi mãi tuổi hai mươi + 
+Nguyễn Văn Thạc)
+-15
+Minh chứng Câu 2
+4 ("Tủ sách biên giới", "Hà 
+Giang", "50 tủ", "hàng ngàn 
+lượt")
+0 (không có khảo sát, không 
+có dự án tương tự)
+-4
+Số sáng kiến Câu 2
+1 (5 phần)
+3 (mỗi sáng kiến 4 phần)
++2
+3.2. So sánh câu mở đầu Câu 1
+Anh Khoa – mở đầu bằng câu văn giàu hình ảnh, dẫn vào chủ đề tuổi trẻ:
+"Tuổi trẻ là những trang sách đầu đời, rực rỡ và tràn đầy sức sống. Đó là giai đoạn mà mỗi giấc mơ đều 
+mang trong mình đôi cánh, sẵn sàng bay cao và xa không biên giới. Trong những năm tháng tươi đẹp 
+ấy, trái tim đập nhịp đập mạnh mẽ của khát khao và nhiệt huyết."  — Anh Khoa - Mở đầu Câu 1
+Ngọc Mai – mở đầu bằng trích dẫn Karl Marx (giọng học thuật, ít cảm xúc):
+""Lịch sử không làm gì cả, nó không tạo ra vô vàn của cải, nó không chiến đấu, không tự nhiên mà diễn 
+ra, không tự nhiên mà hình thành. Chính con người, những con người thật sự từng sống, đã làm tất cả 
+những điều đó."
+— Karl Marx —"  — Ngọc Mai - Mở đầu Câu 1
+→ Mở đầu của Anh Khoa giàu cảm xúc + gợi hình ("trang sách đầu đời", "đôi cánh", "trái tim đập"). Mở 
+đầu của Ngọc Mai học thuật + ít cá nhân hóa. Đây là dấu hiệu đầu tiên cho thấy phong cách khác nhau.
+3.3. So sánh độ sâu cá nhân hóa
+Anh Khoa – 3 đoạn cá nhân hóa sâu (đều kể trải nghiệm thật):
+"Tôi vẫn nhớ, cuốn sách "Búp sen xanh" được bạn tôi tặng khi tôi học cấp 2, nhưng tôi không nhớ chính 
+xác khi học lớp mấy."  — Anh Khoa - đoạn 1
+"Chỉ biết, kể từ khi lần đầu tiên đọc cuốn sách, vào thời điểm ấy, tôi nhìn thấy hoa sen nở hồng trên 
+những gánh hàng rong hoa ở Hà Nội."  — Anh Khoa - đoạn 2
+"Nhiều năm trôi qua, cuốn "Búp sen xanh" của người bạn tặng tôi nằm nghiêm trang trên giá sách, giấy 
+đã ngả vàng theo thời gian. Bên cạnh đó, cuốn "Búp sen xanh" mới mua của tôi vẫn còn thơm mùi giấy 
+mới."  — Anh Khoa - đoạn 3
+Ngọc Mai – chỉ 1-2 đoạn cá nhân hóa (chung chung):
+"Trên hành trình ấy, tôi nhận ra rằng cơ hội được đọc và tự giáo dục bản thân qua những trang sách 
+không chỉ là một ưu thế, mà còn là một quyền lợi chính đáng mà mỗi người đều xứng đáng được 
+hưởng."  — Ngọc Mai - đoạn duy nhất
+→ Anh Khoa: trải nghiệm CỤ THỂ ("bạn tôi tặng", "hoa sen nở hồng", "giấy đã ngả vàng"). Ngọc Mai: 
+phát biểu CHUNG ("quyền lợi chính đáng", "mỗi người đều xứng đáng"). Sự khác biệt này giải thích vì sao GK 
+Huyền cho Anh Khoa 93 nhưng Ngọc Mai chỉ 80.
+3.4. So sánh Câu 2 – Sáng kiến
+Anh Khoa – 1 SÁNG KIẾN + 5 PHẦN + 1 MINH CHỨNG THỰC TIỄN:
+
+Tên sáng kiến: "Thúc đẩy việc đọc sách trong các đối tượng đặc thù"
+
+5 phần: Đối tượng → Kết nối thư viện IS+VNU-LIC → Hợp tác NXB ĐHQGHN → Hoạt động khuyến đọc → 
+Podcast
+
+MINH CHỨNG: "Tại tỉnh Hà Giang, một dự án tương tự đã được triển khai với sự hỗ trợ của tổ chức phi 
+chính phủ mang tên Tủ sách biên giới. Dự án đã thiết lập hơn 50 tủ sách cộng đồng và tổ chức nhiều 
+hoạt động khuyến đọc, thu hút hàng ngàn lượt người tham gia."
+
+TRẢI NGHIỆM THẬT: "Tôi đã tham gia vào Dịch vụ Tham vấn Trường Quốc tế, xây dựng tuyến Podcast 
+giúp các bạn trẻ hay những người ở xa, không có điều kiện đến thư viện có thể sử dụng sách giấy."
+Ngọc Mai – 3 SÁNG KIẾN + 4 PHẦN MỖI SÁNG KIẾN + 0 MINH CHỨNG:
+
+Sáng kiến 1: "Thư viện Vệ tinh" – 4 phần: Mục tiêu + Đối tượng + Cách thức + Dự kiến tác động
+
+Sáng kiến 2: "Câu lạc bộ đọc sách liên thế hệ" – 4 phần tương tự
+
+Sáng kiến 3: "Thư viện sách nói cộng đồng" – 4 phần tương tự
+
+KHÔNG có minh chứng thực tiễn nào – không khảo sát, không dự án tương tự, không trải nghiệm thật
+3.5. Kết luận: Tại sao 1 Nhất và 1 Ba?
+3 LÝ DO CHÍNH (theo thứ tự tác động):
+
+LÝ DO 1 (lớn nhất): CÁ NHÂN HÓA. Anh Khoa 4 markers + 3 đoạn kể trải nghiệm thật cụ thể. Ngọc Mai 1 
+marker + phát biểu chung chung. Chênh lệch điểm GK Huyền: 93 vs 80 = 13 điểm.
+
+LÝ DO 2: MINH CHỨNG Câu 2. Anh Khoa có minh chứng "Tủ sách biên giới" Hà Giang + trải nghiệm 
+Podcast thật. Ngọc Mai không có minh chứng nào.
+
+LÝ DO 3: MỞ ĐẦU. Anh Khoa mở bằng hình ảnh + cảm xúc. Ngọc Mai mở bằng trích dẫn học thuật.
+→ Bài học: 1 SÁNG KIẾN CÓ MINH CHỨNG THỰC TIỄN + 3 ĐOẠN CÁ NHÂN HÓA SÂU thắng 3 SÁNG 
+KIẾN KHÔNG CÓ MINH CHỨNG + 1 ĐOẠN CÁ NHÂN HÓA CHUNG CHUNG.
+4. Head-to-head: Bài #1 (104.25) vs Bài #47 (51.50) – Sự khác biệt cực 
+đoan
+Bài #1 (Anh Khoa) và bài #47 (Uyên Nhi) chênh lệch 52.75 điểm – gần như gấp đôi. Đây là cặp so sánh 
+cực đoan nhất, minh họa rõ nhất các sai lầm cần TRÁNH 100%.
+4.1. Bảng so sánh
+Tiêu chí
+Anh Khoa (#1)
+Uyên Nhi (#47)
+Chênh lệch
+Tổng số từ
+6.761
+1.205
+-5.556 (−82%)
+Tổng ký tự
+33.965
+5.542
+-28.423 (−84%)
+Số đoạn văn
+65
+10
+-55 (−85%)
+Có MỤC LỤC
+Có (1 trang, 13 tiểu mục)
+KHÔNG
+—
+Có MỞ ĐẦU
+Có
+KHÔNG
+—
+Có LỜI CẢM ƠN
+Có
+KHÔNG
+—
+Có Câu 2
+Có (5 tiểu mục)
+KHÔNG LÀM
+Mất 40 điểm
+Marker cá nhân hóa
+4
+1
+-3
+Lỗi chính tả phát hiện
+2 (nhẹ)
+6 (nghiêm trọng)
++4
+4.2. 6 lỗi chính tả thật trong bài Uyên Nhi (xác minh từ PDF gốc)
+Tìm thấy 6 lỗi chính tả nghiêm trọng trong bài #47:
+
+"Roise Nguyễn" → đúng là "Rosie Nguyễn" (xuất hiện 1 lần)
+
+"gẫn gũi" → đúng là "gần gũi"
+
+"ẩn chứa" → đúng là "ẩn chứa" (mã hóa lỗi font)
+
+"bức phá" → đúng là "bứt phá"
+
+"thúc đẩy" → đúng là "thúc đẩy" (mã hóa lỗi font)
+
+"quý báo" → đúng là "quý báu"
+→ 6 lỗi chính tả trong 1.205 từ = 1 lỗi/200 từ. Mỗi lỗi có thể trừ 1-2 điểm hình thức. Tổng mất 6-12 
+điểm chỉ vì chính tả.
+4.3. So sánh cấu trúc bài
+Anh Khoa – 18 trang, cấu trúc chuyên nghiệp:
+
+Trang 1: Bìa + thông tin thí sinh
+
+Trang 2: MỤC LỤC (1 trang, 13 tiểu mục)
+
+Trang 3: GIỚI THIỆU BẢN THÂN + LÝ DO THAM GIA
+
+Trang 4-12: CÂU 1 (8 tiểu mục: Mở đầu, Tác giả, Tác phẩm, Tóm tắt, 3 Bài học, Lời kết)
+
+Trang 13-17: CÂU 2 (5 tiểu mục: Đối tượng, Kết nối thư viện, Hợp tác NXB, Hoạt động khuyến đọc, 
+Podcast)
+
+Trang 18: LỜI CẢM ƠN
+Uyên Nhi – 3 trang, không có cấu trúc:
+
+Trang 1: Bìa + câu hỏi Câu 1
+
+Trang 2-3: Review sách "Tuổi trẻ đáng giá bao nhiêu" – KHÔNG có tiểu mục, KHÔNG có mục lục, KHÔNG 
+có hình ảnh
+
+Trang 3 cuối: Đề bài Câu 2 (nhưng KHÔNG làm)
+4.4. So sánh câu mở đầu
+Cả 2 đều có mở đầu hay, nhưng cách phát triển khác biệt cực lớn:
+"Tuổi trẻ là những trang sách đầu đời, rực rỡ và tràn đầy sức sống. Đó là giai đoạn mà mỗi giấc mơ đều 
+mang trong mình đôi cánh, sẵn sàng bay cao và xa không biên giới. Trong những năm tháng tươi đẹp 
+ấy, trái tim đập nhịp đập mạnh mẽ của khát khao và nhiệt huyết. Mỗi bước chân đi qua đều để lại dấu 
+ấn của sự trưởng thành, của những bài học vô giá từ cuộc sống. Tuổi trẻ là khoảnh khắc ta dám mơ, 
+dám làm, dám đối diện với những thử thách để tìm ra con đường của riêng mình."  — Anh Khoa - Mở đầu 
+(7 câu, ~80 từ)
+"Ở tuổi 20, 25 chúng ta đang đứng giữa những suy nghĩ chênh vênh, sự vô định của bản thân khi mình 
+chẳng biết làm gì, mình là ai và mình muốn gì? Và những lúc bế tắc như vậy chúng ta luôn tìm đến 
+những cuốn sách có thể giúp bản thân nhìn thấy được sứ mệnh của bản thân mình, tôi tin chắc rằng 
+không sai khi nói rằng "Tuổi trẻ đáng giá bao nhiêu?" của tác giả Rosie Nguyễn chính là chìa khóa cho 
+những câu trả lời đó"  — Uyên Nhi - Mở đầu (1 câu dài 65 từ, không có dấu chấm)
+→ Anh Khoa: 7 câu ngắn, nhịp điệu tốt, giàu hình ảnh. Uyên Nhi: 1 câu dài 65 từ không có dấu chấm, 
+lủng củng, sai ngữ pháp (thiếu dấu chấm hỏi, dùng dấu phẩy thay dấu chấm).
+4.5. Bài học cực đoan từ #1 vs #47
+
+Không làm Câu 2 = mất 40/100 điểm. Bài #47 mất 40 điểm → tối đa 60 + 0 điểm thưởng = 60 điểm → 
+cuối bảng.
+
+Bài chỉ 1.205 từ (1/6 độ dài bài #1) → thiếu đầu tư, thiếu chiều sâu.
+
+6 lỗi chính tả trong 1.205 từ → mất 6-12 điểm hình thức.
+
+Không mục lục, không mở đầu, không lời cảm ơn → thiếu cấu trúc cơ bản.
+
+1 câu mở đầu 65 từ không dấu chấm → mất điểm ngữ pháp + nhịp điệu.
+5. Phân tích bài #2 Phạm Yến Nhi (103.25, Nhì) – Mẫu Câu 2 chuyên 
+nghiệp nhất
+Bài của Yến Nhi có Câu 2 CHUYÊN NGHIỆP NHẤT trong 8 bài được phân tích. Sáng kiến có TÊN RIÊNG 
+cảm hứng, có ĐỊA ĐIỂM cụ thể, có THỜI GIAN thực hiện, và đặc biệt có KHẢO SÁT THỰC TẾ với biểu đồ.
+5.1. Tên sáng kiến + địa điểm + thời gian
+"TÊN SÁNG KIẾN: "Ánh sáng tri thức soi sáng đường em đi"
+ĐỊA ĐIỂM VÀ THỜI GIAN: Thực hiện tại Trường Phổ thông Dân tộc Nội trú tỉnh Sơn La. Thời gian thực 
+hiện từ tháng 2 năm 2024 đến tháng 5 năm 2024.
+ĐỐI TƯỢNG THỰC HIỆN SÁNG KIẾN: Đối tượng là các em học sinh lớp 10, 11, 12 tại Trường Phổ thông 
+Dân tộc Nội trú tỉnh Sơn La."  — Yến Nhi - Trang 15 - Câu 2
+5.2. Khảo sát thực tế với số liệu và biểu đồ
+"Trong phạm vi nghiên cứu của sáng kiến, tôi lựa chọn 50 em học sinh của 02 lớp 12 để tiến hành điều 
+tra, khảo sát. Kết quả cho thấy, học sinh của 2 lớp đều là người dân tộc Dao, H'Mông, Khơ Mú, Kháng, 
+Laha, Mường, Xinh Mun và Thái. Trong đó, dân tộc Thái chiếm số lượng nhiều nhất 32/50 học sinh 
+(chiếm 64%). Các dân tộc Dao, H'Mông, Khơ Mú, Laha, Mường, Xinh Mun, mỗi dân tộc chiếm 2%."  — 
+Yến Nhi - Trang 16 - Khảo sát dân tộc
+"Khi được hỏi: Em có thường xuyên đọc sách không? Kết quả cho thấy, có tới 50% số học sinh được hỏi 
+trả lời là đôi khi mới đọc sách. Rất thường xuyên và Thường xuyên chiếm tỉ lệ 6%."  — Yến Nhi - Trang 16 - 
+Khảo sát mức độ đọc sách
+→ Bài có 2 biểu đồ: (1) Biểu đồ tỉ lệ thành phần dân tộc của 02 lớp; (2) Biểu đồ mức độ đọc sách. Đây là 
+minh chứng thực tiễn mạnh nhất trong 8 bài.
+5.3. 3 hoạt động chính – mỗi hoạt động có TÊN RIÊNG
+
+Hoạt động 1: "Cách cũ bạn mới" – tạo thư viện mini trong lớp, trường học
+
+Hoạt động 2: "Đọc sách cùng anh chị" – mentor reading với sinh viên IS
+
+Hoạt động 3: Trao đổi sách định kỳ
+Mỗi hoạt động có kế hoạch chi tiết: lập kế hoạch → thu thập sách → phân loại → quản lý mượn trả → 
+tổ chức hoạt động đọc định kỳ → thành lập CLB sách → trao đổi ý kiến.
+5.4. Hình ảnh minh chứng thật
+"Một số hình ảnh sinh viên Trường Quốc Tế tặng sách cho các em học sinh"  — Yến Nhi - Trang 17 - Hình 3
+→ Bài có HÌNH ẢNH MINH CHỨNG THẬT – tức thí sinh ĐÃ THỰC SỰ đến Sơn La tặng sách. Đây là điểm 
+khác biệt cực lớn so với các bài chỉ đề xuất ý tưởng.
+5.5. Cá nhân hóa Câu 1 (5 markers)
+"Trước kia, tôi thường bị cuốn theo dòng chảy của công việc và những lo toan hàng ngày mà quên mất 
+rằng mỗi khoảnh khắc đều quý giá."  — Yến Nhi - Trang 13
+"Nhưng qua từng trang sách, tôi học được cách tự khám phá giá trị bản thân, quản lý cảm xúc một 
+cách hiệu quả, và tìm kiếm hạnh phúc trong những điều nhỏ bé nhất."  — Yến Nhi - Trang 13
+"Tôi bắt đầu chú trọng hơn đến việc chăm sóc sức khỏe, từ việc ăn uống lành mạnh đến việc duy trì thói 
+quen tập thể dục. Tôi cũng học cách đối mặt và vượt qua thử thách."  — Yến Nhi - Trang 13
+"Tôi đã trở nên cởi mở hơn, sẵn lòng lắng nghe và chia sẻ với người khác."  — Yến Nhi - Trang 14
+"Tôi bắt đầu tham gia vào các hoạt động tình nguyện và cống hiến không chỉ vật chất mà còn là kiến 
+thức và kinh nghiệm của mình để giúp đỡ những người xung quanh."  — Yến Nhi - Trang 14
+5.6. Bài học từ bài #2: MẪU CÂU 2 CHUYÊN NGHIỆP
+
+Tên sáng kiến CẢM HỨNG + hình ảnh ẩn dụ: "Ánh sáng tri thức soi sáng đường em đi"
+
+Địa điểm + thời gian CỤ THỂ: Trường PTDTNT Sơn La, tháng 2-5/2024
+
+Khảo sát thực tế với SỐ LIỆU + BIỂU ĐỒ: 50 học sinh, 8 dân tộc, tỉ lệ đọc sách
+
+3 hoạt động, mỗi hoạt động có TÊN RIÊNG: "Cách cũ bạn mới", "Đọc sách cùng anh chị", "Trao đổi sách"
+
+HÌNH ẢNH MINH CHỨNG THẬT: sinh viên IS tặng sách cho học sinh Sơn La
+
+Câu 1 có 5 marker cá nhân hóa: "tôi thường bị", "tôi học được", "tôi bắt đầu", "tôi đã trở nên", "tôi bắt 
+đầu tham gia"
+6. Phân tích bài #3 Nguyễn Thị Như Quỳnh (101.00, Nhì – Đề 2)
+Bài của Như Quỳnh là bài ĐỀ 2 (sáng tác truyện) duy nhất trong 8 bài được phân tích, và là bài duy nhất 
+đạt giải Nhì với Đề 2. Cốt truyện kể về cô bác sĩ tuyến đầu chống COVID-2021, để lại cuốn nhật ký "Mùi hoa 
+trà trong gió" cho bạn trai là nhạc sĩ guitar.
+6.1. Cấu trúc Câu 1 (sáng tác truyện)
+
+Giới thiệu bản thân + lý do tham gia
+
+Chương 1: Hồi ức hương hoa
+
+Chương 2: Mùi hoa trà trong gió (chương chính)
+
+Ngoại truyện: Người gieo mầm xanh
+6.2. GK Đạo (93) nhận xét: "Wow, đây là một bản truyện tự viết. Khá thú vị"
+Đoạn mở đầu truyện – chứng minh "tự viết" và "thú vị":
+""Vì đất nước ta ra đi / Xây đời hạnh phúc cho mai sau / Thỏa lòng mong ước của Bác Hồ / Đêm ngày 
+hằng mong"... Tiếng hát não lòng của gã vang lên, hòa cùng thứ âm thanh trầm ấm đầy hoài niệm từ 
+cây đàn guitar đã cũ. Bên di ảnh nàng, cặp nhẫn cưới bằng vàng trắng sáng bóng xuyên thấu vào trái 
+tim của gã. Gã nhớ nàng. Một thiên thần áo trắng, thiên thần của gã, của những người dân nơi Sài Gòn 
+náo nhiệt ngày đó khi dịch bệnh COVID 19 hoành hành trong cái nắng chói chang."  — Như Quỳnh - Trang 6 
+- Mở đầu truyện
+6.3. GK Huyền (88) nhận xét: "Bài thi có đầu tư. Câu 1 bố cục và hành văn tốt. Câu 2 nêu 
+được nd sáng kiến, mục tiêu, đối tượng, dự kiến kq, minh chứng"
+Câu 2 – Sáng kiến "Bookbooth" với 5 phần rõ ràng:
+
+Phần 1: Giới thiệu + ý nghĩa (tham chiếu Little Free Library quốc tế)
+
+Phần 2: Đối tượng (người tặng + người nhận + cộng đồng)
+
+Phần 3: Ý tưởng thực hiện (App Bookbooth + Tủ sách ven đường + Tích điểm)
+
+Phần 4: Các bước thực hiện (3 giai đoạn: Chuẩn bị – Triển khai – Duy trì)
+
+Phần 5: Tính sáng tạo mới mẻ + Tính khả thi
+Minh chứng thực tiễn (tham chiếu dự án quốc tế):
+"Có một dự án sẻ chia sách mà tôi vô cùng ấn tượng: littlefreelibrary.org. Với hơn 175.000 tủ sách Little 
+Free Library xuất hiện trên khắp nước Mỹ và khoảng 120 quốc gia, hơn 400 triệu cuốn sách đã được 
+chia sẻ thông qua mạng lưới các tủ trao đổi sách miễn phí lắp đặt ở các nơi công cộng, trung tâm cộng 
+đồng, trường học, công viên và các địa điểm dễ tiếp cận khác."  — Như Quỳnh - Trang 23
+6.4. GK Ngân (94 – thấp nhất 4 GK) – 3 lý do trừ điểm
+GK Ngân nhận xét chi tiết nhất trong 4 GK – chỉ ra 3 vấn đề cụ thể:
+
+Lý do 1: "còn vài lỗi chính tả"
+
+Lý do 2: "Truyện bị lặp trang 10, 12" – tức có lỗi format/trùng lặp trang
+
+Lý do 3: "phần App di động sẽ không khả thi với những người dân ở khu vực biên giới, hải đảo" – ý 
+tưởng AppBookBooth đòi hỏi smartphone + internet, không phù hợp vùng sâu vùng xa
+→ Bài học: Sáng kiến phải KHẢ THI trong bối cảnh thực tế. Ý tưởng App + tích điểm nghe hay nhưng 
+người dân biên giới không có smartphone → không khả thi.
+6.5. Bài học từ bài #3 (Đề 2)
+
+Đề 2 (sáng tác) có thể đạt giải Nhì nếu cốt truyện cảm động + có chiều sâu văn hóa.
+
+Câu 2 Đề 2 vẫn cần 5 phần như Đề 1 + tham chiếu dự án quốc tế thực tế.
+
+Tránh 3 lỗi: (1) chính tả, (2) trùng lặp trang, (3) ý tưởng không khả thi ở vùng mục tiêu.
+7. 7 bài học tổng hợp từ phân tích cấp đoạn văn
+Bài học 1: CẤU TRÚC 8+5 TIỂU MỤC là chuẩn vàng (bài #1)
+Bài #1 (Anh Khoa) có 8 tiểu mục Câu 1 + 5 tiểu mục Câu 2 + Mục lục + Lời cảm ơn. Đây là cấu trúc 
+chuyên nghiệp nhất. Mỗi tiểu mục có tiêu đề rõ ràng + số trang cụ thể trong mục lục.
+Top 5 đều có cấu trúc 5-8 tiểu mục. Nhóm yếu (#11, #47) không có tiểu mục rõ ràng.
+Bài học 2: CÁ NHÂN HÓA = trải nghiệm CỤ THỂ, không phải phát biểu CHUNG
+So sánh 2 đoạn:
+"Tôi vẫn nhớ, cuốn sách "Búp sen xanh" được bạn tôi tặng khi tôi học cấp 2, nhưng tôi không nhớ chính 
+xác khi học lớp mấy. Chỉ biết, kể từ khi lần đầu tiên đọc cuốn sách, vào thời điểm ấy, tôi nhìn thấy hoa 
+sen nở hồng trên những gánh hàng rong hoa ở Hà Nội."  — Anh Khoa - CỤ THỂ: có bạn tặng, có lớp học, có hoa 
+sen, có Hà Nội
+"Trên hành trình ấy, tôi nhận ra rằng cơ hội được đọc và tự giáo dục bản thân qua những trang sách 
+không chỉ là một ưu thế, mà còn là một quyền lợi chính đáng mà mỗi người đều xứng đáng được 
+hưởng."  — Ngọc Mai - CHUNG chung: "hành trình", "quyền lợi chính đáng", "mỗi người"
+→ Cá nhân hóa phải có CHI TIẾT CỤ THỂ: tên người, địa điểm, sự kiện, thời gian, cảm xúc thật. Không 
+được dùng phát biểu chung chung.
+Bài học 3: MINH CHỨNG THỰC TIỄN = 1 trong 3 loại sau
+Loại 1: KHẢO SÁT THỰC TẾ với số liệu (bài #2 Yến Nhi):
+"50 em học sinh của 02 lớp 12... dân tộc Thái chiếm 32/50 (64%)... 50% trả lời đôi khi mới đọc sách."
+Loại 2: DỰ ÁN TƯƠNG TỰ có tên + địa điểm + số liệu (bài #1 Anh Khoa):
+"Tại tỉnh Hà Giang, một dự án tương tự đã được triển khai... "Tủ sách biên giới." Dự án đã thiết lập hơn 
+50 tủ sách cộng đồng và tổ chức nhiều hoạt động khuyến đọc, thu hút hàng ngàn lượt người tham gia."
+Loại 3: TRẢI NGHIỆM CÁ NHÂN ĐÃ LÀM (bài #1 Anh Khoa):
+"Tôi đã tham gia vào Dịch vụ Tham vấn Trường Quốc tế, xây dựng tuyến Podcast... Tự hào là một Đại 
+sứ Văn hóa Đọc năm 2022 và 2023."
+Bài học 4: TÊN SÁNG KIẾN RIÊNG = ấn tượng đầu tiên
+Top 5 đều có TÊN SÁNG KIẾN CẢM HỨNG:
+
+#1 Anh Khoa: "Thúc đẩy việc đọc sách trong các đối tượng đặc thù"
+
+#2 Yến Nhi: "Ánh sáng tri thức soi sáng đường em đi" ← hay nhất
+
+#3 Như Quỳnh: "Bookbooth – Kết nối những trái tim bằng từng trang sách"
+
+#4 Thu Hiền: "Thư viện lưu động" + "Ở nhà đọc sách – thử thách Review"
+
+#5 Ngọc Mai: "Thư viện Vệ tinh" + "CLB đọc sách liên thế hệ" + "Thư viện sách nói cộng đồng"
+Nhóm yếu:
+
+#11 Hà Phương: "Cùng bạn đọc sách" ← phổ thông
+
+#12 Duy Đức: "Thư viện số hóa đa ngôn ngữ" ← hay nhưng thiếu cá nhân hóa
+
+#47 Uyên Nhi: KHÔNG có tên sáng kiến ← không làm Câu 2
+Bài học 5: 3 LỖI NGHIÊM TRỌNG cần TRÁNH
+Lỗi 1: KHÔNG LÀM CÂU 2 (bài #47) → mất 40/100 điểm ngay lập tức.
+Lỗi 2: CHỈ TÓM TẮT SÁCH, không cá nhân hóa (bài #47, bài #11 một phần) → GK phàn nàn "không làm rõ 
+được ảnh hưởng của tác phẩm đến bản thân thí sinh".
+Lỗi 3: SÁNG KIẾN KHÔNG KHẢ THI (bài #3 Như Quỳnh – App Bookbooth) → GK Ngân trừ điểm vì "App di 
+động sẽ không khả thi với những người dân ở khu vực biên giới, hải đảo".
+Bài học 6: 6 LỖI CHÍNH TẢ trong 1.205 từ = mất 6-12 điểm (bài #47)
+Xác minh từ PDF gốc của bài #47 – 6 lỗi chính tả thật:
+
+"Roise Nguyễn" → Rosie Nguyễn
+
+"gẫn gũi" → gần gũi
+
+"ẩn chứa" → ẩn chứa (lỗi font)
+
+"bức phá" → bứt phá
+
+"thúc đẩy" → thúc đẩy (lỗi font)
+
+"quý báo" → quý báu
+→ Kiểm tra chính tả bằng Word + Grammarly + đọc lại 3 lần trước khi nộp.
+Bài học 7: ĐỘ DÀI TỐI THIỂU 6.000 TỪ cho giải VNU
+Quan sát từ 8 bài:
+
+Top 5 (giải VNU): 6.195 – 7.411 từ (trung bình 6.964)
+
+Nhóm giữa (94-93 điểm, không vào VNU): 2.897 – 4.982 từ (trung bình 3.940)
+
+Nhóm yếu (51.5 điểm): 1.205 từ
+→ Ngưỡng tối thiểu để có giải VNU: ~6.000 từ. Phân bổ: Câu 1 ~4.000 từ + Câu 2 ~2.500 từ + Mục 
+lục/Lời cảm ơn ~500 từ.

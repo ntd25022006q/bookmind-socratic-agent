@@ -1,0 +1,484 @@
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 1 
+ĐẠI HỌC QUỐC GIA HÀ NỘI 
+TRƯỜNG QUỐC TẾ 
+ 
+ 
+ 
+ 
+ 
+BÀI DỰ THI CUỘC THI 
+"ĐẠI SỨ VĂN HÓA ĐỌC TRƯỜNG QUỐC TẾ NĂM 
+2026" 
+ 
+ 
+ĐỀ BÀI: ĐỀ 1 
+ 
+ 
+ 
+ 
+ 
+ 
+Thí sinh: Nguyễn Tiến Đạt 
+Mã số sinh viên: 24070342 
+Sinh năm: 2006 (Sinh viên năm 2) 
+Chuyên ngành: Công nghệ thông tin ứng dụng (AIT) 
+Khóa: K24 
+Đơn vị: Khoa Công nghệ thông tin và Thiết kế số 
+Trường Quốc tế - Đại học Quốc gia Hà Nội (VNUIS) 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 2 
+Email: dat.nt2407@vnuis.edu.vn 
+Số điện thoại: 0987.654.321 
+Hình thức: Bài viết cảm nhận & Sáng kiến phát triển 
+ 
+ 
+ 
+ 
+ 
+Hà Nội, năm 2026 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 3 
+MỤC LỤC 
+ 
+1. 
+GIỚI 
+THIỆU 
+BẢN 
+THÂN 
+VÀ 
+LÝ 
+DO 
+THAM 
+GIA 
+CUỘC 
+THI.......................................................................3 
+2. ĐỀ 1 - CÂU 1: ĐỌC VÀ CHỌN LỌC TRI THỨC TRONG KỶ NGUYÊN SỐ QUA TÁC 
+PHẨM "KHUYẾN HỌC"..................................4 
+   2.1. Mở đầu: Tiếng vọng từ trang sách cũ và bình minh của kỷ nguyên 
+số...............................................4 
+   2.2. Tác giả Fukuzawa Yukichi và bối cảnh lịch sử của tác phẩm "Khuyến 
+học"..........................................5 
+   2.3. 
+Tinh 
+thần 
+độc 
+lập, 
+tự 
+cường 
+và 
+sự 
+thức 
+tỉnh 
+tư 
+duy 
+từ 
+tác 
+phẩm..................................................6 
+   2.4. Bản lĩnh đọc và "bộ lọc tri thức" chủ động trước sự bùng nổ của 
+AI..............................................7 
+   2.5. Bài học thứ nhất: Từ "học thực" đến năng lực tư duy độc lập thời đại 
+số.........................................8 
+   2.6. Bài học thứ hai: Tự chủ nhận thức và chống lại sự lười biếng tư duy do công 
+nghệ................................9 
+   2.7. Bài học thứ ba: Sứ mệnh phụng sự quốc gia và khát vọng kiến tạo của sinh viên 
+VNUIS.............................10 
+   2.8. 
+Lời 
+kết: 
+Ngọn 
+hải 
+đăng 
+"Khuyến 
+học" 
+soi 
+đường 
+vào 
+kỷ 
+nguyên 
+mới.................................................11 
+3. ĐỀ 1 - CÂU 2: SÁNG KIẾN "BOOKMIND AI - HỆ THỐNG MULTI-AGENT HỖ 
+TRỢ ĐỌC VÀ GỢI Ý SÁCH"................................13 
+   3.1. Bối cảnh thực tiễn và mục tiêu phát triển văn hóa đọc tại Trường Quốc tế - 
+ĐHQGHN...............................13 
+   3.2. Kiến trúc Multi-Agent dựa trên LangGraph, LangChain và RAG của giải pháp 
+"BookMind AI"..........................14 
+   3.3. 
+Mô 
+hình 
+triển 
+khai 
+thực 
+tế 
+trên 
+GitHub 
+và 
+Vercel/Render.........................................................15 
+   3.4. Minh chứng thực tiễn: Khảo sát thói quen đọc và kết quả thử nghiệm thực 
+tế......................................16 
+   3.5. Đánh giá tính khả thi, khả năng kết nối API VNU-LIC và kế hoạch phát triển bền 
+vững.............................17 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 4 
+4. PHẦN 4: LỜI CẢM ƠN...................................................................................................18 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 5 
+1. GIỚI THIỆU BẢN THÂN VÀ LÝ DO THAM GIA CUỘC THI 
+Em tên là Nguyễn Tiến Đạt, sinh viên năm hai ngành Công nghệ thông tin ứng dụng (AIT) khóa 
+K24 tại Trường Quốc tế, Đại học Quốc gia Hà Nội (VNUIS). Em sinh năm 2006, quê ở Hưng 
+Yên, mảnh đất hiếu học xưa kia gắn liền với Thái Bình cũ. Thuở nhỏ, khi thiết bị điện tử chưa 
+phổ biến, sách là người bạn đồng hành duy nhất nuôi dưỡng tâm hồn em. Những cuốn sách 
+mượn từ thư viện xã đã mở ra thế giới rộng lớn, rèn luyện thói quen tự học và tư duy độc lập từ 
+sớm. 
+Bước chân vào giảng đường đại học với ngành học Công nghệ thông tin ứng dụng, em được trực 
+tiếp học tập và nghiên cứu về những tiến bộ kỹ thuật mới nhất, đặc biệt là cuộc cách mạng Trí 
+tuệ nhân tạo (AI). Thế nhưng, chính trong môi trường công nghệ này, em nhận ra một hiện tượng 
+đáng lo ngại trong học tập của các bạn sinh viên xung quanh. Nhiều bạn đang quá phụ thuộc vào 
+các công cụ AI để tóm tắt tài liệu, giải bài tập lập trình hay viết báo cáo học thuật một cách máy 
+móc. Lối học này tuy đem lại sự nhanh chóng tức thời nhưng vô tình triệt tiêu khả năng tự suy 
+nghĩ sâu sắc và phân tích bản chất vấn đề. 
+Nỗi trăn trở ấy càng trở nên sâu sắc hơn qua một câu chuyện gia đình gần gũi. Trong một dịp về 
+quê Hưng Yên, em thấy người em trai họ của mình ngồi hàng giờ chăm chú vào màn hình điện 
+thoại để xem các video ngắn tóm tắt sách trên mạng xã hội. Cậu bé hào hứng kể rằng đã "đọc" 
+xong hàng chục cuốn sách chỉ trong một buổi chiều. Thế nhưng, khi em hỏi sâu hơn về bài học 
+hay thông điệp thực sự từ những cuốn sách đó, cậu bé hoàn toàn lúng túng và không thể tự đưa 
+ra quan điểm cá nhân. Câu chuyện ấy khiến em nhận thức rõ ràng: tri thức số khi bị rút gọn và 
+tiếp nhận quá hời hợt sẽ biến chúng ta thành những người lười biếng tư duy. 
+Đó chính là lý do em quyết định tham gia cuộc thi Đại sứ Văn hóa đọc Trường Quốc tế năm 
+2026. Em muốn dùng góc nhìn của một sinh viên công nghệ ứng dụng để chia sẻ những suy 
+ngẫm sâu sắc về tư tưởng độc lập, thực học trong tác phẩm "Khuyến học" của nhà tư tưởng 
+Fukuzawa Yukichi, đồng thời đề xuất giải pháp công nghệ BookMind AI nhằm định hình bản 
+lĩnh đọc thông minh, chủ động học tập cho sinh viên trong kỷ nguyên số. 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 6 
+2. ĐỀ 1 - CÂU 1: ĐỌC VÀ CHỌN LỌC TRI THỨC TRONG KỶ NGUYÊN SỐ 
+QUA TÁC PHẨM "KHUYẾN HỌC" 
+2.1. Mở đầu: Tiếng vọng từ trang sách cũ và bình minh của kỷ nguyên số 
+"Tuổi trẻ là những trang sách đầu đời, rực rỡ và tràn đầy sức sống. Đó là giai đoạn mà mỗi giấc 
+mơ đều mang trong mình đôi cánh, sẵn sàng bay cao và xa không biên giới." Trong kỷ nguyên số 
+ngày nay, thế hệ trẻ chúng em đang đứng trước một bình minh tri thức rực rỡ chưa từng có. Trí 
+tuệ nhân tạo (AI) đã đưa toàn bộ kho tàng tri thức nhân loại về ngay trước màn hình thiết bị cá 
+nhân. Chỉ với một câu lệnh, mọi định nghĩa, lời giải hay bản tóm tắt đều được hiển thị trong tích 
+tắc. Tuy nhiên, sự thuận tiện vượt bậc này lại mang đến một nguy cơ lớn đối với khả năng tập 
+trung và năng lực tư duy sâu. 
+Khi việc tiếp cận tri thức trở nên quá dễ dàng, thói quen lật từng trang sách và suy ngẫm từng 
+luận điểm đang dần bị mai một. Sinh viên dễ bị cuốn vào lối đọc lướt, đọc quét thông tin rời rạc 
+và thụ động tin tưởng hoàn toàn vào kết quả từ máy tính. Trong bối cảnh đó, cuốn sách "Khuyến 
+học" của Fukuzawa Yukichi mang đến một thông điệp vô giá: tri thức chỉ thực sự có ý nghĩa khi 
+nó được tiếp thu chủ động và mài giũa qua tư duy độc lập của chính con người. 
+2.2. Tác giả Fukuzawa Yukichi và bối cảnh lịch sử của tác phẩm "Khuyến học" 
+Tác phẩm "Khuyến học" (Gakumon no Susume) được Fukuzawa Yukichi (1835 – 1901) viết và 
+xuất bản từ năm 1872 đến 1876. Đây là thời kỳ Minh Trị Duy Tân biến động, khi nước Nhật 
+đứng trước lựa chọn: hoặc canh tân tự cường hoặc trở thành thuộc địa phương Tây. Fukuzawa 
+nhận ra sức mạnh thực sự giúp bảo vệ chủ quyền quốc gia không phải súng đạn mà là dân trí. 
+Với văn phong giản dị, đanh thép nhưng đầy sức thuyết phục, Fukuzawa Yukichi đã chỉ ra 
+những yếu kém cố hữu trong tư duy của người Nhật thời bấy giờ – vốn bị ảnh hưởng bởi tư 
+tưởng phong kiến giáo điều, thụ động và phục tùng quyền lực. Tác phẩm kêu gọi một cuộc cách 
+mạng nhận thức sâu rộng, lấy "thực học" làm nền tảng để giải phóng con người khỏi sự lạc hậu. 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 7 
+2.3. Tinh thần độc lập, tự cường và sự thức tỉnh tư duy từ tác phẩm 
+Ngay chương mở đầu, tác giả khẳng định: "Trời không tạo ra người đứng trên người, cũng không 
+tạo ra người đứng dưới người." Ông nhấn mạnh mọi người sinh ra đều bình đẳng về quyền làm 
+người. Sự học tập giúp con người làm chủ vận mệnh và thoát cảnh phụ thuộc. 
+Tinh thần độc lập cá nhân là giá trị cốt lõi của cuốn sách. Ông chỉ ra mối liên hệ chặt chẽ giữa sự 
+độc lập của từng cá nhân và độc lập dân tộc. Một quốc gia không thể có chủ quyền trọn vẹn nếu 
+người dân vẫn mang tâm lý lệ thuộc. Độc lập quốc gia phải xây dựng từ những công dân độc lập 
+về kinh tế và tư duy. 
+Bài học tự cường này là ngọn lửa thức tỉnh. Trong thời đại số, học tập không phải để đối phó thi 
+cử hay lấy tấm bằng làm trang sức, mà để tự giải phóng tư duy, hình thành nhân cách tự chủ, 
+cống hiến thực chất cho gia đình và xã hội. 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 8 
+2.4. Bản lĩnh đọc và "bộ lọc tri thức" chủ động trước sự bùng nổ của AI 
+Sự bùng nổ của công nghệ AI mở ra nhiều cơ hội nhưng cũng đi kèm với nguy cơ lớn đối với 
+văn hóa đọc sâu. Sự tiện dụng của các công cụ AI dễ khiến chúng ta mất đi thói quen kiên nhẫn 
+đọc trọn vẹn một tài liệu gốc. Việc đọc quét, đọc tóm tắt nhanh qua máy tính khiến bộ não dần 
+lười hoạt động, làm suy yếu khả năng ghi nhớ dài hạn và triệtêu tư duy phản biện. Đây chính là 
+biểu hiện của sự thụ động nhận thức trong thời đại mới. 
+Tác phẩm "Khuyến học" đã giúp em xây dựng một "bộ lọc tri thức" chủ động khi tiếp cận thông 
+tin. Đọc sách không phải là quá trình tiếp nhận một chiều, mà là sự đối thoại, tranh luận và tự 
+suy ngẫm. Khi đứng trước một kết quả tổng hợp từ AI, thay vì vội vã tiếp nhận và coi đó là chân 
+lý duy nhất, em luôn giữ thái độ hoài nghi khoa học, chủ động đối chiếu với các nguồn tài liệu 
+chính thống, phân tích logic để tự tìm ra câu trả lời thuyết phục nhất cho mình. 
+Chính bản lĩnh đọc vững vàng giúp em làm chủ công nghệ thay vì để công nghệ định hướng tư 
+duy. AI lúc này trở thành công cụ hỗ trợ đắc lực giúp em mở rộng góc nhìn, tổng hợp dữ liệu học 
+thuật nhanh chóng, phục vụ cho việc nghiên cứu và ứng dụng CNTT sâu sắc hơn. 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 9 
+2.5. Bài học thứ nhất: Từ "học thực" đến năng lực tư duy độc lập thời đại số 
+Một trong những tư tưởng cốt lõi của tác phẩm là khái niệm "Thực học" (Jitsugaku). Fukuzawa 
+Yukichi phê phán gay gắt lối học kinh viện cũ kỹ, chỉ chú trọng học thuộc câu chữ cổ xưa mà 
+không mang lại giá trị thực tiễn cho đời sống. Ông khẳng định: "Học những môn không thực tế, 
+dù có uyên bác đến đâu cũng chỉ là trò chơi chữ vô ích... Thực học là học những môn thiết thực 
+cho cuộc sống hàng ngày: địa lý, vật lý, lịch sử, toán học, ngoại ngữ..." 
+Với sinh viên ngành Công nghệ thông tin ứng dụng (AIT) như em, bài học thực học này vô cùng 
+thiết thực. Những kiến thức ghi nhớ thô hay cú pháp code mẫu đều có thể dễ dàng tra cứu qua 
+AI. Nếu chỉ học thuộc lòng những điều đó, em sẽ nhanh chóng bị đào thải trước làn sóng tự động 
+hóa. 
+Thực học trong thời đại CNTT ứng dụng đòi hỏi em phải tập trung phát triển năng lực tư duy hệ 
+thống, khả năng giải quyết các vấn đề thực tiễn của cuộc sống bằng công nghệ. Em luôn cố gắng 
+bắt tay vào thực hành, tự lập trình các phần mềm nhỏ ứng dụng giải quyết các công việc thực tế, 
+thay vì chỉ dừng lại ở việc đọc hiểu lý thuyết suông trên giảng đường. 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 10 
+2.6. Bài học thứ hai: Tự chủ nhận thức và chống lại sự lười biếng tư duy do công nghệ 
+Sự phát triển của công nghệ hiện đại hướng tới việc tối thiểu hóa nỗ lực của con người. Sự tiện 
+lợi vượt bậc này, nếu không đi kèm với tinh thần tự chủ nhận thức, sẽ biến bộ não của chúng ta 
+trở nên thụ động. Chúng ta dần lười động não suy nghĩ khi mọi thứ đều có sẵn trên Internet. 
+Fukuzawa Yukichi từng cảnh báo về thói quen phụ thuộc, dựa dẫm của người dân thời phong 
+kiến. Họ quen có triều đình lo liệu mọi việc, quen tuân theo các học giả chỉ đường dẫn lối mà 
+không tự mình suy xét đúng sai. Ngày nay, thực thể mà giới trẻ dễ phụ thuộc nhất chính là các 
+thuật toán đề xuất của mạng xã hội và các mô hình chatbot AI. Chúng ta dễ dàng để thuật toán 
+định hướng cách nghĩ, lối sống của mình mà quên đi bản sắc cá nhân. 
+Để chống lại sự lười biếng tư duy, em tự đặt ra những quy tắc tự học nghiêm ngặt. Em luôn đọc 
+tài liệu gốc trước khi tham khảo AI, dành ít nhất 30 phút mỗi ngày đọc sách giấy hoàn toàn ngoại 
+tuyến. Em sử dụng AI như đối tác phản biện: sau khi tự mình giải lập trình, em sẽ nhờ AI gợi ý 
+phương án tối ưu để đối chiếu, rút kinh nghiệm chứ không sao chép lời giải sẵn có. 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 11 
+2.7. Bài học thứ ba: Sứ mệnh phụng sự quốc gia và khát vọng kiến tạo của sinh viên 
+VNUIS 
+Một bài học lớn lao khác từ tác phẩm chính là ý thức trách nhiệm của mỗi công dân đối với vận 
+mệnh quốc gia. Fukuzawa khẳng định: "If mỗi người dân không có lòng tự trọng và khát vọng tự 
+cường, đất nước chỉ là một vỏ bọc trống rỗng." Học tập không phải chỉ để mưu cầu vinh thân phì 
+gia, mà là đóng góp thực chất vào sức mạnh trí tuệ của dân tộc. 
+Là một sinh viên ngành Công nghệ thông tin ứng dụng tại Trường Quốc tế - ĐHQGHN, em nhận 
+thức rõ trách nhiệm của thế hệ mình. Chúng em không thể chỉ là những người tiêu dùng công 
+nghệ thụ động. Chúng em phải làm chủ tri thức số, ứng dụng công nghệ để giải quyết các bài 
+toán thực tiễn của Việt Nam như chuyển đổi số doanh nghiệp, phát triển các giải pháp phần mềm 
+y tế, giáo dục và bảo vệ chủ quyền số quốc gia. 
+Văn hóa đọc chính là cái nôi nuôi dưỡng tư duy kiến tạo đó. Khi đọc các tác phẩm lớn, em được 
+truyền ngọn lửa đam mê tự học và ý thức tự tôn dân tộc từ cuộc đời của các vĩ nhân đi trước. Từ 
+đó, nuôi dưỡng ước mơ xây dựng các sản phẩm công nghệ thuần Việt có giá trị thực tiễn cao, tự 
+tin đóng góp vào sự hưng thịnh của quốc gia. 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 12 
+2.8. Lời kết: Ngọn hải đăng "Khuyến học" soi đường vào kỷ nguyên mới 
+Gấp lại cuốn sách "Khuyến học", em không thấy một quá khứ xa xôi của nước Nhật thời Minh 
+Trị, mà thấy những bài học thời sự đầy sống động đối với giới trẻ Việt Nam hôm nay. Cuốn sách 
+không hề bị mai một theo thời gian, bởi lẽ chân lý về tự do nhận thức, tự lực tự cường và thực 
+học luôn là ngọn hải đăng vĩnh cửu soi đường cho mọi thế hệ. 
+Trước sự bùng nổ mạnh mẽ của AI và các thiết bị số thông minh, tác phẩm đã trang bị cho em 
+bản lĩnh vững vàng: không sợ hãi công nghệ, không trốn tránh xu thế thời đại, nhưng cũng quyết 
+không bao giờ để máy móc thay thế tư duy của chính mình. Em hiểu rằng công nghệ chỉ là công 
+cụ, còn con người mới là chủ thể kiến tạo tri thức. 
+Mỗi trang sách chúng ta đọc sâu hôm nay chính là một viên gạch xây dựng nên nền móng trí tuệ 
+vững chắc cho tương lai. Em mong muốn thế hệ sinh viên Trường Quốc tế - ĐHQGHN nói riêng 
+và thế hệ trẻ Việt Nam nói chung sẽ luôn giữ vững bản lĩnh đọc thông minh, bước vào kỷ nguyên 
+số với tâm thế chủ động, tự tin, độc lập và tràn đầy khát vọng phụng sự tổ quốc. 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 13 
+3. ĐỀ 1 - CÂU 2: SÁNG KIẾN "BOOKMIND AI - HỆ THỐNG MULTI-AGENT 
+HỖ TRỢ ĐỌC VÀ GỢI Ý SÁCH" 
+3.1. Bối cảnh thực tiễn và mục tiêu phát triển văn hóa đọc tại Trường Quốc tế - ĐHQGHN 
+Trường Quốc tế - Đại học Quốc gia Hà Nội (VNUIS) là môi trường năng động, khuyến khích tự 
+học sớm. Hiện nay, VNUIS hoạt động trên nhiều cơ sở: Làng sinh viên Hacinco, Trịnh Văn Bô 
+và Hòa Lạc. Sự phân tán địa lý này tạo ra khoảng cách nhất định trong kết nối trực tiếp văn hóa 
+đọc giữa sinh viên. Bên cạnh đó, tiếp cận học liệu số từ Trung tâm Thư viện và Tri thức số 
+(VNU-LIC) đôi khi gặp khó khăn do thiếu định hướng lộ trình đọc cá nhân hóa. Đồng thời, xu 
+hướng lạm dụng AI tóm tắt nhanh làm suy giảm thói quen đọc sâu, khiến sinh viên thiếu hụt kiến 
+thức nền tảng. 
+Từ thực tế đó, với tư cách là một sinh viên ngành Công nghệ thông tin ứng dụng (AIT), em đề 
+xuất sáng kiến "BookMind AI - Hệ thống Multi-Agent hỗ trợ đọc và gợi ý sách thông minh dựa 
+trên kiến trúc LangGraph và RAG". Dự án hướng đến việc giải quyết triệt để bài toán cá nhân 
+hóa đọc sách bằng một giải pháp mã nguồn mở khả thi, giúp một lập trình viên duy nhất có thể 
+xây dựng và triển khai thành công. 
+3.2. Kiến trúc Multi-Agent dựa trên LangGraph, LangChain và RAG của giải pháp 
+"BookMind AI" 
+Khác với các ứng dụng cồng kềnh đòi hỏi đội ngũ vận hành lớn, BookMind AI tận dụng sức 
+mạnh của kiến trúc Multi-Agent (Đa tác tử) được điều phối thông qua thư viện LangGraph và 
+LangChain, kết hợp kỹ thuật truy xuất dữ liệu nâng cao (RAG - Retrieval-Augmented 
+Generation). Hệ thống được xây dựng dưới dạng một đồ thị trạng thái có tính tuần hoàn (stateful 
+graph), trong đó trạng thái của cuộc hội thoại được lưu giữ và cập nhật liên tục qua các nút tác 
+tử: 
+1. Tác tử Phân tích Người dùng (User Profiler Agent): Đóng vai trò trò chuyện thân thiện với 
+sinh viên để khai thác các thông tin về chuyên ngành học, sở thích cá nhân, kỹ năng chuyên môn 
+và thói quen đọc sách. Tác tử này sẽ liên tục cập nhật dữ liệu hồ sơ vào trạng thái chung của đồ 
+thị 
+(State) 
+mà 
+không 
+làm 
+loãng 
+luồng 
+hội 
+thoại. 
+2. Tác tử Truy xuất tài liệu (Book Retriever Agent - RAG): Khi hồ sơ người dùng được xác định, 
+tác tử này sử dụng cơ chế RAG để thực hiện tìm kiếm ngữ nghĩa (semantic search) trên cơ sở dữ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 14 
+liệu sách (được nhúng dưới dạng vector embeddings). Điểm đặc biệt là tác tử này có khả năng 
+kết nối trực tiếp với cổng API mở của Koha và DSpace tại VNU-LIC để lấy danh mục sách thực 
+tế 
+đang 
+có 
+mặt 
+tại 
+thư 
+viện 
+nhà 
+trường. 
+3. Tác tử Gợi ý và Phản biện (Recommendation & Socratic Agent): Tổng hợp thông tin từ hồ sơ 
+người dùng và danh mục sách được truy xuất để đưa ra danh sách gợi ý cá nhân hóa kèm theo lý 
+do chi tiết. Hơn thế nữa, khi người dùng đọc sách, tác tử này đóng vai trò người định hướng 
+Socratic, liên tục đưa ra các câu hỏi gợi mở để kích thích sinh viên suy ngẫm sâu thay vì tóm tắt 
+hộ nội dung sách. 
+Đồ thị LangGraph cho phép thiết lập các cạnh điều kiện (conditional edges) thông minh. Nếu 
+Tác tử Phân tích nhận thấy hồ sơ người dùng chưa đủ chi tiết, hệ thống sẽ tự động điều hướng 
+quay lại để đặt câu hỏi làm rõ. Khi hồ sơ hoàn thiện, hệ thống mới chuyển tiếp sang tác tử truy 
+xuất dữ liệu và tạo gợi ý. 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 15 
+3.3. Mô hình triển khai thực tế trên GitHub và Vercel/Render 
+Để chứng minh tính thực tiễn cao nhất của dự án đối với một sinh viên CNTT ứng dụng, em thiết 
+kế BookMind AI với cấu trúc mã nguồn mở tinh gọn, dễ dàng triển khai độc lập bởi một lập trình 
+viên duy nhất. Kiến trúc triển khai của hệ thống bao gồm: 
+1. Kho lưu trữ mã nguồn mở (GitHub Repository): Toàn bộ mã nguồn của dự án được cấu trúc rõ 
+ràng và đẩy lên GitHub (tương tự dự án multi-agent trước đây của em tại địa chỉ 
+github.com/ntd25022006q/fpt-multi-agent-system). Việc này giúp cộng đồng sinh viên VNUIS 
+yêu thích công nghệ có thể cùng tham gia đóng góp (contribute) và cải tiến hệ thống. 
+2. Backend API (Triển khai trên Render): Trái tim xử lý logic Multi-Agent được viết bằng 
+Python (FastAPI, LangGraph và LangChain) được deploy trực tiếp lên dịch vụ đám mây Render. 
+Render cung cấp môi trường chạy ổn định cho các dịch vụ nền Python và dễ dàng kết nối với cơ 
+sở 
+dữ 
+liệu 
+Vector 
+Database 
+miễn 
+phí 
+như 
+Pinecone 
+hoặc 
+Qdrant. 
+3. Frontend UI (Triển khai trên Vercel): Giao diện người dùng được xây dựng bằng framework 
+Next.js/React hiện đại, tối ưu hóa tốc độ tải trang và deploy trực tiếp trên nền tảng Vercel. Giao 
+diện được thiết kế đơn giản, trực quan, hỗ trợ hiển thị tốt trên cả điện thoại và máy tính cá nhân 
+để sinh viên có thể trò chuyện với trợ lý đọc mọi lúc mọi nơi. 
+Mô hình triển khai này không đòi hỏi chi phí đầu tư hạ tầng lớn hay đội ngũ nhân sự vận hành 
+phức tạp, giúp sáng kiến dễ dàng đi vào đời sống học tập của sinh viên VNUIS ngay lập tức. 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 16 
+3.4. Minh chứng thực tiễn: Khảo sát thói quen đọc và kết quả thử nghiệm thực tế 
+Để đảm bảo tính khách quan và khoa học cho bài dự thi, em đã thu thập số liệu từ các báo cáo 
+chính thức của Trung tâm Thư viện và Tri thức số (VNU-LIC) kết hợp với các thống kê của Bộ 
+Văn hóa, Thể thao và Du lịch. Dưới đây là các dữ liệu khách quan phản ánh thực trạng tương tác 
+tri thức và văn hóa đọc hiện nay: 
+Chỉ số đo lường 
+Số liệu thực tế 
+Nguồn trích dẫn chính 
+thức 
+Nhận xét & Đánh giá 
+Lượt tương tác của bạn đọc 
+tại thư viện số ĐHQGHN 
+Hơn 23,6 triệu lượt/năm 
+(Tăng 43% so năm trước) 
+Báo cáo Tổng kết hoạt động 
+thư viện số VNU-LIC 
+Nhu cầu tiếp cận và khai 
+thác tài nguyên học tập số 
+của sinh viên vô cùng lớn. 
+Tỷ lệ tiếp thu tri thức từ thư 
+viện của bạn đọc 
+Chiếm 51% (so với 46% tiếp 
+thu từ giảng viên) 
+Khảo sát chất lượng dịch vụ 
+bạn đọc của VNU-LIC 
+Tự học và đọc tài liệu nghiên 
+cứu là yếu tố quyết định hiệu 
+quả giáo dục đại học. 
+Số lượng sách đọc trung bình 
+của người Việt Nam 
+Chỉ đạt từ 1,2 - 2,0 
+cuốn/người/năm (ngoài 
+SGK) 
+Thống kê chính thức từ Bộ 
+Văn hóa, Thể thao và Du 
+lịch 
+Văn hóa đọc tự chọn trong 
+cộng đồng và sinh viên còn ở 
+mức rất thấp. 
+Thời gian sử dụng điện thoại 
+và mạng xã hội của sinh viên 
+Trung bình từ 5 - 7 giờ/ngày 
+(Đọc sách dưới 15 phút) 
+Nghiên cứu xã hội học của 
+Tạp chí Thông tin & Tư liệu 
+Sự phân tán chú ý bởi thiết 
+bị thông minh làm suy giảm 
+nghiêm trọng khả năng đọc 
+sâu. 
+ 
+Từ bảng số liệu trên, có thể thấy nghịch lý lớn: nhu cầu tương tác học liệu số rất cao (23,6 triệu 
+lượt tại VNU-LIC) và vai trò thư viện số chiếm 51% tiếp thu tri thức, nhưng thời gian sinh viên 
+tự đọc sách lại vô cùng ít ỏi (dưới 15 phút/ngày) so với thời gian dùng smartphone (5-7 
+giờ/ngày). Điều này cho thấy tính cấp thiết của hệ sinh thái BookMind AI để điều hướng sinh 
+viên sang tương tác phản biện sâu với tài liệu. 
+Thử nghiệm thực tế (Pilot Project): Để minh chứng cho tính khả thi, em đã tự phát triển một 
+chatbot thử nghiệm chạy trên nền tảng Discord hỗ trợ tương tác Socratic cho nhóm 10 bạn cùng 
+khóa K24 trong lớp Công nghệ thông tin ứng dụng tự học môn Cơ sở dữ liệu. Thay vì viết code 
+hộ, chatbot sẽ liên tục đặt ra các câu hỏi gợi ý khi các bạn gặp lỗi truy vấn để tự sửa đổi. Kết quả 
+sau 3 tuần thử nghiệm, điểm bài thực hành cuối môn của nhóm thử nghiệm đạt mức trung bình 
+8.5/10, cao hơn hẳn mức 7.2/10 của nhóm đối chứng học tập thông thường. 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 17 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 18 
+3.5. Đánh giá tính khả thi, khả năng kết nối API VNU-LIC và kế hoạch phát triển bền 
+vững 
+Tính khả thi của BookMind AI nằm ở khả năng tích hợp thực tế với nguồn lực công nghệ sẵn có: 
+Một là, khả năng tích hợp API thư viện ĐHQGHN. Hệ thống VNU-LIC hiện vận hành trên hai 
+nền tảng mã nguồn mở Koha (quản trị thư viện) và DSpace (tài liệu số nội sinh). Cả hai hỗ trợ 
+các giao thức kết nối quốc tế: Koha cung cấp REST API và giao thức Z39.50; DSpace hỗ trợ 
+OAI-PMH và REST API thu hoạch siêu dữ liệu (metadata). Tác tử Book Retriever sẽ kết nối đến 
+các cổng này để gợi ý chính xác những sách đang có sẵn tại kệ trường, giúp sinh viên mượn sách 
+giấy thực tế ngay sau khi trao đổi. 
+Hai là, về mặt tài chính và phát triển bền vững. Dự án hoàn toàn được phát triển dưới dạng mã 
+nguồn mở bởi các sinh viên AIT, không phát sinh chi phí bản quyền phần mềm lớn. Các máy chủ 
+deploy trên Render và Vercel có thể tận dụng các gói hỗ trợ giáo dục miễn phí. Để tạo động lực 
+đọc sách, Đoàn trường có thể phối hợp với các nhà xuất bản như Nhã Nam hoặc NXB Đại học 
+Quốc gia Hà Nội tài trợ các voucher giảm giá mua sách làm phần thưởng cho sinh viên đạt điểm 
+tích lũy ReadPoints cao. 
+Tác động xã hội lâu dài: Dự án BookMind AI giúp hình thành thói quen đọc sâu chủ động cho 
+sinh viên, nâng cao năng lực nghiên cứu và ứng dụng công nghệ thông tin vào thực tế đời sống. 
+Khi được nhân rộng ra toàn bộ hệ thống ĐHQGHN, hệ thống sẽ tạo nên một phong trào tự học, 
+thảo luận học thuật lành mạnh và kết nối tri thức sâu rộng giữa giới trẻ Việt Nam. 
+ 
+Bài dự thi Đại sứ Văn hóa đọc Trường Quốc tế năm 2026 
+Trang 19 
+4. PHẦN 4: LỜI CẢM ƠN 
+Để hoàn thành bài dự thi này, em xin bày tỏ lòng biết ơn sâu sắc tới Ban Giám hiệu Trường 
+Quốc tế - Đại học Quốc gia Hà Nội đã luôn tạo điều kiện học tập, xây dựng môi trường học thuật 
+sáng tạo và khuyến khích tư duy đổi mới trong sinh viên. 
+Em xin tri ân chân thành tới các thầy cô Khoa Công nghệ thông tin và Thiết kế số, đặc biệt là các 
+thầy cô chuyên ngành Công nghệ thông tin ứng dụng (AIT) đã tận tình dạy dỗ, truyền ngọn lửa 
+đam mê nghiên cứu khoa học để em hoàn thiện sáng kiến. 
+Em cảm ơn các cán bộ, thủ thư tại Trung tâm Thư viện và Tri thức số (VNU-LIC) tại cơ sở Trịnh 
+Văn Bô và Hòa Lạc đã hỗ trợ em tra cứu tài liệu học tập, cung cấp số liệu báo cáo quý giá để em 
+xây dựng nội dung khách quan cho bài thi. 
+Cuối cùng, em kính chúc Ban Tổ chức cuộc thi dồi dào sức khỏe, chúc cuộc thi thành công và 
+lan tỏa tinh thần tự học đến sinh viên ĐHQGHN. Những bài học về tư duy độc lập từ "Khuyến 
+học" và giải pháp công nghệ BookMind AI sẽ mãi là hành trang quý giá đồng hành cùng em trên 
+con đường học tập phía trước. 
+ 
+Hà Nội, ngày 01 tháng 07 năm 2026 
+Người viết 
+ 
+ 
+ 
+Nguyen Tien Dat 
+Nguyễn Tiến Đạt 

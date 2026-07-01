@@ -1,0 +1,643 @@
+ĐẠI HỌC QUỐC GIA HÀ NỘI
+TRƯỜNG QUỐC TẾ
+CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+BÀI DỰ THI
+CUỘC THI ĐẠI SỨ VĂN HÓA ĐỌC NĂM 2026
+(Đề 1)
+Họ và tên thí sinh:  Nguyễn Tiến Đạt
+Mã số sinh viên:  24070342
+Năm sinh:  2006
+Ngành học:  Công nghệ thông tin ứng dụng (AIT)  •  Khóa K24
+Đơn vị:  Trường Quốc tế, Đại học Quốc gia Hà Nội
+Quê quán:  Hưng Yên (Thái Bình cũ)
+Đề dự thi:  Đề 1
+Số từ:  khoảng 4.700 từ
+Hà Nội, ngày 25 tháng 6 năm 2026
+Thí sinh dự thi
+(Ký, ghi rõ họ tên)
+MỤC LỤC
+LỜI MỞ ĐẦU------------------------------------------------------------------------------------------3
+CÂU 1. TÁC PHẨM GIÚP TÔI GIỮ BẢN LĨNH ĐỌC--------------------------------------4
+1. Vài nét về tác giả Yuval Noah Harari------------------------------------------------------4
+2. Tác phẩm 21 Bài Học Cho Thế Kỷ 21-----------------------------------------------------5
+3. Tóm tắt tác phẩm------------------------------------------------------------------------------6
+4. Bài học thứ nhất: Bản lĩnh đọc giữa bão thông tin---------------------------------------7
+5. Bài học thứ hai: Tự do trong kỷ nguyên thuật toán--------------------------------------8
+6. Bài học thứ ba: Khát vọng cống hiến giữa thời AI---------------------------------------9
+7. Liên hệ bản thân và các tác phẩm khác--------------------------------------------------10
+CÂU 2. SÁNG KIẾN BOOKMIND MULTI-AGENT---------------------------------------11
+1. Bối cảnh và lý do ra đời--------------------------------------------------------------------11
+2. Mục tiêu và đối tượng hưởng lợi----------------------------------------------------------12
+3. Kiến trúc Multi-Agent với LangGraph---------------------------------------------------13
+4. Thư viện dữ liệu và RAG------------------------------------------------------------------14
+5. Công nghệ triển khai------------------------------------------------------------------------15
+6. Chi phí, lộ trình và khả thi-----------------------------------------------------------------16
+LỜI CẢM ƠN-----------------------------------------------------------------------------------------17
+LỜI MỞ ĐẦU
+Em tên là Nguyễn Tiến Đạt, sinh năm 2006, sinh viên năm hai ngành Công nghệ thông 
+tin ứng dụng khóa K24, Trường Quốc tế, Đại học Quốc gia Hà Nội. Em lớn lên ở một thôn 
+nhỏ thuộc tỉnh Hưng Yên, vùng đất trước đây thuộc Thái Bình. Hồi em học tiểu học, nhà em 
+không có máy tính, không có điện thoại thông minh, cũng chẳng có Internet. Bố mẹ làm nông, 
+sáng sớm ra đồng, chiều về chăm vườn, bán hàng ở chợ xã. Thiết bị giải trí duy nhất của cả 
+nhà là một chiếc ti-vi hai mươi mốt inch cùng một chiếc đài radio cũ. Sau giờ học, việc duy 
+nhất khiến em không chán là ra sân chơi với đám bạn trong xóm, hoặc ngồi trên phản gỗ trước 
+hiên nhà, đọc những cuốn truyện cô giáo cho mượn.
+Cuốn sách đầu tiên em tự đọc hết là Truyện Kiều bản thiếu nhi, năm em chín tuổi. Lần 
+đầu mở trang đầu, em không hiểu chữ Hán Việt nào. Em phải tra từ điển liên tục, có lúc cả 
+chương chỉ đọc được vài câu. Nhưng chính cảm giác gập cuốn sách lại ở trang cuối cùng, sau 
+khoảng hai tuần chật vật, đã khiến em ghiền việc đọc. Từ đó, sách trở thành người bạn thân 
+nhất của tuổi thơ em. Khi bạn trong xóm bắt đầu chơi điện thoại, em vẫn ôm cuốn Tam Quốc 
+diễn nghĩa hoặc truyện cổ tích dân gian. Em không nói thế để khoe, em nói vì đó là sự thật: 
+đọc sách với em không phải một quyết định, mà là thói quen được hình thành từ hoàn cảnh.
+Hơn mười năm sau, em ngồi ở thư viện Trường Quốc tế, xung quanh là bạn bè đang mở 
+ChatGPT, Gemini, Claude, máy tính xách tay đầy logo các công ty công nghệ. Em học Công 
+nghệ thông tin, em dùng AI mỗi ngày, em viết code cùng GitHub Copilot, em hỏi ChatGPT 
+giải thích thuật toán khi profesor giảng quá nhanh. Nhưng có một câu hỏi em không tự trả lời 
+được: giữa lúc AI có thể tóm tắt cuốn sách trong ba mươi giây, viết hộ tiểu luận, đối thoại như 
+một người thầy, thì việc đọc sách thủ công, chậm rãi, đầy giới hạn, còn ý nghĩa gì? Cuộc thi 
+Đại sứ Văn hóa Đọc năm 2026 với chủ đề Trí tuệ nhân tạo và bản lĩnh đọc chính là cơ hội để 
+em đối mặt với câu hỏi đó một cách nghiêm túc.
+Bài dự thi có hai phần. Phần Câu 1, em chia sẻ về cuốn sách đã làm em thay đổi cách 
+nhìn về thời đại AI: 21 Bài Học Cho Thế Kỷ 21 của Yuval Noah Harari. Em chọn cuốn này vì 
+nó là một trong số ít sách em đọc xong phải đặt xuống, đứng dậy đi đi lại lại trong phòng, rồi 
+mới đọc tiếp được. Phần Câu 2, em trình bày ý tưởng BookMind, một trợ lý đọc sách dựa trên 
+kiến trúc đa tác nhân (Multi-Agent) kết hợp RAG, hướng tới việc phục vụ sinh viên VNU. Ý 
+tưởng này xuất phát từ chính chuyên ngành em đang học, từ những công nghệ em đã thực 
+hành qua repo GitHub cá nhân, từ những khó khăn em quan sát được khi tìm sách ở thư viện 
+trường. Em nhấn mạnh: BookMind là đề xuất có prototyp, không phải ý tưởng suông. Toàn 
+bộ stack công nghệ em dùng đều có thật, có mã nguồn mở, có thể triển khai trên Vercel và 
+Render bởi một sinh viên.
+Một điều cuối cùng em muốn nói rõ: bài này em tự viết, không dùng AI để thay mình viết 
+nội dung. Em chỉ dùng AI để kiểm tra chính tả và gợi ý vài cách hành văn. Phần lớn thời gian 
+viết, em ngồi ở thư viện Trường Quốc tế, bên cạnh chồng sách giấy em vẫn đang đọc dở. Đó 
+cũng là cách em thực hành chính bài học của Harari: dùng AI như công cụ, nhưng giữ cho 
+mình quyền đọc, quyền viết, quyền nghĩ chậm rãi.
+CÂU 1. TÁC PHẨM GIÚP TÔI GIỮ BẢN LĨNH ĐỌC
+Đề bài: Trong các tác phẩm đã đọc, tác phẩm nào có tác động mạnh mẽ đến tư duy, khơi 
+dậy khát vọng sáng tạo và tự tin bước vào kỷ nguyên mới? Trước sự bùng nổ của AI, tác 
+phẩm đó đã giúp anh (chị) giữ vững bản lĩnh đọc và chọn lọc tri thức như thế nào?
+1. Vài nét về tác giả Yuval Noah Harari
+Hình 1. Yuval Noah Harari, nhà sử học Israel (Nguồn: Znews)
+Yuval Noah Harari sinh năm 1976 tại Haifa, Israel. Ông là tiến sĩ lịch sử của Đại học 
+Oxford, hiện giảng dạy tại Đại học Hebrew của Jerusalem. Harari được biết đến rộng rãi từ 
+năm 2011 với cuốn Sapiens - Lược sử loài người, sau đó là Homo Deus (2017) và 21 Bài Học 
+Cho Thế Kỷ 21 (2018). Ba cuốn này tạo thành một bộ ba: Sapiens nhìn về quá khứ, 21 Bài 
+Học đối diện hiện tại, Homo Deus dự báo tương lai.
+Điều khiến em, một sinh viên công nghệ thông tin, ấn tượng với Harari không phải học vị 
+hay danh tiếng, mà là cách ông nhìn lịch sử như một lăng kính để hiểu hiện tại. Khi phần lớn 
+giới học thuật còn đang tranh cãi về định nghĩa AI, Harari đã đặt một câu hỏi khác, sâu hơn: 
+nếu thuật toán biết ta tốt hơn ta tự biết mình, thì tự do còn ý nghĩa gì? Câu hỏi ấy, với một 
+người đang học công nghệ như em, vừa hấp dẫn vừa đáng sợ. Em học công nghệ vì yêu nó, 
+nhưng em cũng muốn hiểu mình đang đứng ở đâu trong cuộc chạy đua mà chính những người 
+tạo ra AI còn chưa lường trước được đích đến.
+2. Tác phẩm 21 Bài Học Cho Thế Kỷ 21
+Hình 2. Bìa cuốn 21 Bài Học Cho Thế Kỷ 21, ấn bản tiếng Việt (Nguồn: Nhã Nam)
+Tên sách: 21 Bài Học Cho Thế Kỷ 21 (21 Lessons for the 21st Century)
+Tác giả: Yuval Noah Harari
+Dịch giả: Lê Vĩnh Tài
+Nhà xuất bản: Nhà xuất bản Thế Giới
+Đơn vị phát hành: Công ty Cổ phần Sách Alpha (Alpha Books), qua IPM
+Năm xuất bản: 2018 (ấn bản tiếng Việt)
+Cấu trúc: 21 chương, được chia thành 5 phần
+Số trang: 368 trang
+Cuốn sách được Harari chia thành năm phần: Thách thức công nghệ, Thách thức chính 
+trị, Thất vọng và hy vọng, Chân lý, Sống. Hai mươi mốt chương, mỗi chương là một bài học 
+tương đối độc lập nhưng có mạch liên kết chặt chẽ. Tám chương đầu, phần em cho là quan 
+trọng nhất, trực tiếp đối mặt với ba thách thức lớn của thời đại: sự bùng nổ của công nghệ sinh 
+học và trí tuệ nhân tạo, sự sụp đổ của những câu chuyện vĩ đại như chủ nghĩa tự do hay chủ 
+nghĩa dân tộc thuần túy, cùng sự hỗn loạn của thông tin số. Mỗi chương không dài, nhưng 
+Harari có khả năng kết nối những chủ đề tưởng chừng không liên quan, sinh học, tôn giáo, 
+kinh tế, chính trị, thành một bức tranh thống nhất.
+3. Tóm tắt tác phẩm
+Harari mở đầu cuốn sách bằng một quan sát lạnh lùng: loài người đang ở vị trí chưa từng 
+có trong lịch sử. Chúng ta đã giải quyết được nạn đói, dịch bệnh và chiến tranh ở mức độ 
+chưa từng thấy, dù không hoàn toàn, nhưng lại đứng trước những thách thức mới mà trí tuệ 
+tiến hóa của chúng ta chưa kịp thích nghi. Hai thách thức lớn nhất là trí tuệ nhân tạo và công 
+nghệ sinh học. Chúng có khả năng nâng cấp con người thành một giống loài khác, hoặc thay 
+thế chúng ta hoàn toàn.
+Chương em cho là trung tâm của cuốn sách nằm ở phần Thách thức công nghệ, với chủ 
+đề về tự do. Harari lập luận: trong thời đại trước, con người dùng lý trí để ra quyết định. 
+Trong thời đại thuật toán, các thuật toán sẽ ra quyết định thay chúng ta. Đáng sợ hơn, chúng 
+ra quyết định tốt hơn. Khi YouTube gợi ý video tiếp theo, khi TikTok giữ chúng ta dính thêm 
+ba mươi phút, khi Shopee gợi ý sản phẩm ta chưa từng nghĩ tới, đó không phải ngẫu nhiên. 
+Đó là kết quả của hàng tỷ điểm dữ liệu về hành vi con người được phân tích theo thời gian 
+thực. Càng dùng nhiều, thuật toán càng hiểu ta, đến mức hiểu ta hơn chính ta.
+Câu hỏi cốt lõi Harari đặt ra: nếu thuật toán biết ta thích gì, ghét gì, sợ gì, ao ước gì, tốt 
+hơn chính ta, thì bản ngã của ta còn thực sự tự do không? Khi ta chọn đọc một cuốn sách, là 
+do ta chọn, hay do một thuật toán đã gợi ý nó cho ta trên Facebook? Câu hỏi ấy khiến em mất 
+ngủ mấy đêm liền, vì nó đặt thẳng vào những thói quen em tưởng là tự do của mình.
+4. Bài học thứ nhất: Bản lĩnh đọc giữa bão thông tin
+"Trong một thế giới tràn ngập thông tin vô nghĩa, sự tĩnh lặng là một thứ xa xỉ."  — 
+Yuval Noah Harari, 21 Bài Học Cho Thế Kỷ 21
+Đây là bài học đầu tiên em rút ra, cũng là bài học thực tế nhất. Harari phân biệt rõ ràng 
+giữa thông tin và tri thức. Trước đây, thông tin khan hiếm, ai có thông tin có quyền lực. Ngày 
+nay, thông tin tràn ngập, ai có khả năng lọc thông tin mới thực sự có quyền lực. Sự khác biệt 
+ấy tưởng nhỏ nhưng lại là ranh giới giữa người chủ động và người bị dẫn dắt.
+Trước khi đọc sách này, mỗi tối em dành khoảng hai tiếng để lướt Facebook, YouTube và 
+TikTok. Em tưởng mình đang tiếp nhận thông tin, nhưng thực ra em đang bị thuật toán nuôi. 
+Mỗi tin tức em đọc, mỗi video em xem, mỗi bài đăng em thích, tất cả được một hệ thống ghi 
+lại rồi dùng để dự đoán em sẽ muốn xem gì tiếp theo. Hệ thống này không quan tâm em có 
+hiểu nội dung hay không, chỉ quan tâm em có dừng lại đủ lâu để quảng cáo được hiển thị.
+Sau khi đọc xong chương Tự do của Harari, em quyết định thử nghiệm một tháng: thay vì 
+lướt mạng mỗi tối, em dành bốn mươi lăm phút đọc một cuốn sách giấy. Em không tắt điện 
+thoại, em chỉ đặt nó sang phòng khác. Mười ngày đầu rất khó chịu. Tay em liên tục với lấy 
+điện thoại theo phản xạ. Nhưng đến khoảng ngày thứ mười lăm, em bắt đầu cảm nhận được 
+điều kỳ lạ: đầu óc em nhẹ hơn, tập trung hơn. Quan trọng nhất, em bắt đầu phân biệt được 
+giữa thông tin có giá trị và thông tin rác. Đây chính là bản lĩnh đọc mà Harari muốn nói: khả 
+năng tự chọn thông tin thay vì bị thông tin chọn mình.
+Càng đọc em càng nhận ra: khả năng tập trung đọc sâu mười lăm phút liên tục không phải 
+là kỹ năng tự nhiên, nó là kỹ năng phải rèn luyện. Hồi bé ở quê, em đọc sách được là vì không 
+có thiết bị điện tử cạnh tranh. Hôm nay, sinh viên em phải chủ động tạo lại môi trường tương 
+tự: tắt thông báo, đặt điện thoại sang phòng khác, dùng ứng dụng chặn mạng xã hội trong 
+khung giờ đọc. Đây không phải quay về quá khứ, mà là giữ gìn một kỹ năng quý giá giữa kỷ 
+nguyên số.
+5. Bài học thứ hai: Tự do trong kỷ nguyên thuật toán
+Hình 3. Trí tuệ nhân tạo: câu hỏi lớn không phải máy có thông minh hơn người, mà là người có còn tự do không 
+(Nguồn: Traveloka)
+Bài học thứ hai sâu sắc hơn. Harari không phủ nhận AI, ông thậm chí không sợ nó. Điều 
+ông sợ là con người sẽ tự nguyện trao quyền tự quyết cho thuật toán. Khi em mở Spotify và 
+chọn bài hát đầu tiên, thuật toán gợi ý năm mươi bài tiếp theo. Khi em mua một cuốn sách 
+trên Tiki, hệ thống gợi ý hai mươi cuốn khác em có thể thích. Dần dần, em không còn thực sự 
+chọn, em chỉ xác nhận những gì thuật toán đã chọn cho mình.
+Vì sao điều này nguy hiểm? Harari lấy ví dụ về hệ thống gợi ý của YouTube. Hệ thống 
+này được thiết kế để tối đa hóa thời gian xem. Nó phát hiện ra rằng nội dung gây phẫn nộ, sợ 
+hãi hoặc kích động giữ người xem lâu hơn nội dung bình tĩnh, phân tích. Vì vậy, thuật toán ưu 
+tiên đề xuất video gây phẫn nộ. Kết quả là một thế hệ người xem tin rằng thế giới đang điên 
+rồ, trong khi thực ra họ chỉ đang xem những video được thuật toán chọn để giữ họ dính màn 
+hình. Em tự kiểm tra lịch sử YouTube của mình và thấy rõ điều này: mỗi lần em xem một 
+video tiêu cực, mười video tiêu cực khác được đề xuất ngay sau đó.
+Đọc sách, theo cách em hiểu Harari, là một hành động khác. Khi em mở một cuốn sách, 
+em không bị một thuật toán điều khiển. Tác giả có thể có quan điểm, nhưng tác giả không thể 
+theo dõi con mắt em đang đọc dòng nào chậm hơn, không thể đo nhịp tim em khi đọc đoạn 
+cao trào, không thể gợi ý chương tiếp theo dựa trên hành vi của hàng triệu độc giả khác. Sách 
+buộc em phải tự đối thoại với chính mình. Đó có thể là vùng tự do cuối cùng của con người 
+trong kỷ nguyên thuật toán.
+Em không có ý chống lại AI. Em học Công nghệ thông tin ứng dụng, em dùng AI mỗi 
+ngày: GitHub Copilot gợi ý code, ChatGPT giải thích thuật toán khi em không hiểu, Gemini 
+dịch tài liệu tiếng Anh. Nhưng em sẽ không để AI thay thế việc đọc. Bởi vì đọc không chỉ là 
+tiếp thu thông tin. Đọc là cách em rèn khả năng tập trung, khả năng đồng cảm với một tác giả 
+ở đầu bên kia, khả năng phản biện chậm rãi và sâu sắc. Những khả năng ấy AI không thể cho 
+em. Và cũng không thể lấy đi, nếu em không tự nguyện giao chúng.
+6. Bài học thứ ba: Khát vọng cống hiến giữa thời AI
+Bài học thứ ba là bài học em cho là quan trọng nhất: AI có thể thay thế nhiều việc, nhưng 
+không thay thế được khát vọng cống hiến của một con người cụ thể. Harari kết thúc cuốn sách 
+bằng một chương ngắn tên Vài lời cuối. Ông viết: con người trong thế kỷ hai mươi mốt cần 
+biết nhiều điều, nhưng quan trọng nhất là biết mình là ai. Và để biết mình là ai, không có cách 
+nào khác ngoài việc quan sát chính mình, một cách chậm rãi, kiên nhẫn, không bị thuật toán 
+giục giã.
+Đọc sách, theo em hiểu, chính là hình thức quan sát bản thân sâu sắc nhất. Khi em đọc 
+Búp sen xanh của Sơn Tùng về tuổi thơ Bác Hồ, em không chỉ học lịch sử, em đối chiếu tuổi 
+thanh xuân của mình với tuổi thanh xuân của Người. Khi em đọc Mãi mãi tuổi hai mươi của 
+Nguyễn Văn Thạc, em không chỉ đọc một cuốn nhật ký, em đối chiếu ý nghĩa cuộc đời mình 
+với ý nghĩa cuộc đời một người đã hy sinh ở tuổi hai mươi mốt. AI có thể tóm tắt cả hai cuốn 
+sách trong ba mươi giây, nhưng AI không thể, sẽ không bao giờ, khóc khi đọc dòng cuối cùng 
+của Thạc. Cảm xúc ấy là của riêng con người.
+Đó chính là khát vọng cống hiến mà Thể lệ cuộc thi năm 2026 nhắc tới. Cống hiến không 
+phải làm việc vĩ đại. Cống hiến là dám sống một cuộc đời có ý nghĩa, dám chọn, giữa hàng 
+triệu lựa chọn thuật toán đưa ra, một lựa chọn thực sự là mình. Đó có thể là lựa chọn đọc sách 
+thay vì lướt mạng. Lựa chọn viết một bài dự thi này dù biết có hàng trăm bài khác hay hơn. 
+Lựa chọn học công nghệ để phục vụ con người, thay vì để con người phục vụ công nghệ. 
+Cống hiến, trong kỷ nguyên AI, bắt đầu từ những lựa chọn nhỏ ấy.
+7. Liên hệ bản thân và các tác phẩm khác
+Hình 4. Cánh đồng lúa quê hương Hưng Yên, nơi em từng đọc sách giấy dưới hiên nhà vì không có thiết bị điện 
+tử (Nguồn: Báo Quảng Ninh)
+Sau khi đọc xong 21 Bài Học Cho Thế Kỷ 21, em đã đọc thêm Sapiens và Homo Deus. 
+Bộ ba tạo nên một bức tranh thống nhất: Sapiens giải thích quá khứ, 21 Bài Học đối mặt với 
+hiện tại, Homo Deus dự báo tương lai. Đọc cả ba, em nhận ra một điều: kỷ nguyên AI không 
+phải ngày mai, nó đã bắt đầu từ hôm nay. Chúng ta, dù là sinh viên bình thường, đều có vai 
+trò trong việc định hình nó.
+Liên hệ với tác phẩm Việt Nam, em nghĩ đến Chí Phèo của Nam Cao. Báo chí thường nói 
+Chí Phèo là bi kịch của người nông dân bị tha hóa. Nhưng đọc lại trong bối cảnh AI, em thấy 
+câu chuyện khác đi: Chí Phèo không có tiếng nói của riêng mình, tiếng nói của anh bị xóm Vũ 
+Đại định nghĩa, bị Bá Kiến thao túng. Trong kỷ nguyên thuật toán, sẽ có hàng triệu Chí Phèo 
+số, những người không có câu chuyện riêng, chỉ có câu chuyện thuật toán kể cho họ. Đọc 
+sách, kể câu chuyện của mình, đó là cách chúng ta không trở thành những Chí Phèo của thế 
+kỷ hai mươi mốt.
+Liên hệ bản thân, em may mắn lớn lên ở vùng quê Hưng Yên, nơi hồi nhỏ không có 
+nhiều thiết bị điện tử. Sách là trò giải trí chính của em. Mỗi lần cô giáo cho mượn một cuốn 
+truyện, em đọc đi đọc lại nhiều lần, đến mức thuộc cả đoạn. Hôm nay, khi em ngồi viết bài 
+này ở thư viện Trường Quốc tế, xung quanh là bạn bè đang dùng ChatGPT và Gemini, em 
+nhận ra những năm tháng đọc sách ở quê đã cho em một món quà vô giá: khả năng tập trung 
+đọc sâu một văn bản dài mà không bồn chồn muốn bấm sang ứng dụng khác. Đó là nền tảng 
+em dùng để học Công nghệ thông tin hôm nay. Đó cũng là nền tảng em muốn lan tỏa qua bài 
+dự thi này.
+Em có một người em họ học lớp mười một. Hè vừa rồi em về quê, em ấy hỏi em một câu: 
+"Anh ơi, ChatGPT viết văn hay hơn em, em còn học văn làm gì?". Em không trả lời được 
+ngay. Em mượn em cuốn 21 Bài Học Cho Thế Kỷ 21, bảo em đọc xong rồi nói chuyện tiếp. 
+Hai tuần sau, em ấy nhắn tin cho em: "Anh ơi, cuốn sách này làm em sợ, nhưng em cũng hiểu 
+mình phải học thêm". Đó là khoảnh khắc em nhận ra: một cuốn sách có thể thay đổi tư duy 
+của một người. Một người có thể lan tỏa điều đó cho người khác. Đó chính là sứ mệnh của 
+một Đại sứ Văn hóa Đọc.
+CÂU 2. SÁNG KIẾN BOOKMIND MULTI-AGENT
+Đề bài: Anh (chị) hãy viết một sáng kiến ứng dụng trí tuệ nhân tạo (AI) để đổi mới 
+phương thức đọc và lan tỏa tri thức trong Đại học Quốc gia Hà Nội và cho cộng đồng.
+1. Bối cảnh và lý do ra đời
+Tên sáng kiến: BookMind - Trợ lý đọc sách đa tác nhân dựa trên LangGraph, LangChain 
+và RAG
+Tính chất: Đề xuất có prototyp, đang trong giai đoạn phát triển
+Lĩnh vực: Ứng dụng Multi-Agent AI trong gợi ý sách và hỏi đáp thư viện
+Đơn vị dự kiến triển khai: Sinh viên VNU-IS dùng thử, mở rộng tới các trường thành 
+viên VNU
+Mã nguồn dự kiến: Công khai trên GitHub cá nhân của em
+Tham chiếu kiến trúc: Repo fpt-multi-agent-system của em, đã triển khai trên 
+LangGraph
+BookMind ra đời từ một quan sát thực tế em gặp hàng ngày. Khi tìm tài liệu cho bài tiểu 
+luận ở thư viện Trường Quốc tế, em mất khoảng bốn mươi lăm phút chỉ để xác định cuốn 
+sách mình cần nằm ở kệ nào. Phần mềm tra cứu thư viện nhận từ khóa tiếng Việt chính xác, 
+không hiểu câu hỏi ngôn ngữ tự nhiên. Em là sinh viên công nghệ, quen dùng Google, 
+GitHub, Stack Overflow, nên việc phải dùng giao diện tra cứu kiểu cũ khiến em nhận ra: có 
+một khoảng cách lớn giữa công nghệ tìm kiếm hiện đại và giao diện thư viện đại học.
+Quan sát thứ hai: Trung tâm Thư viện và Tri thức số ĐHQGHN (VNU-LIC) đã có nền 
+tảng Bookworm tại địa chỉ bookworm.vnu.edu.vn, cung cấp hơn 170.000 học liệu số cho sinh 
+viên VNU. Đây là kho dữ liệu khổng lồ, nhưng để tra cứu, sinh viên vẫn phải vào website, 
+nhập từ khóa, lọc danh mục, đọc mô tả, so sánh từng cuốn. Quy trình này tốn thời gian và 
+thường khiến sinh viên bỏ cuộc giữa chừng. Nếu có một trợ lý AI hiểu được câu hỏi ngôn ngữ 
+tự nhiên, kết nối trực tiếp với kho Bookworm, thì việc tìm sách sẽ rút ngắn từ bốn mươi lăm 
+phút xuống dưới một phút.
+Quan sát thứ ba: trong lớp em có một bạn khiếm thị bẩm sinh. Bạn phải nhờ người khác 
+đọc hộ mọi tài liệu. Khi em hỏi bạn có dùng các ứng dụng sách nói AI không, bạn nói có, 
+nhưng giọng đọc máy rất khó nghe và không hiểu từ địa phương. Đây là một nhu cầu rất cụ 
+thể: sách nói AI tiếng Việt chất lượng cao, đa vùng phương ngữ, vẫn là một khoảng trống.
+Ba quan sát ấy, cộng với việc em đang học Công nghệ thông tin ứng dụng và đã thực 
+hành kiến trúc đa tác nhân qua repo GitHub cá nhân có tên fpt-multi-agent-system, khiến em 
+tự hỏi: tại sao không dùng chính kiến trúc Multi-Agent đã biết để giải quyết bài toán tìm 
+sách? Ý tưởng BookMind bắt đầu từ câu hỏi đó. Em đặt tên BookMind vì hai chữ: Book 
+(sách) và Mind (tâm hồn, trí óc). Tên gọi hàm ý: AI chỉ là bộ óc phụ trợ, còn tâm hồn đọc vẫn 
+thuộc về con người.
+2. Mục tiêu và đối tượng hưởng lợi
+BookMind đặt ra bốn mục tiêu cụ thể, có thể đo lường được, trong mười hai tháng đầu 
+triển khai:
+STT
+Mục tiêu
+Chỉ tiêu định lượng (dự kiến)
+1
+Rút ngắn thời gian tìm sách 
+trong kho VNU-LIC
+Từ trung bình 45 phút xuống 
+dưới 5 phút
+2
+Tăng tỷ lệ sinh viên VNU chủ 
+động tìm sách ngoài giáo trình
+Tăng 30% lượt truy cập 
+bookworm.vnu.edu.vn qua 
+BookMind
+3
+Hỗ trợ người khuyết tật chữ in 
+tiếp cận sách nói AI
+Có ít nhất 50 đầu sách Việt 
+được chuyển thành sách nói đa 
+vùng phương ngữ
+4
+Mở mã nguồn để sinh viên các 
+trường VNU khác tự triển khai
+Repo GitHub có ít nhất 50 star 
+và 3 contributor
+Sáng kiến hướng tới bốn nhóm đối tượng, bám sát yêu cầu thể lệ về cộng đồng khó tiếp 
+cận tri thức:
+Nhóm đối tượng
+Nhu cầu cụ thể
+Cách BookMind đáp ứng
+Sinh viên VNU-IS và các 
+trường thành viên VNU
+Tìm sách nhanh, gợi ý sách 
+theo chuyên ngành
+Trợ lý AI trả lời câu hỏi ngôn 
+ngữ tự nhiên, kết nối dữ liệu 
+bookworm.vnu.edu.vn
+Sinh viên quốc tế, học bổng
+Tài liệu tiếng Anh hoặc song 
+ngữ
+AI dịch tự động mô tả sách, hỗ 
+trợ tìm kiếm đa ngôn ngữ
+Người khuyết tật chữ in (khiếm 
+thị, khó đọc)
+Sách nói chất lượng cao, điều 
+khiển giọng nói
+Text-to-Speech tiếng Việt với 
+ba vùng phương ngữ Bắc, 
+Trung, Nam
+Sinh viên các trường đại học 
+khác có nhu cầu tương tự
+Mã nguồn mở để tự triển khai
+Repo GitHub công khai, tài 
+liệu hướng dẫn cài đặt
+3. Kiến trúc Multi-Agent với LangGraph
+BookMind không phải là một chatbot đơn giản, mà là một hệ thống đa tác nhân (Multi-
+Agent). Mỗi agent đảm nhận một vai trò chuyên biệt, được điều phối bởi một Supervisor 
+Agent dùng kiến trúc LangGraph của LangChain. Lý do em chọn kiến trúc này thay vì một 
+LLM đơn lẻ: mỗi agent có prompt riêng, context riêng, công cụ riêng, nên chất lượng câu trả 
+lời tốt hơn nhiều so với một LLM cố gắng làm tất cả. Kiến trúc này em đã triển khai thành 
+công trong repo fpt-multi-agent-system của mình, nên em tự tin là khả thi cho BookMind.
+Sơ đồ kiến trúc tổng quát (5 agent):
+                    ┌─────────────────────────┐
+                    │   Người dùng (Web UI)   │
+                    │  Next.js trên Vercel    │
+                    └────────────┬─────────────┘
+                                 │  Câu hỏi ngôn ngữ tự nhiên
+                                 ▼
+                    ┌─────────────────────────┐
+                    │  Supervisor Agent       │  ← LangGraph State
+                    │  (Router - điều phối)   │     Định tuyến query
+                    └────────────┬─────────────┘
+        ┌─────────────┬──────────┼──────────┬──────────────┐
+        ▼             ▼          ▼          ▼              ▼
+  ┌──────────┐  ┌──────────┐ ┌─────────┐ ┌──────────┐  ┌──────────┐
+  │ Profile  │  │ Retrieval│ │ Recom-  │ │  Q&A     │  │ Citation │
+  │ Agent    │  │ Agent    │ │ mend    │ │  Agent   │  │ Agent    │
+  │ (thích)  │  │ (RAG)    │ │ Agent   │ │ (đọc)    │  │ (nguồn)  │
+  └──────────┘  └────┬─────┘ └─────────┘ └──────────┘  └──────────┘
+                     │
+                     ▼
+              ┌─────────────────────┐
+              │  Vector DB          │
+              │  (ChromaDB local    │
+              │   hoặc Pinecone)    │
+              └─────────────────────┘
+                     ▲
+                     │ Embedding (text-embedding-3-small)
+                     │
+              ┌─────────────────────┐
+              │  Nguồn dữ liệu sách │
+              │  - bookworm.vnu     │
+              │  - Open Library API │
+              │  - Google Books API │
+              └─────────────────────┘
+Vai trò từng agent:
+Supervisor Agent (Router): là bộ não điều phối. Khi nhận câu hỏi của người dùng, agent 
+này dùng LLM để phân loại ý định: hỏi tìm sách, hỏi nội dung sách, hỏi gợi ý theo sở thích, 
+hay hỏi thông tin metadata. Tùy vào phân loại, agent sẽ chuyển yêu cầu tới một hoặc nhiều 
+agent chuyên trách. Cách thiết kế này em tham khảo từ tài liệu chính thức của LangChain về 
+Multi-Agent System.
+Profile Agent: chịu trách nhiệm xây dựng hồ sơ sở thích của người dùng. Khi người dùng 
+lần đầu dùng BookMind, agent này sẽ hỏi vài câu ngắn: bạn thích thể loại nào, đang học 
+chuyên ngành gì, mục đích đọc là gì. Thông tin này được lưu vào state graph của LangGraph 
+để các agent khác dùng chung. Đây là điểm khác biệt quan trọng: BookMind không chỉ gợi ý 
+sách dựa trên query hiện tại, mà còn dựa trên profile tích lũy.
+Retrieval Agent: là mắt xích cốt lõi, thực hiện RAG (Retrieval-Augmented Generation). 
+Khi được yêu cầu, agent này sẽ tìm kiếm trong vector database các sách có embedding gần 
+nhất với câu hỏi của người dùng. Vector database được xây dựng từ metadata sách: tên, tác 
+giả, mô tả, NXB, danh mục, ISBN. Kết quả retrieval là top-k sách phù hợp nhất, được chuyển 
+cho Recommendation Agent.
+Recommendation Agent: nhận top-k sách từ Retrieval Agent, kết hợp với profile người 
+dùng từ Profile Agent, dùng LLM để chấm điểm và xếp hạng. Agent này cũng tạo ra câu giải 
+thích vì sao lại gợi ý cuốn này thay vì cuốn kia. Ví dụ: "Cuốn X phù hợp với bạn vì bạn đang 
+học AIT và quan tâm tới AI, cuốn này do NXB Kim Đồng phát hành năm 2023, có tại 
+bookworm.vnu.edu.vn". Câu giải thích này làm tăng niềm tin của người dùng.
+Q&A Agent: chịu trách nhiệm trả lời câu hỏi cụ thể về một cuốn sách. Khi người dùng 
+hỏi: "Cuốn 21 Bài Học Cho Thế Kỷ 21 nói về điều gì?", Q&A Agent sẽ retrieve phần mô tả 
+của cuốn đó, có thể cả phần mục lục hoặc chương đầu (nếu NXB cho phép), rồi tóm tắt ngắn 
+gọn. Nguyên tắc cốt lõi: agent không bịa, chỉ trả lời dựa trên tài liệu đã retrieve, luôn trích 
+nguồn rõ ràng.
+Citation Agent: kiểm tra câu trả lời cuối cùng trước khi trả về người dùng. Agent này 
+đảm bảo mọi thông tin đều có nguồn rõ ràng: tên sách, tác giả, NXB, link mượn. Đây là cách 
+em hiện thực hóa bài học của Harari: AI gợi ý và kết nối, con người đọc và suy ngẫm.
+4. Thư viện dữ liệu và RAG
+RAG (Retrieval-Augmented Generation) là kỹ thuật kết hợp truy xuất tài liệu và sinh văn 
+bản, nhằm giảm thiểu hiện tượng AI bịa thông tin (hallucination). Trong BookMind, RAG 
+được áp dụng như sau.
+Quy trình RAG trong BookMind (4 bước):
+Bước
+Hoạt động
+Công cụ
+1. Indexing
+Thu thập metadata sách từ 
+nguồn, embedding, lưu vào 
+vector DB
+Open Library API, Google 
+Books API, web scraping 
+bookworm.vnu.edu.vn (trong 
+giới hạn pháp lý)
+2. Retrieval
+Khi có query, embedding query 
+rồi tìm top-k sách gần nhất
+ChromaDB (local) hoặc 
+Pinecone (free tier 100k 
+vectors)
+3. Augmentation
+Gắn kết quả retrieval vào 
+prompt của LLM
+LangChain PromptTemplate
+4. Generation
+LLM sinh câu trả lời dựa trên 
+tài liệu đã retrieve
+GPT-4o-mini (OpenAI API)
+Về nguồn dữ liệu sách, BookMind sẽ kết hợp ba nguồn chính. Một là Open Library API 
+(openlibrary.org), nguồn mở miễn phí của Internet Archive, có hàng triệu cuốn sách với 
+metadata đầy đủ. Hai là Google Books API, cũng miễn phí với giới hạn 1.000 request/ngày, 
+đủ cho prototyp. Ba là dữ liệu từ bookworm.vnu.edu.vn, hệ thống học liệu của VNU-LIC. 
+VNU-LIC hiện chưa cung cấp API công khai chính thức, nên bước đầu em sẽ thu thập 
+metadata sách thông qua tra cứu công khai trên website (tuân thủ robots.txt và điều khoản sử 
+dụng). Nếu được Ban Tổ chức hoặc Thư viện Trường Quốc tế hỗ trợ giới thiệu với VNU-LIC 
+để xin quyền truy cập API nội bộ, đó sẽ là điều kiện lý tưởng để mở rộng quy mô dữ liệu.
+Về mô hình embedding, em dùng text-embedding-3-small của OpenAI, giá rẻ (0,02 USD 
+mỗi một triệu token), chất lượng đủ tốt cho tiếng Việt. Số sách dự kiến index trong giai đoạn 
+prototyp là 10.000 cuốn, mỗi cuốn metadata khoảng 200 token, tổng 2 triệu token, chi phí 
+embedding khoảng 0,04 USD (khoảng 1.000 đồng). Đây là con số khả thi cho một sinh viên.
+5. Công nghệ triển khai
+Em chọn stack công nghệ dựa trên ba tiêu chí: mã nguồn mở, miễn phí hoặc có free tier, 
+và đã được em thực hành qua repo cá nhân. Bảng dưới liệt kê chi tiết:
+Thành phần
+Công nghệ chọn
+Lý do
+LLM
+GPT-4o-mini (OpenAI)
+Giá rẻ (0,15 USD/1M token 
+input), chất lượng đủ tốt cho 
+tiếng Việt
+Embedding
+text-embedding-3-small 
+(OpenAI)
+Giá 0,02 USD/1M token, phù 
+hợp tiếng Việt
+Framework Agent
+LangGraph + LangChain
+Mã nguồn mở, cộng đồng lớn, 
+em đã thực hành
+Vector DB
+ChromaDB (local) hoặc 
+Pinecone (free tier)
+ChromaDB chạy local không 
+tốn phí; Pinecone free 100k 
+vector
+Backend API
+FastAPI (Python)
+Hiệu năng cao, dễ viết, phù hợp 
+với AI workload
+Frontend
+Next.js + Tailwind CSS
+Deploy miễn phí trên Vercel, 
+SEO-friendly
+Hosting Backend
+Render (free tier)
+Free 750 giờ/tháng, đủ cho 
+prototyp
+Hosting Frontend
+Vercel (free tier)
+Free không giới hạn cho hobby 
+project
+Source control
+GitHub
+Công khai, có GitHub Actions 
+free cho CI/CD
+Logging
+LangSmith (free tier)
+Trace LangGraph workflow, 
+debug dễ dàng
+Toàn bộ stack trên đều có phiên bản miễn phí hoặc free tier đủ cho prototyp. Đây là điểm 
+khác biệt quan trọng của BookMind so với các sáng kiến AI thông thường: không cần ngân 
+sách lớn, không cần đội ngũ lớn, một sinh viên có thể tự xây dựng và duy trì. Cách tiếp cận 
+này phù hợp với triết lý của LangChain: biến công nghệ AI phức tạp thành sản phẩm thực tế 
+có thể deploy trong một cuối tuần.
+Cấu trúc repo GitHub dự kiến (lấy cảm hứng từ fpt-multi-agent-system của em):
+bookmind-multi-agent/
+├── README.md                    # Hướng dẫn cài đặt, demo
+├── LICENSE                      # MIT
+├── .env.example                 # Mẫu biến môi trường (không commit key thật)
+├── docker-compose.yml           # ChromaDB local + Redis (optional)
+│
+├── backend/                     # Python FastAPI + LangGraph
+│   ├── main.py                  # FastAPI app entry point
+│   ├── agents/
+│   │   ├── supervisor.py        # Router agent (LangGraph)
+│   │   ├── profile.py           # Profile agent
+│   │   ├── retrieval.py         # RAG retrieval agent
+│   │   ├── recommendation.py    # Recommendation agent
+│   │   ├── qa.py                # Q&A agent
+│   │   └── citation.py          # Citation agent
+│   ├── graph/
+│   │   └── workflow.py          # LangGraph StateGraph definition
+│   ├── tools/
+│   │   ├── vector_db.py         # ChromaDB / Pinecone wrapper
+│   │   ├── openlibrary.py       # Open Library API client
+│   │   ├── google_books.py      # Google Books API client
+│   │   └── vnu_bookworm.py      # VNU-LIC Bookworm scraper
+│   ├── prompts/                 # Prompt templates cho mỗi agent
+│   ├── models/                  # Pydantic schemas
+│   └── requirements.txt
+│
+├── frontend/                    # Next.js + Tailwind
+│   ├── app/
+│   │   ├── page.tsx             # Chat interface
+│   │   └── api/chat/route.ts    # Proxy tới backend
+│   ├── components/
+│   │   ├── ChatBox.tsx
+│   │   ├── BookCard.tsx
+│   │   └── ProfileForm.tsx
+│   └── package.json
+│
+├── scripts/
+│   ├── index_books.py           # Index sách vào vector DB
+│   └── evaluate_rag.py          # Đánh giá chất lượng RAG
+│
+└── docs/
+    ├── architecture.md          # Tài liệu kiến trúc
+    ├── deployment.md            # Hướng dẫn deploy
+    └── api_contract.md          # REST API contract
+6. Chi phí, lộ trình và khả thi
+Bảng chi phí vận hành tháng đầu (ước tính):
+Hạng mục
+Chi phí dự kiến (VNĐ/tháng)
+Ghi chú
+Phí API GPT-4o-mini (cho 5 
+agent)
+100.000
+Ước tính 30.000 lượt gọi/tháng, 
+mỗi lượt ~500 token
+Phí API embedding (text-
+embedding-3-small)
+5.000
+Index 10.000 cuốn + 
+embedding query real-time
+Vercel (frontend)
+0
+Free tier hobby đủ dùng
+Render (backend)
+0
+Free tier 750 giờ/tháng đủ 
+prototyp
+ChromaDB (local file)
+0
+Chạy cùng backend, không tốn 
+thêm
+Tên miền tùy chọn 
+(.vercel.app)
+0
+Dùng subdomain miễn phí
+Tổng cộng
+105.000
+Có thể giảm nếu đăng ký 
+OpenAI credit sinh viên
+Chi phí một trăm lẻ năm nghìn đồng mỗi tháng là con số hoàn toàn trong khả năng của 
+một sinh viên. So với các sáng kiến AI khác thường cần vài triệu đồng mỗi tháng cho hosting 
+và API, BookMind có lợi thế rõ ràng: toàn bộ hạ tầng đều dùng free tier, chỉ trả tiền cho API 
+LLM và embedding.
+Lộ trình triển khai (12 tháng, 3 giai đoạn):
+Giai đoạn
+Thời gian
+Hoạt động chính
+Kết quả kỳ vọng
+Giai đoạn 1
+Tháng 9 - 11/2026
+Hoàn thiện prototyp: 5 
+agent, RAG với 1.000 
+cuốn sách, deploy lên 
+Render + Vercel
+Repo GitHub công 
+khai, có demo link, 10 
+người bạn dùng thử
+Giai đoạn 2
+Tháng 12/2026 - 
+3/2027
+Mở rộng dữ liệu lên 
+10.000 cuốn, kết nối 
+Open Library và 
+Google Books
+100 sinh viên VNU-IS 
+dùng thử, thu thập 
+feedback
+Giai đoạn 3
+Tháng 4 - 8/2027
+Tích hợp dữ liệu 
+bookworm.vnu.edu.vn, 
+thêm sách nói AI TTS 
+cho người khuyết tật 
+chữ in
+50 đầu sách nói AI, 1 
+bài báo trên fanpage 
+CLB CNTT VNU-IS
+Về tính khả thi: toàn bộ công nghệ em dùng đều có sẵn, có mã nguồn mở hoặc có free 
+tier. Em đã triển khai thành công kiến trúc Multi-Agent tương tự trong repo fpt-multi-agent-
+system của mình, dùng LangGraph để điều phối bốn agent. Việc chuyển kiến trúc đó sang 
+phục vụ tìm sách là khả thi hoàn toàn. Điểm khó nhất không phải công nghệ, mà là xin quyền 
+truy cập dữ liệu sách từ VNU-LIC. Em dự kiến bắt đầu với nguồn dữ liệu công khai (Open 
+Library, Google Books). Đồng thời xin hỗ trợ từ Ban Tổ chức hoặc Thư viện Trường Quốc tế 
+để tiếp cận VNU-LIC chính thức.
+Về giới hạn: em nhận thức rõ BookMind sẽ gặp ba thách thức. Thứ nhất, chất lượng RAG 
+phụ thuộc vào độ phong phú của metadata. Với sách tiếng Việt, metadata trên Open Library 
+và Google Books còn hạn chế. Thứ hai, khi không có API chính thức từ VNU-LIC, việc 
+scrape dữ liệu từ bookworm.vnu.edu.vn phải làm cẩn thận để không vi phạm điều khoản sử 
+dụng. Thứ ba, chi phí API sẽ tăng khi số người dùng tăng, cần có chiến lược caching (đã có 
+sẵn trong LangGraph) để tối ưu. Đây là những rủi ro em đã tính tới và có kế hoạch đối phó 
+từng bước.
+Về tính bền vững: BookMind không phụ thuộc vào một cá nhân. Khi em tốt nghiệp (dự 
+kiến 2028), mã nguồn được công bố công khai trên GitHub, có tài liệu hướng dẫn cài đặt đầy 
+đủ, để bất kỳ sinh viên VNU nào quan tâm cũng có thể tiếp tục phát triển. Đây là điều kiện cốt 
+lõi để sáng kiến không chết yểi sau cuộc thi.
+LỜI CẢM ƠN
+Em xin gửi lời cảm ơn chân thành đến Ban Tổ chức Cuộc thi Đại sứ Văn hóa Đọc 
+Trường Quốc tế năm 2026 đã tạo ra một diễn đàn ý nghĩa để sinh viên được sẻ chia tình yêu 
+sách trong kỷ nguyên số. Em cảm ơn các thầy cô giáo bộ môn Công nghệ thông tin ứng dụng 
+tại Trường Quốc tế đã truyền cho em không chỉ kiến thức mà cả niềm tin rằng công nghệ sinh 
+ra để phục vụ con người, không phải ngược lại. Em cảm ơn Thư viện Trường Quốc tế, nơi em 
+đã dành rất nhiều buổi tối đọc sách và ấp ủ ý tưởng BookMind. Em cảm ơn bố mẹ ở Hưng 
+Yên, những người nông dân chưa từng học đại học nhưng đã nuôi em bằng cách cho em tiếp 
+cận sách từ khi em còn nhỏ, dù gia đình khi đó không có khả năng mua nhiều sách. Em cảm 
+ơn em họ em, người đã đặt cho em câu hỏi khiến em phải nghĩ suốt nhiều tháng: "Anh ơi, 
+ChatGPT viết văn hay hơn em, em còn học văn làm gì?". Cuối cùng, em cảm ơn Yuval Noah 
+Harari, vì đã viết một cuốn sách khiến một sinh viên công nghệ như em phải dừng lại, nhìn 
+lại, rồi đọc chậm hơn.
+Hà Nội, ngày 25 tháng 6 năm 2026
+Thí sinh dự thi
+Nguyễn Tiến Đạt
+MSSV: 24070342  •  AIT - K24
