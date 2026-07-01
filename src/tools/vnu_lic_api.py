@@ -158,54 +158,80 @@ def search_koha_api(query: str) -> list:
     return results
 
 def search_dspace_api(query: str) -> list:
-    """Query the real Semantic Scholar API in real-time,
-    providing access to millions of academic papers, theses, and journals.
+    """Query the official VNU Repository (DSpace 7) REST API in real-time,
+    fetching actual academic thesis and publications with direct PDF bitstream links.
     """
     if not query or not query.strip():
         return []
         
     results = []
     
-    # ── 1. SEMANTIC SCHOLAR API (REAL ACADEMIC SEARCH) ───────────────────────
     try:
         safe_query = urllib.parse.quote(query.strip())
-        url = f"https://api.semanticscholar.org/graph/v1/paper/search?query={safe_query}&limit=4&fields=title,authors,year,openAccessPdf,url"
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+        # Query discover search endpoint of DSpace 7
+        url = f"https://repository.vnu.edu.vn/server/api/discover/search/objects?query={safe_query}&size=4"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"})
         
-        with urllib.request.urlopen(req, context=ssl_context, timeout=5) as resp:
+        with urllib.request.urlopen(req, context=ssl_context, timeout=8) as resp:
             data = json.loads(resp.read().decode("utf-8"))
-            papers = data.get("data", [])
-            for idx, paper in enumerate(papers):
-                title = paper.get("title", "Nghiên cứu khoa học")
-                paper_id = paper.get("paperId", f"vnu_{idx}")
-                year = paper.get("year", "2025")
+            
+        objects = data.get("_embedded", {}).get("searchResult", {}).get("_embedded", {}).get("objects", [])
+        for idx, obj in enumerate(objects):
+            indexable = obj.get("_embedded", {}).get("indexableObject", {})
+            title = indexable.get("name", "Tài liệu học thuật")
+            uuid = indexable.get("uuid", "")
+            
+            # Find handle URI in metadata
+            metadata = indexable.get("metadata", {})
+            uris = metadata.get("dc.identifier.uri", [])
+            handle_url = uris[0].get("value") if uris else f"https://repository.vnu.edu.vn/handle/VNU_123/{idx}"
+            
+            # Get date
+            dates = metadata.get("dc.date.issued", [])
+            date_str = dates[0].get("value") if dates else "2025"
+            
+            # Get author
+            authors_list = metadata.get("dc.contributor.author", []) or metadata.get("dc.creator", [])
+            author_str = authors_list[0].get("value") if authors_list else "Tác giả ĐHQGHN"
+            
+            # Query bundles to locate original PDF file
+            pdf_link = handle_url
+            bundles_url = f"https://repository.vnu.edu.vn/server/api/core/items/{uuid}/bundles"
+            try:
+                b_req = urllib.request.Request(bundles_url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"})
+                with urllib.request.urlopen(b_req, context=ssl_context, timeout=5) as b_resp:
+                    b_data = json.loads(b_resp.read().decode("utf-8"))
+                    bundles = b_data.get("_embedded", {}).get("bundles", [])
+                    for b in bundles:
+                        if b.get("name") == "ORIGINAL":
+                            bitstreams_url = b.get("_links", {}).get("bitstreams", {}).get("href")
+                            bs_req = urllib.request.Request(bitstreams_url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"})
+                            with urllib.request.urlopen(bs_req, context=ssl_context, timeout=5) as bs_resp:
+                                bs_data = json.loads(bs_resp.read().decode("utf-8"))
+                                bitstreams = bs_data.get("_embedded", {}).get("bitstreams", [])
+                                if bitstreams:
+                                    # Use the first bitstream download link
+                                    pdf_link = bitstreams[0].get("_links", {}).get("content", {}).get("href", handle_url)
+                                    break
+            except Exception:
+                pass
                 
-                # Extract direct PDF download or view link
-                pdf_obj = paper.get("openAccessPdf")
-                pdf_link = ""
-                if pdf_obj and isinstance(pdf_obj, dict):
-                    pdf_link = pdf_obj.get("url", "")
-                if not pdf_link:
-                    pdf_link = paper.get("url", "")
-                
-                # Mock handle format for VNU-LIC DSpace binding
-                handle_id = f"11122/{60000 + idx}"
-                results.append({
-                    "id": handle_id,
-                    "title": title,
-                    "author": "Tác giả nghiên cứu (Semantic Scholar)",
-                    "date": str(year),
-                    "handle": handle_id,
-                    "url": f"https://www.semanticscholar.org/paper/{paper_id}",
-                    "type": "Tài liệu luận văn số / Nghiên cứu VNU-LIC",
-                    "pdf_url": pdf_link
-                })
+            results.append({
+                "id": f"vnu/{uuid[:8]}",
+                "title": title,
+                "author": author_str,
+                "date": date_str,
+                "handle": handle_url.replace("http://repository.vnu.edu.vn/handle/", ""),
+                "url": handle_url,
+                "type": "Tài liệu luận văn số / Nghiên cứu VNU-LIC",
+                "pdf_url": pdf_link
+            })
+            
     except Exception as e:
-        print(f"Semantic Scholar API Error: {e}")
+        print(f"VNU DSpace 7 API Error: {e}")
         
-    # ── 2. STATIC FAILSAFE FALLBACK (Only used if online academic API fails/rate-limited) ──
+    # Failsafe fallback
     if not results:
-        print("Online academic API failed/rate-limited. Activating local failsafe database...")
         results = [
             {
                 "id": "11122/1054",
