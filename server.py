@@ -407,9 +407,9 @@ async def run_agents(request: RunRequest):
                     # Clean internal filenames programmatically
                     final_report = clean_internal_filenames(final_report)
                     try:
-    Path(OUTPUT_DIR).mkdir(exist_ok=True)
-except Exception:
-    pass
+                        Path(OUTPUT_DIR).mkdir(exist_ok=True)
+                    except Exception:
+                        pass
                     (Path(OUTPUT_DIR) / "research_report.md").write_text(final_report, encoding="utf-8")
 
                     # Read diagram and explanation if they exist to pass directly in SSE done event
