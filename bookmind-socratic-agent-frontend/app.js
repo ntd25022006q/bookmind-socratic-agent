@@ -37,22 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function getApiPrefix() {
     return 'https://bookmind-socratic-agent.onrender.com';
 }
-    // Connected to the Socratic backend Web Service
-    return "https://bookmind-socratic-agent-backend.onrender.com";
-}
-    // Connected to the User-Created Render backend Web Service
-    return "https://bookmind-socratic-agent.onrender.com";
-}
-    // Connected to the Render backend Web Service
-    return "https://bookmind-socratic-agent-backend.onrender.com";
-}
-    // Relative path routes to the same Vercel domain automatically!
-    return "";
-}
-        return 'https://bookmind-socratic-agent.onrender.com';
-    }
 
-    function checkServerConnection() {
+function checkServerConnection() {
         const dot = document.getElementById('connection-status-dot');
         if (!dot) return;
 
