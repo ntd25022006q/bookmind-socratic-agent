@@ -27,7 +27,7 @@ async def reporter_node(state: ResearchState, config=None) -> dict:
         from src.utils.llm_factory import QueueCallbackHandler
         call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "reporter")]
         
-    prompt = f"""Bạn là Reporter Agent tổng hợp của VNU BookMind Socratic. Hãy tổng hợp báo cáo đọc sách chi tiết, đẹp mắt bằng Markdown. Đảm bảo giữ lại đầy đủ các liên kết [Đọc bản PDF / Đọc trực tuyến tại đây](địa_chỉ_pdf_url) cho mỗi cuốn sách và tài liệu nghiên cứu.
+    prompt = f"""Bạn là Reporter Agent tổng hợp của VNU BookMind Socratic. Hãy tổng hợp báo cáo đọc sách chi tiết, đẹp mắt bằng Markdown.\n    CRITICAL WARNING FOR DETAILED REPORT:\n    - Báo cáo chi tiết phải tự viết lại đầy đủ thông tin chi tiết, phân tích lập luận sâu sắc, không được viết tóm tắt.\n    - TUYỆT ĐỐI KHÔNG ĐƯỢC sử dụng các câu tóm tắt hoặc placeholder mang tính chất lười biếng như '(Đã chứa trong phần trên — không lặp lại)' hoặc '(Xem chi tiết tại mục...)'. Tất cả thông tin phải được hiển thị đầy đủ, trình bày trực quan và chuyên nghiệp.\n Đảm bảo giữ lại đầy đủ các liên kết [Đọc bản PDF / Đọc trực tuyến tại đây](địa_chỉ_pdf_url) cho mỗi cuốn sách và tài liệu nghiên cứu.
     Báo cáo bao gồm:
     - Bối cảnh và Tinh thần Đọc sách Socratic tại VNU
     - Hồ sơ học thuật của độc giả

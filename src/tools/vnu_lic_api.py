@@ -163,7 +163,8 @@ def fetch_pdf_link_for_item(obj, idx):
                         bs_data = json.loads(bs_resp.read().decode("utf-8"))
                         bitstreams = bs_data.get("_embedded", {}).get("bitstreams", [])
                         if bitstreams:
-                            pdf_link = bitstreams[0].get("_links", {}).get("content", {}).get("href", handle_url)
+                            # For browser usability without token headers, link to the UI handle landing page
+                            pdf_link = handle_url
                             break
     except Exception:
         pass

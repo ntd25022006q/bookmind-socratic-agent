@@ -999,7 +999,8 @@ function checkServerConnection() {
     function stripMathFormulas(text) {
         if (!text) return '';
         // Remove display math $$...$$
-        let cleaned = text.replace(/\$\$[\s\S]+?\$\$/g, '');
+        let cleaned = text
+            .replace(/\*/g, '') // Remove all asterisks globally to prevent ** styling artifacts in console log.replace(/\$\$[\s\S]+?\$\$/g, '');
         // Remove inline math $...$ (but not currency like $100)
         cleaned = cleaned.replace(/\$([^\$\n]{1,}?)\$/g, (match, inner) => {
             // If it looks like a math expression (contains letters, operators, etc.), remove it
@@ -1022,6 +1023,7 @@ function checkServerConnection() {
     function stripMarkdown(text) {
         if (!text) return '';
         let cleaned = text
+            .replace(/\*/g, '') // Remove all asterisks globally to prevent ** styling artifacts in console log
             .replace(/\*\*([^*]+)\*\*/g, '$1')
             .replace(/\*([^*]+)\*/g, '$1')
             .replace(/`([^`]+)`/g, '$1')
@@ -1075,7 +1077,8 @@ function checkServerConnection() {
 
     function cleanInternalFilenames(text) {
         if (!text) return '';
-        let cleaned = text;
+        let cleaned = text
+            .replace(/\*/g, '') // Remove all asterisks globally to prevent ** styling artifacts in console log;
         
         // 1. Remove RAG prefixes and list of files in parentheses
         const prefixPat = /(?:Truy\s+xuất\s+dữ\s+liệu|Truy\s+xuất\s+tri\s+thức|Nguồn\s+dữ\s+liệu|Tham\s+khảo)\s+từ\s+(?:kho\s+)?(?:tri\s+thức|dữ\s+liệu)\s+nội\s+bộ\s*(?:\([^)]*\)|:[^\n.]*|)/gi;
@@ -1110,7 +1113,8 @@ function checkServerConnection() {
 
     function cleanReportContent(text) {
         if (!text) return '';
-        let cleaned = text;
+        let cleaned = text
+            .replace(/\*/g, '') // Remove all asterisks globally to prevent ** styling artifacts in console log;
         
         // Remove any markdown code block of mermaid
         cleaned = cleaned.replace(/```mermaid[\s\S]*?```/gi, '');
