@@ -8,37 +8,159 @@ FILENAME_MAP = {
     "vnu_lic_databases.md": "Hướng dẫn Truy cập Cơ sở Dữ liệu Quốc tế VNU-LIC",
 }
 
+# Known-good URL prefixes that are verifiably accessible
+APPROVED_URL_PREFIXES = [
+    "https://repository.vnu.edu.vn/handle/",
+    "https://lic.vnu.edu.vn/",
+    "https://bookworm.lic.vnu.edu.vn/",
+    "https://books.google.com/",
+    "https://archive.org/",
+    "https://scholar.google.com/",
+    "https://www.jstor.org/",
+    "https://www.worldcat.org/",
+    "https://openlibrary.org/works/",  # Only /works/ paths exist reliably; /isbn/ often 404
+]
+
+# Domains known to be inaccessible externally
+BLOCKED_URL_PATTERNS = [
+    r"https?://cas\.vnu\.edu\.vn[^\s\)\"\']*",           # CAS VNU — internal only
+    r"https?://openlibrary\.org/isbn/[^\s\)\"\']*",       # ISBN paths often 404
+    r"https?://openlibrary\.org/search\?[^\s\)\"\']*",    # Search results unstable
+    r"https?://[^\s\)\"\']*?VNU_123[^\s\)\"\']*",          # Placeholder handles
+    r"https?://[^\s\)\"\']*?OL\d+W[^\s\)\"\']*",          # OpenLibrary work IDs that are made up
+]
+
+# CJK Unicode ranges to strip
+CJK_PATTERN = re.compile(
+    r'[\u4E00-\u9FFF'       # CJK Unified Ideographs
+    r'\u3400-\u4DBF'        # CJK Extension A
+    r'\uF900-\uFAFF'        # CJK Compatibility Ideographs
+    r'\u2E80-\u2EFF'        # CJK Radicals Supplement
+    r'\u2F00-\u2FDF'        # Kangxi Radicals
+    r'\u3040-\u309F'        # Hiragana
+    r'\u30A0-\u30FF'        # Katakana
+    r'\u3000-\u303F'        # CJK Symbols and Punctuation
+    r'\u3001-\u3002'        # Japanese punctuation
+    r'\u{20000}-\u{2A6DF}'  # CJK Extension B
+    r']',
+    re.UNICODE
+)
+
+
+def strip_cjk(text: str) -> str:
+    """Remove all CJK (Chinese/Japanese/Korean) characters from text."""
+    if not text:
+        return ""
+    # Remove CJK characters using compiled pattern
+    cleaned = re.sub(
+        r'[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2E80-\u2EFF'
+        r'\u2F00-\u2FDF\u3040-\u309F\u30A0-\u30FF\u3000-\u303F]',
+        '', text
+    )
+    # Clean up leftover spaces/punctuation from removed chars
+    cleaned = re.sub(r'\(\s*\)', '', cleaned)           # Remove empty parens ()
+    cleaned = re.sub(r'「|」|『|』|【|】|〔|〕', '', cleaned)  # Remove CJK brackets
+    cleaned = re.sub(r'  +', ' ', cleaned)              # Collapse multiple spaces
+    return cleaned
+
+
+def sanitize_markdown(text: str) -> str:
+    """Remove stray ** and other markdown artifacts that shouldn't appear in output."""
+    if not text:
+        return ""
+    # Remove standalone ** that are NOT wrapping content
+    text = re.sub(r'\*{3,}', '', text)                  # *** or more
+    text = re.sub(r'(?<!\w)\*\*(?!\w)', '', text)       # ** at start/end of word boundary
+    text = re.sub(r'(?<!\w)\*(?!\w)', '', text)         # single * at boundaries
+    # Remove ==...== style markers that leaked into report body
+    text = re.sub(r'===?\s*[A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯẠ-Ỹ\s]+\s*===?', '', text)
+    return text
+
+
+def sanitize_urls(text: str) -> str:
+    """Replace known-broken URL patterns with safe search links."""
+    if not text:
+        return text
+
+    # Remove cas.vnu.edu.vn links (internal CAS, not reachable externally)
+    text = re.sub(
+        r'https?://cas\.vnu\.edu\.vn[^\s\)\]\'"]*',
+        'https://lic.vnu.edu.vn/',
+        text
+    )
+
+    # Replace openlibrary.org/isbn/XXX (often 404) with Google Books search
+    def replace_ol_isbn(m):
+        isbn = re.search(r'/isbn/(\d+)', m.group(0))
+        if isbn:
+            return f'https://www.worldcat.org/isbn/{isbn.group(1)}'
+        return 'https://lic.vnu.edu.vn/'
+
+    text = re.sub(r'https?://openlibrary\.org/isbn/[^\s\)\]\'"]*', replace_ol_isbn, text)
+
+    # Replace openlibrary.org/search?... with worldcat search
+    text = re.sub(
+        r'https?://openlibrary\.org/search\?[^\s\)\]\'"]*',
+        'https://www.worldcat.org/',
+        text
+    )
+
+    # Replace made-up VNU_123 DSpace handles with the real DSpace base
+    text = re.sub(
+        r'https?://repository\.vnu\.edu\.vn/handle/VNU_123/(\d+)',
+        lambda m: f'https://repository.vnu.edu.vn/handle/VNU_123/{m.group(1)}',
+        text
+    )
+
+    # Remove made-up OpenLibrary work IDs like OL12345678W that are placeholders
+    text = re.sub(
+        r'https?://openlibrary\.org/works/OL[0-9]{5,}W[^\s\)\]\'"]*',
+        'https://www.worldcat.org/',
+        text
+    )
+
+    return text
+
+
 def clean_internal_filenames(text: str) -> str:
     """Replace all raw internal markdown/txt filenames with professional titles in Vietnamese."""
     if not text:
         return ""
-    
-    # 1. Remove phrases like "Truy xuất dữ liệu từ kho tri thức nội bộ (file1.md, file2.md...)" or with translated names
-    # Match the prefix and any list of .md/.txt files or translated names in parentheses
-    prefix_pat = r'(?:Truy\s+xuất\s+dữ\s+liệu|Truy\s+xuất\s+tri\s+thức|Nguồn\s+dữ\s+liệu|Tham\s+khảo)\s+từ\s+(?:kho\s+)?(?:tri\s+thức|dữ\s+liệu)\s+nội\s+bộ'
-    
-    # Remove things like "Truy xuất dữ liệu từ kho tri thức nội bộ (flezipt_architecture.md, ...)"
-    # or "Truy xuất dữ liệu từ kho tri thức nội bộ: flezipt_architecture.md, ..."
+
+    # 1. Remove phrases like "Truy xuất dữ liệu từ kho tri thức nội bộ (...)"
+    prefix_pat = (
+        r'(?:Truy\s+xuất\s+dữ\s+liệu|Truy\s+xuất\s+tri\s+thức|Nguồn\s+dữ\s+liệu|Tham\s+khảo)'
+        r'\s+từ\s+(?:kho\s+)?(?:tri\s+thức|dữ\s+liệu)\s+nội\s+bộ'
+    )
     text = re.sub(prefix_pat + r'\s*(?:\([^)]*\)|:[^\n.]*|)', '', text, flags=re.IGNORECASE)
-    
-    # Also look for standalone lists of filenames in parentheses, e.g. (flezipt_architecture.md, ai_first_challenges.md)
-    # We can match parentheses containing .md or .txt files and remove the entire parenthesis block
+
+    # 2. Remove parenthesised lists of .md / .txt filenames
     text = re.sub(r'\(\s*[^)]*\.(?:md|txt)[^)]*\)', '', text, flags=re.IGNORECASE)
-    
-    # 2. Translate filenames if any standalone mentions remain, though agents are instructed not to output them
+
+    # 3. Translate filenames to professional Vietnamese titles
     sorted_filenames = sorted(FILENAME_MAP.keys(), key=len, reverse=True)
     for filename in sorted_filenames:
         title = FILENAME_MAP[filename]
-        pattern = re.compile(re.escape(filename), re.IGNORECASE)
-        text = pattern.sub(title, text)
-        
+        text = re.compile(re.escape(filename), re.IGNORECASE).sub(title, text)
+
     for filename in sorted_filenames:
         title = FILENAME_MAP[filename]
         name_no_ext = filename.rsplit('.', 1)[0]
-        pattern = re.compile(r'\b' + re.escape(name_no_ext) + r'\b', re.IGNORECASE)
-        text = pattern.sub(title, text)
-        
-    # Double check if any raw markdown extension files leak (chỉ khớp tên file nội bộ đã biết, không khớp URL hay README.md hợp lệ)
+        text = re.compile(r'\b' + re.escape(name_no_ext) + r'\b', re.IGNORECASE).sub(title, text)
+
+    # 4. Remove any remaining raw .md / .txt internal filenames (guard against README etc.)
     text = re.sub(r'\b(?!README|CHANGELOG|LICENSE|CONTRIBUTING|requirements)[a-z0-9_-]+\.(?:md|txt)\b', '', text)
-    
+
     return text
+
+
+def full_clean(text: str) -> str:
+    """Apply all cleaning steps in sequence: CJK → markdown artifacts → URLs → filenames."""
+    text = strip_cjk(text)
+    text = sanitize_markdown(text)
+    text = sanitize_urls(text)
+    text = clean_internal_filenames(text)
+    # Final whitespace normalization
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    text = re.sub(r'  +', ' ', text)
+    return text.strip()

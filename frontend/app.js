@@ -943,16 +943,6 @@ function checkServerConnection() {
         });
 
         if (nodeKey === 'reporter' && !hasAnalystRun) {
-            // QA Flow: Hide intermediate nodes and their edges
-            // document.getElementById('node-analyst')?.classList.add('node-hidden');
-            // document.getElementById('node-risk_assessor')?.classList.add('node-hidden');
-            // document.getElementById('node-recommender')?.classList.add('node-hidden');
-            
-            // document.getElementById('edge-researcher-analyst')?.classList.add('edge-hidden');
-            // document.getElementById('edge-analyst-risk_assessor')?.classList.add('edge-hidden');
-            // document.getElementById('edge-risk_assessor-recommender')?.classList.add('edge-hidden');
-            // document.getElementById('edge-recommender-reporter')?.classList.add('edge-hidden');
-            
             const directEdge = document.getElementById('edge-researcher-reporter');
             if (directEdge) {
                 directEdge.style.display = 'block';
@@ -1128,31 +1118,56 @@ function checkServerConnection() {
 
     function cleanReportContent(text) {
         if (!text) return '';
+
+        // 0. Second-pass CJK removal (safety net for streamed content)
+        text = text.replace(
+            /[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2E80-\u2EFF\u2F00-\u2FDF\u3040-\u309F\u30A0-\u30FF\u3000-\u303F\u31F0-\u31FF]/g,
+            ''
+        );
+        text = text.replace(/[\u3001\u3002\u300C-\u300F\u3010-\u3011\u300A-\u300B]/g, '');
+
         let cleaned = text
-            // Remove loose ** that are NOT part of markdown bold syntax (already handled by marked.js)
-            .replace(/\*\*([^*\n]+)\*\*/g, '$1')  // convert **bold** → bold (marked will re-render)
-            .replace(/\*([^*\n]+)\*/g, '$1')         // convert *italic* → italic
-        
+            // Remove ALL bare ** and *** regardless of context (most critical fix)
+            .replace(/\*{3,}/g, '')
+            // convert **bold** → plain text — marked.js will render the semantic version
+            .replace(/\*\*([^*\n]+)\*\*/g, '$1')
+            .replace(/\*([^*\n]+)\*/g, '$1')
+            // Remove any remaining orphan asterisks (stray * not wrapping words)
+            .replace(/(?<=\s)\*(?=\s|$)/gm, '')
+            .replace(/^\*(?=\s)/gm, '')
+
+        // URL sanitization — fix known-broken domains/paths
+        cleaned = cleaned
+            // cas.vnu.edu.vn → lic.vnu.edu.vn (CAS is internal-only)
+            .replace(/https?:\/\/cas\.vnu\.edu\.vn[^\s\)\]'"\u201d]*/g, 'https://lic.vnu.edu.vn/')
+            // openlibrary.org/isbn/XXX → worldcat ISBN search (isbn paths often 404)
+            .replace(/https?:\/\/openlibrary\.org\/isbn\/(\d+)[^\s\)\]'"\u201d]*/g,
+                (_, isbn) => `https://www.worldcat.org/isbn/${isbn}`)
+            // openlibrary.org/search?... → worldcat
+            .replace(/https?:\/\/openlibrary\.org\/search[^\s\)\]'"\u201d]*/g, 'https://www.worldcat.org/')
+            // Made-up OpenLibrary work IDs like OL12345678W
+            .replace(/https?:\/\/openlibrary\.org\/works\/OL\d{5,}W[^\s\)\]'"\u201d]*/g, 'https://www.worldcat.org/')
+
         // Remove any markdown code block of mermaid
         cleaned = cleaned.replace(/```mermaid[\s\S]*?```/gi, '');
-        
-        // Remove standard section headers if they are inside the report content
+
+        // Remove standard section headers if they leaked into report content
         cleaned = cleaned.replace(/===[\s\S]*?===/g, '');
-        
-        // Remove specific leaked words/lines related to markers
+
+        // Filter lines that are purely section markers
         const lines = cleaned.split('\n');
         const filteredLines = lines.filter(line => {
             const upper = line.trim().toUpperCase();
-            if (upper.includes('MERMAID DIAGRAM') || 
-                upper.includes('DIAGRAM EXPLANATION') || 
-                upper.includes('GIẢI THÍCH SƠ ĐỒ') || 
-                upper.includes('SƠ ĐỒ MERMAID') || 
+            if (upper.includes('MERMAID DIAGRAM') ||
+                upper.includes('DIAGRAM EXPLANATION') ||
+                upper.includes('GIẢI THÍCH SƠ ĐỒ') ||
+                upper.includes('SƠ ĐỒ MERMAID') ||
                 upper.includes('BIỂU ĐỒ MERMAID')) {
                 return false;
             }
             return true;
         });
-        
+
         return filteredLines.join('\n').trim();
     }
 
