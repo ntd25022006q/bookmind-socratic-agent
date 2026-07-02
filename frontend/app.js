@@ -35,8 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Settings panel removed — API prefix auto-detected, no manual config needed
 
     function getApiPrefix() {
-        // When served from Render (same origin), use relative origin.
-        // Falls back to window.location.origin which works both locally and in production.
+        const host = window.location.hostname;
+        if (host.includes('bookmind-socratic-agent.vercel.app')) {
+            return 'https://bookmind-socratic-agent.onrender.com';
+        }
+        if (host.includes('bookmind-expert-agent.vercel.app')) {
+            return 'https://bookmind-expert-agent.onrender.com';
+        }
+        // Fallback for vercel branch deploys or any vercel domain containing socratic/expert
+        if (host.includes('socratic') && host.includes('vercel.app')) {
+            return 'https://bookmind-socratic-agent.onrender.com';
+        }
+        if (host.includes('expert') && host.includes('vercel.app')) {
+            return 'https://bookmind-expert-agent.onrender.com';
+        }
         return window.location.origin;
     }
 
