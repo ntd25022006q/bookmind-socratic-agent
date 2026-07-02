@@ -1,0 +1,9 @@
+Sơ đồ mô tả quy trình tư duy phản biện 6 tác tử hỗ trợ sinh viên tự học chủ động:  
+- A: Độc giả chủ động đặt câu hỏi (khởi đầu Socratic)  
+- B: Profiler xây hồ sơ học tập cá nhân (dựa trên nhu cầu, phong cách tư duy)  
+- C: Recommender truy vấn kho học liệu VNU-LIC qua Koha API  
+- D: Hệ thống Socrates đặt câu hỏi phản biện (theo 5 cấp độ Socratic)  
+- E: Critic phát hiện điểm mù nhận thức (thiên kiến, đồng nhất hóa, tuyến tính hóa)  
+- F: Sinh viên ghi nhật ký đọc sâu — chuyển hóa tri thức thành hành động phản biện  
+
+🌱 “Không có báo cáo nào là hoàn tất — chỉ có những cuộc đối thoại chưa bao giờ kết thúc.”
