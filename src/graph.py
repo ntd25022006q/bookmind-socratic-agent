@@ -4,6 +4,7 @@ from src.agents.guardrail_agent import guardrail_node
 from src.agents.profiler_agent import profiler_node
 from src.agents.recommender_agent import recommender_node
 from src.agents.questioner_agent import questioner_node
+from src.agents.critic_agent import critic_node
 from src.agents.reporter_agent import reporter_node
 
 def route_after_guardrail(state: ResearchState) -> str:
@@ -17,6 +18,7 @@ graph.add_node("guardrail", guardrail_node)
 graph.add_node("profiler", profiler_node)
 graph.add_node("recommender", recommender_node)
 graph.add_node("questioner", questioner_node)
+graph.add_node("critic", critic_node)
 graph.add_node("reporter", reporter_node)
 
 graph.set_entry_point("guardrail")
@@ -32,7 +34,8 @@ graph.add_conditional_edges(
 
 graph.add_edge("profiler", "recommender")
 graph.add_edge("recommender", "questioner")
-graph.add_edge("questioner", "reporter")
+graph.add_edge("questioner", "critic")
+graph.add_edge("critic", "reporter")
 graph.add_edge("reporter", END)
 
 app = graph.compile()

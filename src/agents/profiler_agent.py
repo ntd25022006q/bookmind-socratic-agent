@@ -1,11 +1,28 @@
+import time
 from src.state import ResearchState
-from src.utils.llm_factory import create_llm, parse_agent_json
+from src.utils.llm_factory import create_llm, parse_agent_json, get_actual_model_used
+from src.utils.display import print_agent_start, print_agent_complete, print_agent_info
 from config import MODEL_RESEARCHER_AGENT
 
 async def profiler_node(state: ResearchState, config=None) -> dict:
+    start_time = time.time()
     topic = state.get("topic", "")
-    llm = create_llm(MODEL_RESEARCHER_AGENT, config=config)
     
+    stream_queue = config.get("configurable", {}).get("stream_queue") if config else None
+    if stream_queue:
+        await stream_queue.put({
+            "type": "node_start",
+            "node": "researcher"  # Maps to node-researcher in UI
+        })
+        
+    print_agent_start("Researcher Agent", "Phân tích hồ sơ độc giả và nhu cầu tự học chủ động")
+    llm = create_llm(MODEL_RESEARCHER_AGENT, config=config, streaming=True)
+    
+    call_config = {}
+    if stream_queue:
+        from src.utils.llm_factory import QueueCallbackHandler
+        call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "researcher")]
+        
     prompt = f"""Bạn là Profiler Agent của VNU BookMind Socratic. Hãy phân tích sở thích đọc sách, gu học thuật và lĩnh vực quan tâm giả định của độc giả từ truy vấn:
     "{topic}"
     
@@ -21,8 +38,27 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
     - Nhu cầu đọc sâu: [Học thuật/Kỹ năng/Khai phóng]
     """
     
-    res = await llm.ainvoke(prompt)
+    res = await llm.ainvoke(prompt, config=call_config)
     parsed = parse_agent_json(res.content, "detailed_report")
+    
+    tokens = len(res.content) // 4
+    duration = time.time() - start_time
+    print_agent_complete("Researcher Agent", duration, tokens)
+    actual_model = get_actual_model_used("profiler", MODEL_RESEARCHER_AGENT)
+    toks_per_sec = round(tokens / duration, 1) if duration > 0 else 0
+    
+    if stream_queue:
+        await stream_queue.put({
+            "type": "node_end",
+            "node": "researcher",
+            "content": parsed["console_message"],
+            "thinking": parsed["thinking"],
+            "tokens": tokens,
+            "duration": duration,
+            "model": actual_model,
+            "toks_per_sec": toks_per_sec
+        })
+        
     return {
         "user_profile": parsed["detailed_report"],
         "messages": [res],

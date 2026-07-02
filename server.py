@@ -394,7 +394,7 @@ async def run_agents(request: RunRequest):
                     elapsed = time.time() - start_time
 
                     total_tokens = sum(agent_tokens.values())
-                    agents_count = 1 if final_state.get("irrelevant") else (3 if final_state.get("query_type") == "qa" else 6)
+                    agents_count = 1 if final_state.get("irrelevant") else 6
 
                     # Save clean report without metrics suffix as requested
                     final_report = final_state.get("report", "# No report generated").replace("***", "")
