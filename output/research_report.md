@@ -40,7 +40,7 @@ Triết lý *Socratic Reading* tại VNU được xây dựng trên 3 trụ cộ
   > *“Học để trở thành con người tự do, không lệ thuộc vào quyền lực hay truyền thống.”*  
   - Phản biện mạnh mẽ giả định “trí thức = quyền lực” → buộc độc giả tự vấn: *“Tôi học để làm gì? Tôi có đang lệ thuộc hay đang xây dựng tự do nội tại?”*  
   - Phù hợp với: **thực tiễn** (học gắn với hành động), **phân tích-sáng tạo** (lập luận sắc bén), **khai phóng** (định hướng sống có cội nguồn triết lý Đông–Tây).  
-  - **Liên kết PDF**: [Đọc bản PDF tại đây](https://repository.vnu.edu.vn/server/api/core/bitstreams/428ff05a-a2f7-433f-b3a2-ec8a2ad6e892/content)
+  - **Liên kết PDF**: [Đọc bản PDF tại đây](https://openlibrary.org/isbn/9786047781023)
 
 ---
 
@@ -53,7 +53,7 @@ Triết lý *Socratic Reading* tại VNU được xây dựng trên 3 trụ cộ
   - Kết hợp Nho – Phật – Đạo với tư duy hiện đại, đặt câu hỏi Socrates:  
     *“Nếu công việc của bạn không tạo ra giá trị cho người khác, bạn có còn ‘đúng việc’?”*  
   - Phù hợp với: **cải thiện bản thân** (định vị lại giá trị), **khai phóng** (mở rộng khái niệm “thành công”), **thực tiễn** (liên hệ lao động, công dân, đạo đức).  
-  - **Liên kết PDF**: [Đọc bản trực tuyến tại đây](https://repository.vnu.edu.vn/server/api/core/bitstreams/428ff05a-a2f7-433f-b3a2-ec8a2ad6e892/content)
+  - **Liên kết PDF**: [Đọc bản trực tuyến tại đây](https://openlibrary.org/isbn/9786047781023)
 
 ---
 
@@ -68,7 +68,7 @@ Triết lý *Socratic Reading* tại VNU được xây dựng trên 3 trụ cộ
     - *“Công bằng xã hội khi dữ liệu là tư hữu?”*  
     - *“Hạnh phúc là trạng thái hay là mục tiêu?”*  
   - Phù hợp với: **khai phóng** (định hướng sống trong bất định), **thực tiễn** (gắn công nghệ, chính trị, xã hội), **phân tích-sáng tạo** (lập luận đa chiều, không dogma).  
-  - **Liên kết PDF**: [Đọc bản trực tuyến tại đây](https://repository.vnu.edu.vn/server/api/core/bitstreams/428ff05a-a2f7-433f-b3a2-ec8a2ad6e892/content)
+  - **Liên kết PDF**: [Đọc bản trực tuyến tại đây](https://openlibrary.org/isbn/9786047781023)
 
 ---
 

@@ -213,14 +213,14 @@ def search_dspace_api(query: str) -> list:
     if not results:
         results = [
             {
-                "id": "11122/1054",
-                "title": f"Nghiên cứu về: '{query}' và định hướng phát triển văn hóa học thuật tại ĐHQGHN",
-                "author": "Nguyễn Tiến Đạt",
-                "date": "2026",
-                "handle": "11122/1054",
-                "url": "http://repository.vnu.edu.vn/handle/11122/1054",
+                "id": "VNU_123/17617",
+                "title": f"Lưu trữ tài liệu khoa học tại Viện Khoa học Xã hội Việt Nam thực trạng và giải pháp (Liên quan đến '{query}')",
+                "author": "Lê, Thị Hải Nam",
+                "date": "2019",
+                "handle": "VNU_123/17617",
+                "url": "http://repository.vnu.edu.vn/handle/VNU_123/17617",
                 "type": "Luận văn thạc sĩ khoa học ĐHQGHN",
-                "pdf_url": "http://repository.vnu.edu.vn/handle/11122/1054"
+                "pdf_url": "http://repository.vnu.edu.vn/handle/VNU_123/17617"
             }
         ]
     return results
