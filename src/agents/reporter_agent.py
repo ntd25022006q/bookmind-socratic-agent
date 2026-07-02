@@ -16,7 +16,7 @@ async def reporter_node(state: ResearchState, config=None) -> dict:
     if stream_queue:
         await stream_queue.put({
             "type": "node_start",
-            "node": "reporter"  # Maps to node-reporter in UI
+            "node": "reporter"
         })
         
     print_agent_start("Reporter Agent", "Tổng hợp toàn bộ báo cáo và xây dựng sơ đồ Mermaid")
@@ -27,38 +27,40 @@ async def reporter_node(state: ResearchState, config=None) -> dict:
         from src.utils.llm_factory import QueueCallbackHandler
         call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "reporter")]
         
-    prompt = f"""Bạn là Reporter Agent tổng hợp của VNU BookMind Socratic. Hãy tổng hợp báo cáo đọc sách chi tiết, đẹp mắt bằng Markdown.\n    CRITICAL WARNING FOR DETAILED REPORT:\n    - Báo cáo chi tiết phải tự viết lại đầy đủ thông tin chi tiết, phân tích lập luận sâu sắc, không được viết tóm tắt.\n    - TUYỆT ĐỐI KHÔNG ĐƯỢC sử dụng các câu tóm tắt hoặc placeholder mang tính chất lười biếng như '(Đã chứa trong phần trên — không lặp lại)' hoặc '(Xem chi tiết tại mục...)'. Tất cả thông tin phải được hiển thị đầy đủ, trình bày trực quan và chuyên nghiệp.\n Đảm bảo giữ lại đầy đủ các liên kết [Đọc bản PDF / Đọc trực tuyến tại đây](địa_chỉ_pdf_url) cho mỗi cuốn sách và tài liệu nghiên cứu.
-    Báo cáo bao gồm:
-    - Bối cảnh và Tinh thần Đọc sách Socratic tại VNU
-    - Hồ sơ học thuật của độc giả
-    - Danh sách gợi ý từ quầy học liệu số VNU-LIC (kèm liên kết đọc PDF)
-    - Các câu hỏi phản biện mở giúp đọc sâu và phản biện tư duy điểm mù
-    - Trích dẫn thư mục nguồn.
-    
-    Chủ đề: {topic}
-    Hồ sơ: {profile}
-    Sách gợi ý: {books}
-    Câu hỏi Socrates & Phản biện: {questions}
-    Tài liệu trích nguồn: {citations}
-    
-    Hãy trả về dưới dạng:
-    === QUÁ TRÌNH TƯ DUY ===
-    [Hệ thống hóa bố cục báo cáo đọc sâu]
-    === CONSOLE MESSAGE ===
-    Đã kết xuất báo cáo đọc sâu Socratic hoàn chỉnh.
-    === DETAILED REPORT ===
-    # BÁO CÁO ĐỌC SÂU SOCRATES VNU BOOKMIND
-    [Nội dung Markdown chuyên nghiệp]
-    === MERMAID DIAGRAM ===
-    graph TD
-        A[Độc gia đặt câu hỏi] --> B[Profiler xây hồ sơ]
-        B --> C[Recommender tìm Koha API]
-        C --> D[Socrates đặt câu hỏi phản biện]
-        D --> E[Critic phản biện nhận thức]
-        E --> F[Sinh viên ghi nhật ký đọc sâu]
-    === DIAGRAM EXPLANATION ===
-    Sơ đồ mô tả quy trình tư duy phản biện 5 tác tử hỗ trợ sinh viên tự học chủ động.
-    """
+    prompt = f"""Bạn là Reporter Agent của VNU BookMind Socratic. Nhiệm vụ: Biên soạn một báo cáo đọc sách học thuật chi tiết, đẹp, chuyên nghiệp bằng Markdown để người dùng có thể in hoặc lưu trữ.
+
+QUY TẮC NGHIÊM NGẶT KHI VIẾT BÁO CÁO:
+1. VIẾT ĐẦY ĐỦ từng phần, KHÔNG được rút gọn, KHÔNG dùng placeholder như "(đã có ở trên)", "(xem thêm)", "(không lặp lại)", hoặc bất kỳ cụm từ lười biếng nào.
+2. TUYỆT ĐỐI KHÔNG dùng ký hiệu ** trong báo cáo. Thay vào đó sử dụng đúng cú pháp Markdown: dùng # ## ### cho tiêu đề, dùng > cho trích dẫn, dùng | cho bảng, dùng - cho danh sách.
+3. Mỗi cuốn sách gợi ý phải có: tựa đề, tác giả, nhà xuất bản, năm, lý do gợi ý chi tiết (ít nhất 3 câu phân tích), và liên kết đọc/xem trực tiếp.
+4. Liên kết phải là URL hoàn chỉnh thực tế, ví dụ [Đọc trực tuyến tại đây](https://...) — KHÔNG ĐƯỢC để link giả.
+
+Chủ đề: {topic}
+Hồ sơ: {profile}
+Sách gợi ý (bao gồm tên, tác giả, URL): {books}
+Câu hỏi Socrates & Phản biện: {questions}
+Tài liệu trích nguồn: {citations}
+
+Hãy trả về ĐÚNG theo định dạng sau (không thêm bớt ký tự === nào khác):
+=== QUÁ TRÌNH TƯ DUY ===
+[Phân tích cách bạn sẽ cấu trúc báo cáo — không quá 5 dòng]
+=== CONSOLE MESSAGE ===
+Đã biên soạn xong báo cáo đọc sâu Socratic VNU BookMind.
+=== DETAILED REPORT ===
+# Báo Cáo Đọc Sâu — VNU BookMind Socratic
+*Trung tâm Thư viện và Tri thức số, Đại học Quốc gia Hà Nội*
+
+[Toàn bộ nội dung báo cáo chi tiết — đầy đủ, không placeholder, không **]
+=== MERMAID DIAGRAM ===
+graph TD
+    A[Độc giả đặt câu hỏi] --> B[Profiler phân tích hồ sơ]
+    B --> C[Recommender tra cứu Koha API]
+    C --> D[Questioner đặt câu hỏi Socratic]
+    D --> E[Critic phản biện nhận thức]
+    E --> F[Reporter tổng hợp báo cáo]
+=== DIAGRAM EXPLANATION ===
+Sơ đồ mô tả quy trình 6 tác tử AI cộng tác theo phương pháp Socratic, hỗ trợ sinh viên đọc sâu và phản biện tư duy tại VNU.
+"""
     
     res = await llm.ainvoke(prompt, config=call_config)
     parsed = parse_agent_json(res.content, "detailed_report")

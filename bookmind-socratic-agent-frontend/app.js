@@ -1023,8 +1023,9 @@ function checkServerConnection() {
     function stripMarkdown(text) {
         if (!text) return '';
         let cleaned = text
-            .replace(/\*/g, '') // Remove all asterisks globally to prevent ** styling artifacts in console log
-            .replace(/\*\*([^*]+)\*\*/g, '$1')
+            .replace(/\*\*([^*]+)\*\*/g, '$1')   // **bold** → bold
+            .replace(/\*([^*]+)\*/g, '$1')         // *italic* → italic
+            .replace(/\*+/g, '')
             .replace(/\*([^*]+)\*/g, '$1')
             .replace(/`([^`]+)`/g, '$1')
             .replace(/^#+\s+(.+)$/gm, '$1')
@@ -1114,7 +1115,9 @@ function checkServerConnection() {
     function cleanReportContent(text) {
         if (!text) return '';
         let cleaned = text
-            .replace(/\*/g, '') // Remove all asterisks globally to prevent ** styling artifacts in console log;
+            // Remove loose ** that are NOT part of markdown bold syntax (already handled by marked.js)
+            .replace(/\*\*([^*\n]+)\*\*/g, '$1')  // convert **bold** → bold (marked will re-render)
+            .replace(/\*([^*\n]+)\*/g, '$1')         // convert *italic* → italic
         
         // Remove any markdown code block of mermaid
         cleaned = cleaned.replace(/```mermaid[\s\S]*?```/gi, '');
@@ -2293,6 +2296,15 @@ function checkServerConnection() {
         });
 
         reportView.innerHTML = html;
+        
+        // Open all external links in new tab
+        reportView.querySelectorAll('a[href]').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && (href.startsWith('http') || href.startsWith('//'))) {
+                link.setAttribute('target', '_blank');
+                link.setAttribute('rel', 'noopener noreferrer');
+            }
+        });
 
         // Wrap all tables in a scroll container to prevent overflow outside the report frame
         reportView.querySelectorAll('table').forEach(tbl => {
