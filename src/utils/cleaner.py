@@ -30,21 +30,7 @@ BLOCKED_URL_PATTERNS = [
     r"https?://[^\s\)\"\']*?OL\d+W[^\s\)\"\']*",          # OpenLibrary work IDs that are made up
 ]
 
-# CJK Unicode ranges to strip
-CJK_PATTERN = re.compile(
-    r'[\u4E00-\u9FFF'       # CJK Unified Ideographs
-    r'\u3400-\u4DBF'        # CJK Extension A
-    r'\uF900-\uFAFF'        # CJK Compatibility Ideographs
-    r'\u2E80-\u2EFF'        # CJK Radicals Supplement
-    r'\u2F00-\u2FDF'        # Kangxi Radicals
-    r'\u3040-\u309F'        # Hiragana
-    r'\u30A0-\u30FF'        # Katakana
-    r'\u3000-\u303F'        # CJK Symbols and Punctuation
-    r'\u3001-\u3002'        # Japanese punctuation
-    r'\u{20000}-\u{2A6DF}'  # CJK Extension B
-    r']',
-    re.UNICODE
-)
+# CJK cleaning utilities
 
 
 def strip_cjk(text: str) -> str:
