@@ -110,14 +110,14 @@ def run_pipeline(topic: str):
         sys.exit(1)
 
 def main():
-    parser = argparse.ArgumentParser(description="FPT Software AI-First Research & Consulting Pipeline")
+    parser = argparse.ArgumentParser(description="VNU BookMind Socratic Agentic Research Pipeline")
     parser.add_argument("--demo", action="store_true", help="Run the primary demo topic ('Should we switch to microservices?')")
     parser.add_argument("--topic", type=str, help="Custom research topic or question")
     parser.add_argument("--server", action="store_true", help="Start the FastAPI dashboard web server")
     
     args = parser.parse_args()
     
-    print_header("🚀 FPT Software AI-First Research & Consulting Suite")
+    print_header("🚀 VNU BookMind Socratic Agentic Research Suite")
     
     if args.server:
         import uvicorn

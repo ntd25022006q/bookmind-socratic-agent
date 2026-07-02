@@ -1,5 +1,5 @@
 """
-FPT Software — AI-First Research & Detailed Report Dashboard
+VNU BookMind Socratic — Agentic Research & Detailed Report Dashboard
 FastAPI backend: SSE pipeline streaming + file downloads + localtunnel bypass
 """
 import json
@@ -45,7 +45,7 @@ async def lifespan(app_instance):
 
 # ── App ───────────────────────────────────────────────────────────────────────
 app = FastAPI(
-    title="FPT Software AI-First Research & Detailed Report Dashboard",
+    title="VNU BookMind Socratic Agentic Research & Detailed Report Dashboard",
     lifespan=lifespan,
 )
 
@@ -223,10 +223,10 @@ def get_report(response: Response):
 
 @app.get("/api/download-csv")
 def download_csv():
-    path = Path(OUTPUT_DIR) / "fpt_consulting_data.csv"
+    path = Path(OUTPUT_DIR) / "vnu_bookmind_socratic_data.csv"
     if path.exists():
         return FileResponse(str(path), media_type="text/csv",
-                            filename="fpt_consulting_data.csv")
+                            filename="vnu_bookmind_socratic_data.csv")
     return {"error": "CSV not generated yet — run the pipeline first."}
 
 
@@ -237,7 +237,7 @@ def download_markdown():
         return FileResponse(
             str(path),
             media_type="text/markdown",
-            filename=f"FPT_BaoCao_ChiTiet.md",
+            filename=f"VNU_BookMind_Socratic_BaoCao_ChiTiet.md",
             headers={**BYPASS_HEADERS}
         )
     return {"error": "Report not generated yet — run the pipeline first."}
@@ -297,7 +297,7 @@ async def run_agents(request: RunRequest):
         async def run_graph_task():
             try:
                 # Clean up old reports and diagrams from previous runs
-                for filename in ["research_report.md", "diagram.mermaid", "diagram_explanation.txt", "fpt_consulting_data.csv"]:
+                for filename in ["research_report.md", "diagram.mermaid", "diagram_explanation.txt", "vnu_bookmind_socratic_data.csv"]:
                     filepath = Path(OUTPUT_DIR) / filename
                     if filepath.exists():
                         try:
@@ -397,7 +397,7 @@ async def run_agents(request: RunRequest):
                     agents_count = 1 if final_state.get("irrelevant") else 6
 
                     # Save clean report without metrics suffix as requested
-                    final_report = final_state.get("report", "# No report generated").replace("***", "")
+                    final_report = final_state.get("report", "# No report generated")
 
                     # Clean internal filenames programmatically
                     final_report = clean_internal_filenames(final_report)
