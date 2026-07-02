@@ -60,38 +60,20 @@ app.add_middleware(
 # ── Serve frontend assets with read-only/serverless compatibility ────
 try:
     FRONTEND_DIR = Path(WORKSPACE_DIR) / "frontend"
-    # Find customized frontend directory dynamically
-    if not FRONTEND_DIR.exists():
-        for d in os.listdir(WORKSPACE_DIR):
-            if d.endswith("-frontend") and os.path.isdir(os.path.join(WORKSPACE_DIR, d)):
-                FRONTEND_DIR = Path(WORKSPACE_DIR) / d
-                break
+    # Canonical frontend directory is always 'frontend/'
+    # No wildcard scan needed — all builds place static files in 'frontend/'
                 
-    # Only make directories if they don't exist yet to reduce write operations
-    if not FRONTEND_DIR.exists():
-        try:
-            FRONTEND_DIR.mkdir(exist_ok=True)
-        except Exception:
-            pass
-            
-    lib_dir = FRONTEND_DIR / "lib"
-    if not lib_dir.exists():
-        try:
-            lib_dir.mkdir(parents=True, exist_ok=True)
-        except Exception:
-            pass
-            
-    fonts_dir = FRONTEND_DIR / "webfonts"
-    if not fonts_dir.exists():
-        try:
-            fonts_dir.mkdir(parents=True, exist_ok=True)
-        except Exception:
-            pass
+    # Mount static files only if directory exists
+    if FRONTEND_DIR.exists():
+        app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIR)), name="assets")
 
-    # Mount static assets under /assets, /lib, /webfonts
-    app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIR)), name="assets")
-    app.mount("/lib", StaticFiles(directory=str(lib_dir)), name="lib")
-    app.mount("/webfonts", StaticFiles(directory=str(fonts_dir)), name="webfonts")
+        lib_dir = FRONTEND_DIR / "lib"
+        if lib_dir.exists():
+            app.mount("/lib", StaticFiles(directory=str(lib_dir)), name="lib")
+
+        fonts_dir = FRONTEND_DIR / "webfonts"
+        if fonts_dir.exists():
+            app.mount("/webfonts", StaticFiles(directory=str(fonts_dir)), name="webfonts")
 except Exception as e:
     print(f"Skipping static files mount on read-only serverless: {e}")
 

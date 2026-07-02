@@ -1,15 +1,16 @@
 services:
   - type: web
     name: bookmind-socratic-agent
-    env: python
+    runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: python main.py --server
+    healthCheckPath: /api/report
     envVars:
-      - key: OLLAMA_API_KEY
-        sync: false
-      - key: OLLAMA_BASE_URL
-        value: https://ollama.com/v1
       - key: OPENROUTER_API_KEY
         sync: false
       - key: OPENROUTER_BASE_URL
-        value: https://ollama.com/v1
+        value: https://openrouter.ai/api/v1
+      - key: OLLAMA_API_KEY
+        sync: false
+      - key: OLLAMA_BASE_URL
+        value: https://openrouter.ai/api/v1

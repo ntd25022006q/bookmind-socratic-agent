@@ -35,8 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Settings panel removed — API prefix auto-detected, no manual config needed
 
     function getApiPrefix() {
-    return 'https://bookmind-socratic-agent.onrender.com';
-}
+        // When served from Render (same origin), use relative origin.
+        // Falls back to window.location.origin which works both locally and in production.
+        return window.location.origin;
+    }
 
 function checkServerConnection() {
         const dot = document.getElementById('connection-status-dot');

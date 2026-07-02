@@ -34,8 +34,8 @@ else:
 DATA_DIR = os.path.join(RUNNING_DIR, "data")
 RAW_DATA_DIR = os.path.join(DATA_DIR, "raw")
 CHROMA_DB_DIR = os.path.join(DATA_DIR, "chroma_db")
-# If running on Vercel Serverless, use /tmp as it is the only writeable directory
-if "VERCEL" in os.environ:
+# Use /tmp on cloud platforms (Render, Vercel) where the app dir may be read-only
+if "RENDER" in os.environ or "VERCEL" in os.environ:
     OUTPUT_DIR = "/tmp"
 else:
     OUTPUT_DIR = os.path.join(RUNNING_DIR, "output")

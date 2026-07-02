@@ -1,50 +1,36 @@
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
-.venv/
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+*.pyo
 *.egg-info/
+.eggs/
 dist/
 build/
+*.spec
+.Python
 
-# Database / Local cache
+# Environment
+.env
+.venv
+venv/
+env/
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Runtime outputs (ephemeral, not committed)
+output/
 data/chroma_db/
 data/models/
 
-# Outputs
-output/
-
-# OS / Editor
+# OS
 .DS_Store
 Thumbs.db
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
 
-# Environment / Secrets
-.env
-.env.local
-.env.*
-!.env.example
+# Render
+.render-build-log
 
-# Vercel
-.vercel/
-
-# Duplicate static directory (now served from frontend/ only)
-static/
-
-# Logs
-*.log
-
-# Test artifacts
-.pytest_cache/
-.coverage
-htmlcov/
-.vercel
+# frontend/ IS tracked — do NOT add it here
