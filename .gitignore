@@ -34,3 +34,6 @@ Thumbs.db
 .render-build-log
 
 # frontend/ IS tracked — do NOT add it here
+
+# Vercel local config
+.vercel/
