@@ -33,7 +33,9 @@ QUY TẮC NGHIÊM NGẶT KHI VIẾT BÁO CÁO:
 1. VIẾT ĐẦY ĐỦ từng phần, KHÔNG được rút gọn, KHÔNG dùng placeholder như "(đã có ở trên)", "(xem thêm)", "(không lặp lại)", hoặc bất kỳ cụm từ lười biếng nào.
 2. TUYỆT ĐỐI KHÔNG dùng ký hiệu ** trong báo cáo. Thay vào đó sử dụng đúng cú pháp Markdown: dùng # ## ### cho tiêu đề, dùng > cho trích dẫn, dùng | cho bảng, dùng - cho danh sách.
 3. Mỗi cuốn sách gợi ý phải có: tựa đề, tác giả, nhà xuất bản, năm, lý do gợi ý chi tiết (ít nhất 3 câu phân tích), và liên kết đọc/xem trực tiếp.
-4. Liên kết phải là URL hoàn chỉnh thực tế, ví dụ [Đọc trực tuyến tại đây](https://...) — KHÔNG ĐƯỢC để link giả.
+4. Liên kết phải được hiển thị ĐẦY ĐỦ URL thực tế ngay sau tên sách. Ví dụ: [Xem tại Google Books](https://books.google.com/...) hoặc liệt kê thêm URL thô: https://repository.vnu.edu.vn/handle/VNU_123/XXXX
+5. TUYỆT ĐỐI KHÔNG ghi "Ngày:" hay bất kỳ ngày tháng nào vào tên tổ chức hay footer báo cáo.
+6. Phần TÀI LIỆU THAM KHẢO cuối báo cáo PHẢI liệt kê đầy đủ URL thực tế của từng tài liệu (không để trống, không viết "URL: [chưa xác định]").
 
 Chủ đề: {topic}
 Hồ sơ: {profile}
@@ -50,18 +52,13 @@ Hãy trả về ĐÚNG theo định dạng sau (không thêm bớt ký tự === 
 # Báo Cáo Đọc Sâu — VNU BookMind Socratic
 *Trung tâm Thư viện và Tri thức số, Đại học Quốc gia Hà Nội*
 
-[Toàn bộ nội dung báo cáo chi tiết — đầy đủ, không placeholder, không **]
+[Toàn bộ nội dung báo cáo chi tiết — đầy đủ, không placeholder, không **, không ghi ngày tháng vào dòng tên tổ chức]
 === MERMAID DIAGRAM ===
-graph TD
-    A[Độc giả đặt câu hỏi] --> B[Profiler phân tích hồ sơ]
-    B --> C[Recommender tra cứu Koha API]
-    C --> D[Questioner đặt câu hỏi Socratic]
-    D --> E[Critic phản biện nhận thức]
-    E --> F[Reporter tổng hợp báo cáo]
+[Vẽ sơ đồ Mermaid flowchart LR hoặc TD phản ánh NỘI DUNG THỰC TẾ của báo cáo trên — các cuốn sách, chủ đề, câu hỏi Socratic, và kết luận. KHÔNG vẽ sơ đồ quy trình agent mặc định. Hãy biểu diễn mối liên hệ giữa chủ đề đọc sách, các tác phẩm gợi ý, và câu hỏi tư duy.]
 === DIAGRAM EXPLANATION ===
-Sơ đồ mô tả quy trình 6 tác tử AI cộng tác theo phương pháp Socratic, hỗ trợ sinh viên đọc sâu và phản biện tư duy tại VNU.
+[Giải thích chi tiết sơ đồ dựa trên nội dung báo cáo — mô tả từng nút và liên kết trong sơ đồ, giúp người đọc hiểu rõ mối liên hệ. Tối thiểu 3 đoạn văn.]
 """
-    
+
     res = await llm.ainvoke(prompt, config=call_config)
     parsed = parse_agent_json(res.content, "detailed_report")
     

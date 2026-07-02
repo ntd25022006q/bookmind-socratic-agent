@@ -2311,12 +2311,21 @@ function checkServerConnection() {
 
         reportView.innerHTML = html;
         
-        // Open all external links in new tab
+        // Open all external links in new tab + display raw URL so user can copy
         reportView.querySelectorAll('a[href]').forEach(link => {
             const href = link.getAttribute('href');
             if (href && (href.startsWith('http') || href.startsWith('//'))) {
                 link.setAttribute('target', '_blank');
                 link.setAttribute('rel', 'noopener noreferrer');
+                // Only add URL display if link text is not already the URL
+                const linkText = link.textContent.trim();
+                if (linkText !== href && !link.nextElementSibling?.classList.contains('raw-url-display')) {
+                    const urlSpan = document.createElement('span');
+                    urlSpan.className = 'raw-url-display';
+                    urlSpan.textContent = ' → ' + href;
+                    urlSpan.style.cssText = 'display:inline; font-size:0.78em; color:#6b7280; word-break:break-all; margin-left:4px; font-family:monospace; user-select:all;';
+                    link.insertAdjacentElement('afterend', urlSpan);
+                }
             }
         });
 
@@ -2462,6 +2471,15 @@ function checkServerConnection() {
             !reportText.includes('Báo cáo chưa được tạo') &&
             !reportText.includes('Report not created')) {
             if (downloadGroup) downloadGroup.style.display = 'flex';
+            // ── Persist session data so navigating away & back won't lose the report
+            try {
+                sessionStorage.setItem('bookmind_session_report', JSON.stringify({
+                    report: reportText,
+                    diagram: diagramText,
+                    explanation: explanationText,
+                    timestamp: Date.now()
+                }));
+            } catch (e) { /* storage full — ignore */ }
         } else {
             if (downloadGroup) downloadGroup.style.display = 'none';
         }
@@ -2676,6 +2694,8 @@ function checkServerConnection() {
         if (stopBtn) stopBtn.style.display = 'none';
 
         localStorage.removeItem('fpt_active_search');
+        // Clear session persistence so new query starts fresh
+        try { sessionStorage.removeItem('bookmind_session_report'); } catch(e){}
     }
 
     // New Chat "+" icon button
@@ -2688,7 +2708,23 @@ function checkServerConnection() {
     localStorage.removeItem('fpt_active_search');
 
     function initializeOrSyncWithServer() {
-        // Always start with a clean state — never restore old session data on new tab open
+        // Restore session data if available (e.g. user navigated away and came back in same browser session)
+        const saved = (() => { try { return sessionStorage.getItem('bookmind_session_report'); } catch(e){ return null; }})();
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                // Only restore if saved within the last 60 minutes
+                if (parsed && parsed.report && (Date.now() - (parsed.timestamp || 0)) < 60 * 60 * 1000) {
+                    displayReportData({
+                        report: parsed.report,
+                        diagram: parsed.diagram || '',
+                        explanation: parsed.explanation || ''
+                    });
+                    return;
+                }
+            } catch(e) { /* ignore */ }
+        }
+        // No session data → show blank cards
         showUncreatedReportCard();
         showUncreatedDiagramCard();
     }
