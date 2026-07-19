@@ -417,6 +417,11 @@ async def run_agents(request: RunRequest):
 
                     # If Phase 1 (no socratic answers yet and query is relevant), pause and prompt user
                     if not final_state.get("socratic_answers") and not final_state.get("irrelevant", False):
+                        if _pipeline_lock.locked():
+                            try:
+                                _pipeline_lock.release()
+                            except Exception:
+                                pass
                         yield f"data: {json.dumps({'socratic_pause': True, 'socratic_questions': final_state.get('risks', ''), 'state_snapshot': {'topic': final_state.get('topic', ''), 'user_profile': final_state.get('user_profile', ''), 'analysis': final_state.get('analysis', ''), 'risks': final_state.get('risks', ''), 'research_data': final_state.get('research_data', ''), 'retrieved_context': final_state.get('retrieved_context', ''), 'citations': final_state.get('citations', [])}}, ensure_ascii=False)}\n\n"
                         break
 

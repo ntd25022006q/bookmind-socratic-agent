@@ -2402,6 +2402,15 @@ function checkServerConnection() {
                 if (done) break;
 
                 buffer += decoder.decode(value, { stream: true });
+                if (buffer.trim().startsWith('{')) {
+                    try {
+                        const parsedJson = JSON.parse(buffer.trim());
+                        if (parsedJson.error) {
+                            handleSseMessage({ error: parsedJson.error });
+                            return;
+                        }
+                    } catch (e) {}
+                }
                 const lines = buffer.split('\n');
                 buffer = lines.pop(); // Keep incomplete line in buffer
 
