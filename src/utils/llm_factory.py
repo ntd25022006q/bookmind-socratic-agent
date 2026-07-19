@@ -41,7 +41,7 @@ _latency_lock = threading.Lock()
 def check_model_latencies_sync():
     """Verify availability and latency of Ollama models to build an optimized fallback list."""
     global _model_latencies
-    models_to_check = ["deepseek-v4-flash", "qwen3-coder-next", "gemma3:12b", "ministral-3:8b", "deepseek-v4-pro", "gemma3:27b"]
+    models_to_check = ["kimi-k2.5", "glm-5.1", "minimax-m2.5", "nemotron-3-nano:30b", "deepseek-v4-flash", "deepseek-v4-pro", "qwen3-coder-next"]
     new_latencies = {}
     
     # Quick check of models list first to verify what is online
@@ -86,6 +86,12 @@ def check_model_latencies_sync():
                 response.read()
                 latency = time.time() - t0
                 new_latencies[model] = latency
+        except urllib.error.HTTPError as e:
+            # Handle specific API auth/billing/model errors by marking model dead (999.0)
+            if e.code in [401, 403, 404, 429]:
+                new_latencies[model] = 999.0
+            else:
+                new_latencies[model] = 15.0
         except Exception:
             # Cold model loading might take time, give a small latency penalty but DO NOT mark as dead
             new_latencies[model] = 15.0
@@ -143,7 +149,7 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
     active_ollama_key = custom_ollama_key or OLLAMA_API_KEY
 
     latencies = _model_latencies
-    default_candidates = ["deepseek-v4-flash", "qwen3-coder-next", "gemma3:12b", "ministral-3:8b", "deepseek-v4-pro", "gemma3:27b"]
+    default_candidates = ["kimi-k2.5", "glm-5.1", "minimax-m2.5", "nemotron-3-nano:30b", "deepseek-v4-flash", "deepseek-v4-pro", "qwen3-coder-next"]
     
     if not latencies:
         sorted_models = default_candidates
