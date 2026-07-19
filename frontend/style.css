@@ -57,8 +57,23 @@ body {
 /* ── Scrollbars ───────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg-main); }
-::-webkit-scrollbar-thumb { background: #c1cbd8; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #8898aa; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--fpt-orange); }
+
+.profile-scroll-container::-webkit-scrollbar {
+    width: 4px;
+}
+.profile-scroll-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+}
+.profile-scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+}
+.profile-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: var(--fpt-orange);
+}
 
 /* ── App Container ────────────────────────────────────── */
 .app-container {

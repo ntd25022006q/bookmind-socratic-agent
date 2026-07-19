@@ -173,6 +173,86 @@
 
                 </div>
 
+                <!-- Chân Dung Độc Giả Panel (Cố định trang chủ) -->
+                <div class="panel profile-panel">
+                    <h2>
+                        <i class="fa-solid fa-user-pen"></i> Chân Dung Độc Giả
+                    </h2>
+                    <div class="profile-scroll-container" style="max-height: 230px; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="prof-fullname" style="font-size: 11px; color: #a3a3a3; margin-bottom: 4px; display: block;">Họ và tên <span style="color: #f05f24;">*</span></label>
+                            <input type="text" id="prof-fullname" required placeholder="Ví dụ: Nguyễn Tiến Đạt" style="padding: 7px 10px; font-size: 12px;">
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="prof-student-id" style="font-size: 11px; color: #a3a3a3; margin-bottom: 4px; display: block;">Mã số sinh viên <span style="color: #f05f24;">*</span></label>
+                            <input type="text" id="prof-student-id" required placeholder="Ví dụ: 24070342" style="padding: 7px 10px; font-size: 12px;">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="prof-year" style="font-size: 11px; color: #a3a3a3; margin-bottom: 4px; display: block;">Sinh viên năm <span style="color: #f05f24;">*</span></label>
+                            <select id="prof-year" style="padding: 7px 10px; font-size: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); color: white; width: 100%; border-radius: 6px;">
+                                <option value="Năm 1">Sinh viên Năm 1</option>
+                                <option value="Năm 2">Sinh viên Năm 2</option>
+                                <option value="Năm 3">Sinh viên Năm 3</option>
+                                <option value="Năm 4">Sinh viên Năm 4</option>
+                                <option value="Học viên cao học">Học viên cao học</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="prof-school" style="font-size: 11px; color: #a3a3a3; margin-bottom: 4px; display: block;">Trường thành viên <span style="color: #f05f24;">*</span></label>
+                            <select id="prof-school" style="padding: 7px 10px; font-size: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); color: white; width: 100%; border-radius: 6px;">
+                                <option value="Trường Quốc tế">Trường Quốc tế (VNU-IS)</option>
+                                <option value="Trường ĐH Công nghệ">Trường ĐH Công nghệ (VNU-UET)</option>
+                                <option value="Trường ĐH Khoa học Tự nhiên">Trường ĐH Khoa học Tự nhiên (VNU-HUS)</option>
+                                <option value="Trường ĐH KHXH&NV">Trường ĐH KHXH&NV (VNU-USSH)</option>
+                                <option value="Trường ĐH Ngoại ngữ">Trường ĐH Ngoại ngữ (VNU-ULIS)</option>
+                                <option value="Trường ĐH Kinh tế">Trường ĐH Kinh tế (VNU-UEB)</option>
+                                <option value="Trường ĐH Giáo dục">Trường ĐH Giáo dục (VNU-UEd)</option>
+                                <option value="Trường ĐH Y Dược">Trường ĐH Y Dược (VNU-UMP)</option>
+                                <option value="Trường ĐH Luật">Trường ĐH Luật (VNU-UL)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="prof-major" style="font-size: 11px; color: #a3a3a3; margin-bottom: 4px; display: block;">Ngành học <span style="color: #f05f24;">*</span></label>
+                            <input type="text" id="prof-major" required placeholder="Ví dụ: AIT - Công nghệ thông tin" style="padding: 7px 10px; font-size: 12px;">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="prof-purpose" style="font-size: 11px; color: #a3a3a3; margin-bottom: 4px; display: block;">Mục đích đọc sách <span style="color: #f05f24;">*</span></label>
+                            <select id="prof-purpose" style="padding: 7px 10px; font-size: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); color: white; width: 100%; border-radius: 6px;">
+                                <option value="Nghiên cứu khoa học">Nghiên cứu khoa học (Làm NCKH/Khóa luận)</option>
+                                <option value="Đọc hiểu sâu tài liệu chuyên ngành">Đọc hiểu sâu tài liệu chuyên ngành</option>
+                                <option value="Chuẩn bị thi/kiểm tra">Chuẩn bị cho bài thi/kiểm tra</option>
+                                <option value="Nâng cao kỹ năng mềm">Nâng cao kỹ năng mềm &amp; tư duy</option>
+                                <option value="Đọc giải trí phát triển bản thân">Đọc giải trí &amp; phát triển bản thân</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="prof-interests" style="font-size: 11px; color: #a3a3a3; margin-bottom: 4px; display: block;">Lĩnh vực quan tâm</label>
+                            <select id="prof-interests" style="padding: 7px 10px; font-size: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); color: white; width: 100%; border-radius: 6px;">
+                                <option value="Công nghệ &amp; Trí tuệ nhân tạo (AI)">Công nghệ &amp; Trí tuệ nhân tạo (AI)</option>
+                                <option value="Khoa học tự nhiên &amp; Toán học">Khoa học tự nhiên &amp; Toán học</option>
+                                <option value="Khoa học xã hội &amp; Nhân văn">Khoa học xã hội &amp; Nhân văn</option>
+                                <option value="Kinh tế &amp; Khởi nghiệp">Kinh tế &amp; Khởi nghiệp</option>
+                                <option value="Nghệ thuật &amp; Văn học">Nghệ thuật &amp; Văn học</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="prof-style" style="font-size: 11px; color: #a3a3a3; margin-bottom: 4px; display: block;">Phong cách học &amp; đọc ưa thích</label>
+                            <select id="prof-style" style="padding: 7px 10px; font-size: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); color: white; width: 100%; border-radius: 6px;">
+                                <option value="Phân tích &amp; Phản biện (Socratic)">Phân tích &amp; Phản biện (Socratic)</option>
+                                <option value="Trực quan qua sơ đồ quy trình">Trực quan qua sơ đồ quy trình</option>
+                                <option value="Học thuật &amp; Đọc tài liệu chi tiết">Học thuật &amp; Đọc tài liệu chi tiết</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Metrics Panel -->
                 <div class="panel metrics-panel">
                     <h2><i class="fa-solid fa-chart-line"></i> Chỉ Số Vận Hành</h2>
@@ -388,51 +468,6 @@
                 </div>
             </section>
         </main>
-    </div>
-
-    <!-- Modal Form Độc Giả (Khởi chạy lần đầu) -->
-    <div id="profile-modal" class="profile-modal-overlay" style="display: none;">
-        <div class="profile-modal-content">
-            <h2><i class="fa-solid fa-user-pen"></i> Thiết Lập Chân Dung Độc Giả</h2>
-            <p>Vui lòng điền thông tin để VNU BookMind Socratic phục vụ đề xuất &amp; phản biện cá nhân hóa tốt nhất.</p>
-            
-            <form id="profile-form">
-                <!-- Các trường bắt buộc -->
-                <div class="form-group">
-                    <label for="prof-fullname">Họ và tên <span style="color: #f05f24;">*</span></label>
-                    <input type="text" id="prof-fullname" required placeholder="Ví dụ: Nguyễn Tiến Đạt">
-                </div>
-                
-                <div class="form-group">
-                    <label for="prof-student-id">Mã số sinh viên <span style="color: #f05f24;">*</span></label>
-                    <input type="text" id="prof-student-id" required placeholder="Ví dụ: 24070342">
-                </div>
-
-                <div class="form-group">
-                    <label for="prof-major">Ngành học &amp; Khóa <span style="color: #f05f24;">*</span></label>
-                    <input type="text" id="prof-major" required placeholder="Ví dụ: AIT - K24 (Trường Quốc tế - ĐHQGHN)">
-                </div>
-                
-                <!-- Các trường tự chọn -->
-                <div class="form-group">
-                    <label for="prof-style">Phong cách tư duy &amp; Phong cách đọc</label>
-                    <select id="prof-style">
-                        <option value="Phân tích &amp; Phản biện">Phân tích &amp; Phản biện (Socratic)</option>
-                        <option value="Sáng tạo &amp; Thực tiễn">Sáng tạo &amp; Thực tiễn</option>
-                        <option value="Học thuật &amp; Đọc sâu">Học thuật &amp; Đọc sâu</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="prof-interests">Lĩnh vực đặc biệt quan tâm (Tự chọn)</label>
-                    <input type="text" id="prof-interests" placeholder="Ví dụ: Trí tuệ nhân tạo, Triết học khai phóng, Kỹ năng tự học">
-                </div>
-                
-                <button type="submit" class="glow-button" style="width: 100%; margin-top: 15px; background: #f05f24; color: #ffffff; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;">
-                    <i class="fa-solid fa-circle-check"></i> Lưu &amp; Khởi Chạy Hệ Thống
-                </button>
-            </form>
-        </div>
     </div>
 
     <!-- App Script -->

@@ -32,47 +32,81 @@ document.addEventListener('DOMContentLoaded', () => {
     // Stop element
     const stopBtn = document.getElementById('stop-btn');
 
-    // ── Profile Modal Logic ──────────────────────────────────────────────────
-    const profileModal = document.getElementById('profile-modal');
-    const profileForm = document.getElementById('profile-form');
-    
-    function checkUserProfile() {
-        const storedProfile = localStorage.getItem('vnu_bookmind_profile');
-        if (!storedProfile) {
-            if (profileModal) profileModal.style.display = 'flex';
-        } else {
-            if (profileModal) profileModal.style.display = 'none';
-        }
+    // ── Profile Form Logic (Inline Sidebar) ──────────────────────────────────
+    const profileInputs = {
+        fullname: document.getElementById('prof-fullname'),
+        studentId: document.getElementById('prof-student-id'),
+        year: document.getElementById('prof-year'),
+        school: document.getElementById('prof-school'),
+        major: document.getElementById('prof-major'),
+        purpose: document.getElementById('prof-purpose'),
+        interests: document.getElementById('prof-interests'),
+        style: document.getElementById('prof-style')
+    };
+
+    function saveUserProfile() {
+        const profileData = {
+            fullname: profileInputs.fullname ? profileInputs.fullname.value.trim() : '',
+            studentId: profileInputs.studentId ? profileInputs.studentId.value.trim() : '',
+            year: profileInputs.year ? profileInputs.year.value : 'Năm 1',
+            school: profileInputs.school ? profileInputs.school.value : 'Trường Quốc tế',
+            major: profileInputs.major ? profileInputs.major.value.trim() : '',
+            purpose: profileInputs.purpose ? profileInputs.purpose.value : 'Đọc hiểu sâu tài liệu chuyên ngành',
+            interests: profileInputs.interests ? profileInputs.interests.value : 'Công nghệ & Trí tuệ nhân tạo (AI)',
+            style: profileInputs.style ? profileInputs.style.value : 'Phân tích & Phản biện (Socratic)'
+        };
+        localStorage.setItem('vnu_bookmind_profile', JSON.stringify(profileData));
+        console.log("Auto-saved reader profile data to LocalStorage.");
     }
-    
-    if (profileForm) {
-        profileForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const fullname = document.getElementById('prof-fullname').value;
-            const studentId = document.getElementById('prof-student-id').value;
-            const major = document.getElementById('prof-major').value;
-            const style = document.getElementById('prof-style').value;
-            const interests = document.getElementById('prof-interests').value;
-            
-            const profileData = { fullname, studentId, major, style, interests };
-            localStorage.setItem('vnu_bookmind_profile', JSON.stringify(profileData));
-            if (profileModal) profileModal.style.display = 'none';
+
+    function loadUserProfile() {
+        const stored = localStorage.getItem('vnu_bookmind_profile');
+        if (stored) {
+            try {
+                const data = JSON.parse(stored);
+                if (profileInputs.fullname && data.fullname) profileInputs.fullname.value = data.fullname;
+                if (profileInputs.studentId && data.studentId) profileInputs.studentId.value = data.studentId;
+                if (profileInputs.year && data.year) profileInputs.year.value = data.year;
+                if (profileInputs.school && data.school) profileInputs.school.value = data.school;
+                if (profileInputs.major && data.major) profileInputs.major.value = data.major;
+                if (profileInputs.purpose && data.purpose) profileInputs.purpose.value = data.purpose;
+                if (profileInputs.interests && data.interests) profileInputs.interests.value = data.interests;
+                if (profileInputs.style && data.style) profileInputs.style.value = data.style;
+            } catch (e) {
+                console.error("Error loading user profile:", e);
+            }
+        }
+
+        // Register auto-save listeners on all form fields
+        Object.keys(profileInputs).forEach(k => {
+            const inputEl = profileInputs[k];
+            if (inputEl) {
+                const eventType = (inputEl.tagName === 'SELECT') ? 'change' : 'input';
+                inputEl.addEventListener(eventType, saveUserProfile);
+            }
         });
     }
-    
+
+    function isProfileValid() {
+        const fullnameVal = profileInputs.fullname ? profileInputs.fullname.value.trim() : '';
+        const studentIdVal = profileInputs.studentId ? profileInputs.studentId.value.trim() : '';
+        const majorVal = profileInputs.major ? profileInputs.major.value.trim() : '';
+        return (fullnameVal !== '' && studentIdVal !== '' && majorVal !== '');
+    }
+
     function getUserProfileString() {
         const stored = localStorage.getItem('vnu_bookmind_profile');
         if (!stored) return "";
         try {
             const data = JSON.parse(stored);
-            return `Họ tên: ${data.fullname}, MSSV: ${data.studentId}, Ngành học: ${data.major}, Phong cách tư duy: ${data.style}, Lĩnh vực quan tâm: ${data.interests || 'Chưa cung cấp'}`;
-        } catch(e) {
+            return `Họ tên sinh viên: ${data.fullname}, MSSV: ${data.studentId}, Sinh viên năm: ${data.year}, Trường thành viên: ${data.school}, Ngành học: ${data.major}, Mục đích đọc sách: ${data.purpose}, Lĩnh vực quan tâm: ${data.interests}, Phong cách học & đọc ưa thích: ${data.style}`;
+        } catch (e) {
             return "";
         }
     }
-    
-    // Check on startup
-    checkUserProfile();
+
+    // Load settings on boot
+    loadUserProfile();
 
     // Settings panel removed — API prefix auto-detected, no manual config needed
 
@@ -2263,13 +2297,15 @@ function checkServerConnection() {
             }
         }, 50);
 
-        const storedProfile = localStorage.getItem('vnu_bookmind_profile');
-        if (!storedProfile) {
-            if (profileModal) profileModal.style.display = 'flex';
-            alert('Vui lòng thiết lập hồ sơ độc giả trước khi bắt đầu đối thoại!');
+        if (!isProfileValid()) {
+            alert('Vui lòng điền đầy đủ các thông tin bắt buộc trong phần Chân Dung Độc Giả (Họ tên, Mã số sinh viên, Ngành học) ở cột bên trái trước khi kích hoạt!');
             runBtn.disabled = false;
-            runBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> Khởi Chạy Đối Thoại';
+            runBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> Kích Hoạt Phân Tích';
             if (stopBtn) stopBtn.style.display = 'none';
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
             return;
         }
 
