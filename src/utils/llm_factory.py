@@ -41,7 +41,7 @@ _latency_lock = threading.Lock()
 def check_model_latencies_sync():
     """Verify availability and latency of Ollama models to build an optimized fallback list."""
     global _model_latencies
-    models_to_check = ["kimi-k2.5", "glm-5.1", "minimax-m2.5", "nemotron-3-nano:30b", "deepseek-v4-flash", "deepseek-v4-pro", "qwen3-coder-next"]
+    models_to_check = ["kimi-k2.5", "kimi-k2.6", "minimax-m2.5", "minimax-m2.7", "nemotron-3-nano:30b"]
     new_latencies = {}
     
     # Quick check of models list first to verify what is online
@@ -149,7 +149,7 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
     active_ollama_key = custom_ollama_key or OLLAMA_API_KEY
 
     latencies = _model_latencies
-    default_candidates = ["kimi-k2.5", "glm-5.1", "minimax-m2.5", "nemotron-3-nano:30b", "deepseek-v4-flash", "deepseek-v4-pro", "qwen3-coder-next"]
+    default_candidates = ["kimi-k2.5", "kimi-k2.6", "minimax-m2.5", "minimax-m2.7", "nemotron-3-nano:30b"]
     
     if not latencies:
         sorted_models = default_candidates
@@ -166,14 +166,14 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
         healthy_models = default_candidates
 
     # Determine primary model and fallback candidates
-    primary_latency = latencies.get(model, 1.0)
+    primary_latency = latencies.get(model, 999.0) if model not in default_candidates else latencies.get(model, 1.0)
     
     if primary_latency < 10.0:
         primary_model = model
         fallback_candidates = [m for m in healthy_models if m != model]
     else:
         primary_model = healthy_models[0]
-        fallback_candidates = [m for m in healthy_models if m != primary_model] + [model]
+        fallback_candidates = [m for m in healthy_models if m != primary_model]
 
     primary_llm = ChatOpenAI(
         model=primary_model,

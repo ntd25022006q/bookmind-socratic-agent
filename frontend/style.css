@@ -283,7 +283,7 @@ body {
    ───────────────────────────────────────────────────────── */
 
 .graph-panel {
-    height: 250px;
+    height: 180px;
     flex-shrink: 0;
     position: relative;
     /* Soft dark-slate background — professional, not neon */
