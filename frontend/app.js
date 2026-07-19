@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (host.includes('expert')) {
                 return 'https://bookmind-expert-agent.onrender.com';
             }
-            return 'https://bookmind-socratic-agent.onrender.com';
+            return 'https://bookmind-socratic-agent-5o4p.onrender.com';
         }
         return window.location.origin;
     }
