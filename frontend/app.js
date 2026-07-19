@@ -129,6 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (stored) {
             try {
                 const data = JSON.parse(stored);
+                // Clear old developer test credentials from local storage to keep it blank for the user
+                if (data.fullname === 'Nguyễn Tiến Đạt' || data.studentId === '24070342' || data.major === 'CNTT') {
+                    localStorage.removeItem('vnu_bookmind_profile');
+                    return;
+                }
+                
                 if (profileInputs.fullname && data.fullname) profileInputs.fullname.value = data.fullname;
                 if (profileInputs.studentId && data.studentId) profileInputs.studentId.value = data.studentId;
                 if (profileInputs.major && data.major) profileInputs.major.value = data.major;

@@ -609,7 +609,7 @@ body {
     flex-direction: column;
     gap: 6px;
     min-height: 0;
-    max-height: calc(100vh - 310px);
+    height: 0;
 }
 
 .console-welcome { color: #6b7a90; line-height: 1.6; }
