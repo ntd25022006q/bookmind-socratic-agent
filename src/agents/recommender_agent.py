@@ -16,10 +16,10 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
     if stream_queue:
         await stream_queue.put({
             "type": "node_start",
-            "node": "recommender"  # Maps to node-recommender in UI
+            "node": "analyst"  # Maps to node-analyst in UI
         })
         
-    print_agent_start("Recommender Agent", "Truy xuất học liệu VNU-LIC Koha, DSpace & Bookworm và đề xuất tài liệu phù hợp")
+    print_agent_start("Analyst Agent", "Truy xuất học liệu VNU-LIC Koha, DSpace & Bookworm và đề xuất tài liệu phù hợp")
     
     # 1. Query live VNU-LIC Koha, VNU DSpace Repository and VNU Bookworm APIs
     koha_results = await asyncio.to_thread(search_koha_api, topic)
@@ -34,7 +34,7 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
     call_config = {}
     if stream_queue:
         from src.utils.llm_factory import QueueCallbackHandler
-        call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "recommender")]
+        call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "analyst")]
         
     prompt = f"""Bạn là Recommender Agent của VNU BookMind Socratic. Hãy gợi ý 3 tài liệu phù hợp nhất với độc giả dựa trên hồ sơ học tập/sở thích: {profile}.
     Sử dụng thông tin sách từ:
@@ -60,14 +60,14 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
     
     tokens = len(res.content) // 4
     duration = time.time() - start_time
-    print_agent_complete("Recommender Agent", duration, tokens)
+    print_agent_complete("Analyst Agent", duration, tokens)
     actual_model = get_actual_model_used("recommender", MODEL_RESEARCHER_AGENT)
     toks_per_sec = round(tokens / duration, 1) if duration > 0 else 0
     
     if stream_queue:
         await stream_queue.put({
             "type": "node_end",
-            "node": "recommender",
+            "node": "analyst",
             "content": parsed["console_message"],
             "thinking": parsed["thinking"],
             "tokens": tokens,

@@ -12,16 +12,16 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
     if stream_queue:
         await stream_queue.put({
             "type": "node_start",
-            "node": "profiler"  # Maps to node-profiler in UI
+            "node": "researcher"  # Maps to node-researcher in UI
         })
         
-    print_agent_start("Profiler Agent", "Phân tích hồ sơ độc giả và nhu cầu tự học chủ động")
+    print_agent_start("Researcher Agent", "Phân tích hồ sơ độc giả và nhu cầu tự học chủ động")
     llm = create_llm(MODEL_RESEARCHER_AGENT, config=config, streaming=True)
     
     call_config = {}
     if stream_queue:
         from src.utils.llm_factory import QueueCallbackHandler
-        call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "profiler")]
+        call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "researcher")]
         
     prompt = f"""Bạn là Profiler Agent của VNU BookMind Socratic. Hãy phân tích sở thích đọc sách, gu học thuật và lĩnh vực quan tâm giả định của độc giả từ truy vấn:
     "{topic}"
@@ -43,14 +43,14 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
     
     tokens = len(res.content) // 4
     duration = time.time() - start_time
-    print_agent_complete("Profiler Agent", duration, tokens)
+    print_agent_complete("Researcher Agent", duration, tokens)
     actual_model = get_actual_model_used("profiler", MODEL_RESEARCHER_AGENT)
     toks_per_sec = round(tokens / duration, 1) if duration > 0 else 0
     
     if stream_queue:
         await stream_queue.put({
             "type": "node_end",
-            "node": "profiler",
+            "node": "researcher",
             "content": parsed["console_message"],
             "thinking": parsed["thinking"],
             "tokens": tokens,
