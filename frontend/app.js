@@ -32,6 +32,48 @@ document.addEventListener('DOMContentLoaded', () => {
     // Stop element
     const stopBtn = document.getElementById('stop-btn');
 
+    // ── Profile Modal Logic ──────────────────────────────────────────────────
+    const profileModal = document.getElementById('profile-modal');
+    const profileForm = document.getElementById('profile-form');
+    
+    function checkUserProfile() {
+        const storedProfile = localStorage.getItem('vnu_bookmind_profile');
+        if (!storedProfile) {
+            if (profileModal) profileModal.style.display = 'flex';
+        } else {
+            if (profileModal) profileModal.style.display = 'none';
+        }
+    }
+    
+    if (profileForm) {
+        profileForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const fullname = document.getElementById('prof-fullname').value;
+            const studentId = document.getElementById('prof-student-id').value;
+            const major = document.getElementById('prof-major').value;
+            const style = document.getElementById('prof-style').value;
+            const interests = document.getElementById('prof-interests').value;
+            
+            const profileData = { fullname, studentId, major, style, interests };
+            localStorage.setItem('vnu_bookmind_profile', JSON.stringify(profileData));
+            if (profileModal) profileModal.style.display = 'none';
+        });
+    }
+    
+    function getUserProfileString() {
+        const stored = localStorage.getItem('vnu_bookmind_profile');
+        if (!stored) return "";
+        try {
+            const data = JSON.parse(stored);
+            return `Họ tên: ${data.fullname}, MSSV: ${data.studentId}, Ngành học: ${data.major}, Phong cách tư duy: ${data.style}, Lĩnh vực quan tâm: ${data.interests || 'Chưa cung cấp'}`;
+        } catch(e) {
+            return "";
+        }
+    }
+    
+    // Check on startup
+    checkUserProfile();
+
     // Settings panel removed — API prefix auto-detected, no manual config needed
 
     function getApiPrefix() {
@@ -2195,9 +2237,22 @@ function checkServerConnection() {
             }
         }, 50);
 
+        const storedProfile = localStorage.getItem('vnu_bookmind_profile');
+        if (!storedProfile) {
+            if (profileModal) profileModal.style.display = 'flex';
+            alert('Vui lòng thiết lập hồ sơ độc giả trước khi bắt đầu đối thoại!');
+            runBtn.disabled = false;
+            runBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> Khởi Chạy Đối Thoại';
+            if (stopBtn) stopBtn.style.display = 'none';
+            return;
+        }
+
         // Use POST to avoid exposing API keys in URL query parameters
         const postUrl = getApiPrefix() + '/api/run';
-        const body = { topic: topic };
+        const body = { 
+            topic: topic,
+            user_profile: getUserProfileString()
+        };
         connectSsePost(postUrl, body);
     });
 

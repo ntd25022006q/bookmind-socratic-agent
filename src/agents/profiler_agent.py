@@ -23,19 +23,24 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
         from src.utils.llm_factory import QueueCallbackHandler
         call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "researcher")]
         
-    prompt = f"""Bạn là Profiler Agent của VNU BookMind Socratic. Hãy phân tích sở thích đọc sách, gu học thuật và lĩnh vực quan tâm giả định của độc giả từ truy vấn:
-    "{topic}"
+    user_profile = state.get("user_profile", "")
+    prompt = f"""Bạn là Profiler Agent của VNU BookMind Socratic. Hãy phân tích sở thích đọc sách, gu học thuật và phong cách tư duy của độc giả từ truy vấn: "{topic}".
+    Đặc biệt, độc giả đã cung cấp thông tin hồ sơ của họ như sau: "{user_profile}".
+    Nhiệm vụ của bạn là kết hợp thông tin hồ sơ này và chủ đề truy vấn để lập nên một báo cáo Hồ sơ Độc giả thông minh và đầy đủ nhất.
+    Chú ý: Tuyệt đối giữ đúng các thông tin thật (Họ tên, MSSV, Ngành học) mà độc giả đã cung cấp trong hồ sơ, không được tự bịa ra thông tin mới về các trường này.
     
     Hãy trả về dưới dạng:
     === QUÁ TRÌNH TƯ DUY ===
-    [Phân tích nhu cầu tư duy và gu học thuật]
+    [Phân tích nhu cầu tư duy, phong cách đọc dựa trên hồ sơ cung cấp và truy vấn]
     === CONSOLE MESSAGE ===
-    Đã lập hồ sơ độc giả thông minh.
+    Đã lập hồ sơ độc giả thông minh từ thông tin đăng ký.
     === BÁO CÁO CHI TIẾT ===
     HỒ SƠ ĐỘC GIẢ:
-    - Chủ đề quan tâm: {topic}
-    - Phong cách tư duy: [Sáng tạo/Phân tích/Thực tiễn]
-    - Nhu cầu đọc sâu: [Học thuật/Kỹ năng/Khai phóng]
+    - Họ và tên độc giả: [Họ tên từ hồ sơ]
+    - Mã số sinh viên: [MSSV từ hồ sơ]
+    - Ngành học & Khóa: [Ngành học từ hồ sơ]
+    - Phong cách tư duy: [Phong cách tư duy từ hồ sơ hoặc phân tích]
+    - Lĩnh vực đặc biệt quan tâm: [Lĩnh vực quan tâm từ hồ sơ + phân tích từ chủ đề "{topic}"]
     """
     
     res = await llm.ainvoke(prompt, config=call_config)

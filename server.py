@@ -228,6 +228,7 @@ def download_markdown():
 # ── POST request body for /api/run (secure: API keys not exposed in URL/logs) ─
 class RunRequest(BaseModel):
     topic: str
+    user_profile: str = ""
     ollama_api_key: str = ""
     openrouter_api_key: str = ""
 
@@ -237,6 +238,7 @@ async def run_agents(request: RunRequest):
     """LangGraph multi-agent pipeline via Server-Sent Events.
     Uses POST to prevent API key exposure in URL query parameters and server logs."""
     topic = request.topic
+    user_profile = request.user_profile
     ollama_api_key = request.ollama_api_key
     openrouter_api_key = request.openrouter_api_key
 
@@ -260,6 +262,7 @@ async def run_agents(request: RunRequest):
     async def event_generator():
         initial_state = {
             "topic": topic,
+            "user_profile": user_profile,
             "research_data": "",
             "analysis": "",
             "risks": "",

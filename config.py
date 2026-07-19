@@ -9,15 +9,15 @@ os.environ["ANON_TELEMETRY"] = "False"
 
 # Ollama Cloud API Configuration
 OLLAMA_API_KEY = os.environ.get("OLLAMA_API_KEY", "")
-OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "https://ollama.com/v1")
+OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "https://api.siliconflow.cn/v1")
 
-# Best specialized models on Ollama Cloud — optimized for functional strengths and low latency (free tier compatible)
-MODEL_GUARDRAIL_AGENT    = "deepseek-v4-flash"     # High-speed instruction-following gatekeeper (free)
-MODEL_RESEARCHER_AGENT   = "deepseek-v4-flash"   # Extremely fast factual synthesis and RAG context summary (free)
-MODEL_ANALYST_AGENT      = "deepseek-v4-flash"   # Extremely fast reasoning for trade-offs & complex evaluation matrix (free)
-MODEL_RISK_ASSESSOR_AGENT= "deepseek-v4-flash"   # Extremely fast reasoning for compliance & multi-dimensional risk matrix (free)
-MODEL_RECOMMENDER_AGENT  = "deepseek-v4-flash"   # Extremely fast strategic roadmap and KPI planner (free)
-MODEL_REPORTER_AGENT     = "deepseek-v4-flash"   # Code-specialized model for reports & syntax-valid Mermaid flowcharts (free)
+# Best specialized models on SiliconFlow - optimized for reasoning depth and speed (free tier compatible)
+MODEL_GUARDRAIL_AGENT    = "deepseek-ai/DeepSeek-V3"                 # High-speed factual gatekeeper
+MODEL_RESEARCHER_AGENT   = "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B" # Deep reasoning distilled model for RAG & synthesis
+MODEL_ANALYST_AGENT      = "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B" # Deep Socratic questioning & analysis
+MODEL_RISK_ASSESSOR_AGENT= "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B"
+MODEL_RECOMMENDER_AGENT  = "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B"
+MODEL_REPORTER_AGENT     = "deepseek-ai/DeepSeek-V3"                 # Quick structured markdown reporter
 
 
 import sys
