@@ -1710,6 +1710,32 @@ function checkServerConnection() {
             if (!isPrinting) processQueue();
             if (stopBtn) stopBtn.style.display = 'none';
             localStorage.removeItem('fpt_active_search');
+
+            // UX Tab Redirection Sequence: Report -> Diagram -> Report
+            if (data.stats && !data.stats.irrelevant) {
+                setTimeout(() => {
+                    const reportTabBtn = document.getElementById('tab-btn-report');
+                    if (reportTabBtn) {
+                        reportTabBtn.click();
+                        console.log("UX Sequence Step 1: Navigated to Detailed Report tab.");
+                    }
+                    
+                    setTimeout(() => {
+                        const diagramTabBtn = document.getElementById('tab-btn-diagram');
+                        if (diagramTabBtn) {
+                            diagramTabBtn.click();
+                            console.log("UX Sequence Step 2: Navigated to Process Diagram tab.");
+                        }
+                        
+                        setTimeout(() => {
+                            if (reportTabBtn) {
+                                reportTabBtn.click();
+                                console.log("UX Sequence Step 3: Navigated back to Detailed Report for final check.");
+                            }
+                        }, 2500);
+                    }, 2500);
+                }, 800);
+            }
             return;
         }
 
@@ -1867,20 +1893,20 @@ function checkServerConnection() {
                         }
                     }
                     activeStream.section = 'report';
-                    // Programmatically switch to the Report tab when report starts streaming!
-                    const reportTabBtn = document.getElementById('tab-btn-report');
-                    if (reportTabBtn && !reportTabBtn.classList.contains('active')) {
-                        reportTabBtn.click();
-                    }
+                    // Programmatically switch to the Report tab when report starts streaming! (Disabled for post-run sequential redirect)
+                    // const reportTabBtn = document.getElementById('tab-btn-report');
+                    // if (reportTabBtn && !reportTabBtn.classList.contains('active')) {
+                    //     reportTabBtn.click();
+                    // }
                 }
 
                 if ((rawTextUpper.includes('=== MERMAID DIAGRAM ===') || rawTextUpper.includes('=== SƠ ĐỒ MERMAID ===') || rawTextUpper.includes('=== BIỂU ĐỒ MERMAID ===')) && activeStream.section !== 'diagram' && activeStream.section !== 'explanation') {
                     activeStream.section = 'diagram';
-                    // Programmatically switch to the Diagram tab when diagram starts streaming!
-                    const diagramTabBtn = document.getElementById('tab-btn-diagram');
-                    if (diagramTabBtn && !diagramTabBtn.classList.contains('active')) {
-                        diagramTabBtn.click();
-                    }
+                    // Programmatically switch to the Diagram tab when diagram starts streaming! (Disabled for post-run sequential redirect)
+                    // const diagramTabBtn = document.getElementById('tab-btn-diagram');
+                    // if (diagramTabBtn && !diagramTabBtn.classList.contains('active')) {
+                    //     diagramTabBtn.click();
+                    // }
                 }
 
                 if ((rawTextUpper.includes('=== DIAGRAM EXPLANATION ===') || rawTextUpper.includes('=== GIẢI THÍCH CHI TIẾT SƠ ĐỒ ===') || rawTextUpper.includes('=== GIẢI THÍCH SƠ ĐỒ ===') || rawTextUpper.includes('=== GIẢI THÍCH ===')) && activeStream.section !== 'explanation') {
@@ -2625,6 +2651,12 @@ function checkServerConnection() {
                 clearInterval(pollingInterval);
                 pollingInterval = null;
             }
+
+            // Gửi yêu cầu huỷ tiến trình ngầm trên backend
+            fetch(getApiPrefix() + '/api/stop', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => console.log('Backend stop response:', data.message))
+                .catch(err => console.error('Lỗi khi gửi yêu cầu dừng tới backend:', err));
 
             // Restore buttons
             runBtn.disabled  = false;

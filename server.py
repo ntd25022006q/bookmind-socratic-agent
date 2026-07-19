@@ -27,6 +27,7 @@ for _s in (sys.stdout, sys.stderr):
 
 # ── Concurrent pipeline protection (thread-safe via asyncio.Lock) ────────────
 _pipeline_lock = asyncio.Lock()
+_current_graph_task = None
 
 # ── Lifespan: replaces deprecated @app.on_event("startup") ──────────────────
 @asynccontextmanager
@@ -225,6 +226,21 @@ def download_markdown():
     return {"error": "Report not generated yet — run the pipeline first."}
 
 
+@app.post("/api/stop")
+async def stop_pipeline():
+    global _current_graph_task
+    if _current_graph_task and not _current_graph_task.done():
+        _current_graph_task.cancel()
+        # Force release lock if still held
+        if _pipeline_lock.locked():
+            try:
+                _pipeline_lock.release()
+            except Exception:
+                pass
+        return {"message": "Đã huỷ tiến trình phân tích thành công."}
+    return {"message": "Không có tiến trình nào đang chạy."}
+
+
 # ── POST request body for /api/run (secure: API keys not exposed in URL/logs) ─
 class RunRequest(BaseModel):
     topic: str
@@ -319,7 +335,9 @@ async def run_agents(request: RunRequest):
                 })
 
         # Start execution in the background — lưu reference để tránh GC thu hồi task
+        global _current_graph_task
         graph_task = asyncio.create_task(run_graph_task())
+        _current_graph_task = graph_task
 
         start_time = time.time()
         agent_tokens = {
