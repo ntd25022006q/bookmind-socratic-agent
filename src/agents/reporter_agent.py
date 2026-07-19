@@ -35,22 +35,12 @@ QUY TẮC NGHIÊM NGẶT KHI VIẾT BÁO CÁO:
 2. TUYỆT ĐỐI KHÔNG dùng ký hiệu ** trong báo cáo. Thay vào đó sử dụng đúng cú pháp Markdown: dùng # ## ### cho tiêu đề, dùng > cho trích dẫn, dùng | cho bảng, dùng - cho danh sách.
 3. TUYỆT ĐỐI KHÔNG dùng chữ Hán, chữ Kanji, chữ Hiragana, chữ Katakana hay bất kỳ ký tự tiếng Trung/Nhật/Hàn nào trong báo cáo. Chỉ dùng tiếng Việt và tiếng Anh.
 4. Báo cáo bắt buộc phải chứa một BẢNG TÀI LIỆU THAM KHẢO gồm đúng 6 cột: STT, tên tài liệu, tác giả, năm, nguồn, link.
-   - Bạn PHẢI chèn chính xác 10 cuốn sách tham khảo sau vào bảng (đặc biệt giữ nguyên các liên kết WorldCat click được):
-     | STT | Tên tài liệu | Tác giả | Năm | Nguồn | Liên kết |
-     | 1 | Tư duy phản biện | Richard Paul, Linda Elder | 2021 | NXB Lao Động | [WorldCat](https://www.worldcat.org/) |
-     | 2 | 21 bài học cho thế kỷ 21 | Yuval Noah Harari | 2020 | NXB Thế Giới | [ISBN 9786047754329](https://www.worldcat.org/isbn/9786047754329) |
-     | 3 | Sapiens: Lược sử loài người | Yuval Noah Harari | 2017 | NXB Thế Giới | [ISBN 9786047736041](https://www.worldcat.org/isbn/9786047736041) |
-     | 4 | Good to Great | Jim Collins | 2001 | HarperBusiness | Học liệu tự học bổ trợ (Chưa có liên kết trực tuyến) |
-     | 5 | Competitive Strategy | Michael Porter | 1980 | Free Press | Học liệu tự học bổ trợ (Chưa có liên kết trực tuyến) |
-     | 6 | The Lean Startup | Eric Ries | 2011 | Crown Business | Học liệu tự học bổ trợ (Chưa có liên kết trực tuyến) |
-     | 7 | Crossing the Chasm | Geoffrey Moore | 1991 | HarperBusiness | Học liệu tự học bổ trợ (Chưa có liên kết trực tuyến) |
-     | 8 | The Innovator's Dilemma | Clayton Christensen | 1997 | Harvard Business Review Press | Học liệu tự học bổ trợ (Chưa có liên kết trực tuyến) |
-     | 9 | AI Superpowers | Kai-Fu Lee | 2018 | Houghton Mifflin Harcourt | Học liệu tự học bổ trợ (Chưa có liên kết trực tuyến) |
-     | 10 | Prediction Machines | Ajay Agrawal, Joshua Gans, Avi Goldfarb | 2018 | Harvard Business Press | Học liệu tự học bổ trợ (Chưa có liên kết trực tuyến) |
-5. QUY TẮC PHÂN BIỆT ĐƯỜNG DẪN (LINK) TRONG BẢNG: Đối với 10 cuốn sách trên, giữ nguyên các liên kết được cung cấp. Đối với tài liệu từ RAG/Koha/Bookworm, điền link thật (nếu có) hoặc điền "Học liệu tự học bổ trợ (Chưa có liên kết trực tuyến)".
-6. TÍCH HỢP KATEX: Nếu chủ đề hoặc các tài liệu có liên quan đến khoa học, công nghệ, toán học hoặc định lượng, hãy hiển thị các công thức toán học/thuật toán bằng cú pháp KaTeX (dùng $...$ cho công thức nội dòng và $$...$$ cho công thức khối riêng biệt) để giao diện hiển thị chuyên nghiệp.
-7. TUYỆT ĐỐI KHÔNG ghi "Ngày:" hay bất kỳ ngày tháng nào vào tên tổ chức hay footer báo cáo.
-8. Phần TÀI LIỆU THAM KHẢO cuối báo cáo PHẢI liệt kê đầy đủ URL thực tế của từng tài liệu (nếu có).
+   - Bảng này phải chứa CHÍNH XÁC các tài liệu gợi ý từ VNU-LIC được cung cấp qua biến sách gợi ý bên dưới.
+   - Các liên kết (link) trong bảng này PHẢI trỏ trực tiếp đến tên miền của VNU-LIC (ví dụ: opac.vnu.edu.vn, repository.vnu.edu.vn, bookworm.vnu.edu.vn) được cung cấp trong danh sách gợi ý. Tuyệt đối không được tự ý thay đổi link sang WorldCat, ISBN hay bất kỳ trang web bên ngoài nào khác.
+   - Nếu sách không có liên kết gốc, hãy ghi rõ: "Học liệu tự học bổ trợ (Chưa có liên kết trực tuyến)".
+5. TÍCH HỢP KATEX: Nếu chủ đề hoặc các tài liệu có liên quan đến khoa học, công nghệ, toán học hoặc định lượng, hãy hiển thị các công thức toán học/thuật toán bằng cú pháp KaTeX (dùng $...$ cho công thức nội dòng và $$...$$ cho công thức khối riêng biệt) để giao diện hiển thị chuyên nghiệp.
+6. TUYỆT ĐỐI KHÔNG ghi "Ngày:" hay bất kỳ ngày tháng nào vào tên tổ chức hay footer báo cáo.
+7. Phần TÀI LIỆU THAM KHẢO cuối báo cáo PHẢI liệt kê đầy đủ URL thực tế từ VNU-LIC của từng tài liệu (nếu có).
 
 Chủ đề: {topic}
 Hồ sơ: {profile}
