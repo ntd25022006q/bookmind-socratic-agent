@@ -109,6 +109,7 @@ body {
     flex-direction: column;
     gap: 10px;
     min-width: 0;
+    min-height: 0;
 }
 
 .sidebar-right {
@@ -563,6 +564,9 @@ body {
 .console-panel {
     flex-grow: 1;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
 }
 
 .console-header {
@@ -604,6 +608,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    min-height: 0;
+    max-height: calc(100vh - 310px);
 }
 
 .console-welcome { color: #6b7a90; line-height: 1.6; }
