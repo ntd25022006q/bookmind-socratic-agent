@@ -112,18 +112,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getApiPrefix() {
         const host = window.location.hostname;
-        if (host.includes('bookmind-socratic-agent.vercel.app')) {
+        if (host === 'localhost' || host === '127.0.0.1') {
+            return 'http://127.0.0.1:8000';
+        }
+        if (host.includes('vercel.app')) {
+            if (host.includes('expert')) {
+                return 'https://bookmind-expert-agent.onrender.com';
+            }
             return 'https://bookmind-socratic-agent.onrender.com';
-        }
-        if (host.includes('bookmind-expert-agent.vercel.app')) {
-            return 'https://bookmind-expert-agent.onrender.com';
-        }
-        // Fallback for vercel branch deploys or any vercel domain containing socratic/expert
-        if (host.includes('socratic') && host.includes('vercel.app')) {
-            return 'https://bookmind-socratic-agent.onrender.com';
-        }
-        if (host.includes('expert') && host.includes('vercel.app')) {
-            return 'https://bookmind-expert-agent.onrender.com';
         }
         return window.location.origin;
     }
