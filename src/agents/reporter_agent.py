@@ -34,18 +34,13 @@ QUY TẮC NGHIÊM NGẶT KHI VIẾT BÁO CÁO:
 1. VIẾT ĐẦY ĐỦ từng phần, KHÔNG được rút gọn, KHÔNG dùng placeholder như "(đã có ở trên)", "(xem thêm)", "(không lặp lại)", hoặc bất kỳ cụm từ lười biếng nào.
 2. TUYỆT ĐỐI KHÔNG dùng ký hiệu ** trong báo cáo. Thay vào đó sử dụng đúng cú pháp Markdown: dùng # ## ### cho tiêu đề, dùng > cho trích dẫn, dùng | cho bảng, dùng - cho danh sách.
 3. TUYỆT ĐỐI KHÔNG dùng chữ Hán, chữ Kanji, chữ Hiragana, chữ Katakana hay bất kỳ ký tự tiếng Trung/Nhật/Hàn nào trong báo cáo. Chỉ dùng tiếng Việt và tiếng Anh.
-4. Báo cáo bắt buộc phải chứa một BẢNG TÀI LIỆU THAM KHẢO gồm đúng 6 cột: STT, tên tài liệu, tác giả, năm, nguồn, link. Các liên kết trong bảng phải hiển thị đầy đủ, không rút gọn.
-5. Liên kết PHẢI là URL thực tế đang hoạt động, CHỈ dùng các URL sau:
-   - Google Books: https://books.google.com/books?q=...
-   - WorldCat: https://www.worldcat.org/search?q=...
-   - Archive.org: https://archive.org/search?query=...
-   - JSTOR: https://www.jstor.org/
-   - DSpace VNU (chỉ khi có handle thực tế): https://repository.vnu.edu.vn/handle/VNU_123/XXXXX
-   - OPAC VNU-LIC: https://lic.vnu.edu.vn/
-   TUYỆT ĐỐI KHÔNG dùng: openlibrary.org/isbn/..., cas.vnu.edu.vn, bất kỳ URL nào có OL[số]W hay VNU_123/[số tự đặt].
+4. Báo cáo bắt buộc phải chứa một BẢNG TÀI LIỆU THAM KHẢO gồm đúng 6 cột: STT, tên tài liệu, tác giả, năm, nguồn, link.
+5. QUY TẮC PHÂN BIỆT ĐƯỜNG DẪN (LINK) TRONG BẢNG:
+   - CÓ LINK: Nếu tài liệu lấy từ API thật (Koha, DSpace, Bookworm) và có URL, hãy điền đầy đủ liên kết thật. Chỉ dùng các URL hoạt động sau: Google Books (books.google.com), WorldCat (worldcat.org), Archive.org, JSTOR, DSpace VNU (repository.vnu.edu.vn), OPAC VNU-LIC (lic.vnu.edu.vn).
+   - KHÔNG CÓ LINK: Đối với các tài liệu bổ trợ tự học (sách do AI tự suy luận thêm hoặc RAG không kèm link), bạn TUYỆT ĐỐI không được tự ý bịa ra URL giả. Cột "link" của các tài liệu này hãy điền rõ: "Học liệu tự học bổ trợ (Chưa có liên kết trực tuyến)".
 6. TÍCH HỢP KATEX: Nếu chủ đề hoặc các tài liệu có liên quan đến khoa học, công nghệ, toán học hoặc định lượng, hãy hiển thị các công thức toán học/thuật toán bằng cú pháp KaTeX (dùng $...$ cho công thức nội dòng và $$...$$ cho công thức khối riêng biệt) để giao diện hiển thị chuyên nghiệp.
 7. TUYỆT ĐỐI KHÔNG ghi "Ngày:" hay bất kỳ ngày tháng nào vào tên tổ chức hay footer báo cáo.
-8. Phần TÀI LIỆU THAM KHẢO cuối báo cáo PHẢI liệt kê đầy đủ URL thực tế của từng tài liệu.
+8. Phần TÀI LIỆU THAM KHẢO cuối báo cáo PHẢI liệt kê đầy đủ URL thực tế của từng tài liệu (nếu có).
 
 Chủ đề: {topic}
 Hồ sơ: {profile}

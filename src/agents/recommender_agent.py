@@ -43,16 +43,20 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
     - Sách giáo trình số/eBook từ Bookworm VNU-LIC: {bookworm_results}
     - Tài liệu bổ trợ RAG: {rag_context}
     
-    Mỗi tài liệu gợi ý phải nêu rõ: Tên tài liệu, Tác giả, Nhà xuất bản/Năm công bố, Mã số tra cứu, Vị trí mượn hoặc Nguồn truy cập, và đặc biệt bắt buộc phải hiển thị một liên kết Markdown có nhãn [Đọc bản PDF / Đọc trực tuyến tại đây](địa_chỉ_pdf_url) sử dụng trường 'pdf_url' từ dữ liệu sách/luận văn/ebook được truyền vào.
+    QUY TẮC QUAN TRỌNG VỀ ĐƯỜNG DẪN (URL):
+    - CÓ ĐƯỜNG DẪN THẬT: Chỉ khi tài liệu được lấy từ kết quả API (Koha, DSpace, Bookworm) có chứa trường 'pdf_url' hoặc 'url' thật sự hoạt động, bạn mới hiển thị liên kết Markdown trỏ đến địa chỉ đó.
+    - KHÔNG ĐƯỢC BỊA LINK: Đối với mọi tài liệu bổ trợ khác (sách do bạn tự suy luận, sách từ RAG không kèm link thật), bạn TUYỆT ĐỐI KHÔNG ĐƯỢC bịa đặt ra liên kết giả (như openlibrary.org/isbn/..., cas.vnu.edu.vn, link chế...). Đối với các tài liệu này, hãy viết đầy đủ Tên tài liệu, Tác giả, Nhà xuất bản, Năm công bố, và ghi chú rõ "Nguồn: Học liệu tự học bổ trợ (Chưa có liên kết trực tuyến)".
+    
+    Mỗi tài liệu gợi ý phải nêu rõ: Tên tài liệu, Tác giả, Nhà xuất bản/Năm công bố, Mã số tra cứu, Vị trí mượn hoặc Nguồn truy cập, và liên kết Markdown trỏ chính xác (nếu có).
     
     Hãy trả về dưới dạng:
     === QUÁ TRÌNH TƯ DUY ===
-    [Lập luận chọn tài liệu từ các nguồn Koha, DSpace, Bookworm và RAG]
+    [Lập luận chọn tài liệu từ các nguồn Koha, DSpace, Bookworm và RAG, phân loại rõ tài liệu nào có link thật và tài liệu nào không dùng link]
     === CONSOLE MESSAGE ===
     Đã gợi ý danh sách sách in, luận án và sách điện tử cá nhân hóa từ các cơ sở dữ liệu VNU-LIC Koha, DSpace và Bookworm.
     === BÁO CÁO CHI TIẾT ===
     DANH MỤC GỢI Ý (VNU-LIC):
-    [Liệt kê các tài liệu gợi ý kèm thông tin chi tiết và liên kết đọc trực tuyến/PDF]
+    [Liệt kê các tài liệu gợi ý kèm thông tin chi tiết và liên kết đọc trực tuyến/PDF nếu có]
     """
     
     res = await llm.ainvoke(prompt, config=call_config)
