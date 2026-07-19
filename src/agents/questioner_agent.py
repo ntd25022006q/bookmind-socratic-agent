@@ -26,19 +26,23 @@ async def questioner_node(state: ResearchState, config=None) -> dict:
         call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "risk_assessor")]
         
     prompt = f"""Bạn là Socrates Critic Agent của VNU BookMind. Dựa trên chủ đề "{topic}", hồ sơ độc giả "{profile}" và các cuốn sách đề xuất "{books}", hãy đặt ra 3 câu hỏi phản biện sâu sắc.
-    TUÂN THỦ: Không tóm tắt nội dung sách, không đưa ra câu trả lời sẵn. Hãy đặt câu hỏi mở Socrates kích thích sự hoài nghi lành mạnh, tranh luận tự thân và định hướng ghi chép đọc sách tích cực.
-    
-    Hãy trả về dưới dạng:
-    === QUÁ TRÌNH TƯ DUY ===
-    [Xây dựng 3 câu hỏi phản biện mở Socrates]
-    === CONSOLE MESSAGE ===
-    Socrates Critic Agent đã kích hoạt câu hỏi phản biện.
-    === BÁO CÁO CHI TIẾT ===
-    CÂU HỎI PHẢN BIỆN SOCRATES (VNU BOOKMIND):
-    1. [Câu hỏi 1]
-    2. [Câu hỏi 2]
-    3. [Câu hỏi 3]
-    """
+
+NGUYÊN TẮC KHÔNG TÓM TẮT HỘ:
+- Nếu người dùng yêu cầu tóm tắt sách (ví dụ: "Cuốn sách X nói về điều gì?", "Tóm tắt hộ cuốn Y"), bạn TUYỆT ĐỐI không được tóm tắt nội dung sách hay cung cấp câu trả lời sẵn. 
+- Thay vào đó, hãy từ chối tóm tắt hộ một cách lịch sự, tự nhiên và đặt lại 3 câu hỏi phản biện mở Socrates liên quan để buộc độc giả tự tư duy, tự phản biện và tự ghi chép đọc sâu.
+- Định hướng câu hỏi: kích thích sự hoài nghi lành mạnh, tranh luận tự thân và định hướng ghi chép đọc sách tích cực.
+
+Hãy trả về dưới dạng:
+=== QUÁ TRÌNH TƯ DUY ===
+[Xây dựng 3 câu hỏi phản biện mở Socrates và lý do từ chối tóm tắt hộ]
+=== CONSOLE MESSAGE ===
+Socrates Critic Agent đã kích hoạt câu hỏi phản biện.
+=== BÁO CÁO CHI TIẾT ===
+CÂU HỎI PHẢN BIỆN SOCRATES (VNU BOOKMIND):
+1. [Câu hỏi 1]
+2. [Câu hỏi 2]
+3. [Câu hỏi 3]
+"""
     
     res = await llm.ainvoke(prompt, config=call_config)
     parsed = parse_agent_json(res.content, "detailed_report")

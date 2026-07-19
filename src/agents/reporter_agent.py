@@ -34,7 +34,7 @@ QUY TẮC NGHIÊM NGẶT KHI VIẾT BÁO CÁO:
 1. VIẾT ĐẦY ĐỦ từng phần, KHÔNG được rút gọn, KHÔNG dùng placeholder như "(đã có ở trên)", "(xem thêm)", "(không lặp lại)", hoặc bất kỳ cụm từ lười biếng nào.
 2. TUYỆT ĐỐI KHÔNG dùng ký hiệu ** trong báo cáo. Thay vào đó sử dụng đúng cú pháp Markdown: dùng # ## ### cho tiêu đề, dùng > cho trích dẫn, dùng | cho bảng, dùng - cho danh sách.
 3. TUYỆT ĐỐI KHÔNG dùng chữ Hán, chữ Kanji, chữ Hiragana, chữ Katakana hay bất kỳ ký tự tiếng Trung/Nhật/Hàn nào trong báo cáo. Chỉ dùng tiếng Việt và tiếng Anh.
-4. Mỗi cuốn sách gợi ý phải có: tựa đề đầy đủ (tiếng Việt), tác giả, nhà xuất bản, năm, lý do gợi ý chi tiết (ít nhất 3 câu phân tích), và liên kết đọc/xem trực tiếp.
+4. Báo cáo bắt buộc phải chứa một BẢNG TÀI LIỆU THAM KHẢO gồm đúng 6 cột: STT, tên tài liệu, tác giả, năm, nguồn, link. Các liên kết trong bảng phải hiển thị đầy đủ, không rút gọn.
 5. Liên kết PHẢI là URL thực tế đang hoạt động, CHỈ dùng các URL sau:
    - Google Books: https://books.google.com/books?q=...
    - WorldCat: https://www.worldcat.org/search?q=...
@@ -43,8 +43,9 @@ QUY TẮC NGHIÊM NGẶT KHI VIẾT BÁO CÁO:
    - DSpace VNU (chỉ khi có handle thực tế): https://repository.vnu.edu.vn/handle/VNU_123/XXXXX
    - OPAC VNU-LIC: https://lic.vnu.edu.vn/
    TUYỆT ĐỐI KHÔNG dùng: openlibrary.org/isbn/..., cas.vnu.edu.vn, bất kỳ URL nào có OL[số]W hay VNU_123/[số tự đặt].
-6. TUYỆT ĐỐI KHÔNG ghi "Ngày:" hay bất kỳ ngày tháng nào vào tên tổ chức hay footer báo cáo.
-7. Phần TÀI LIỆU THAM KHẢO cuối báo cáo PHẢI liệt kê đầy đủ URL thực tế của từng tài liệu.
+6. TÍCH HỢP KATEX: Nếu chủ đề hoặc các tài liệu có liên quan đến khoa học, công nghệ, toán học hoặc định lượng, hãy hiển thị các công thức toán học/thuật toán bằng cú pháp KaTeX (dùng $...$ cho công thức nội dòng và $$...$$ cho công thức khối riêng biệt) để giao diện hiển thị chuyên nghiệp.
+7. TUYỆT ĐỐI KHÔNG ghi "Ngày:" hay bất kỳ ngày tháng nào vào tên tổ chức hay footer báo cáo.
+8. Phần TÀI LIỆU THAM KHẢO cuối báo cáo PHẢI liệt kê đầy đủ URL thực tế của từng tài liệu.
 
 Chủ đề: {topic}
 Hồ sơ: {profile}
