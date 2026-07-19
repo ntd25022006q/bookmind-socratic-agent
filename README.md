@@ -1,9 +1,5 @@
 # VNU BookMind Socratic 🧠📚
 > **Hệ thống Đa tác nhân (Multi-Agent) Hỗ trợ Đọc sâu & Phản biện Sách Socratic dành cho Sinh viên ĐHQGHN**
-> *Bài dự thi giành giải cao nhất cuộc thi Đại sứ Văn hóa Đọc 2026 - Phát triển bởi sinh viên Nguyễn Tiến Đạt (MSV: 24070342 - K24 AIT - Trường Quốc tế - ĐHQGHN).*
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ntd25022006q/bookmind-socratic-agent)
-[![Frontend on Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)](https://bookmind-socratic-agent.vercel.app/)
 
 ---
 
@@ -65,7 +61,7 @@ flowchart TD
 ### 1. Cấu hình biến môi trường
 Tạo tệp `.env` tại thư mục gốc dự án:
 ```env
-OLLAMA_API_KEY=62784be9ab144786bcdc97cf87148957.Scby0xkLy0ej0vHZeTa3lOOW
+OLLAMA_API_KEY=your_ollama_api_key_here
 OLLAMA_BASE_URL=https://ollama.com/v1
 ```
 
