@@ -32,7 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Stop element
     const stopBtn = document.getElementById('stop-btn');
 
-    // ── Profile Form Logic (Inline Sidebar) ──────────────────────────────────
+    // ── Profile Modal Logic ──────────────────────────────────────────────────
+    const profileModal = document.getElementById('profile-modal');
+    const profileForm = document.getElementById('profile-form');
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+
     const profileInputs = {
         fullname: document.getElementById('prof-fullname'),
         studentId: document.getElementById('prof-student-id'),
@@ -41,22 +45,83 @@ document.addEventListener('DOMContentLoaded', () => {
         major: document.getElementById('prof-major'),
         purpose: document.getElementById('prof-purpose'),
         interests: document.getElementById('prof-interests'),
-        style: document.getElementById('prof-style')
+        style: document.getElementById('prof-style'),
+        
+        // Other input fields
+        yearOther: document.getElementById('prof-year-other'),
+        schoolOther: document.getElementById('prof-school-other'),
+        purposeOther: document.getElementById('prof-purpose-other'),
+        interestsOther: document.getElementById('prof-interests-other'),
+        styleOther: document.getElementById('prof-style-other')
     };
+
+    // Helper to toggle 'Other' input visibility
+    function toggleOtherInput(selectEl, otherInputEl) {
+        if (selectEl && otherInputEl) {
+            if (selectEl.value === 'Khác') {
+                otherInputEl.style.display = 'block';
+                otherInputEl.required = true;
+            } else {
+                otherInputEl.style.display = 'none';
+                otherInputEl.required = false;
+                otherInputEl.value = '';
+            }
+        }
+    }
+
+    // Register dropdown change events to handle 'Other' options
+    const dropdownsToWatch = [
+        { select: profileInputs.year, other: profileInputs.yearOther },
+        { select: profileInputs.school, other: profileInputs.schoolOther },
+        { select: profileInputs.purpose, other: profileInputs.purposeOther },
+        { select: profileInputs.interests, other: profileInputs.interestsOther },
+        { select: profileInputs.style, other: profileInputs.styleOther }
+    ];
+
+    dropdownsToWatch.forEach(item => {
+        if (item.select) {
+            item.select.addEventListener('change', () => toggleOtherInput(item.select, item.other));
+        }
+    });
+
+    function getResolvedValue(selectEl, otherInputEl) {
+        if (!selectEl) return '';
+        if (selectEl.value === 'Khác' && otherInputEl) {
+            return `Khác (${otherInputEl.value.trim()})`;
+        }
+        return selectEl.value;
+    }
 
     function saveUserProfile() {
         const profileData = {
             fullname: profileInputs.fullname ? profileInputs.fullname.value.trim() : '',
             studentId: profileInputs.studentId ? profileInputs.studentId.value.trim() : '',
-            year: profileInputs.year ? profileInputs.year.value : 'Năm 1',
-            school: profileInputs.school ? profileInputs.school.value : 'Trường Quốc tế',
+            
+            // Core select values
+            yearRaw: profileInputs.year ? profileInputs.year.value : 'Năm 1',
+            schoolRaw: profileInputs.school ? profileInputs.school.value : 'Trường Quốc tế',
+            purposeRaw: profileInputs.purpose ? profileInputs.purpose.value : 'Đọc hiểu sâu tài liệu chuyên ngành',
+            interestsRaw: profileInputs.interests ? profileInputs.interests.value : 'Công nghệ & Trí tuệ nhân tạo (AI)',
+            styleRaw: profileInputs.style ? profileInputs.style.value : 'Phân tích & Phản biện (Socratic)',
+            
+            // Raw text inputs for 'Other' options
+            yearOtherVal: profileInputs.yearOther ? profileInputs.yearOther.value.trim() : '',
+            schoolOtherVal: profileInputs.schoolOther ? profileInputs.schoolOther.value.trim() : '',
+            purposeOtherVal: profileInputs.purposeOther ? profileInputs.purposeOther.value.trim() : '',
+            interestsOtherVal: profileInputs.interestsOther ? profileInputs.interestsOther.value.trim() : '',
+            styleOtherVal: profileInputs.styleOther ? profileInputs.styleOther.value.trim() : '',
+
             major: profileInputs.major ? profileInputs.major.value.trim() : '',
-            purpose: profileInputs.purpose ? profileInputs.purpose.value : 'Đọc hiểu sâu tài liệu chuyên ngành',
-            interests: profileInputs.interests ? profileInputs.interests.value : 'Công nghệ & Trí tuệ nhân tạo (AI)',
-            style: profileInputs.style ? profileInputs.style.value : 'Phân tích & Phản biện (Socratic)'
+            
+            // Final resolved display values
+            year: getResolvedValue(profileInputs.year, profileInputs.yearOther),
+            school: getResolvedValue(profileInputs.school, profileInputs.schoolOther),
+            purpose: getResolvedValue(profileInputs.purpose, profileInputs.purposeOther),
+            interests: getResolvedValue(profileInputs.interests, profileInputs.interestsOther),
+            style: getResolvedValue(profileInputs.style, profileInputs.styleOther)
         };
         localStorage.setItem('vnu_bookmind_profile', JSON.stringify(profileData));
-        console.log("Auto-saved reader profile data to LocalStorage.");
+        console.log("Saved reader profile:", profileData);
     }
 
     function loadUserProfile() {
@@ -66,31 +131,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = JSON.parse(stored);
                 if (profileInputs.fullname && data.fullname) profileInputs.fullname.value = data.fullname;
                 if (profileInputs.studentId && data.studentId) profileInputs.studentId.value = data.studentId;
-                if (profileInputs.year && data.year) profileInputs.year.value = data.year;
-                if (profileInputs.school && data.school) profileInputs.school.value = data.school;
                 if (profileInputs.major && data.major) profileInputs.major.value = data.major;
-                if (profileInputs.purpose && data.purpose) profileInputs.purpose.value = data.purpose;
-                if (profileInputs.interests && data.interests) profileInputs.interests.value = data.interests;
-                if (profileInputs.style && data.style) profileInputs.style.value = data.style;
+                
+                // Load select raw choices
+                if (profileInputs.year && data.yearRaw) profileInputs.year.value = data.yearRaw;
+                if (profileInputs.school && data.schoolRaw) profileInputs.school.value = data.schoolRaw;
+                if (profileInputs.purpose && data.purposeRaw) profileInputs.purpose.value = data.purposeRaw;
+                if (profileInputs.interests && data.interestsRaw) profileInputs.interests.value = data.interestsRaw;
+                if (profileInputs.style && data.styleRaw) profileInputs.style.value = data.styleRaw;
+
+                // Load text input other values
+                if (profileInputs.yearOther && data.yearOtherVal) profileInputs.yearOther.value = data.yearOtherVal;
+                if (profileInputs.schoolOther && data.schoolOtherVal) profileInputs.schoolOther.value = data.schoolOtherVal;
+                if (profileInputs.purposeOther && data.purposeOtherVal) profileInputs.purposeOther.value = data.purposeOtherVal;
+                if (profileInputs.interestsOther && data.interestsOtherVal) profileInputs.interestsOther.value = data.interestsOtherVal;
+                if (profileInputs.styleOther && data.styleOtherVal) profileInputs.styleOther.value = data.styleOtherVal;
+
+                // Trigger toggle UI displays
+                dropdownsToWatch.forEach(item => toggleOtherInput(item.select, item.other));
             } catch (e) {
                 console.error("Error loading user profile:", e);
             }
         }
-
-        // Register auto-save listeners on all form fields
-        Object.keys(profileInputs).forEach(k => {
-            const inputEl = profileInputs[k];
-            if (inputEl) {
-                const eventType = (inputEl.tagName === 'SELECT') ? 'change' : 'input';
-                inputEl.addEventListener(eventType, saveUserProfile);
-            }
-        });
     }
 
     function isProfileValid() {
         const fullnameVal = profileInputs.fullname ? profileInputs.fullname.value.trim() : '';
         const studentIdVal = profileInputs.studentId ? profileInputs.studentId.value.trim() : '';
         const majorVal = profileInputs.major ? profileInputs.major.value.trim() : '';
+        
+        // Year check
+        if (profileInputs.year && profileInputs.year.value === 'Khác') {
+            if (!profileInputs.yearOther || !profileInputs.yearOther.value.trim()) return false;
+        }
+        // School check
+        if (profileInputs.school && profileInputs.school.value === 'Khác') {
+            if (!profileInputs.schoolOther || !profileInputs.schoolOther.value.trim()) return false;
+        }
+        // Purpose check
+        if (profileInputs.purpose && profileInputs.purpose.value === 'Khác') {
+            if (!profileInputs.purposeOther || !profileInputs.purposeOther.value.trim()) return false;
+        }
+        // Interests check
+        if (profileInputs.interests && profileInputs.interests.value === 'Khác') {
+            if (!profileInputs.interestsOther || !profileInputs.interestsOther.value.trim()) return false;
+        }
+        // Style check
+        if (profileInputs.style && profileInputs.style.value === 'Khác') {
+            if (!profileInputs.styleOther || !profileInputs.styleOther.value.trim()) return false;
+        }
+
         return (fullnameVal !== '' && studentIdVal !== '' && majorVal !== '');
     }
 
@@ -105,8 +195,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Load settings on boot
-    loadUserProfile();
+    // Modal submit event
+    if (profileForm) {
+        profileForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!isProfileValid()) {
+                alert("Vui lòng nhập đầy đủ các trường thông tin bắt buộc!");
+                return;
+            }
+            saveUserProfile();
+            if (profileModal) profileModal.style.display = 'none';
+        });
+    }
+
+    // Edit button click event
+    if (editProfileBtn) {
+        editProfileBtn.addEventListener('click', () => {
+            loadUserProfile();
+            if (profileModal) profileModal.style.display = 'flex';
+        });
+    }
+
+    // First launch mandatory check
+    function checkUserProfileOnStartup() {
+        const stored = localStorage.getItem('vnu_bookmind_profile');
+        if (!stored) {
+            if (profileModal) profileModal.style.display = 'flex';
+        } else {
+            loadUserProfile();
+        }
+    }
+
+    checkUserProfileOnStartup();
 
     // Settings panel removed — API prefix auto-detected, no manual config needed
 
