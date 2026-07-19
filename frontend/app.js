@@ -112,16 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getApiPrefix() {
         const host = window.location.hostname;
-        if (host === 'localhost' || host === '127.0.0.1') {
+        if (host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.')) {
             return 'http://127.0.0.1:8000';
         }
-        if (host.includes('vercel.app')) {
-            if (host.includes('expert')) {
-                return 'https://bookmind-expert-agent.onrender.com';
-            }
-            return 'https://bookmind-socratic-agent-5o4p.onrender.com';
+        if (host.includes('expert')) {
+            return 'https://bookmind-expert-agent.onrender.com';
         }
-        return window.location.origin;
+        return 'https://bookmind-socratic-agent-5o4p.onrender.com';
     }
 
 function checkServerConnection() {
