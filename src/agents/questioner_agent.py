@@ -11,6 +11,29 @@ async def questioner_node(state: ResearchState, config=None) -> dict:
     profile = state.get("user_profile", "")
     
     stream_queue = config.get("configurable", {}).get("stream_queue") if config else None
+    
+    # Phase 2 resume bypass
+    if state.get("socratic_answers"):
+        if stream_queue:
+            await stream_queue.put({
+                "type": "node_start",
+                "node": "risk_assessor"
+            })
+            await stream_queue.put({
+                "type": "node_end",
+                "node": "risk_assessor",
+                "content": state.get("csv_data", ""),
+                "thinking": "",
+                "tokens": 0,
+                "duration": 0.0,
+                "model": "bypass",
+                "toks_per_sec": 0.0
+            })
+        return {
+            "risks": state.get("risks", ""),
+            "csv_data": state.get("csv_data", "")
+        }
+        
     if stream_queue:
         await stream_queue.put({
             "type": "node_start",

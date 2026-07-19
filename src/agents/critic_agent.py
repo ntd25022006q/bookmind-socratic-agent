@@ -10,6 +10,7 @@ async def critic_node(state: ResearchState, config=None) -> dict:
     profile = state.get("user_profile", "")
     rec = state.get("analysis", "")
     qa = state.get("risks", "")
+    socratic_answers = state.get("socratic_answers", "Độc giả chưa cung cấp câu trả lời.")
     
     stream_queue = config.get("configurable", {}).get("stream_queue") if config else None
     if stream_queue:
@@ -26,21 +27,25 @@ async def critic_node(state: ResearchState, config=None) -> dict:
         from src.utils.llm_factory import QueueCallbackHandler
         call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "recommender")]
         
-    prompt = f"""Bạn là Critic Agent (Tác nhân Phản biện) của VNU BookMind Socratic. Hãy phân tích các đề xuất sách và câu hỏi đối thoại hiện tại.
+    prompt = f"""Bạn là Critic Agent (Tác nhân Phản biện) của VNU BookMind Socratic. Hãy phân tích các đề xuất sách, câu hỏi đối thoại hiện tại và câu trả lời phản biện của độc giả.
     Chủ đề: {topic}
     Hồ sơ độc giả: {profile}
     Đề xuất sách: {rec}
     Câu hỏi Socratic: {qa}
     
+    Câu trả lời phản biện của độc giả đối với 3 câu hỏi Socratic trên:
+    "{socratic_answers}"
+    
     Nhiệm vụ:
-    - Phát hiện các điểm mù nhận thức (cognitive blind spots) hoặc thiên kiến xác nhận độc giả có thể gặp phải.
-    - Đưa ra các checkpoint tư duy phản biện để độc giả tự vấn bản thân khi đọc các tài liệu này.
+    - Hãy phân tích cực kỳ sâu sắc câu trả lời phản biện của độc giả.
+    - Phát hiện các điểm mù nhận thức (cognitive blind spots) hoặc thiên kiến xác nhận độc giả có thể gặp phải dựa trên câu trả lời của họ.
+    - Đưa ra các checkpoint tư duy phản biện cụ thể hơn nữa để độc giả tự vấn bản thân khi đọc các tài liệu này.
     
     Hãy trả về dưới dạng:
     === QUÁ TRÌNH TƯ DUY ===
-    [Phân tích phản biện các điểm mù nhận thức]
+    [Phân tích phản biện các điểm mù nhận thức và câu trả lời của độc giả]
     === CONSOLE MESSAGE ===
-    Đã kết xuất phân tích điểm mù nhận thức và checkpoint phản biện.
+    Đã kết xuất phân tích điểm mù nhận thức và checkpoint phản biện dựa trên câu trả lời của độc giả.
     === BÁO CÁO CHI TIẾT ===
     ### PHẢN BIỆN TƯ DUY & ĐIỂM MÙ NHẬN THỨC:
     [Nêu rõ các thiên kiến nhận thức có thể gặp và 3 checkpoint tự vấn]

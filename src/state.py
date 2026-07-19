@@ -16,3 +16,4 @@ class ResearchState(TypedDict):
     citations: list[str]
     query_type: str
     language: str
+    socratic_answers: str

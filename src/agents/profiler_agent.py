@@ -9,6 +9,29 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
     topic = state.get("topic", "")
     
     stream_queue = config.get("configurable", {}).get("stream_queue") if config else None
+    
+    # Phase 2 resume bypass
+    if state.get("socratic_answers"):
+        if stream_queue:
+            await stream_queue.put({
+                "type": "node_start",
+                "node": "researcher"
+            })
+            await stream_queue.put({
+                "type": "node_end",
+                "node": "researcher",
+                "content": state.get("research_data", ""),
+                "thinking": "",
+                "tokens": 0,
+                "duration": 0.0,
+                "model": "bypass",
+                "toks_per_sec": 0.0
+            })
+        return {
+            "user_profile": state.get("user_profile", ""),
+            "research_data": state.get("research_data", "")
+        }
+        
     if stream_queue:
         await stream_queue.put({
             "type": "node_start",

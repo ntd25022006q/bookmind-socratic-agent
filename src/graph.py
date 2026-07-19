@@ -32,9 +32,23 @@ graph.add_conditional_edges(
     }
 )
 
+def route_after_questioner(state: ResearchState) -> str:
+    if state.get("socratic_answers"):
+        return "critic"
+    return END
+
 graph.add_edge("profiler", "recommender")
 graph.add_edge("recommender", "questioner")
-graph.add_edge("questioner", "critic")
+
+graph.add_conditional_edges(
+    "questioner",
+    route_after_questioner,
+    {
+        "critic": "critic",
+        END: END
+    }
+)
+
 graph.add_edge("critic", "reporter")
 graph.add_edge("reporter", END)
 

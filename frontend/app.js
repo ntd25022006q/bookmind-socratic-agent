@@ -32,6 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Stop element
     const stopBtn = document.getElementById('stop-btn');
 
+    // Socratic Modal elements
+    const socraticModal = document.getElementById('socratic-modal');
+    const socraticForm = document.getElementById('socratic-form');
+    const socraticQuestionsContainer = document.getElementById('socratic-questions-container');
+    let activeStateSnapshot = null;
+
     // ── Profile Modal Logic ──────────────────────────────────────────────────
     const profileModal = document.getElementById('profile-modal');
     const profileForm = document.getElementById('profile-form');
@@ -1088,12 +1094,12 @@ function checkServerConnection() {
     //  AGENT MAPPINGS
     // ════════════════════════════════════════════════════════════════════════
     const agentMappings = {
-        guardrail:    { nodeId: 'node-guardrail',    edgeId: null,                         badgeClass: 'active-guardrail',    name: 'Agent Cảnh Giới' },
-        researcher:   { nodeId: 'node-researcher',   edgeId: 'edge-guardrail-researcher',  badgeClass: 'active-researcher',   name: 'Agent Nghiên Cứu' },
-        analyst:      { nodeId: 'node-analyst',      edgeId: 'edge-researcher-analyst',    badgeClass: 'active-analyst',      name: 'Agent Phân Tích' },
-        risk_assessor:{ nodeId: 'node-risk_assessor',edgeId: 'edge-analyst-risk_assessor', badgeClass: 'active-risk_assessor',name: 'Agent Đánh Giá Rủi Ro' },
-        recommender:  { nodeId: 'node-recommender',  edgeId: 'edge-risk_assessor-recommender', badgeClass: 'active-recommender', name: 'Agent Đề Xuất' },
-        reporter:     { nodeId: 'node-reporter',     edgeId: 'edge-recommender-reporter',  badgeClass: 'active-reporter',     name: 'Agent Báo Cáo' }
+        guardrail:    { nodeId: 'node-guardrail',    edgeId: null,                         badgeClass: 'active-guardrail',    name: 'Cảnh Giới' },
+        researcher:   { nodeId: 'node-researcher',   edgeId: 'edge-guardrail-researcher',  badgeClass: 'active-researcher',   name: 'Hồ Sơ' },
+        analyst:      { nodeId: 'node-analyst',      edgeId: 'edge-researcher-analyst',    badgeClass: 'active-analyst',      name: 'Gợi Ý Sách' },
+        risk_assessor:{ nodeId: 'node-risk_assessor',edgeId: 'edge-analyst-risk_assessor', badgeClass: 'active-risk_assessor',name: 'Socrates' },
+        recommender:  { nodeId: 'node-recommender',  edgeId: 'edge-risk_assessor-recommender', badgeClass: 'active-recommender', name: 'Phản Biện' },
+        reporter:     { nodeId: 'node-reporter',     edgeId: 'edge-recommender-reporter',  badgeClass: 'active-reporter',     name: 'Biên Soạn' }
     };
 
     function highlightNode(nodeKey) {
@@ -1790,6 +1796,65 @@ function checkServerConnection() {
             return;
         }
 
+        if (data.socratic_pause) {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            activeStateSnapshot = data.state_snapshot;
+            
+            const text = data.socratic_questions || "";
+            const questionLines = text.split('\n')
+                .map(l => l.trim())
+                .filter(l => /^\d+\.\s+/.test(l));
+            
+            let q1 = questionLines[0] || "Câu hỏi Socratic 1: Làm thế nào để áp dụng cuốn sách này vào thực tế học tập?";
+            let q2 = questionLines[1] || "Câu hỏi Socratic 2: Những rào cản nhận thức nào bạn cần vượt qua?";
+            let q3 = questionLines[2] || "Câu hỏi Socratic 3: Bạn có đề xuất hành động cụ thể nào sau khi đọc?";
+            
+            socraticQuestionsContainer.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; color: #e2e8f0; font-weight: 600; font-size: 13.5px; margin-bottom: 8px; line-height: 1.4;">${q1}</label>
+                    <textarea id="socratic-ans-1" required style="width: 100%; height: 75px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(240, 95, 36, 0.15); border-radius: 6px; color: #ffffff; padding: 10px; font-size: 13px; resize: none; outline: none; transition: border 0.2s;" placeholder="Nhập câu trả lời phản biện của bạn..."></textarea>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; color: #e2e8f0; font-weight: 600; font-size: 13.5px; margin-bottom: 8px; line-height: 1.4;">${q2}</label>
+                    <textarea id="socratic-ans-2" required style="width: 100%; height: 75px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(240, 95, 36, 0.15); border-radius: 6px; color: #ffffff; padding: 10px; font-size: 13px; resize: none; outline: none; transition: border 0.2s;" placeholder="Nhập câu trả lời phản biện của bạn..."></textarea>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; color: #e2e8f0; font-weight: 600; font-size: 13.5px; margin-bottom: 8px; line-height: 1.4;">${q3}</label>
+                    <textarea id="socratic-ans-3" required style="width: 100%; height: 75px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(240, 95, 36, 0.15); border-radius: 6px; color: #ffffff; padding: 10px; font-size: 13px; resize: none; outline: none; transition: border 0.2s;" placeholder="Nhập câu trả lời phản biện của bạn..."></textarea>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                [1,2,3].forEach(i => {
+                    const el = document.getElementById(`socratic-ans-${i}`);
+                    if (el) {
+                        el.addEventListener('focus', () => el.style.borderColor = 'var(--fpt-orange)');
+                        el.addEventListener('blur', () => el.style.borderColor = 'rgba(240, 95, 36, 0.15)');
+                    }
+                });
+            }, 100);
+
+            socraticModal.style.display = 'flex';
+            
+            statStatus.textContent = 'Chờ phản biện';
+            statStatus.style.color = '#f05f24';
+            
+            activeAgentBadge.textContent = 'Chờ độc giả';
+            activeAgentBadge.className = 'agent-badge active-risk_assessor';
+            
+            const logDiv = document.createElement('div');
+            logDiv.className = 'console-log';
+            logDiv.style.color = 'var(--fpt-orange)';
+            logDiv.style.fontStyle = 'italic';
+            logDiv.innerHTML = `<span style="font-weight:bold;">[Hệ Thống]</span> Đang tạm dừng để chờ độc giả trả lời 3 câu hỏi Socratic mở trên màn hình chính...`;
+            consoleOutput.appendChild(logDiv);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            return;
+        }
+
         if (data.done) {
             hasCompletedSuccessfully = true;
             // Render report and update stats immediately in real-time!
@@ -1909,11 +1974,11 @@ function checkServerConnection() {
 
             // Add a beautiful transition notice in console Output
             let transitionMsg = '';
-            if (nk === 'researcher')      transitionMsg = '<i class="fa-solid fa-arrow-right-long" style="margin-right: 6px;"></i> Đang chuyển tiếp yêu cầu đến các Tác nhân Nghiên cứu...';
-            else if (nk === 'analyst')    transitionMsg = '<i class="fa-solid fa-arrow-right-long" style="margin-right: 6px;"></i> Đang chuyển tiếp yêu cầu đến Tác nhân Phân tích...';
-            else if (nk === 'risk_assessor') transitionMsg = '<i class="fa-solid fa-arrow-right-long" style="margin-right: 6px;"></i> Đang chuyển tiếp yêu cầu đến Tác nhân Kiểm soát Rủi ro...';
-            else if (nk === 'recommender') transitionMsg = '<i class="fa-solid fa-arrow-right-long" style="margin-right: 6px;"></i> Đang chuyển tiếp yêu cầu đến Tác nhân Đề xuất Chiến lược...';
-            else if (nk === 'reporter')    transitionMsg = '<i class="fa-solid fa-arrow-right-long" style="margin-right: 6px;"></i> Đang chuyển tiếp yêu cầu đến Tác nhân Biên soạn Báo cáo...';
+            if (nk === 'researcher')      transitionMsg = '<i class="fa-solid fa-arrow-right-long" style="margin-right: 6px;"></i> Đang chuyển tiếp yêu cầu đến Tác nhân Hồ Sơ...';
+            else if (nk === 'analyst')    transitionMsg = '<i class="fa-solid fa-arrow-right-long" style="margin-right: 6px;"></i> Đang chuyển tiếp yêu cầu đến Tác nhân Gợi Ý Sách...';
+            else if (nk === 'risk_assessor') transitionMsg = '<i class="fa-solid fa-arrow-right-long" style="margin-right: 6px;"></i> Đang chuyển tiếp yêu cầu đến Tác nhân Socrates...';
+            else if (nk === 'recommender') transitionMsg = '<i class="fa-solid fa-arrow-right-long" style="margin-right: 6px;"></i> Đang chuyển tiếp yêu cầu đến Tác nhân Phản Biện...';
+            else if (nk === 'reporter')    transitionMsg = '<i class="fa-solid fa-arrow-right-long" style="margin-right: 6px;"></i> Đang chuyển tiếp yêu cầu đến Tác nhân Biên Soạn...';
 
             if (transitionMsg) {
                 const welcome = consoleOutput.querySelector('.console-welcome');
@@ -2998,6 +3063,57 @@ function checkServerConnection() {
     // Check server connection on load and every 15 seconds
     checkServerConnection();
     setInterval(checkServerConnection, 15000);
+
+    // Socratic Form Submit Handler for Phase 2 Resume
+    if (socraticForm) {
+        socraticForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const ans1 = document.getElementById('socratic-ans-1').value.trim();
+            const ans2 = document.getElementById('socratic-ans-2').value.trim();
+            const ans3 = document.getElementById('socratic-ans-3').value.trim();
+            
+            if (!ans1 || !ans2 || !ans3) {
+                alert("Vui lòng nhập câu trả lời cho cả 3 câu hỏi Socratic.");
+                return;
+            }
+            
+            const socraticAnswers = `Câu trả lời 1: ${ans1}\nCâu trả lời 2: ${ans2}\nCâu trả lời 3: ${ans3}`;
+            socraticModal.style.display = 'none';
+            
+            // Resume timer
+            const currentSec = parseFloat(statTime.textContent) || 0;
+            let sec = currentSec;
+            timerInterval = setInterval(() => {
+                sec += 0.001;
+                statTime.textContent = sec.toFixed(3) + 's';
+            }, 1);
+
+            // Print intermediate resume log in console Output
+            const resumeLog = document.createElement('div');
+            resumeLog.className = 'console-log';
+            resumeLog.style.cssText = 'color: #94a3b8; font-style: italic; font-size: 11.5px; margin: 8px 0; border-top: 1px dashed rgba(255,255,255,0.05); padding-top: 8px;';
+            resumeLog.innerHTML = '<i class="fa-solid fa-arrow-right-long" style="margin-right: 6px;"></i> Đang chuyển tiếp câu trả lời của độc giả sang Tác nhân Phản Biện...';
+            consoleOutput.appendChild(resumeLog);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            
+            // Build Phase 2 body
+            const body = {
+                topic: activeStateSnapshot.topic,
+                user_profile: activeStateSnapshot.user_profile,
+                socratic_answers: socraticAnswers,
+                analysis: activeStateSnapshot.analysis,
+                risks: activeStateSnapshot.risks,
+                research_data: activeStateSnapshot.research_data,
+                retrieved_context: activeStateSnapshot.retrieved_context,
+                citations: activeStateSnapshot.citations
+            };
+            
+            // Run Phase 2
+            const postUrl = `${apiBaseUrl}/api/run`;
+            connectSsePost(postUrl, body);
+        });
+    }
 
     initializeOrSyncWithServer();
 });

@@ -505,6 +505,31 @@
         </div>
     </div>
 
+    <!-- ── Socratic Interactive Modal (Dừng để người dùng trả lời 3 câu hỏi) ── -->
+    <div id="socratic-modal" class="modal-overlay" style="display: none; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px); z-index: 2000;">
+        <div class="modal-card" style="width: 90%; max-width: 650px; background: rgba(30, 41, 59, 0.95); border: 1px solid rgba(240, 95, 36, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); border-radius: 12px; padding: 25px; max-height: 85vh; overflow-y: auto;">
+            <div style="display: flex; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 15px;">
+                <div style="width: 42px; height: 42px; background: rgba(240, 95, 36, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--fpt-orange); margin-right: 12px; font-size: 20px; box-shadow: 0 0 15px rgba(240, 95, 36, 0.2);">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <div>
+                    <h3 style="margin: 0; color: #ffffff; font-size: 18px; font-weight: 700; letter-spacing: 0.5px;">HỘI THOẠI PHẢN BIỆN SOCRATES</h3>
+                    <p style="margin: 3px 0 0 0; color: #94a3b8; font-size: 12px;">Độc giả trả lời 3 câu hỏi để đánh giá điểm mù và rèn luyện tư duy sâu</p>
+                </div>
+            </div>
+
+            <form id="socratic-form">
+                <div id="socratic-questions-container">
+                    <!-- Sẽ được điền bằng JS -->
+                </div>
+                
+                <button type="submit" class="glow-button" style="width: 100%; margin-top: 25px; background: var(--fpt-orange); color: #ffffff; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; box-shadow: 0 4px 15px rgba(240, 95, 36, 0.3);">
+                    <i class="fa-solid fa-paper-plane"></i> Gửi Câu Trả Lời Phản Biện
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- App Script -->
     <script src="app.js?v=58"></script>
 </body>

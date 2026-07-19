@@ -253,6 +253,12 @@ class RunRequest(BaseModel):
     user_profile: str = ""
     ollama_api_key: str = ""
     openrouter_api_key: str = ""
+    socratic_answers: str = ""
+    analysis: str = ""
+    risks: str = ""
+    research_data: str = ""
+    retrieved_context: str = ""
+    citations: list = []
 
 
 @app.post("/api/run")
@@ -263,6 +269,12 @@ async def run_agents(request: RunRequest):
     user_profile = request.user_profile
     ollama_api_key = request.ollama_api_key
     openrouter_api_key = request.openrouter_api_key
+    socratic_answers = request.socratic_answers
+    analysis = request.analysis
+    risks = request.risks
+    research_data = request.research_data
+    retrieved_context = request.retrieved_context
+    citations = request.citations
 
     # Xác thực đầu vào
     if not topic or not topic.strip():
@@ -285,18 +297,19 @@ async def run_agents(request: RunRequest):
         initial_state = {
             "topic": topic,
             "user_profile": user_profile,
-            "research_data": "",
-            "analysis": "",
-            "risks": "",
+            "research_data": research_data,
+            "analysis": analysis,
+            "risks": risks,
             "recommendations": "",
             "report": "",
             "messages": [],
             "irrelevant": False,
             "csv_data": "",
-            "retrieved_context": "",
-            "citations": [],
+            "retrieved_context": retrieved_context,
+            "citations": citations,
             "query_type": "consulting",
             "language": "vi",
+            "socratic_answers": socratic_answers,
         }
 
         stream_queue = asyncio.Queue()
@@ -401,6 +414,11 @@ async def run_agents(request: RunRequest):
                 elif event.get("type") == "graph_complete":
                     final_state = event["final_state"]
                     elapsed = time.time() - start_time
+
+                    # If Phase 1 (no socratic answers yet and query is relevant), pause and prompt user
+                    if not final_state.get("socratic_answers") and not final_state.get("irrelevant", False):
+                        yield f"data: {json.dumps({'socratic_pause': True, 'socratic_questions': final_state.get('risks', ''), 'state_snapshot': {'topic': final_state.get('topic', ''), 'user_profile': final_state.get('user_profile', ''), 'analysis': final_state.get('analysis', ''), 'risks': final_state.get('risks', ''), 'research_data': final_state.get('research_data', ''), 'retrieved_context': final_state.get('retrieved_context', ''), 'citations': final_state.get('citations', [])}}, ensure_ascii=False)}\n\n"
+                        break
 
                     total_tokens = sum(agent_tokens.values())
                     agents_count = 1 if final_state.get("irrelevant") else 6
