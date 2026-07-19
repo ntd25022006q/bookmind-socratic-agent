@@ -893,23 +893,23 @@ function checkServerConnection() {
     //  AGENT MAPPINGS
     // ════════════════════════════════════════════════════════════════════════
     const agentMappings = {
-        guardrail:    { nodeId: 'node-guardrail',    edgeId: null,                         badgeClass: 'active-guardrail',    name: 'Agent Cảnh Giới' },
-        researcher:   { nodeId: 'node-researcher',   edgeId: 'edge-guardrail-researcher',  badgeClass: 'active-researcher',   name: 'Agent Nghiên Cứu' },
-        analyst:      { nodeId: 'node-analyst',      edgeId: 'edge-researcher-analyst',    badgeClass: 'active-analyst',      name: 'Agent Phân Tích' },
-        risk_assessor:{ nodeId: 'node-risk_assessor',edgeId: 'edge-analyst-risk_assessor', badgeClass: 'active-risk_assessor',name: 'Agent Đánh Giá Rủi Ro' },
-        recommender:  { nodeId: 'node-recommender',  edgeId: 'edge-risk_assessor-recommender', badgeClass: 'active-recommender', name: 'Agent Đề Xuất' },
-        reporter:     { nodeId: 'node-reporter',     edgeId: 'edge-recommender-reporter',  badgeClass: 'active-reporter',     name: 'Agent Báo Cáo' }
+        guardrail:    { nodeId: 'node-guardrail',    edgeId: null,                         badgeClass: 'active-guardrail',    name: 'Cảnh Giới Đọc' },
+        profiler:     { nodeId: 'node-researcher',   edgeId: 'edge-guardrail-researcher',  badgeClass: 'active-researcher',   name: 'Hồ Sơ Độc Giả' },
+        recommender:  { nodeId: 'node-analyst',      edgeId: 'edge-researcher-analyst',    badgeClass: 'active-analyst',      name: 'Gợi Ý Sách VNU' },
+        questioner:   { nodeId: 'node-risk_assessor',edgeId: 'edge-analyst-risk_assessor', badgeClass: 'active-risk_assessor',name: 'Đối Thoại Socrates' },
+        critic:       { nodeId: 'node-recommender',  edgeId: 'edge-risk_assessor-recommender', badgeClass: 'active-recommender', name: 'Phản Biện Nhận Thức' },
+        reporter:     { nodeId: 'node-reporter',     edgeId: 'edge-recommender-reporter',  badgeClass: 'active-reporter',     name: 'Biên Soạn Nhật Ký' }
     };
 
     function highlightNode(nodeKey) {
         const mapping = agentMappings[nodeKey];
         if (!mapping) return;
 
-        if (nodeKey === 'analyst') {
+        if (nodeKey === 'recommender') {
             hasAnalystRun = true;
         }
 
-        const nodesOrder = ['guardrail', 'researcher', 'analyst', 'risk_assessor', 'recommender', 'reporter'];
+        const nodesOrder = ['guardrail', 'profiler', 'recommender', 'questioner', 'critic', 'reporter'];
         const currentIndex = nodesOrder.indexOf(nodeKey);
 
         nodesOrder.forEach((nk, idx) => {

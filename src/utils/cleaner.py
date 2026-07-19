@@ -12,7 +12,10 @@ FILENAME_MAP = {
 APPROVED_URL_PREFIXES = [
     "https://repository.vnu.edu.vn/handle/",
     "https://lic.vnu.edu.vn/",
+    "https://bookworm.vnu.edu.vn/",
     "https://bookworm.lic.vnu.edu.vn/",
+    "https://opac.vnu.edu.vn/cgi-bin/koha/",
+    "http://opac.vnu.edu.vn/cgi-bin/koha/",
     "https://books.google.com/",
     "https://archive.org/",
     "https://scholar.google.com/",
@@ -26,7 +29,7 @@ BLOCKED_URL_PATTERNS = [
     r"https?://cas\.vnu\.edu\.vn[^\s\)\"\']*",           # CAS VNU — internal only
     r"https?://openlibrary\.org/isbn/[^\s\)\"\']*",       # ISBN paths often 404
     r"https?://openlibrary\.org/search\?[^\s\)\"\']*",    # Search results unstable
-    r"https?://[^\s\)\"\']*?VNU_123[^\s\)\"\']*",          # Placeholder handles
+    r"https?://[^\s\)\"\']*?VNU_123[^\s\)\"\']*(?!/\d+)", # Block VNU_123 except when formatted
     r"https?://[^\s\)\"\']*?OL\d+W[^\s\)\"\']*",          # OpenLibrary work IDs that are made up
 ]
 
@@ -91,10 +94,16 @@ def sanitize_urls(text: str) -> str:
         text
     )
 
-    # Replace made-up VNU_123 DSpace handles with the real DSpace base
+    # Replace made-up VNU_123 DSpace handles with the real DSpace base (or support real VNU handles)
     text = re.sub(
         r'https?://repository\.vnu\.edu\.vn/handle/VNU_123/(\d+)',
         lambda m: f'https://repository.vnu.edu.vn/handle/VNU_123/{m.group(1)}',
+        text
+    )
+    
+    text = re.sub(
+        r'https?://repository\.vnu\.edu\.vn/handle/(\d+)/(\d+)',
+        lambda m: f'https://repository.vnu.edu.vn/handle/{m.group(1)}/{m.group(2)}',
         text
     )
 

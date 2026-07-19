@@ -15,16 +15,16 @@ async def critic_node(state: ResearchState, config=None) -> dict:
     if stream_queue:
         await stream_queue.put({
             "type": "node_start",
-            "node": "recommender"  # Maps to node-recommender in UI
+            "node": "critic"  # Maps to node-critic in UI
         })
         
-    print_agent_start("Analyst Agent", "Phản biện tư duy và phát hiện điểm mù nhận thức độc giả")
+    print_agent_start("Critic Agent", "Phản biện tư duy và phát hiện điểm mù nhận thức độc giả")
     llm = create_llm(MODEL_ANALYST_AGENT, config=config, streaming=True)
     
     call_config = {}
     if stream_queue:
         from src.utils.llm_factory import QueueCallbackHandler
-        call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "recommender")]
+        call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "critic")]
         
     prompt = f"""Bạn là Critic Agent (Tác nhân Phản biện) của VNU BookMind Socratic. Hãy phân tích các đề xuất sách và câu hỏi đối thoại hiện tại.
     Chủ đề: {topic}
@@ -51,14 +51,14 @@ async def critic_node(state: ResearchState, config=None) -> dict:
     
     tokens = len(res.content) // 4
     duration = time.time() - start_time
-    print_agent_complete("Analyst Agent", duration, tokens)
+    print_agent_complete("Critic Agent", duration, tokens)
     actual_model = get_actual_model_used("critic", MODEL_ANALYST_AGENT)
     toks_per_sec = round(tokens / duration, 1) if duration > 0 else 0
     
     if stream_queue:
         await stream_queue.put({
             "type": "node_end",
-            "node": "recommender",
+            "node": "critic",
             "content": parsed["console_message"],
             "thinking": parsed["thinking"],
             "tokens": tokens,

@@ -62,21 +62,21 @@
                     </h2>
 
                     <div class="form-group">
-                        <label for="topic-input">Nhập nội dung cần phân tích</label>
+                        <label for="topic-input">Nhập chủ đề hoặc cuốn sách cần đọc sâu</label>
                         <div class="chat-input-wrapper" style="position: relative;">
                             <textarea
                                 id="topic-input"
                                 class="glass-input"
                                 rows="7"
-                                placeholder="Ví dụ: Đánh giá mức độ phù hợp của kiến trúc Microservices với hệ thống Core Banking của VNU BookMind…"></textarea>
+                                placeholder="Ví dụ: Phân tích tinh thần tự cường trong cuốn 'Khuyến Học' và liên hệ thực tiễn ngành IT ứng dụng của sinh viên ĐHQGHN…"></textarea>
                         </div>
                     </div>
 
                     <div style="display: flex; gap: 8px; margin-top: 10px;">
                         <button id="run-btn" class="glow-button" style="flex-grow: 1;">
-                            <i class="fa-solid fa-bolt"></i> Kích Hoạt Phân Tích
+                            <i class="fa-solid fa-bolt"></i> Khởi Chạy Đối Thoại
                         </button>
-                        <button id="stop-btn" type="button" class="glow-button" style="background: var(--fpt-orange); display: none; width: auto; padding: 10px 14px;" title="Dừng Phân Tích">
+                        <button id="stop-btn" type="button" class="glow-button" style="background: var(--fpt-orange); display: none; width: auto; padding: 10px 14px;" title="Dừng Đối Thoại">
                             <i class="fa-solid fa-stop"></i> Dừng
                         </button>
                     </div>
@@ -231,32 +231,32 @@
                     </div>
                     <div class="console-body" id="console-output">
                         <div class="console-welcome">
-                            <p class="welcome-title"><i class="fa-solid fa-book-open"></i> VNU BookMind — Trợ lý Độc lập & Phản biện Sách Socratic</p>
-                            <p>Quy trình đa tác nhân hỗ trợ đọc sâu, tự học và phản biện học thuật cho sinh viên ĐHQGHN:</p>
+                            <p class="welcome-title"><i class="fa-solid fa-book-open"></i> VNU BookMind — Trợ lý Đọc Sâu & Phản Biện Sách Socratic</p>
+                            <p>Quy trình đa tác nhân thông minh hỗ trợ đọc sâu, tự học và phản biện học thuật cho sinh viên ĐHQGHN:</p>
                             <div class="welcome-grid">
                                 <div class="welcome-card">
-                                    <h4><i class="fa-solid fa-filter"></i> Lọc Ngữ Cảnh</h4>
-                                    <p>Xác thực tính liên quan của yêu cầu, phân loại loại truy vấn và định tuyến luồng xử lý phù hợp.</p>
+                                    <h4><i class="fa-solid fa-filter"></i> Cảnh Giới Đọc</h4>
+                                    <p>Lọc câu hỏi, xác thực xem chủ đề có thuộc phạm vi học thuật/sách vở hoặc bảo mật hệ thống hay không.</p>
                                 </div>
                                 <div class="welcome-card">
-                                    <h4><i class="fa-solid fa-magnifying-glass"></i> Nghiên Cứu</h4>
-                                    <p>Truy xuất tri thức từ kho dữ liệu VNU BookMind qua cơ chế Hybrid Search kết hợp Chroma &amp; BM25.</p>
+                                    <h4><i class="fa-solid fa-user-graduate"></i> Hồ Sơ Độc Giả</h4>
+                                    <p>Phân tích nhu cầu tự học, xác định phong cách tư duy và xây dựng chân dung độc giả cá nhân hóa.</p>
                                 </div>
                                 <div class="welcome-card">
-                                    <h4><i class="fa-solid fa-chart-simple"></i> Phân Tích</h4>
-                                    <p>Xây dựng ma trận so sánh đa chiều, đánh giá các phương án kiến trúc và lợi thế cạnh tranh.</p>
+                                    <h4><i class="fa-solid fa-book"></i> Gợi Ý Sách VNU</h4>
+                                    <p>Gọi API Koha (sách giấy), DSpace (luận văn) và Bookworm (ebook) để đề xuất tài liệu phù hợp.</p>
                                 </div>
                                 <div class="welcome-card">
-                                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Kiểm Soát Rủi Ro</h4>
-                                    <p>Nhận diện rủi ro kỹ thuật &amp; vận hành, đề xuất biện pháp kiểm soát theo chuẩn VNU BookMind Secure-First.</p>
+                                    <h4><i class="fa-solid fa-brain"></i> Đối Thoại Socrates</h4>
+                                    <p>Đưa ra 3 câu hỏi đối thoại mở Socrates nhằm kích thích tư duy tự vấn và hoài nghi lành mạnh.</p>
                                 </div>
                                 <div class="welcome-card">
-                                    <h4><i class="fa-solid fa-lightbulb"></i> Đề Xuất Chiến Lược</h4>
-                                    <p>Thiết lập lộ trình triển khai đa giai đoạn và hệ thống KPI đo lường hiệu quả thực thi.</p>
+                                    <h4><i class="fa-solid fa-comments"></i> Phản Biện Nhận Thức</h4>
+                                    <p>Phát hiện các điểm mù nhận thức và thiên kiến xác nhận độc giả có thể gặp khi tiếp cận chủ đề.</p>
                                 </div>
                                 <div class="welcome-card">
-                                    <h4><i class="fa-solid fa-file-lines"></i> Biên Soạn Báo Cáo</h4>
-                                    <p>Tổng hợp toàn bộ đầu ra, biên soạn báo cáo học thuật và trực quan hóa kiến trúc qua sơ đồ Mermaid.</p>
+                                    <h4><i class="fa-solid fa-file-signature"></i> Biên Soạn Báo Cáo</h4>
+                                    <p>Tổng hợp báo cáo đọc sâu, trích dẫn học liệu chuẩn và xây dựng sơ đồ tư duy trực quan bằng Mermaid.</p>
                                 </div>
                             </div>
                         </div>
