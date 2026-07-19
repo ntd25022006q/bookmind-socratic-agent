@@ -12,12 +12,12 @@ OLLAMA_API_KEY = os.environ.get("OLLAMA_API_KEY", "")
 OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "https://ollama.com/v1")
 
 # Best specialized models on Ollama Cloud - optimized for reasoning depth and speed (free tier compatible)
-MODEL_GUARDRAIL_AGENT    = "deepseek-v4-flash"        # Factual gatekeeper
-MODEL_RESEARCHER_AGENT   = "deepseek-v4-pro"          # Deep reasoning model for RAG & synthesis
-MODEL_ANALYST_AGENT      = "deepseek-v4-pro"          # Deep Socratic questioning & analysis
-MODEL_RISK_ASSESSOR_AGENT= "deepseek-v4-pro"
-MODEL_RECOMMENDER_AGENT  = "deepseek-v4-pro"
-MODEL_REPORTER_AGENT     = "deepseek-v4-flash"        # Quick structured markdown reporter
+MODEL_GUARDRAIL_AGENT    = "minimax-m2.5"        # Factual gatekeeper
+MODEL_RESEARCHER_AGENT   = "minimax-m2.5"        # Deep reasoning model for RAG & synthesis
+MODEL_ANALYST_AGENT      = "minimax-m2.5"        # Deep Socratic questioning & analysis
+MODEL_RISK_ASSESSOR_AGENT= "minimax-m2.5"
+MODEL_RECOMMENDER_AGENT  = "minimax-m2.5"
+MODEL_REPORTER_AGENT     = "minimax-m2.5"        # Quick structured markdown reporter
 
 
 import sys
