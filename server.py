@@ -182,6 +182,12 @@ def diagnose():
         "model_latencies": _model_latencies
     }
 
+
+@app.get("/api/health")
+def health_check():
+    return {"status": "ok", "message": "VNU BookMind Socratic API is running."}
+
+
 @app.get("/api/report")
 def get_report(response: Response):
     """Return the latest generated report, diagram, and explanation as JSON."""
