@@ -56,24 +56,35 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
             return match.group(1).strip()
         return ""
         
-    # These labels must match exactly what frontend getUserProfileString() sends:
-    # 'Họ tên: X, MSSV: X, Sinh viên năm: X, Trường thành viên: X, Ngành học: X, Mục đích đọc sách: X, Lĩnh vực quan tâm: X, Phong cách học: X'
-    p_name   = extract_field(r'Họ tên', user_profile_raw)
-    p_mssv   = extract_field(r'MSSV', user_profile_raw)
-    p_major  = extract_field(r'Ngành học', user_profile_raw)
-    p_school = extract_field(r'Trường thành viên', user_profile_raw)
-    p_style  = extract_field(r'Phong cách học', user_profile_raw)
-    p_year   = extract_field(r'Sinh viên năm', user_profile_raw)
+    # These labels support BOTH old frontend format ('Họ tên sinh viên: X, Phong cách học & đọc ưa thích: X')
+    # AND new frontend format ('Họ tên: X, Phong cách học: X') for backward compatibility
+    p_name    = extract_field(r'Họ tên', user_profile_raw)          # matches 'Họ tên:' AND 'Họ tên sinh viên:'
+    p_mssv    = extract_field(r'MSSV', user_profile_raw)
+    p_major   = extract_field(r'Ngành học', user_profile_raw)
+    p_school  = extract_field(r'Trường thành viên', user_profile_raw)
+    p_style   = extract_field(r'Phong cách học', user_profile_raw)   # matches 'Phong cách học:' AND 'Phong cách học &'
+    p_year    = extract_field(r'Sinh viên năm', user_profile_raw)
     p_purpose = extract_field(r'Mục đích đọc sách', user_profile_raw)
     p_interests = extract_field(r'Lĩnh vực quan tâm', user_profile_raw)
     
-    p_name_val  = p_name  if p_name  else "(Chưa cung cấp)"
-    p_mssv_val  = p_mssv  if p_mssv  else "(Chưa cung cấp)"
-    p_major_val = p_major if p_major else "(Chưa cung cấp)"
-    p_school_val = p_school if p_school else "(Chưa cung cấp)"
-    p_style_val  = p_style  if p_style  else "(Chưa cung cấp)"
-    p_year_val   = p_year   if p_year   else "(Chưa cung cấp)"
-    p_purpose_val = p_purpose if p_purpose else "(Chưa cung cấp)"
+    # Fallback: if name still empty, try broader pattern
+    if not p_name:
+        m = re.search(r'Họ[^:,;\n]{0,20}:\s*([^,;\n]+)', user_profile_raw, re.IGNORECASE)
+        if m:
+            p_name = m.group(1).strip()
+    # Fallback: style might have '& đọc ưa thích' suffix blocking match
+    if not p_style:
+        m = re.search(r'Phong cách[^:,;\n]{0,30}:\s*([^,;\n]+)', user_profile_raw, re.IGNORECASE)
+        if m:
+            p_style = m.group(1).strip()
+    
+    p_name_val      = p_name      if p_name      else "(Chưa cung cấp)"
+    p_mssv_val      = p_mssv      if p_mssv      else "(Chưa cung cấp)"
+    p_major_val     = p_major     if p_major     else "(Chưa cung cấp)"
+    p_school_val    = p_school    if p_school    else "(Chưa cung cấp)"
+    p_style_val     = p_style     if p_style     else "(Chưa cung cấp)"
+    p_year_val      = p_year      if p_year      else "(Chưa cung cấp)"
+    p_purpose_val   = p_purpose   if p_purpose   else "(Chưa cung cấp)"
     p_interests_val = p_interests if p_interests else "(Chưa cung cấp)"
 
     prompt = f"""Bạn là Profiler Agent của VNU BookMind Socratic. Hãy phân tích sở thích đọc sách, gu học thuật và phong cách tư duy của độc giả từ truy vấn: "{topic}".
