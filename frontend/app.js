@@ -1755,15 +1755,6 @@ function checkServerConnection() {
             statStatus.style.color = 'var(--fpt-orange)';
         }
         
-        if (consoleOutput) {
-            const logDiv = document.createElement('div');
-            logDiv.className = 'console-log';
-            logDiv.style.cssText = 'color: var(--fpt-orange); font-style: italic; margin-top: 10px; padding: 10px; background: rgba(217, 119, 6, 0.08); border-left: 4px solid var(--fpt-orange); border-radius: 4px;';
-            logDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Kết nối tạm thời bị gián đoạn. Tiến trình phân tích của các Tác nhân vẫn đang tiếp tục chạy ngầm trên máy chủ, hệ thống đang đồng bộ để lấy báo cáo...';
-            consoleOutput.appendChild(logDiv);
-            consoleOutput.scrollTop = consoleOutput.scrollHeight;
-        }
-
         pollCount = 0;
         pollingInterval = setInterval(() => {
             pollCount++;
@@ -3199,14 +3190,6 @@ function checkServerConnection() {
                                 lastSaveTime = now;
                             }
                         }, 50);
-
-                        // Show notification banner
-                        const banner = document.createElement('div');
-                        banner.className = 'console-log';
-                        banner.style.cssText = 'color: #f0a030; font-style: italic; font-size: 12px; margin: 8px 0; border-top: 1px dashed rgba(255,200,0,0.15); padding-top: 8px;';
-                        banner.innerHTML = '<i class="fa-solid fa-rotate-right" style="margin-right:6px;"></i> Trang đã được tải lại — đang kiểm tra tiến trình từ máy chủ…';
-                        consoleOutput.appendChild(banner);
-                        consoleOutput.scrollTop = consoleOutput.scrollHeight;
 
                         // Start polling to sync final result
                         startPollingForReport();
