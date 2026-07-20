@@ -56,17 +56,25 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
             return match.group(1).strip()
         return ""
         
-    p_name = extract_field("Họ tên", user_profile_raw) or extract_field("Họ và tên", user_profile_raw)
-    p_mssv = extract_field("MSSV", user_profile_raw) or extract_field("Mã số sinh viên", user_profile_raw)
-    p_major = extract_field("Ngành", user_profile_raw) or extract_field("Ngành học", user_profile_raw)
-    p_school = extract_field("Trường", user_profile_raw) or extract_field("Trường thành viên", user_profile_raw)
-    p_style = extract_field("Phong cách", user_profile_raw) or extract_field("Phong cách học", user_profile_raw)
+    # These labels must match exactly what frontend getUserProfileString() sends:
+    # 'Họ tên: X, MSSV: X, Sinh viên năm: X, Trường thành viên: X, Ngành học: X, Mục đích đọc sách: X, Lĩnh vực quan tâm: X, Phong cách học: X'
+    p_name   = extract_field(r'Họ tên', user_profile_raw)
+    p_mssv   = extract_field(r'MSSV', user_profile_raw)
+    p_major  = extract_field(r'Ngành học', user_profile_raw)
+    p_school = extract_field(r'Trường thành viên', user_profile_raw)
+    p_style  = extract_field(r'Phong cách học', user_profile_raw)
+    p_year   = extract_field(r'Sinh viên năm', user_profile_raw)
+    p_purpose = extract_field(r'Mục đích đọc sách', user_profile_raw)
+    p_interests = extract_field(r'Lĩnh vực quan tâm', user_profile_raw)
     
-    p_name_val = p_name if p_name else "(Không cung cấp)"
-    p_mssv_val = p_mssv if p_mssv else "(Không cung cấp)"
-    p_major_val = p_major if p_major else "(Không cung cấp)"
-    p_school_val = p_school if p_school else "(Không cung cấp)"
-    p_style_val = p_style if p_style else "(Không cung cấp)"
+    p_name_val  = p_name  if p_name  else "(Chưa cung cấp)"
+    p_mssv_val  = p_mssv  if p_mssv  else "(Chưa cung cấp)"
+    p_major_val = p_major if p_major else "(Chưa cung cấp)"
+    p_school_val = p_school if p_school else "(Chưa cung cấp)"
+    p_style_val  = p_style  if p_style  else "(Chưa cung cấp)"
+    p_year_val   = p_year   if p_year   else "(Chưa cung cấp)"
+    p_purpose_val = p_purpose if p_purpose else "(Chưa cung cấp)"
+    p_interests_val = p_interests if p_interests else "(Chưa cung cấp)"
 
     prompt = f"""Bạn là Profiler Agent của VNU BookMind Socratic. Hãy phân tích sở thích đọc sách, gu học thuật và phong cách tư duy của độc giả từ truy vấn: "{topic}".
     Đặc biệt, độc giả đã cung cấp thông tin hồ sơ của họ như sau: "{user_profile_raw}".
@@ -92,8 +100,11 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
     - Mã số sinh viên: {p_mssv_val}
     - Ngành học & Khóa: {p_major_val}
     - Trường thành viên: {p_school_val}
+    - Sinh viên năm: {p_year_val}
+    - Mục đích đọc sách: {p_purpose_val}
+    - Lĩnh vực đặc biệt quan tâm: {p_interests_val}
     - Phong cách tư duy: {p_style_val}
-    - Lĩnh vực đặc biệt quan tâm: [Phân tích lĩnh vực đặc biệt quan tâm dựa trên thông tin hồ sơ và chủ đề truy vấn "{topic}"]
+    - Phân tích chuyên sâu: [Phân tích lĩnh vực đặc biệt quan tâm dựa trên thông tin hồ sơ và chủ đề truy vấn "{topic}"]
     """
     
     res = await llm.ainvoke(prompt, config=call_config)

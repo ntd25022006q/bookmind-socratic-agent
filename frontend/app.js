@@ -214,7 +214,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!stored) return "";
         try {
             const data = JSON.parse(stored);
-            return `Họ tên sinh viên: ${data.fullname}, MSSV: ${data.studentId}, Sinh viên năm: ${data.year}, Trường thành viên: ${data.school}, Ngành học: ${data.major}, Mục đích đọc sách: ${data.purpose}, Lĩnh vực quan tâm: ${data.interests}, Phong cách học & đọc ưa thích: ${data.style}`;
+            // Labels must exactly match regex patterns in profiler_agent.py
+            return [
+                'Họ tên: ' + (data.fullname || ''),
+                'MSSV: ' + (data.studentId || ''),
+                'Sinh viên năm: ' + (data.year || ''),
+                'Trường thành viên: ' + (data.school || ''),
+                'Ngành học: ' + (data.major || ''),
+                'Mục đích đọc sách: ' + (data.purpose || ''),
+                'Lĩnh vực quan tâm: ' + (data.interests || ''),
+                'Phong cách học: ' + (data.style || '')
+            ].join(', ');
         } catch (e) {
             return "";
         }

@@ -283,11 +283,16 @@ async def run_agents(request: RunRequest):
         return {"error": "Chủ đề vượt quá giới hạn 5000 ký tự."}
 
     # Prevent concurrent pipeline runs using asyncio.Lock (thread-safe)
-    if _pipeline_lock.locked():
+    # Allow up to 5 seconds for Phase 1 lock to be released (Phase 2 / Socratic resume)
+    lock_acquired = False
+    for _attempt in range(10):
+        if not _pipeline_lock.locked():
+            await _pipeline_lock.acquire()
+            lock_acquired = True
+            break
+        await asyncio.sleep(0.5)
+    if not lock_acquired:
         return {"error": "Hệ thống đang xử lý một yêu cầu khác. Vui lòng đợi hoàn thành trước khi gửi yêu cầu mới."}
-
-    # Acquire lock — will be released in the finally block of the background task
-    await _pipeline_lock.acquire()
 
     # Clear stale model tracking data from previous runs
     from src.utils.llm_factory import clear_actual_models
