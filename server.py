@@ -25,9 +25,15 @@ for _s in (sys.stdout, sys.stderr):
     if hasattr(_s, "reconfigure"):
         _s.reconfigure(encoding="utf-8", errors="replace")
 
-# ── Concurrent pipeline protection (thread-safe via asyncio.Lock) ────────────
-_pipeline_lock = asyncio.Lock()
-_current_graph_task = None
+# ── Concurrent pipeline protection (session-specific via asyncio.Locks) ───────
+_session_locks = {}
+_session_tasks = {}
+
+def get_session_lock(session_id: str) -> asyncio.Lock:
+    sid = session_id if session_id else "default"
+    if sid not in _session_locks:
+        _session_locks[sid] = asyncio.Lock()
+    return _session_locks[sid]
 
 # ── Lifespan: replaces deprecated @app.on_event("startup") ──────────────────
 @asynccontextmanager
@@ -189,15 +195,26 @@ def health_check():
 
 
 @app.get("/api/report")
-def get_report(response: Response):
-    """Return the latest generated report, diagram, and explanation as JSON."""
+def get_report(response: Response, session_id: str = ""):
+    """Return the generated report, diagram, and explanation as JSON for a specific session."""
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
 
-    report_path = Path(OUTPUT_DIR) / "research_report.md"
-    diagram_path = Path(OUTPUT_DIR) / "diagram.mermaid"
-    explanation_path = Path(OUTPUT_DIR) / "diagram_explanation.txt"
+    suffix = f"_{session_id}" if session_id else ""
+    report_path = Path(OUTPUT_DIR) / f"research_report{suffix}.md"
+    diagram_path = Path(OUTPUT_DIR) / f"diagram{suffix}.mermaid"
+    explanation_path = Path(OUTPUT_DIR) / f"diagram_explanation{suffix}.txt"
+
+    # Fallback for backward compatibility
+    if session_id and not report_path.exists():
+        r_fb = Path(OUTPUT_DIR) / "research_report.md"
+        d_fb = Path(OUTPUT_DIR) / "diagram.mermaid"
+        e_fb = Path(OUTPUT_DIR) / "diagram_explanation.txt"
+        if r_fb.exists():
+            report_path = r_fb
+            diagram_path = d_fb
+            explanation_path = e_fb
 
     report = report_path.read_text(encoding="utf-8") if report_path.exists() else "# Báo cáo chưa được tạo"
     diagram = diagram_path.read_text(encoding="utf-8") if diagram_path.exists() else ""
@@ -211,43 +228,40 @@ def get_report(response: Response):
 
 
 @app.get("/api/download-csv")
-def download_csv():
-    path = Path(OUTPUT_DIR) / "vnu_bookmind_socratic_data.csv"
+def download_csv(session_id: str = ""):
+    suffix = f"_{session_id}" if session_id else ""
+    path = Path(OUTPUT_DIR) / f"vnu_bookmind_socratic_data{suffix}.csv"
+    if session_id and not path.exists():
+        fb = Path(OUTPUT_DIR) / "vnu_bookmind_socratic_data.csv"
+        if fb.exists():
+            path = fb
+
     if path.exists():
         return FileResponse(str(path), media_type="text/csv",
-                            filename="vnu_bookmind_socratic_data.csv")
+                            filename=f"vnu_bookmind_socratic_data{suffix}.csv")
     return {"error": "CSV not generated yet — run the pipeline first."}
 
 
 @app.get("/api/download-markdown")
-def download_markdown():
-    path = Path(OUTPUT_DIR) / "research_report.md"
+def download_markdown(session_id: str = ""):
+    suffix = f"_{session_id}" if session_id else ""
+    path = Path(OUTPUT_DIR) / f"research_report{suffix}.md"
+    if session_id and not path.exists():
+        fb = Path(OUTPUT_DIR) / "research_report.md"
+        if fb.exists():
+            path = fb
+
     if path.exists():
         return FileResponse(
             str(path),
             media_type="text/markdown",
-            filename=f"VNU_BookMind_Socratic_BaoCao_ChiTiet.md",
+            filename=f"VNU_BookMind_Socratic_BaoCao_ChiTiet{suffix}.md",
             headers={**BYPASS_HEADERS}
         )
     return {"error": "Report not generated yet — run the pipeline first."}
 
 
-@app.post("/api/stop")
-async def stop_pipeline():
-    global _current_graph_task
-    if _current_graph_task and not _current_graph_task.done():
-        _current_graph_task.cancel()
-        # Force release lock if still held
-        if _pipeline_lock.locked():
-            try:
-                _pipeline_lock.release()
-            except Exception:
-                pass
-        return {"message": "Đã huỷ tiến trình phân tích thành công."}
-    return {"message": "Không có tiến trình nào đang chạy."}
-
-
-# ── POST request body for /api/run (secure: API keys not exposed in URL/logs) ─
+# ── Request model ─────────────────────────────────────────────────────────────
 class RunRequest(BaseModel):
     topic: str
     user_profile: str = ""
@@ -259,6 +273,25 @@ class RunRequest(BaseModel):
     research_data: str = ""
     retrieved_context: str = ""
     citations: list = []
+    session_id: str = ""
+
+
+@app.post("/api/stop")
+async def stop_pipeline(session_id: str = ""):
+    """Cancel a running pipeline for the given session_id."""
+    sid = session_id if session_id else "default"
+    task = _session_tasks.get(sid)
+    if task and not task.done():
+        task.cancel()
+        # Also release lock so new requests can proceed immediately
+        lock = _session_locks.get(sid)
+        if lock and lock.locked():
+            try:
+                lock.release()
+            except Exception:
+                pass
+        return {"stopped": True, "session_id": sid}
+    return {"stopped": False, "message": "No active task for this session."}
 
 
 @app.post("/api/run")
@@ -275,6 +308,7 @@ async def run_agents(request: RunRequest):
     research_data = request.research_data
     retrieved_context = request.retrieved_context
     citations = request.citations
+    session_id = request.session_id or "default"
 
     # Xác thực đầu vào
     if not topic or not topic.strip():
@@ -282,17 +316,17 @@ async def run_agents(request: RunRequest):
     if len(topic) > 5000:
         return {"error": "Chủ đề vượt quá giới hạn 5000 ký tự."}
 
-    # Prevent concurrent pipeline runs using asyncio.Lock (thread-safe)
-    # Allow up to 5 seconds for Phase 1 lock to be released (Phase 2 / Socratic resume)
+    # Acquire lock specifically for this session_id (allows multi-threading for different sessions)
+    lock = get_session_lock(session_id)
     lock_acquired = False
     for _attempt in range(10):
-        if not _pipeline_lock.locked():
-            await _pipeline_lock.acquire()
+        if not lock.locked():
+            await lock.acquire()
             lock_acquired = True
             break
         await asyncio.sleep(0.5)
     if not lock_acquired:
-        return {"error": "Hệ thống đang xử lý một yêu cầu khác. Vui lòng đợi hoàn thành trước khi gửi yêu cầu mới."}
+        return {"error": "Hệ thống đang xử lý một yêu cầu khác trên cuộc trò chuyện này. Vui lòng đợi hoàn thành trước khi gửi yêu cầu mới."}
 
     # Clear stale model tracking data from previous runs
     from src.utils.llm_factory import clear_actual_models
@@ -321,8 +355,9 @@ async def run_agents(request: RunRequest):
 
         async def run_graph_task():
             try:
-                # Clean up old reports and diagrams from previous runs
-                for filename in ["research_report.md", "diagram.mermaid", "diagram_explanation.txt", "vnu_bookmind_socratic_data.csv"]:
+                # Clean up old reports and diagrams for this specific session
+                suffix = f"_{session_id}" if session_id else ""
+                for filename in [f"research_report{suffix}.md", f"diagram{suffix}.mermaid", f"diagram_explanation{suffix}.txt", f"vnu_bookmind_socratic_data{suffix}.csv"]:
                     filepath = Path(OUTPUT_DIR) / filename
                     if filepath.exists():
                         try:
@@ -352,16 +387,20 @@ async def run_agents(request: RunRequest):
                     "error": str(exc) + "\n" + traceback.format_exc()
                 })
             finally:
-                # Always release the lock and signal completion
-                _pipeline_lock.release()
+                # Always release the session lock and signal completion
+                if lock.locked():
+                    try:
+                        lock.release()
+                    except Exception:
+                        pass
                 await stream_queue.put({
                     "type": "done_sentinel"
                 })
 
-        # Start execution in the background — lưu reference để tránh GC thu hồi task
-        global _current_graph_task
+        # Start execution in the background — lưu reference theo session_id
+        global _session_tasks
         graph_task = asyncio.create_task(run_graph_task())
-        _current_graph_task = graph_task
+        _session_tasks[session_id] = graph_task
 
         start_time = time.time()
         agent_tokens = {
@@ -400,14 +439,12 @@ async def run_agents(request: RunRequest):
         try:
             while True:
                 if graph_task.done() and graph_task.exception():
-                    # Nếu task bị lỗi, truyền lỗi ra SSE
                     exc = graph_task.exception()
                     yield f"data: {json.dumps({'error': str(exc)}, ensure_ascii=False)}\n\n"
                     break
                 try:
                     event = await asyncio.wait_for(stream_queue.get(), timeout=10.0)
                 except asyncio.TimeoutError:
-                    # Send an SSE keep-alive comment to prevent router/load-balancer timeouts
                     yield ": ping\n\n"
                     continue
 
@@ -422,9 +459,9 @@ async def run_agents(request: RunRequest):
 
                     # If Phase 1 (no socratic answers yet and query is relevant), pause and prompt user
                     if not final_state.get("socratic_answers") and not final_state.get("irrelevant", False):
-                        if _pipeline_lock.locked():
+                        if lock.locked():
                             try:
-                                _pipeline_lock.release()
+                                lock.release()
                             except Exception:
                                 pass
                         yield f"data: {json.dumps({'socratic_pause': True, 'socratic_questions': final_state.get('risks', ''), 'state_snapshot': {'topic': final_state.get('topic', ''), 'user_profile': final_state.get('user_profile', ''), 'analysis': final_state.get('analysis', ''), 'risks': final_state.get('risks', ''), 'research_data': final_state.get('research_data', ''), 'retrieved_context': final_state.get('retrieved_context', ''), 'citations': final_state.get('citations', [])}}, ensure_ascii=False)}\n\n"
@@ -433,26 +470,28 @@ async def run_agents(request: RunRequest):
                     total_tokens = sum(agent_tokens.values())
                     agents_count = 1 if final_state.get("irrelevant") else 6
 
-                    # Save clean report without metrics suffix as requested
                     final_report = final_state.get("report", "# No report generated")
-
-                    # Clean internal filenames programmatically
                     final_report = clean_internal_filenames(final_report)
                     try:
                         Path(OUTPUT_DIR).mkdir(exist_ok=True)
                     except Exception:
                         pass
+                    
+                    # Save session-specific report
+                    suffix = f"_{session_id}" if session_id else ""
+                    (Path(OUTPUT_DIR) / f"research_report{suffix}.md").write_text(final_report, encoding="utf-8")
+                    
+                    # Fallback global write for compatibility
                     (Path(OUTPUT_DIR) / "research_report.md").write_text(final_report, encoding="utf-8")
 
-                    # Read diagram and explanation if they exist to pass directly in SSE done event
-                    diagram_path = Path(OUTPUT_DIR) / "diagram.mermaid"
-                    explanation_path = Path(OUTPUT_DIR) / "diagram_explanation.txt"
+                    # Read diagram and explanation
+                    diagram_path = Path(OUTPUT_DIR) / f"diagram{suffix}.mermaid"
+                    explanation_path = Path(OUTPUT_DIR) / f"diagram_explanation{suffix}.txt"
+                    
                     diagram = diagram_path.read_text(encoding="utf-8") if diagram_path.exists() else ""
                     explanation = explanation_path.read_text(encoding="utf-8") if explanation_path.exists() else ""
-
                     explanation = clean_internal_filenames(explanation)
 
-                    # Yield completion with stats, report, diagram, explanation and individual token/model/speed counts
                     yield f"data: {json.dumps({'done': True, 'report': final_report, 'diagram': diagram, 'explanation': explanation, 'stats': {'time': f'{elapsed:.3f}s', 'tokens': f'{total_tokens:,}', 'agents': agents_count, 'irrelevant': final_state.get('irrelevant', False), 'agent_tokens': agent_tokens, 'agent_models': agent_models, 'agent_toks_per_sec': agent_toks_per_sec, 'agent_durations': agent_durations}}, ensure_ascii=False)}\n\n"
                 elif event.get("type") == "node_end":
                     node_name = event.get("node")
@@ -473,7 +512,6 @@ async def run_agents(request: RunRequest):
 
                     yield f"data: {json.dumps(event, ensure_ascii=False)}\n\n"
                 else:
-                    # Clean internal filenames in any other event that might have text fields
                     if event.get("content"):
                         event["content"] = clean_internal_filenames(event["content"])
                     if event.get("thinking"):
@@ -490,10 +528,6 @@ async def run_agents(request: RunRequest):
         headers={**BYPASS_HEADERS, "Cache-Control": "no-cache, no-transform"},
     )
 
-# ─────────────────────────────────────────────────────────────────────────────
-
-#  ENTRY POINT
-# ─────────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)

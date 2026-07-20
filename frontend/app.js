@@ -281,7 +281,7 @@ function checkServerConnection() {
         const dot = document.getElementById('connection-status-dot');
         if (!dot) return;
 
-        const url = getApiPrefix() + '/api/report';
+        const url = getApiPrefix() + '/api/report?session_id=' + sessionId;
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 15000);
 
@@ -301,6 +301,20 @@ function checkServerConnection() {
     }
 
     let currentZoom = 100;
+
+    // Generate or retrieve a persistent session ID for this browser tab.
+    // Uses a tab-specific localStorage key so it survives F5 reloads but stays
+    // isolated from other tabs (each tab gets its own key via a one-time tabKey in sessionStorage).
+    let _tabKey = sessionStorage.getItem('vnu_bookmind_tab_key');
+    if (!_tabKey) {
+        _tabKey = 'tab_' + Math.random().toString(36).substring(2, 10);
+        sessionStorage.setItem('vnu_bookmind_tab_key', _tabKey);
+    }
+    let sessionId = localStorage.getItem('vnu_bookmind_session_' + _tabKey);
+    if (!sessionId) {
+        sessionId = 'sess_' + Math.random().toString(36).substring(2, 15) + '_' + Date.now();
+        localStorage.setItem('vnu_bookmind_session_' + _tabKey, sessionId);
+    }
 
     let eventSource   = null;
     let hasCompletedSuccessfully = false;
@@ -1005,7 +1019,9 @@ function checkServerConnection() {
             hasAnalystRun,
             logs: consoleOutput.innerHTML,
             activeNode,
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            sessionId,                      // persist so reload can reconnect
+            stateSnapshot: activeStateSnapshot  // persist so Phase-2 can resume after reload
         };
 
         localStorage.setItem('fpt_active_search', JSON.stringify(activeSearch));
@@ -1750,7 +1766,7 @@ function checkServerConnection() {
                 return;
             }
 
-            fetch(getApiPrefix() + '/api/report?t=' + Date.now())
+            fetch(getApiPrefix() + '/api/report?session_id=' + sessionId + '&t=' + Date.now())
                 .then(res => { if (!res.ok) throw new Error(); return res.json(); })
                 .then(data => {
                     const isIrrelevantReport = data.report && (data.report.trim().startsWith('# Không áp dụng') || data.report.trim().startsWith('# IRRELEVANT'));
@@ -2531,7 +2547,8 @@ function checkServerConnection() {
         const postUrl = getApiPrefix() + '/api/run';
         const body = { 
             topic: topic,
-            user_profile: getUserProfileString()
+            user_profile: getUserProfileString(),
+            session_id: sessionId
         };
         connectSsePost(postUrl, body);
     });
@@ -2837,7 +2854,7 @@ function checkServerConnection() {
 
     // ── Fetch & Render Final Report ───────────────────────────────────────────
     function fetchReport() {
-        fetch(getApiPrefix() + '/api/report?t=' + Date.now())
+        fetch(getApiPrefix() + '/api/report?session_id=' + sessionId + '&t=' + Date.now())
             .then(res => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.json(); })
             .then(data => {
                 if (data.report) {
@@ -2907,7 +2924,7 @@ function checkServerConnection() {
             }
 
             // Gửi yêu cầu huỷ tiến trình ngầm trên backend
-            fetch(getApiPrefix() + '/api/stop', { method: 'POST' })
+            fetch(getApiPrefix() + '/api/stop?session_id=' + sessionId, { method: 'POST' })
                 .then(res => res.json())
                 .then(data => console.log('Backend stop response:', data.message))
                 .catch(err => console.error('Lỗi khi gửi yêu cầu dừng tới backend:', err));
@@ -3060,16 +3077,12 @@ function checkServerConnection() {
         newChatBtn.addEventListener('click', startNewChat);
     }
 
-    // Clear any stale active search state on reload (no background restore)
-    localStorage.removeItem('fpt_active_search');
-
     function initializeOrSyncWithServer() {
-        // Restore session data if available (e.g. user navigated away and came back in same browser session)
-        const saved = (() => { try { return sessionStorage.getItem('bookmind_session_report'); } catch(e){ return null; }})();
-        if (saved) {
+        // ── Step 1: Try to restore a completed report from sessionStorage (same tab, navigated away) ──
+        const savedReport = (() => { try { return sessionStorage.getItem('bookmind_session_report'); } catch(e){ return null; }})();
+        if (savedReport) {
             try {
-                const parsed = JSON.parse(saved);
-                // Only restore if saved within the last 60 minutes
+                const parsed = JSON.parse(savedReport);
                 if (parsed && parsed.report && (Date.now() - (parsed.timestamp || 0)) < 60 * 60 * 1000) {
                     displayReportData({
                         report: parsed.report,
@@ -3080,7 +3093,50 @@ function checkServerConnection() {
                 }
             } catch(e) { /* ignore */ }
         }
-        // No session data → show blank cards
+
+        // ── Step 2: Check if there is an in-progress run saved for THIS TAB ──
+        const savedSearch = (() => { try { return localStorage.getItem('fpt_active_search'); } catch(e){ return null; }})();
+        if (savedSearch) {
+            try {
+                const parsed = JSON.parse(savedSearch);
+                // Only resume if saved within the last 30 minutes and it belongs to our session
+                const isOurs = parsed.sessionId && parsed.sessionId === sessionId;
+                const isFresh = (Date.now() - (parsed.timestamp || 0)) < 30 * 60 * 1000;
+                if (isOurs && isFresh && parsed.status === 'running' && parsed.topic) {
+                    // Restore UI state so user sees where they were
+                    topicInput.value = parsed.topic;
+                    if (parsed.logs) consoleOutput.innerHTML = parsed.logs;
+                    if (parsed.stateSnapshot) activeStateSnapshot = parsed.stateSnapshot;
+
+                    // Restore metrics badges
+                    const s = parsed.stats || {};
+                    if (s.time)   statTime.textContent = s.time;
+                    if (s.tokens) statTokens.textContent = s.tokens;
+                    if (s.agents) statAgents.textContent = s.agents;
+                    statStatus.textContent = 'Đang khôi phục…';
+                    statStatus.style.color = 'var(--fpt-orange)';
+
+                    runBtn.disabled  = true;
+                    runBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang chạy…';
+                    if (stopBtn) stopBtn.style.display = 'inline-flex';
+
+                    // Show notification banner
+                    const banner = document.createElement('div');
+                    banner.className = 'console-log';
+                    banner.style.cssText = 'color: #f0a030; font-style: italic; font-size: 12px; margin: 8px 0; border-top: 1px dashed rgba(255,200,0,0.15); padding-top: 8px;';
+                    banner.innerHTML = '<i class="fa-solid fa-rotate-right" style="margin-right:6px;"></i> Trang đã được tải lại — đang kiểm tra tiến trình từ máy chủ…';
+                    consoleOutput.appendChild(banner);
+                    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+
+                    // Start polling to sync final result (uses existing startPollingForReport)
+                    startPollingForReport();
+                    return;
+                }
+            } catch(e) { /* ignore */ }
+        }
+
+        // ── Step 3: Nothing to restore — show blank cards ──
+        localStorage.removeItem('fpt_active_search');
         showUncreatedReportCard();
         showUncreatedDiagramCard();
     }
@@ -3140,7 +3196,8 @@ function checkServerConnection() {
                 risks: activeStateSnapshot.risks,
                 research_data: activeStateSnapshot.research_data,
                 retrieved_context: activeStateSnapshot.retrieved_context,
-                citations: activeStateSnapshot.citations
+                citations: activeStateSnapshot.citations,
+                session_id: sessionId
             };
             
             // Run Phase 2
