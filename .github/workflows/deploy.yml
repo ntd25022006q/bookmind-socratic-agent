@@ -61,19 +61,22 @@ jobs:
             
             DEPLOYS=$(curl -s \
               -H "Authorization: Bearer $VERCEL_TOKEN" \
-              "https://api.vercel.com/v6/deployments?limit=5&projectId=$VERCEL_PROJECT_ID")
+              "https://api.vercel.com/v6/deployments?projectId=$VERCEL_PROJECT_ID" || echo "")
             
             UID=$(echo "$DEPLOYS" | python3 -c "
           import json, sys
           sha = '$SHORT_SHA'
-          data = json.load(sys.stdin)
-          for d in data.get('deployments', []):
-              state = d.get('state') or d.get('readyState','')
-              meta_sha = d.get('meta', {}).get('githubCommitSha', '')[:10]
-              if state == 'READY' and meta_sha == sha:
-                  print(d.get('uid',''))
-                  break
-          " 2>/dev/null || echo "")
+          try:
+              data = json.load(sys.stdin)
+              for d in data.get('deployments', []):
+                  state = d.get('state') or d.get('readyState','')
+                  meta_sha = d.get('meta', {}).get('githubCommitSha', '')[:10]
+                  if state == 'READY' and meta_sha == sha:
+                      print(d.get('uid',''))
+                      break
+          except Exception:
+              pass
+          " 2>/dev/null || true)
             
             if [ -n "$UID" ]; then
               echo "Found READY deployment: $UID"
@@ -85,7 +88,7 @@ jobs:
                   -H "Authorization: Bearer $VERCEL_TOKEN" \
                   -H "Content-Type: application/json" \
                   "https://api.vercel.com/v2/deployments/$UID/aliases" \
-                  -d "{\"alias\": \"$ALIAS\"}")
+                  -d "{\"alias\": \"$ALIAS\"}" || echo "500")
                 echo "Mapped $ALIAS → HTTP $STATUS"
               done
               
@@ -95,6 +98,7 @@ jobs:
           done
           
           echo "::warning::Vercel build not READY after 8 min — aliases not updated (rate limit or build error)"
+          exit 0
 
       - name: Skip (no frontend changes)
         if: steps.frontend_changed.outputs.frontend_files_changed == '0'
