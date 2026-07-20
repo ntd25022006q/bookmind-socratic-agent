@@ -1,4 +1,5 @@
 import time
+import json
 from src.state import ResearchState
 from src.utils.llm_factory import create_llm, parse_agent_json, get_actual_model_used
 from src.utils.display import print_agent_start, print_agent_complete, print_agent_info
@@ -7,90 +8,107 @@ from config import MODEL_RESEARCHER_AGENT
 
 async def reporter_node(state: ResearchState, config=None) -> dict:
     start_time = time.time()
-    topic = state.get("topic", "")
-    profile = state.get("user_profile", "")
-    books = state.get("analysis", "")
+    topic     = state.get("topic", "")
+    profile   = state.get("user_profile", "")
+    books     = state.get("analysis", "")
     questions = state.get("risks", "")
     citations = state.get("citations", [])
-    
+
     stream_queue = config.get("configurable", {}).get("stream_queue") if config else None
     if stream_queue:
-        await stream_queue.put({
-            "type": "node_start",
-            "node": "reporter"
-        })
-        
-    print_agent_start("Reporter Agent", "Tổng hợp toàn bộ báo cáo và xây dựng sơ đồ Mermaid")
+        await stream_queue.put({"type": "node_start", "node": "reporter"})
+
+    print_agent_start("Reporter Agent", "Tổng hợp báo cáo đọc sâu Socratic và sơ đồ Mermaid")
     llm = create_llm(MODEL_RESEARCHER_AGENT, config=config, streaming=True)
-    
+
     call_config = {}
     if stream_queue:
         from src.utils.llm_factory import QueueCallbackHandler
         call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "reporter")]
-        
-    prompt = f"""Bạn là Reporter Agent của VNU BookMind Socratic. Nhiệm vụ: Biên soạn một báo cáo đọc sách học thuật chi tiết, đẹp, chuyên nghiệp bằng Markdown để người dùng có thể in hoặc lưu trữ.
 
-QUY TẮC NGHIÊM NGẶT KHI VIẾT BÁO CÁO:
-1. VIẾT ĐẦY ĐỦ từng phần, KHÔNG được rút gọn, KHÔNG dùng placeholder như "(đã có ở trên)", "(xem thêm)", "(không lặp lại)", hoặc bất kỳ cụm từ lười biếng nào.
-2. TUYỆT ĐỐI KHÔNG dùng ký hiệu ** trong báo cáo. Thay vào đó sử dụng đúng cú pháp Markdown: dùng # ## ### cho tiêu đề, dùng > cho trích dẫn, dùng | cho bảng, dùng - cho danh sách.
-3. TUYỆT ĐỐI KHÔNG dùng chữ Hán, chữ Kanji, chữ Hiragana, chữ Katakana hay bất kỳ ký tự tiếng Trung/Nhật/Hàn nào trong báo cáo. Chỉ dùng tiếng Việt và tiếng Anh.
-4. Báo cáo bắt buộc phải chứa một BẢNG TÀI LIỆU THAM KHẢO gồm đúng 6 cột: STT, tên tài liệu, tác giả, năm, nguồn, link.
-   - Bảng này phải chứa CHÍNH XÁC các tài liệu gợi ý từ VNU-LIC được cung cấp qua biến sách gợi ý bên dưới.
-   - Các liên kết (link) trong bảng này PHẢI trỏ trực tiếp đến tên miền của VNU-LIC (ví dụ: opac.vnu.edu.vn, repository.vnu.edu.vn, bookworm.vnu.edu.vn) được cung cấp trong danh sách gợi ý. Tuyệt đối không được tự ý thay đổi link sang WorldCat, ISBN hay bất kỳ trang web bên ngoài nào khác.
-   - Nếu sách không có liên kết gốc, hãy ghi rõ: "Học liệu tự học bổ trợ (Chưa có liên kết trực tuyến)".
-5. TÍCH HỢP KATEX: Nếu chủ đề hoặc các tài liệu có liên quan đến khoa học, công nghệ, toán học hoặc định lượng, hãy hiển thị các công thức toán học/thuật toán bằng cú pháp KaTeX (dùng $...$ cho công thức nội dòng và $$...$$ cho công thức khối riêng biệt) để giao diện hiển thị chuyên nghiệp.
-6. TUYỆT ĐỐI KHÔNG ghi "Ngày:" hay bất kỳ ngày tháng nào vào tên tổ chức hay footer báo cáo.
-7. Phần TÀI LIỆU THAM KHẢO cuối báo cáo PHẢI liệt kê đầy đủ URL thực tế từ VNU-LIC của từng tài liệu (nếu có).
+    prompt = f"""Bạn là Reporter Agent của VNU BookMind Socratic — tác nhân thứ 6 và cuối cùng trong pipeline 6 tác nhân tuần tự.
+Nhiệm vụ: Biên soạn một Báo Cáo Đọc Sâu học thuật hoàn chỉnh, chuyên nghiệp bằng Markdown.
 
-Chủ đề: {topic}
-Hồ sơ: {profile}
-Sách gợi ý (bao gồm tên, tác giả, URL): {books}
-Câu hỏi Socrates & Phản biện: {questions}
-Tài liệu trích nguồn: {citations}
+THÔNG TIN ĐẦU VÀO TỪ CÁC TÁC NHÂN TRƯỚC:
+- Chủ đề: {topic}
+- Hồ sơ độc giả: {profile}
+- Danh mục tài liệu gợi ý (từ 4 nguồn VNU-LIC): {books}
+- Câu hỏi Socratic & Phân tích phản biện: {questions}
+- Citations: {citations}
 
-Hãy trả về ĐÚNG theo định dạng sau (không thêm bớt ký tự === nào khác):
+QUY TẮC VIẾT BÁO CÁO (BẮT BUỘC KHÔNG ĐƯỢC VI PHẠM):
+1. VIẾT ĐẦY ĐỦ từng phần, KHÔNG rút gọn, KHÔNG dùng placeholder như "(đã có ở trên)", "(xem thêm)".
+2. KHÔNG dùng ký hiệu ** trong báo cáo. Dùng đúng Markdown: # ## ### cho tiêu đề, > cho trích dẫn, | cho bảng, - cho danh sách.
+3. KHÔNG dùng chữ Hán, Kanji, Hiragana, Katakana. Chỉ tiếng Việt và tiếng Anh.
+4. KHÔNG ghi ngày tháng vào dòng tên tổ chức hay footer.
+5. Nếu chủ đề liên quan STEM/AI/Toán, dùng KaTeX ($...$ nội dòng, $$...$$ khối) để hiển thị công thức.
+
+QUY TẮC BẢNG TÀI LIỆU THAM KHẢO (6 cột — BẮT BUỘC):
+- Bảng phải có đúng 6 cột: STT | Tên tài liệu | Tác giả | Năm | Nguồn | Link
+- Link PHẢI lấy trực tiếp từ danh mục VNU-LIC được cung cấp ở trên (opac.vnu.edu.vn / repository.vnu.edu.vn / bookworm.vnu.edu.vn / lib.vnu.edu.vn).
+- Tài liệu không có URL thật: ghi "Tài liệu bổ trợ (không có liên kết VNU-LIC)" ở cột Link.
+- TUYỆT ĐỐI không bịa URL, không thay bằng WorldCat/ISBN/Google Books hay bất kỳ trang ngoài.
+
+CẤU TRÚC BÁO CÁO BẮT BUỘC:
+1. Tiêu đề + Thông Tin Độc Giả (bảng)
+2. Giới Thiệu (2-3 đoạn)
+3. Phân Tích Chuyên Sâu Hồ Sơ Độc Giả (3 tiểu mục)
+4. Đề Xuất Tài Liệu Chi Tiết (mỗi tài liệu 1 tiểu mục, ghi rõ nguồn + link nếu có)
+5. Câu Hỏi Phản Biện Socratic (3 câu, mỗi câu có phân tích)
+6. Phân Tích Thiên Kiến Nhận Thức & Điểm Mù (từ câu trả lời Socratic của độc giả)
+7. Checkpoint Tự Vấn (3 checkpoint)
+8. Khuyến Nghị Bổ Sung (3 khuyến nghị)
+9. Bảng Tài Liệu Tham Khảo (6 cột, URL thật từ VNU-LIC)
+
+Hãy trả về ĐÚNG định dạng sau:
 === QUÁ TRÌNH TƯ DUY ===
-[Phân tích cách bạn sẽ cấu trúc báo cáo — không quá 5 dòng]
+[Phân tích cách cấu trúc báo cáo — tối đa 5 dòng]
 === CONSOLE MESSAGE ===
 Đã biên soạn xong báo cáo đọc sâu Socratic VNU BookMind.
 === DETAILED REPORT ===
 # Báo Cáo Đọc Sâu — VNU BookMind Socratic
 *Trung tâm Thư viện và Tri thức số, Đại học Quốc gia Hà Nội*
 
-[Toàn bộ nội dung báo cáo chi tiết — đầy đủ, không placeholder, không **, không chữ Hán/Kanji, không ghi ngày tháng vào dòng tên tổ chức]
+[Toàn bộ nội dung báo cáo chi tiết theo 9 phần trên — đầy đủ, không placeholder, không **, không chữ Hán]
 === MERMAID DIAGRAM ===
-[Vẽ sơ đồ Mermaid flowchart LR phản ánh NỘI DUNG THỰC TẾ của báo cáo trên. LƯU Ý NGHIÊM NGẶT VỀ CÚ PHÁP: Tuyệt đối không dùng nét đứt sai cú pháp `-.-->` hoặc `--.>`. Chỉ sử dụng nét đứt có mũi tên duy nhất là `-.->` (chỉ có 1 dấu chấm ở giữa 2 dấu gạch ngang, ví dụ: A -.-> B hoặc A -. Text .-> B). KHÔNG vẽ sơ đồ quy trình agent. KHÔNG dùng ký tự đặc biệt Hán/Kanji trong nhãn nút.]
+[Sơ đồ flowchart LR phản ánh lộ trình đọc sách của độc giả DỰA TRÊN NỘI DUNG THỰC TẾ của báo cáo (không phải sơ đồ agent).
+QUY TẮC CÚ PHÁP NGHIÊM NGẶT:
+- Nét đứt có mũi tên: chỉ dùng -.- > (1 chấm giữa 2 gạch). Ví dụ: A -.-> B hoặc A -. Text .-> B
+- KHÔNG dùng -.-->, --. >, hay bất kỳ biến thể sai khác
+- Nhãn nút không chứa ký tự đặc biệt, không chứa chữ Hán/Kanji]
 === DIAGRAM EXPLANATION ===
-[Giải thích chi tiết sơ đồ bằng tiếng Việt, dựa trên nội dung báo cáo — mô tả từng nút và mối liên hệ, giúp người đọc hiểu rõ cấu trúc tư duy. Tối thiểu 3 đoạn văn hoàn chỉnh. Không dùng ** và không dùng chữ Hán.]
+[Giải thích chi tiết sơ đồ bằng tiếng Việt: mô tả từng nút và mối liên hệ, tối thiểu 3 đoạn văn hoàn chỉnh. Không dùng ** và không dùng chữ Hán.]
 """
-    
+
     res = await llm.ainvoke(prompt, config=call_config)
     parsed = parse_agent_json(res.content, "detailed_report")
-    
-    # Apply full post-processing: strip CJK, fix URLs, remove stray **, clean filenames
-    parsed["detailed_report"] = full_clean(parsed.get("detailed_report", ""))
+
+    # Post-processing: strip CJK, remove **, fix Mermaid syntax
+    parsed["detailed_report"]    = full_clean(parsed.get("detailed_report", ""))
     parsed["diagram_explanation"] = full_clean(parsed.get("diagram_explanation", ""))
-    
-    # Auto-heal Mermaid syntax errors (broken dotted links commonly generated by LLMs)
+
     mermaid_code = full_clean(parsed.get("mermaid_diagram", ""))
-    mermaid_code = mermaid_code.replace("-.-->", "-.->")
-    mermaid_code = mermaid_code.replace("--.>", "-.->")
-    mermaid_code = mermaid_code.replace("-.--", "-.-")
+    # Auto-heal Mermaid dotted arrow syntax errors from LLMs
+    import re
+    mermaid_code = re.sub(r'-\.-->', '-.->', mermaid_code)
+    mermaid_code = re.sub(r'--\.>', '-.->', mermaid_code)
+    mermaid_code = re.sub(r'-\.--', '-.-', mermaid_code)
+    mermaid_code = re.sub(r'\.\.>', '-.->', mermaid_code)
     parsed["mermaid_diagram"] = mermaid_code
-    
-    # Save diagram
+
+    # Save outputs
     from config import OUTPUT_DIR
     from pathlib import Path
     Path(OUTPUT_DIR).mkdir(exist_ok=True)
     (Path(OUTPUT_DIR) / "diagram.mermaid").write_text(parsed["mermaid_diagram"], encoding="utf-8")
     (Path(OUTPUT_DIR) / "diagram_explanation.txt").write_text(parsed["diagram_explanation"], encoding="utf-8")
-    
-    tokens = len(res.content) // 4
+
+    tokens   = len(res.content) // 4
     duration = time.time() - start_time
     print_agent_complete("Reporter Agent", duration, tokens)
     actual_model = get_actual_model_used("reporter", MODEL_RESEARCHER_AGENT)
     toks_per_sec = round(tokens / duration, 1) if duration > 0 else 0
-    
+
     if stream_queue:
         await stream_queue.put({
             "type": "node_end",
@@ -102,9 +120,9 @@ Hãy trả về ĐÚNG theo định dạng sau (không thêm bớt ký tự === 
             "model": actual_model,
             "toks_per_sec": toks_per_sec
         })
-        
+
     return {
-        "report": parsed["detailed_report"],
-        "messages": [res],
-        "csv_data": parsed["console_message"]
+        "report":    parsed["detailed_report"],
+        "messages":  [res],
+        "csv_data":  parsed["console_message"]
     }
