@@ -374,6 +374,7 @@ async def run_agents(request: RunRequest):
                     initial_state,
                     config={
                         "configurable": {
+                            "session_id": session_id,
                             "stream_queue": stream_queue,
                             "ollama_api_key": ollama_api_key,
                             "openrouter_api_key": openrouter_api_key

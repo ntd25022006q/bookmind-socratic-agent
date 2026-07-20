@@ -5,12 +5,13 @@ import re
 import threading
 import urllib.request
 import asyncio
+import contextvars
 from langchain_openai import ChatOpenAI
 from langchain_core.callbacks import AsyncCallbackHandler
 from config import OLLAMA_API_KEY, OLLAMA_BASE_URL
 
 # Thread-local or simple dict to track the actual model used per node during a run
-_actual_model_used: dict = {}
+_actual_model_used = contextvars.ContextVar("_actual_model_used", default=None)
 
 class QueueCallbackHandler(AsyncCallbackHandler):
     """Callback handler that pushes LLM tokens onto an asyncio.Queue in real-time
@@ -23,7 +24,11 @@ class QueueCallbackHandler(AsyncCallbackHandler):
         """Record the actual model name at generation start."""
         try:
             model_name = serialized.get("kwargs", {}).get("model_name") or serialized.get("name", "unknown")
-            _actual_model_used[self.node_name] = model_name
+            current_dict = _actual_model_used.get()
+            if current_dict is None:
+                current_dict = {}
+                _actual_model_used.set(current_dict)
+            current_dict[self.node_name] = model_name
         except Exception:
             pass
 
@@ -124,7 +129,7 @@ def start_latency_checker():
 
 def clear_actual_models():
     """Clear the model tracking data from previous runs."""
-    _actual_model_used.clear()
+    _actual_model_used.set({})
 
 
 def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, streaming: bool = False, config = None):
@@ -206,7 +211,10 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
 
 def get_actual_model_used(node_name: str, default_model: str) -> str:
     """Return the actual model name recorded for a node (set by QueueCallbackHandler)."""
-    return _actual_model_used.get(node_name, default_model)
+    current_dict = _actual_model_used.get()
+    if current_dict is None:
+        return default_model
+    return current_dict.get(node_name, default_model)
 
 
 def parse_agent_json(content: str, fallback_key: str) -> dict:
