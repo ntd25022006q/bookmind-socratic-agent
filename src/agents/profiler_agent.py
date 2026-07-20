@@ -1,4 +1,5 @@
 import time
+import re
 from src.state import ResearchState
 from src.utils.llm_factory import create_llm, parse_agent_json, get_actual_model_used
 from src.utils.display import print_agent_start, print_agent_complete, print_agent_info
@@ -46,15 +47,39 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
         from src.utils.llm_factory import QueueCallbackHandler
         call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "researcher")]
         
-    user_profile = state.get("user_profile", "")
+    user_profile_raw = state.get("user_profile", "")
+    
+    # Helper to extract values by regex from the profile text
+    def extract_field(label_pat, text):
+        match = re.search(label_pat + r'\s*:\s*([^,;\n]+)', text, re.IGNORECASE)
+        if match:
+            return match.group(1).strip()
+        return ""
+        
+    p_name = extract_field("Họ tên", user_profile_raw) or extract_field("Họ và tên", user_profile_raw)
+    p_mssv = extract_field("MSSV", user_profile_raw) or extract_field("Mã số sinh viên", user_profile_raw)
+    p_major = extract_field("Ngành", user_profile_raw) or extract_field("Ngành học", user_profile_raw)
+    p_school = extract_field("Trường", user_profile_raw) or extract_field("Trường thành viên", user_profile_raw)
+    p_style = extract_field("Phong cách", user_profile_raw) or extract_field("Phong cách học", user_profile_raw)
+    
+    p_name_val = p_name if p_name else "(Không cung cấp)"
+    p_mssv_val = p_mssv if p_mssv else "(Không cung cấp)"
+    p_major_val = p_major if p_major else "(Không cung cấp)"
+    p_school_val = p_school if p_school else "(Không cung cấp)"
+    p_style_val = p_style if p_style else "(Không cung cấp)"
+
     prompt = f"""Bạn là Profiler Agent của VNU BookMind Socratic. Hãy phân tích sở thích đọc sách, gu học thuật và phong cách tư duy của độc giả từ truy vấn: "{topic}".
-    Đặc biệt, độc giả đã cung cấp thông tin hồ sơ của họ như sau: "{user_profile}".
+    Đặc biệt, độc giả đã cung cấp thông tin hồ sơ của họ như sau: "{user_profile_raw}".
     Nhiệm vụ của bạn là kết hợp thông tin hồ sơ này và chủ đề truy vấn để lập nên một báo cáo Hồ sơ Độc giả thông minh và đầy đủ nhất.
     
-    ĐẶC BIỆT QUAN TRỌNG VỀ BẢO TOÀN THÔNG TIN HỒ SƠ ĐỘC GIẢ:
-    - Bạn PHẢI GIỮ NGUYÊN VĂN 100% các trường thông tin do độc giả cung cấp gồm: Họ và tên độc giả, Mã số sinh viên, Ngành học & Khóa, Trường thành viên.
-    - TUYỆT ĐỐI không được tự ý thay đổi, sửa chữa, biên dịch hay dịch nghĩa (Ví dụ: độc giả ghi họ tên là 'Test Đạt' thì bạn PHẢI ghi chính xác là 'Test Đạt', tuyệt đối không được tự ý đổi thành 'Nguyễn Tiến Đạt'. Nếu độc giả ghi ngành học là 'CNTT' thì giữ nguyên 'CNTT', không tự ý đổi thành 'CNTTUD' hay 'Công nghệ Thông tin trong Quản lý').
-    - Cái gì không chắc chắn hoặc không được cung cấp trong hồ sơ thô, hãy để trống hoặc đặt trong dấu ngoặc đơn hoặc ghi rõ '(Không cung cấp)'. Tuyệt đối không được phỏng đoán hay tự bịa đặt bất kỳ thông tin nào về danh tính của độc giả.
+    ĐẶC BIỆT QUAN TRỌNG VỀ BẢO TOÀN THÔNG TIN HỒ SƠ ĐỘC GIẢ (Yêu cầu bắt buộc):
+    - Bạn PHẢI GIỮ NGUYÊN VĂN 100% các giá trị sau vào đúng vị trí tương ứng trong báo cáo:
+      * Họ và tên độc giả: Bạn bắt buộc phải ghi đúng là '{p_name_val}'
+      * Mã số sinh viên: Bạn bắt buộc phải ghi đúng là '{p_mssv_val}'
+      * Ngành học & Khóa: Bạn bắt buộc phải ghi đúng là '{p_major_val}'
+      * Trường thành viên: Bạn bắt buộc phải ghi đúng là '{p_school_val}'
+      * Phong cách tư duy: Bạn bắt buộc phải ghi đúng là '{p_style_val}'
+    - TUYỆT ĐỐI không được tự ý phỏng đoán, sửa chữa, thay đổi hay bịa đặt bất kỳ thông tin nào khác về tên tuổi, trường học hay mã số sinh viên của độc giả.
     
     Hãy trả về dưới dạng:
     === QUÁ TRÌNH TƯ DUY ===
@@ -63,11 +88,12 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
     Đã lập hồ sơ độc giả thông minh từ thông tin đăng ký.
     === BÁO CÁO CHI TIẾT ===
     HỒ SƠ ĐỘC GIẢ:
-    - Họ và tên độc giả: [Họ tên từ hồ sơ thô]
-    - Mã số sinh viên: [MSSV từ hồ sơ thô]
-    - Ngành học & Khóa: [Ngành học & Khóa từ hồ sơ thô]
-    - Phong cách tư duy: [Phong cách tư duy từ hồ sơ thô hoặc phân tích]
-    - Lĩnh vực đặc biệt quan tâm: [Lĩnh vực quan tâm từ hồ sơ thô + phân tích từ chủ đề "{topic}"]
+    - Họ và tên độc giả: {p_name_val}
+    - Mã số sinh viên: {p_mssv_val}
+    - Ngành học & Khóa: {p_major_val}
+    - Trường thành viên: {p_school_val}
+    - Phong cách tư duy: {p_style_val}
+    - Lĩnh vực đặc biệt quan tâm: [Phân tích lĩnh vực đặc biệt quan tâm dựa trên thông tin hồ sơ và chủ đề truy vấn "{topic}"]
     """
     
     res = await llm.ainvoke(prompt, config=call_config)

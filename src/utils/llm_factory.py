@@ -180,7 +180,7 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
         api_key=active_ollama_key,
         base_url=OLLAMA_BASE_URL,
         temperature=temperature,
-        timeout=120,         # 120s — generous timeout for LLM streaming
+        timeout=30,          # 30s timeout to trigger fallbacks quickly if model hangs
         max_retries=0,       # Fail over instantly
         max_tokens=max_tokens,
         streaming=streaming
@@ -194,7 +194,7 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
                 api_key=active_ollama_key,
                 base_url=OLLAMA_BASE_URL,
                 temperature=temperature,
-                timeout=90,          # 90s timeout for fallbacks
+                timeout=25,          # 25s timeout for fallback models
                 max_retries=0,
                 max_tokens=max_tokens,
                 streaming=streaming
