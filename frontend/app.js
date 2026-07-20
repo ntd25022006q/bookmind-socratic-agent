@@ -320,6 +320,8 @@ function checkServerConnection() {
     let hasCompletedSuccessfully = false;
     let sseErrorCount = 0;
     const MAX_SSE_ERRORS = 5;
+    let activeNodeKey = '';
+    let activeSocraticQuestions = '';
     let sseReconnectCount = 0;         // How many times SSE has reconnected mid-run
     const MAX_SSE_RECONNECTS = 6;      // After 6 reconnect attempts, fall back to polling
     let sseCurrentUrl = '';            // Remember the SSE URL for reconnecting
@@ -1019,6 +1021,10 @@ function checkServerConnection() {
             hasAnalystRun,
             logs: consoleOutput.innerHTML,
             activeNode,
+            reportText: activeStream.reportText || '',
+            diagramText: activeStream.diagramText || '',
+            explanationText: activeStream.explanationText || '',
+            socraticQuestions: activeSocraticQuestions || '',
             timestamp: Date.now(),
             sessionId,                      // persist so reload can reconnect
             stateSnapshot: activeStateSnapshot  // persist so Phase-2 can resume after reload
@@ -1143,6 +1149,7 @@ function checkServerConnection() {
     };
 
     function highlightNode(nodeKey) {
+        activeNodeKey = nodeKey;
         const mapping = agentMappings[nodeKey];
         if (!mapping) return;
 
@@ -1842,40 +1849,9 @@ function checkServerConnection() {
                 timerInterval = null;
             }
             activeStateSnapshot = data.state_snapshot;
+            activeSocraticQuestions = data.socratic_questions || "";
             
-            const text = data.socratic_questions || "";
-            const questionLines = text.split('\n')
-                .map(l => l.trim())
-                .filter(l => /^\d+\.\s+/.test(l));
-            
-            let q1 = questionLines[0] || "Câu hỏi Socratic 1: Làm thế nào để áp dụng cuốn sách này vào thực tế học tập?";
-            let q2 = questionLines[1] || "Câu hỏi Socratic 2: Những rào cản nhận thức nào bạn cần vượt qua?";
-            let q3 = questionLines[2] || "Câu hỏi Socratic 3: Bạn có đề xuất hành động cụ thể nào sau khi đọc?";
-            
-            socraticQuestionsContainer.innerHTML = `
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; color: #e2e8f0; font-weight: 600; font-size: 13.5px; margin-bottom: 8px; line-height: 1.4;">${q1}</label>
-                    <textarea id="socratic-ans-1" required style="width: 100%; height: 75px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(240, 95, 36, 0.15); border-radius: 6px; color: #ffffff; padding: 10px; font-size: 13px; resize: none; outline: none; transition: border 0.2s;" placeholder="Nhập câu trả lời phản biện của bạn..."></textarea>
-                </div>
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; color: #e2e8f0; font-weight: 600; font-size: 13.5px; margin-bottom: 8px; line-height: 1.4;">${q2}</label>
-                    <textarea id="socratic-ans-2" required style="width: 100%; height: 75px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(240, 95, 36, 0.15); border-radius: 6px; color: #ffffff; padding: 10px; font-size: 13px; resize: none; outline: none; transition: border 0.2s;" placeholder="Nhập câu trả lời phản biện của bạn..."></textarea>
-                </div>
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; color: #e2e8f0; font-weight: 600; font-size: 13.5px; margin-bottom: 8px; line-height: 1.4;">${q3}</label>
-                    <textarea id="socratic-ans-3" required style="width: 100%; height: 75px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(240, 95, 36, 0.15); border-radius: 6px; color: #ffffff; padding: 10px; font-size: 13px; resize: none; outline: none; transition: border 0.2s;" placeholder="Nhập câu trả lời phản biện của bạn..."></textarea>
-                </div>
-            `;
-            
-            setTimeout(() => {
-                [1,2,3].forEach(i => {
-                    const el = document.getElementById(`socratic-ans-${i}`);
-                    if (el) {
-                        el.addEventListener('focus', () => el.style.borderColor = 'var(--fpt-orange)');
-                        el.addEventListener('blur', () => el.style.borderColor = 'rgba(240, 95, 36, 0.15)');
-                    }
-                });
-            }, 100);
+            populateSocraticModal(activeSocraticQuestions);
 
             socraticModal.style.display = 'flex';
             
@@ -1892,6 +1868,8 @@ function checkServerConnection() {
             logDiv.innerHTML = `<span style="font-weight:bold;">[Hệ Thống]</span> Đang tạm dừng để chờ độc giả trả lời 3 câu hỏi Socratic mở trên màn hình chính...`;
             consoleOutput.appendChild(logDiv);
             consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            
+            saveActiveSearchState('paused');
             return;
         }
 
@@ -2307,6 +2285,7 @@ function checkServerConnection() {
                     }
                 }
                 consoleOutput.scrollTop = consoleOutput.scrollHeight;
+                saveActiveSearchState('running');
             }
         }
 
@@ -3089,6 +3068,41 @@ function checkServerConnection() {
         newChatBtn.addEventListener('click', startNewChat);
     }
 
+    function populateSocraticModal(text) {
+        const questionLines = (text || "").split('\n')
+            .map(l => l.trim())
+            .filter(l => /^\d+\.\s+/.test(l));
+        
+        let q1 = questionLines[0] || "Câu hỏi Socratic 1: Làm thế nào để áp dụng cuốn sách này vào thực tế học tập?";
+        let q2 = questionLines[1] || "Câu hỏi Socratic 2: Những rào cản nhận thức nào bạn cần vượt qua?";
+        let q3 = questionLines[2] || "Câu hỏi Socratic 3: Bạn có đề xuất hành động cụ thể nào sau khi đọc?";
+        
+        socraticQuestionsContainer.innerHTML = `
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: #e2e8f0; font-weight: 600; font-size: 13.5px; margin-bottom: 8px; line-height: 1.4;">${q1}</label>
+                <textarea id="socratic-ans-1" required style="width: 100%; height: 75px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(240, 95, 36, 0.15); border-radius: 6px; color: #ffffff; padding: 10px; font-size: 13px; resize: none; outline: none; transition: border 0.2s;" placeholder="Nhập câu trả lời phản biện của bạn..."></textarea>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: #e2e8f0; font-weight: 600; font-size: 13.5px; margin-bottom: 8px; line-height: 1.4;">${q2}</label>
+                <textarea id="socratic-ans-2" required style="width: 100%; height: 75px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(240, 95, 36, 0.15); border-radius: 6px; color: #ffffff; padding: 10px; font-size: 13px; resize: none; outline: none; transition: border 0.2s;" placeholder="Nhập câu trả lời phản biện của bạn..."></textarea>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: #e2e8f0; font-weight: 600; font-size: 13.5px; margin-bottom: 8px; line-height: 1.4;">${q3}</label>
+                <textarea id="socratic-ans-3" required style="width: 100%; height: 75px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(240, 95, 36, 0.15); border-radius: 6px; color: #ffffff; padding: 10px; font-size: 13px; resize: none; outline: none; transition: border 0.2s;" placeholder="Nhập câu trả lời phản biện của bạn..."></textarea>
+            </div>
+        `;
+        
+        setTimeout(() => {
+            [1,2,3].forEach(i => {
+                const el = document.getElementById(`socratic-ans-${i}`);
+                if (el) {
+                    el.addEventListener('focus', () => el.style.borderColor = 'var(--fpt-orange)');
+                    el.addEventListener('blur', () => el.style.borderColor = 'rgba(240, 95, 36, 0.15)');
+                }
+            });
+        }, 100);
+    }
+
     function initializeOrSyncWithServer() {
         // ── Step 1: Try to restore a completed report from sessionStorage (same tab, navigated away) ──
         const savedReport = (() => { try { return sessionStorage.getItem('bookmind_session_report'); } catch(e){ return null; }})();
@@ -3114,7 +3128,7 @@ function checkServerConnection() {
                 // Only resume if saved within the last 30 minutes and it belongs to our session
                 const isOurs = parsed.sessionId && parsed.sessionId === sessionId;
                 const isFresh = (Date.now() - (parsed.timestamp || 0)) < 30 * 60 * 1000;
-                if (isOurs && isFresh && parsed.status === 'running' && parsed.topic) {
+                if (isOurs && isFresh && (parsed.status === 'running' || parsed.status === 'paused') && parsed.topic) {
                     // Restore UI state so user sees where they were
                     topicInput.value = parsed.topic;
                     if (parsed.logs) consoleOutput.innerHTML = parsed.logs;
@@ -3130,23 +3144,54 @@ function checkServerConnection() {
                     if (s.time)   statTime.textContent = s.time;
                     if (s.tokens) statTokens.textContent = s.tokens;
                     if (s.agents) statAgents.textContent = s.agents;
-                    statStatus.textContent = 'Đang khôi phục 🔄';
-                    statStatus.style.color = 'var(--fpt-orange)';
+
+                    // Restore partial streaming reports
+                    if (parsed.reportText) {
+                        activeStream.reportText = parsed.reportText;
+                        renderMarkdownReport(cleanReportContent(parsed.reportText));
+                    }
+                    if (parsed.diagramText) {
+                        activeStream.diagramText = parsed.diagramText;
+                    }
+                    if (parsed.explanationText) {
+                        activeStream.explanationText = parsed.explanationText;
+                        const expContainer = document.getElementById('mermaid-explanation-container');
+                        const expContent = document.getElementById('mermaid-explanation-content');
+                        if (expContainer && expContent) {
+                            expContent.innerHTML = marked.parse(cleanReportContent(parsed.explanationText));
+                            expContainer.style.display = 'block';
+                        }
+                    }
 
                     runBtn.disabled  = true;
                     runBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang chạy…';
                     if (stopBtn) stopBtn.style.display = 'inline-flex';
 
-                    // Show notification banner
-                    const banner = document.createElement('div');
-                    banner.className = 'console-log';
-                    banner.style.cssText = 'color: #f0a030; font-style: italic; font-size: 12px; margin: 8px 0; border-top: 1px dashed rgba(255,200,0,0.15); padding-top: 8px;';
-                    banner.innerHTML = '<i class="fa-solid fa-rotate-right" style="margin-right:6px;"></i> Trang đã được tải lại — đang kiểm tra tiến trình từ máy chủ…';
-                    consoleOutput.appendChild(banner);
-                    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+                    if (parsed.status === 'paused') {
+                        activeSocraticQuestions = parsed.socraticQuestions || '';
+                        populateSocraticModal(activeSocraticQuestions);
+                        socraticModal.style.display = 'flex';
+                        
+                        statStatus.textContent = 'Chờ độc giả phản hồi 💬';
+                        statStatus.style.color = '#f05f24';
+                        
+                        activeAgentBadge.textContent = 'Chờ độc giả';
+                        activeAgentBadge.className = 'agent-badge active-risk_assessor';
+                    } else {
+                        statStatus.textContent = 'Đang khôi phục 🔄';
+                        statStatus.style.color = 'var(--fpt-orange)';
 
-                    // Start polling to sync final result (uses existing startPollingForReport)
-                    startPollingForReport();
+                        // Show notification banner
+                        const banner = document.createElement('div');
+                        banner.className = 'console-log';
+                        banner.style.cssText = 'color: #f0a030; font-style: italic; font-size: 12px; margin: 8px 0; border-top: 1px dashed rgba(255,200,0,0.15); padding-top: 8px;';
+                        banner.innerHTML = '<i class="fa-solid fa-rotate-right" style="margin-right:6px;"></i> Trang đã được tải lại — đang kiểm tra tiến trình từ máy chủ…';
+                        consoleOutput.appendChild(banner);
+                        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+
+                        // Start polling to sync final result
+                        startPollingForReport();
+                    }
                     return;
                 }
             } catch(e) { /* ignore */ }

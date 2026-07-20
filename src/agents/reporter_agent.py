@@ -114,10 +114,6 @@ QUY TẮC CÚ PHÁP NGHIÊM NGẶT:
     
     (Path(OUTPUT_DIR) / f"diagram{suffix}.mermaid").write_text(parsed["mermaid_diagram"], encoding="utf-8")
     (Path(OUTPUT_DIR) / f"diagram_explanation{suffix}.txt").write_text(parsed["diagram_explanation"], encoding="utf-8")
-    
-    # Fallback global write for compatibility
-    (Path(OUTPUT_DIR) / "diagram.mermaid").write_text(parsed["mermaid_diagram"], encoding="utf-8")
-    (Path(OUTPUT_DIR) / "diagram_explanation.txt").write_text(parsed["diagram_explanation"], encoding="utf-8")
 
     tokens   = len(res.content) // 4
     duration = time.time() - start_time

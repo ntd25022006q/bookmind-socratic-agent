@@ -206,16 +206,6 @@ def get_report(response: Response, session_id: str = ""):
     diagram_path = Path(OUTPUT_DIR) / f"diagram{suffix}.mermaid"
     explanation_path = Path(OUTPUT_DIR) / f"diagram_explanation{suffix}.txt"
 
-    # Fallback for backward compatibility
-    if session_id and not report_path.exists():
-        r_fb = Path(OUTPUT_DIR) / "research_report.md"
-        d_fb = Path(OUTPUT_DIR) / "diagram.mermaid"
-        e_fb = Path(OUTPUT_DIR) / "diagram_explanation.txt"
-        if r_fb.exists():
-            report_path = r_fb
-            diagram_path = d_fb
-            explanation_path = e_fb
-
     report = report_path.read_text(encoding="utf-8") if report_path.exists() else "# Báo cáo chưa được tạo"
     diagram = diagram_path.read_text(encoding="utf-8") if diagram_path.exists() else ""
     explanation = explanation_path.read_text(encoding="utf-8") if explanation_path.exists() else ""
@@ -231,10 +221,6 @@ def get_report(response: Response, session_id: str = ""):
 def download_csv(session_id: str = ""):
     suffix = f"_{session_id}" if session_id else ""
     path = Path(OUTPUT_DIR) / f"vnu_bookmind_socratic_data{suffix}.csv"
-    if session_id and not path.exists():
-        fb = Path(OUTPUT_DIR) / "vnu_bookmind_socratic_data.csv"
-        if fb.exists():
-            path = fb
 
     if path.exists():
         return FileResponse(str(path), media_type="text/csv",
@@ -246,10 +232,6 @@ def download_csv(session_id: str = ""):
 def download_markdown(session_id: str = ""):
     suffix = f"_{session_id}" if session_id else ""
     path = Path(OUTPUT_DIR) / f"research_report{suffix}.md"
-    if session_id and not path.exists():
-        fb = Path(OUTPUT_DIR) / "research_report.md"
-        if fb.exists():
-            path = fb
 
     if path.exists():
         return FileResponse(
@@ -502,9 +484,6 @@ async def run_agents(request: RunRequest):
                     # Save session-specific report
                     suffix = f"_{session_id}" if session_id else ""
                     (Path(OUTPUT_DIR) / f"research_report{suffix}.md").write_text(final_report, encoding="utf-8")
-                    
-                    # Fallback global write for compatibility
-                    (Path(OUTPUT_DIR) / "research_report.md").write_text(final_report, encoding="utf-8")
 
                     # Read diagram and explanation
                     diagram_path = Path(OUTPUT_DIR) / f"diagram{suffix}.mermaid"
