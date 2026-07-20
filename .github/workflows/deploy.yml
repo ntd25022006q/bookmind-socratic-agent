@@ -1,0 +1,101 @@
+name: CI/CD — VNU BookMind Socratic
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:      # Allow manual trigger from GitHub UI
+
+jobs:
+  # ──────────────────────────────────────────────────────────────────
+  # JOB 1: Deploy backend to Render (always on push to main)
+  # ──────────────────────────────────────────────────────────────────
+  deploy-render:
+    name: Deploy Backend → Render
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Deploy
+        run: |
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
+            -d '{}')
+          echo "Render deploy triggered — HTTP $HTTP_STATUS"
+          if [ "$HTTP_STATUS" != "202" ]; then
+            echo "::warning::Render deploy returned HTTP $HTTP_STATUS (non-fatal)"
+          fi
+
+  # ──────────────────────────────────────────────────────────────────
+  # JOB 2: Map Vercel aliases (only when frontend/ files changed)
+  # Vercel's own Git integration handles the actual build.
+  # This job just ensures production aliases point to the right deploy.
+  # ──────────────────────────────────────────────────────────────────
+  sync-vercel-aliases:
+    name: Sync Vercel Production Aliases
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if frontend changed
+        id: frontend_changed
+        run: |
+          # Detect if any frontend/ files were modified in this push
+          git clone --depth 2 https://github.com/${{ github.repository }} .
+          CHANGED=$(git diff --name-only HEAD~1 HEAD | grep -c "^frontend/" || true)
+          echo "frontend_files_changed=$CHANGED" >> $GITHUB_OUTPUT
+          echo "Frontend files changed: $CHANGED"
+
+      - name: Wait for Vercel build and map aliases
+        if: steps.frontend_changed.outputs.frontend_files_changed != '0'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          echo "Frontend changed — waiting for Vercel build..."
+          COMMIT_SHA="${{ github.sha }}"
+          SHORT_SHA="${COMMIT_SHA:0:10}"
+          
+          # Poll for up to 8 minutes for a READY deploy matching this commit
+          for i in $(seq 1 16); do
+            sleep 30
+            echo "Attempt $i/16 — checking Vercel for $SHORT_SHA..."
+            
+            DEPLOYS=$(curl -s \
+              -H "Authorization: Bearer $VERCEL_TOKEN" \
+              "https://api.vercel.com/v6/deployments?limit=5&projectId=$VERCEL_PROJECT_ID")
+            
+            UID=$(echo "$DEPLOYS" | python3 -c "
+          import json, sys
+          sha = '$SHORT_SHA'
+          data = json.load(sys.stdin)
+          for d in data.get('deployments', []):
+              state = d.get('state') or d.get('readyState','')
+              meta_sha = d.get('meta', {}).get('githubCommitSha', '')[:10]
+              if state == 'READY' and meta_sha == sha:
+                  print(d.get('uid',''))
+                  break
+          " 2>/dev/null || echo "")
+            
+            if [ -n "$UID" ]; then
+              echo "Found READY deployment: $UID"
+              
+              # Map production aliases
+              for ALIAS in "bookmind-socratic-agent.vercel.app" "bookmind-socratic-agent-ntd25022006qs-projects.vercel.app"; do
+                STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+                  -X POST \
+                  -H "Authorization: Bearer $VERCEL_TOKEN" \
+                  -H "Content-Type: application/json" \
+                  "https://api.vercel.com/v2/deployments/$UID/aliases" \
+                  -d "{\"alias\": \"$ALIAS\"}")
+                echo "Mapped $ALIAS → HTTP $STATUS"
+              done
+              
+              echo "Vercel aliases synced successfully!"
+              exit 0
+            fi
+          done
+          
+          echo "::warning::Vercel build not READY after 8 min — aliases not updated (rate limit or build error)"
+
+      - name: Skip (no frontend changes)
+        if: steps.frontend_changed.outputs.frontend_files_changed == '0'
+        run: echo "No frontend/ files changed — skipping Vercel alias sync."
