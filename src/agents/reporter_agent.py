@@ -3,7 +3,7 @@ import json
 from src.state import ResearchState
 from src.utils.llm_factory import create_llm, parse_agent_json, get_actual_model_used
 from src.utils.display import print_agent_start, print_agent_complete, print_agent_info
-from src.utils.cleaner import full_clean
+from src.utils.cleaner import full_clean, enforce_strict_citations
 from config import MODEL_RESEARCHER_AGENT
 
 async def reporter_node(state: ResearchState, config=None) -> dict:
@@ -83,8 +83,10 @@ QUY TẮC CÚ PHÁP NGHIÊM NGẶT:
     res = await llm.ainvoke(prompt, config=call_config)
     parsed = parse_agent_json(res.content, "detailed_report")
 
-    # Post-processing: strip CJK, remove **, fix Mermaid syntax
-    parsed["detailed_report"]    = full_clean(parsed.get("detailed_report", ""))
+    # Post-processing: strip CJK, remove **, fix Mermaid syntax, and enforce strict citations
+    vnu_lic_results = state.get("vnu_lic_results", [])
+    report_clean = full_clean(parsed.get("detailed_report", ""))
+    parsed["detailed_report"]    = enforce_strict_citations(report_clean, vnu_lic_results)
     parsed["diagram_explanation"] = full_clean(parsed.get("diagram_explanation", ""))
 
     mermaid_code = full_clean(parsed.get("mermaid_diagram", ""))

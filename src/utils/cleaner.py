@@ -159,3 +159,70 @@ def full_clean(text: str) -> str:
     text = re.sub(r'\n{3,}', '\n\n', text)
     text = re.sub(r'  +', ' ', text)
     return text.strip()
+
+
+def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
+    """Sanitize report references and strictly enforce VNU-LIC URLs to prevent hallucinations."""
+    if not vnu_lic_results:
+        return report
+    
+    # Map from lowercase clean titles to correct URLs
+    title_to_url = {}
+    for b in vnu_lic_results:
+        if isinstance(b, dict) and b.get("title") and b.get("url"):
+            title_to_url[b["title"].lower().strip()] = b["url"]
+            
+    lines = report.split("\n")
+    for idx, line in enumerate(lines):
+        # Case A: Table rows
+        if line.strip().startswith("|") and line.strip().endswith("|"):
+            parts = [p.strip() for p in line.split("|")]
+            if len(parts) >= 7:
+                title_cell = parts[2].lower()
+                link_cell = parts[6]
+                
+                matched_url = None
+                for t, u in title_to_url.items():
+                    if t in title_cell or title_cell in t:
+                        matched_url = u
+                        break
+                    # Check if major words of title match
+                    words_t = [w for w in t.split() if len(w) > 3]
+                    if words_t and all(w in title_cell for w in words_t[:2]):
+                        matched_url = u
+                        break
+                
+                if matched_url:
+                    if "[" in link_cell and "]" in link_cell:
+                        disp_match = re.search(r'\[([^\]]+)\]', link_cell)
+                        disp_text = disp_match.group(1) if disp_match else "Liên kết"
+                        parts[6] = f"[{disp_text}]({matched_url})"
+                    else:
+                        parts[6] = matched_url
+                else:
+                    # Clear out hallucinated/fabricated VNU links for general recommendations
+                    if any(prefix in link_cell for prefix in ["vnu.edu.vn", "opac.", "repository.", "bookworm."]) or "[" in link_cell:
+                        parts[6] = "Tài liệu bổ trợ (không có liên kết VNU-LIC)"
+                
+                lines[idx] = " | ".join(parts)
+                continue
+                
+        # Case B: Inline markdown links
+        links = re.findall(r'\[([^\]]+)\]\((https?://[^\s\)]+)\)', line)
+        for text, url in links:
+            is_vnu_url = any(p in url for p in ["vnu.edu.vn", "opac.", "repository.", "bookworm."])
+            if is_vnu_url:
+                matched_url = None
+                for t, u in title_to_url.items():
+                    if t in text.lower() or text.lower() in t or t in line.lower():
+                        matched_url = u
+                        break
+                
+                if matched_url:
+                    line = line.replace(url, matched_url)
+                else:
+                    line = line.replace(f"({url})", "(https://lic.vnu.edu.vn/)")
+        lines[idx] = line
+        
+    return "\n".join(lines)
+

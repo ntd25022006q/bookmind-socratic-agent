@@ -17,3 +17,5 @@ class ResearchState(TypedDict):
     query_type: str
     language: str
     socratic_answers: str
+    vnu_lic_results: list
+

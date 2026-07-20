@@ -31,7 +31,8 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
         return {
             "analysis": state.get("analysis", ""),
             "retrieved_context": state.get("retrieved_context", ""),
-            "citations": state.get("citations", [])
+            "citations": state.get("citations", []),
+            "vnu_lic_results": state.get("vnu_lic_results", [])
         }
 
     if stream_queue:
@@ -123,9 +124,11 @@ DANH MỤC GỢI Ý (VNU-LIC):
             "toks_per_sec": toks_per_sec
         })
         
+    all_results = koha_results + dspace_results + bookworm_results + vnulic_results
     return {
         "analysis": parsed["detailed_report"],
         "messages": [res],
         "retrieved_context": parsed["console_message"],
-        "citations": citations
+        "citations": citations,
+        "vnu_lic_results": all_results
     }
