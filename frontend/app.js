@@ -2492,6 +2492,7 @@ function checkServerConnection() {
 
         if (!isProfileValid()) {
             alert('Vui lòng điền đầy đủ các thông tin bắt buộc trong phần Chân Dung Độc Giả (Họ tên, Mã số sinh viên, Ngành học) ở cột bên trái trước khi kích hoạt!');
+            if (profileModal) profileModal.style.display = 'flex';
             runBtn.disabled = false;
             runBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> Kích Hoạt Phân Tích';
             if (stopBtn) stopBtn.style.display = 'none';
