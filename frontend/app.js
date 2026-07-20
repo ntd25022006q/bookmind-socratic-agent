@@ -2837,6 +2837,18 @@ function checkServerConnection() {
             !reportText.includes('not generated yet') &&
             !reportText.includes('Báo cáo chưa được tạo') &&
             !reportText.includes('Report not created')) {
+            
+            // Set completed status badges and button states
+            statStatus.textContent = 'Hoàn Thành ✅';
+            statStatus.style.color = '#16a069';
+            
+            activeAgentBadge.textContent = 'Hoàn Thành';
+            activeAgentBadge.className = 'agent-badge active-reporter';
+            
+            runBtn.disabled = false;
+            runBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Khởi Chạy Lại';
+            if (stopBtn) stopBtn.style.display = 'none';
+            
             if (downloadGroup) downloadGroup.style.display = 'flex';
             // ── Persist session data so navigating away & back won't lose the report
             try {

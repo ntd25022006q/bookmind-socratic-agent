@@ -166,11 +166,11 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
     if not vnu_lic_results:
         return report
     
-    # Map from lowercase clean titles to correct URLs
-    title_to_url = {}
+    # Map from lowercase clean titles to correct book dicts
+    title_to_book = {}
     for b in vnu_lic_results:
         if isinstance(b, dict) and b.get("title") and b.get("url"):
-            title_to_url[b["title"].lower().strip()] = b["url"]
+            title_to_book[b["title"].lower().strip()] = b
             
     lines = report.split("\n")
     for idx, line in enumerate(lines):
@@ -181,26 +181,33 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                 title_cell = parts[2].lower()
                 link_cell = parts[6]
                 
-                matched_url = None
-                for t, u in title_to_url.items():
+                matched_book = None
+                for t, b in title_to_book.items():
                     if t in title_cell or title_cell in t:
-                        matched_url = u
+                        matched_book = b
                         break
                     # Fuzzy match: shared significant words (>3 chars)
                     words_t = set(w for w in t.split() if len(w) > 3)
                     words_cell = set(w for w in title_cell.split() if len(w) > 3)
                     intersection = words_t.intersection(words_cell)
                     if len(intersection) >= 2 or (words_t and len(intersection) / len(words_t) >= 0.5):
-                        matched_url = u
+                        matched_book = b
                         break
                 
-                if matched_url:
+                if matched_book:
+                    # Update all details to match the real book record exactly
+                    parts[2] = matched_book.get("title", parts[2])
+                    parts[3] = matched_book.get("author") or "Không rõ tác giả"
+                    parts[4] = matched_book.get("date") or "2024"
+                    parts[5] = matched_book.get("source") or "VNU-LIC"
+                    
+                    real_url = matched_book.get("url", "")
                     if "[" in link_cell and "]" in link_cell:
                         disp_match = re.search(r'\[([^\]]+)\]', link_cell)
                         disp_text = disp_match.group(1) if disp_match else "Liên kết"
-                        parts[6] = f"[{disp_text}]({matched_url})"
+                        parts[6] = f"[{disp_text}]({real_url})"
                     else:
-                        parts[6] = matched_url
+                        parts[6] = real_url
                 else:
                     # Clear out hallucinated/fabricated VNU links for general recommendations
                     if any(prefix in link_cell for prefix in ["vnu.edu.vn", "opac.", "repository.", "bookworm."]) or "[" in link_cell:
@@ -215,9 +222,9 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
             is_vnu_url = any(p in url for p in ["vnu.edu.vn", "opac.", "repository.", "bookworm."])
             if is_vnu_url:
                 matched_url = None
-                for t, u in title_to_url.items():
+                for t, b in title_to_book.items():
                     if t in text.lower() or text.lower() in t or t in line.lower():
-                        matched_url = u
+                        matched_url = b.get("url")
                         break
                 
                 if matched_url:
