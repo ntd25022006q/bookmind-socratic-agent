@@ -3,7 +3,7 @@
   "outputDirectory": "frontend",
   "cleanUrls": true,
   "trailingSlash": false,
-  "ignoreCommand": "git diff HEAD~1 --name-only | grep -qE '^frontend/'",
+  "ignoreCommand": "git diff HEAD~1 --name-only | grep -qE '^frontend/' && exit 1 || exit 0",
   "git": {
     "deploymentEnabled": {
       "main": true
