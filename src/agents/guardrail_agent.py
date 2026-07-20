@@ -20,8 +20,8 @@ async def guardrail_node(state: ResearchState, config=None) -> dict:
             await stream_queue.put({
                 "type": "node_end",
                 "node": "guardrail",
-                "content": state.get("research_data", ""),
-                "thinking": state.get("analysis", ""),
+                "content": "Đã xác thực hợp lệ từ Phase 1 — bỏ qua để tiếp tục Phản Biện.",
+                "thinking": "",
                 "tokens": 0,
                 "duration": 0.0,
                 "model": "bypass",

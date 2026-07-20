@@ -14,14 +14,11 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
     # Phase 2 resume bypass
     if state.get("socratic_answers"):
         if stream_queue:
-            await stream_queue.put({
-                "type": "node_start",
-                "node": "researcher"
-            })
+            await stream_queue.put({"type": "node_start", "node": "researcher"})
             await stream_queue.put({
                 "type": "node_end",
                 "node": "researcher",
-                "content": state.get("research_data", ""),
+                "content": "Đã lập hồ sơ độc giả từ Phase 1 — bỏ qua để tiếp tục Phản Biện.",
                 "thinking": "",
                 "tokens": 0,
                 "duration": 0.0,

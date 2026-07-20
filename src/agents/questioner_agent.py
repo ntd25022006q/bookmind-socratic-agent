@@ -15,14 +15,11 @@ async def questioner_node(state: ResearchState, config=None) -> dict:
     # Phase 2 resume bypass
     if state.get("socratic_answers"):
         if stream_queue:
-            await stream_queue.put({
-                "type": "node_start",
-                "node": "risk_assessor"
-            })
+            await stream_queue.put({"type": "node_start", "node": "risk_assessor"})
             await stream_queue.put({
                 "type": "node_end",
                 "node": "risk_assessor",
-                "content": state.get("csv_data", ""),
+                "content": "Đã đặt câu hỏi Socratic từ Phase 1 — độc giả đã trả lời, đang chuyển sang Phản Biện.",
                 "thinking": "",
                 "tokens": 0,
                 "duration": 0.0,
