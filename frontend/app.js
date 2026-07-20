@@ -103,12 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
             fullname: profileInputs.fullname ? profileInputs.fullname.value.trim() : '',
             studentId: profileInputs.studentId ? profileInputs.studentId.value.trim() : '',
             
-            // Core select values
-            yearRaw: profileInputs.year ? profileInputs.year.value : 'Năm 1',
-            schoolRaw: profileInputs.school ? profileInputs.school.value : 'Trường Quốc tế',
-            purposeRaw: profileInputs.purpose ? profileInputs.purpose.value : 'Đọc hiểu sâu tài liệu chuyên ngành',
-            interestsRaw: profileInputs.interests ? profileInputs.interests.value : 'Công nghệ & Trí tuệ nhân tạo (AI)',
-            styleRaw: profileInputs.style ? profileInputs.style.value : 'Phân tích & Phản biện (Socratic)',
+            // Core select values (no hardcoded defaults — user must choose)
+            yearRaw: profileInputs.year ? profileInputs.year.value : '',
+            schoolRaw: profileInputs.school ? profileInputs.school.value : '',
+            purposeRaw: profileInputs.purpose ? profileInputs.purpose.value : '',
+            interestsRaw: profileInputs.interests ? profileInputs.interests.value : '',
+            styleRaw: profileInputs.style ? profileInputs.style.value : '',
             
             // Raw text inputs for 'Other' options
             yearOtherVal: profileInputs.yearOther ? profileInputs.yearOther.value.trim() : '',
@@ -171,25 +171,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const fullnameVal = profileInputs.fullname ? profileInputs.fullname.value.trim() : '';
         const studentIdVal = profileInputs.studentId ? profileInputs.studentId.value.trim() : '';
         const majorVal = profileInputs.major ? profileInputs.major.value.trim() : '';
+
+        // Require all select fields to be chosen (not empty placeholder '')
+        const yearVal = profileInputs.year ? profileInputs.year.value : '';
+        const schoolVal = profileInputs.school ? profileInputs.school.value : '';
+        const purposeVal = profileInputs.purpose ? profileInputs.purpose.value : '';
+        const interestsVal = profileInputs.interests ? profileInputs.interests.value : '';
+        const styleVal = profileInputs.style ? profileInputs.style.value : '';
+
+        if (!yearVal) return false;
+        if (!schoolVal) return false;
+        if (!purposeVal) return false;
+        if (!interestsVal) return false;
+        if (!styleVal) return false;
         
         // Year check
-        if (profileInputs.year && profileInputs.year.value === 'Khác') {
+        if (yearVal === 'Khác') {
             if (!profileInputs.yearOther || !profileInputs.yearOther.value.trim()) return false;
         }
         // School check
-        if (profileInputs.school && profileInputs.school.value === 'Khác') {
+        if (schoolVal === 'Khác') {
             if (!profileInputs.schoolOther || !profileInputs.schoolOther.value.trim()) return false;
         }
         // Purpose check
-        if (profileInputs.purpose && profileInputs.purpose.value === 'Khác') {
+        if (purposeVal === 'Khác') {
             if (!profileInputs.purposeOther || !profileInputs.purposeOther.value.trim()) return false;
         }
         // Interests check
-        if (profileInputs.interests && profileInputs.interests.value === 'Khác') {
+        if (interestsVal === 'Khác') {
             if (!profileInputs.interestsOther || !profileInputs.interestsOther.value.trim()) return false;
         }
         // Style check
-        if (profileInputs.style && profileInputs.style.value === 'Khác') {
+        if (styleVal === 'Khác') {
             if (!profileInputs.styleOther || !profileInputs.styleOther.value.trim()) return false;
         }
 
@@ -3120,7 +3133,7 @@ function checkServerConnection() {
             };
             
             // Run Phase 2
-            const postUrl = `${apiBaseUrl}/api/run`;
+            const postUrl = `${getApiPrefix()}/api/run`;
             connectSsePost(postUrl, body);
         });
     }
