@@ -1026,6 +1026,7 @@ function checkServerConnection() {
             explanationText: activeStream.explanationText || '',
             socraticQuestions: activeSocraticQuestions || '',
             timestamp: Date.now(),
+            runStartTime: runStartTime,
             sessionId,                      // persist so reload can reconnect
             stateSnapshot: activeStateSnapshot  // persist so Phase-2 can resume after reload
         };
@@ -1782,6 +1783,7 @@ function checkServerConnection() {
                     const isIrrelevantReport = data.report && (data.report.trim().startsWith('# Không áp dụng') || data.report.trim().startsWith('# IRRELEVANT'));
                     if (data.report && (isIrrelevantReport || (!data.report.includes('Báo cáo chưa được tạo') && data.report.trim().length > 100))) {
                         clearInterval(pollingInterval);
+                        if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
                         hasCompletedSuccessfully = true;
                         if (isIrrelevantReport) {
                             // Metrics remain visible with default values — no rejection card
@@ -3184,6 +3186,19 @@ function checkServerConnection() {
                             statStatus.textContent = 'Đang đồng bộ... 🔄';
                         }
                         statStatus.style.color = 'var(--fpt-orange)';
+
+                        // Restore and resume the timer
+                        runStartTime = parsed.runStartTime || (Date.now() - parseFloat(parsed.stats?.time || '0') * 1000);
+                        let lastSaveTime = Date.now();
+                        if (timerInterval) clearInterval(timerInterval);
+                        timerInterval = setInterval(() => {
+                            const now = Date.now();
+                            statTime.textContent = `${((now - runStartTime) / 1000).toFixed(3)}s`;
+                            if (now - lastSaveTime >= 1000) {
+                                saveActiveSearchState('running');
+                                lastSaveTime = now;
+                            }
+                        }, 50);
 
                         // Show notification banner
                         const banner = document.createElement('div');
