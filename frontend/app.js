@@ -1741,7 +1741,7 @@ function checkServerConnection() {
     function startPollingForReport() {
         if (pollingInterval) clearInterval(pollingInterval);
         
-        statStatus.textContent = 'Đang nhận kết quả…';
+        statStatus.textContent = 'Nghẽn mạng - Đang đồng bộ 🔄';
         statStatus.style.color = 'var(--fpt-orange)';
         
         if (consoleOutput) {
@@ -1758,7 +1758,7 @@ function checkServerConnection() {
             pollCount++;
             if (pollCount > MAX_POLLS) {
                 clearInterval(pollingInterval);
-                statStatus.textContent = 'Hết hạn kết nối';
+                statStatus.textContent = 'Hết hạn kết nối ⚠️';
                 statStatus.style.color = '#ef4444';
                 runBtn.disabled = false;
                 runBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> Kích Hoạt Phân Tích';
@@ -1775,8 +1775,8 @@ function checkServerConnection() {
                         hasCompletedSuccessfully = true;
                         if (isIrrelevantReport) {
                             // Metrics remain visible with default values — no rejection card
-                            statStatus.textContent = 'Bị Từ Chối';
-                            statStatus.style.color = '#dc2626';
+                            statStatus.textContent = 'Từ chối nội dung ⛔';
+                            statStatus.style.color = '#ef4444';
                         } else {
                             statStatus.textContent = 'Hoàn Thành ✅';
                             statStatus.style.color = '#16a069';
@@ -1811,7 +1811,7 @@ function checkServerConnection() {
     function handleSseMessage(data) {
         if (data.error) {
             clearInterval(timerInterval);
-            statStatus.textContent = 'Thất Bại';
+            statStatus.textContent = 'Lỗi hệ thống ❌';
             statStatus.style.color = '#ef4444';
             runBtn.disabled  = false;
             runBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> Kích Hoạt Phân Tích';
@@ -1879,7 +1879,7 @@ function checkServerConnection() {
 
             socraticModal.style.display = 'flex';
             
-            statStatus.textContent = 'Chờ phản biện';
+            statStatus.textContent = 'Chờ độc giả phản hồi 💬';
             statStatus.style.color = '#f05f24';
             
             activeAgentBadge.textContent = 'Chờ độc giả';
@@ -1908,8 +1908,8 @@ function checkServerConnection() {
                 if (data.stats.irrelevant) {
                     // Metrics remain visible with default values — no rejection card
                     statAgents.textContent = '1 / 6';
-                    statStatus.textContent = 'Bị Từ Chối';
-                    statStatus.style.color = '#dc2626';
+                    statStatus.textContent = 'Từ chối nội dung ⛔';
+                    statStatus.style.color = '#ef4444';
                 } else {
                     const agentCount = data.stats.agents || 6;
                     statAgents.textContent = `${agentCount} / ${agentCount === 3 ? 3 : 6}`;
@@ -2398,7 +2398,7 @@ function checkServerConnection() {
             runBtn.disabled = false;
             runBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> Kích Hoạt Phân Tích';
             if (stopBtn) stopBtn.style.display = 'none';
-            statStatus.textContent = 'Mất kết nối';
+            statStatus.textContent = 'Mất kết nối ⚠️';
             statStatus.style.color = '#ef4444';
             localStorage.removeItem('fpt_active_search');
         };
@@ -2494,7 +2494,7 @@ function checkServerConnection() {
             runBtn.disabled = false;
             runBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> Kích Hoạt Phân Tích';
             if (stopBtn) stopBtn.style.display = 'none';
-            statStatus.textContent = 'Mất kết nối';
+            statStatus.textContent = 'Mất kết nối ⚠️';
             statStatus.style.color = '#ef4444';
             localStorage.removeItem('fpt_active_search');
         }
@@ -2946,7 +2946,7 @@ function checkServerConnection() {
             runBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> Kích Hoạt Phân Tích';
             stopBtn.style.display = 'none';
             
-            statStatus.textContent = 'Đã dừng';
+            statStatus.textContent = 'Đã dừng ⏹️';
             statStatus.style.color = 'var(--text-muted)';
             
             const abortLog = document.createElement('div');
@@ -3005,7 +3005,7 @@ function checkServerConnection() {
         statTime.textContent   = '0.000s';
         statTokens.textContent = '0';
         statAgents.textContent = '0 / 6';
-        statStatus.textContent = 'Sẵn sàng';
+        statStatus.textContent = 'Sẵn sàng hoạt động 🟢';
         statStatus.style.color = 'var(--text-secondary)';
 
         if (downloadGroup) downloadGroup.style.display = 'none';
@@ -3130,7 +3130,7 @@ function checkServerConnection() {
                     if (s.time)   statTime.textContent = s.time;
                     if (s.tokens) statTokens.textContent = s.tokens;
                     if (s.agents) statAgents.textContent = s.agents;
-                    statStatus.textContent = 'Đang khôi phục…';
+                    statStatus.textContent = 'Đang khôi phục 🔄';
                     statStatus.style.color = 'var(--fpt-orange)';
 
                     runBtn.disabled  = true;
@@ -3189,8 +3189,8 @@ function checkServerConnection() {
             socraticModal.style.display = 'none';
             
             // Update UI status to show we have resumed Phase 2
-            statStatus.textContent = 'Đang phân tích…';
-            statStatus.style.color = '#f05f24';
+            statStatus.textContent = 'Đang chạy…';
+            statStatus.style.color = 'var(--fpt-orange)';
             
             activeAgentBadge.textContent = 'Phản Biện';
             activeAgentBadge.className = 'agent-badge active-recommender';
