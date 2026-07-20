@@ -216,21 +216,51 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                 lines[idx] = " | ".join(parts)
                 continue
                 
-        # Case B: Inline markdown links
-        links = re.findall(r'\[([^\]]+)\]\((https?://[^\s\)]+)\)', line)
-        for text, url in links:
+        # Case B: General lines (paragraphs, list items, etc.)
+        # Find all URLs in this line (either inside markdown [text](url) or as a raw URL)
+        urls = re.findall(r'https?://[a-zA-Z0-9\-\.\/\_\?\&\=\:\%]+', line)
+        for url in urls:
             is_vnu_url = any(p in url for p in ["vnu.edu.vn", "opac.", "repository.", "bookworm."])
             if is_vnu_url:
-                matched_url = None
-                for t, b in title_to_book.items():
-                    if t in text.lower() or text.lower() in t or t in line.lower():
-                        matched_url = b.get("url")
+                # Find if any search result has this URL
+                matched_book = None
+                for b in vnu_lic_results:
+                    if b.get("url") == url or b.get("pdf_url") == url:
+                        matched_book = b
                         break
                 
-                if matched_url:
-                    line = line.replace(url, matched_url)
+                if matched_book:
+                    # The URL is real! But is the title of this book mentioned in the line or nearby?
+                    book_title = matched_book["title"].lower()
+                    words_title = set(w for w in book_title.split() if len(w) > 3)
+                    line_lower = line.lower()
+                    
+                    # Fuzzy title check: find if any significant words from title match the line
+                    intersection = set(w for w in words_title if w in line_lower)
+                    
+                    # If the line doesn't match the book title, it's a mismatched recommendation!
+                    if len(intersection) < 2 and (words_title and len(intersection) / len(words_title) < 0.4):
+                        # Mismatch! Strip the URL
+                        if f"({url})" in line:
+                            line = line.replace(f"({url})", "")
+                        else:
+                            line = line.replace(url, "")
+                        
+                        # Clean up trailing 'Link: ' or 'Nguồn: ' left after url removal
+                        line = re.sub(r'(?:Link|Nguồn|Liên kết)\s*:\s*$', '', line.strip(), flags=re.IGNORECASE)
+                        # Append fallback text indicating it is a general recommendation with no link
+                        if not any(kw in line for kw in ["Tài liệu bổ trợ", "không có liên kết"]):
+                            line += " - Tài liệu bổ trợ (không có liên kết VNU-LIC)"
                 else:
-                    line = line.replace(f"({url})", "(https://lic.vnu.edu.vn/)")
+                    # Mismatch or fabricated URL! Strip it.
+                    if f"({url})" in line:
+                        line = line.replace(f"({url})", "")
+                    else:
+                        line = line.replace(url, "")
+                    line = re.sub(r'(?:Link|Nguồn|Liên kết)\s*:\s*$', '', line.strip(), flags=re.IGNORECASE)
+                    if not any(kw in line for kw in ["Tài liệu bổ trợ", "không có liên kết"]):
+                        line += " - Tài liệu bổ trợ (không có liên kết VNU-LIC)"
+                        
         lines[idx] = line
         
     return "\n".join(lines)
