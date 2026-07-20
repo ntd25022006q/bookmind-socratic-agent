@@ -3212,6 +3212,6 @@ function checkServerConnection() {
     }
 
     initializeOrSyncWithServer();
-    // VNU BookMind Socratic Pipeline Initialized
+    // VNU BookMind Socratic Pipeline Initialized & Synced
 });
 

@@ -530,4 +530,5 @@ async def run_agents(request: RunRequest):
 
 if __name__ == "__main__":
     import uvicorn
+    # VNU BookMind Socratic API Server Initialized
     uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)
