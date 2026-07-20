@@ -37,6 +37,7 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
 
     if stream_queue:
         await stream_queue.put({"type": "node_start", "node": "analyst"})
+        await asyncio.sleep(1.2)
         
     print_agent_start("Recommender Agent", "Truy xuất học liệu từ 4 nguồn VNU-LIC: OPAC, DSpace, Bookworm, lib.vnu.edu.vn")
     

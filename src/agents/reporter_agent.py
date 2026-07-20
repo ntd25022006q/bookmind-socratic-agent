@@ -17,6 +17,8 @@ async def reporter_node(state: ResearchState, config=None) -> dict:
     stream_queue = config.get("configurable", {}).get("stream_queue") if config else None
     if stream_queue:
         await stream_queue.put({"type": "node_start", "node": "reporter"})
+        import asyncio
+        await asyncio.sleep(1.2)
 
     print_agent_start("Reporter Agent", "Tổng hợp báo cáo đọc sâu Socratic và sơ đồ Mermaid")
     llm = create_llm(MODEL_RESEARCHER_AGENT, config=config, streaming=True)

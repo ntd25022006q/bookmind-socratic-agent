@@ -39,6 +39,8 @@ async def guardrail_node(state: ResearchState, config=None) -> dict:
             "type": "node_start",
             "node": "guardrail"
         })
+        import asyncio
+        await asyncio.sleep(1.2)
         
     print_agent_start("Guardrail Agent", f"Xác thực tính hợp lệ của câu hỏi: '{topic}'")
     

@@ -36,7 +36,8 @@ async def questioner_node(state: ResearchState, config=None) -> dict:
             "type": "node_start",
             "node": "risk_assessor"  # Maps to node-risk_assessor in UI
         })
-        
+        import asyncio
+        await asyncio.sleep(1.2)
     print_agent_start("Risk Assessor Agent", "Đặt câu hỏi Socratic kích thích tư duy phản biện")
     llm = create_llm(MODEL_RESEARCHER_AGENT, config=config, streaming=True)
     

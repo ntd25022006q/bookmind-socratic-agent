@@ -19,6 +19,53 @@ def clean_html(raw_html: str) -> str:
     cleanr = re.compile('<.*?>')
     return re.sub(cleanr, '', raw_html)
 
+
+def optimize_search_query(query: str) -> str:
+    """Extract clean keywords from long natural language sentences to ensure successful VNU-LIC search queries."""
+    if not query:
+        return ""
+    q = query.strip().lower()
+    
+    # Remove common Vietnamese prefixes
+    prefixes = [
+        r"^đề xuất (?:sách |giáo trình |tài liệu |nghiên cứu |học liệu )*(?:về |cho )*",
+        r"^tìm kiếm (?:sách |giáo trình |tài liệu |nghiên cứu |học liệu )*(?:về |cho )*",
+        r"^gợi ý (?:sách |giáo trình |tài liệu |nghiên cứu |học liệu )*(?:về |cho )*",
+        r"^sách giáo trình và tài liệu nghiên cứu về ",
+        r"^sách giáo trình và tài liệu về ",
+        r"^tài liệu nghiên cứu về ",
+        r"^giáo trình và tài liệu về ",
+        r"^tìm tài liệu về ",
+        r"^tải sách về ",
+        r"^sách về ",
+        r"^về "
+    ]
+    for pattern in prefixes:
+        q = re.sub(pattern, "", q).strip()
+        
+    # Remove common suffixes
+    suffixes = [
+        r" cho sinh viên.*$",
+        r" để chuẩn bị.*$",
+        r" phục vụ cho.*$",
+        r" để làm.*$",
+        r" giúp.*$"
+    ]
+    for pattern in suffixes:
+        q = re.sub(pattern, "", q).strip()
+        
+    # Extract core subject if still too long
+    words = q.split()
+    if len(words) > 5:
+        if "và" in words:
+            idx = words.index("và")
+            q = " ".join(words[:idx]).strip()
+        else:
+            q = " ".join(words[:5]).strip()
+            
+    return q.strip() or query
+
+
 # ─────────────────────────────────────────────────────────────────
 # NGUỒN 1: VNU-LIC OPAC (Koha) — opac.vnu.edu.vn
 # Sách in tại thư viện, tra cứu qua RSS feed
@@ -82,6 +129,7 @@ def search_koha_real(query: str) -> list:
 
 def search_koha_api(query: str) -> list:
     """Query VNU Koha OPAC RSS. Falls back to curated VNU-LIC catalog entries (no fabricated URLs)."""
+    query = optimize_search_query(query)
     if not query or not query.strip():
         return []
     # 1. Try live Koha RSS
@@ -150,6 +198,7 @@ def fetch_pdf_link_for_item(obj, idx):
 
 def search_dspace_api(query: str) -> list:
     """Query VNU Repository (DSpace 7) REST API."""
+    query = optimize_search_query(query)
     if not query or not query.strip():
         return []
     results = []
@@ -207,6 +256,7 @@ def search_dspace_api(query: str) -> list:
 # ─────────────────────────────────────────────────────────────────
 def search_bookworm_api(query: str) -> list:
     """Query Bookworm VNU-LIC digital books API."""
+    query = optimize_search_query(query)
     if not query or not query.strip():
         return []
     results = []
@@ -248,6 +298,7 @@ def search_bookworm_api(query: str) -> list:
 # ─────────────────────────────────────────────────────────────────
 def search_vnulic_main(query: str) -> list:
     """Query VNU-LIC main library portal (lib.vnu.edu.vn) federated search."""
+    query = optimize_search_query(query)
     if not query or not query.strip():
         return []
     results = []

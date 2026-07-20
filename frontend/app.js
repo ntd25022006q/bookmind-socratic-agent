@@ -3176,6 +3176,17 @@ function checkServerConnection() {
             const socraticAnswers = `Câu trả lời 1: ${ans1}\nCâu trả lời 2: ${ans2}\nCâu trả lời 3: ${ans3}`;
             socraticModal.style.display = 'none';
             
+            // Update UI status to show we have resumed Phase 2
+            statStatus.textContent = 'Đang phân tích…';
+            statStatus.style.color = '#f05f24';
+            
+            activeAgentBadge.textContent = 'Phản Biện';
+            activeAgentBadge.className = 'agent-badge active-recommender';
+            
+            try {
+                highlightNode('recommender');
+            } catch(err) { console.error("Error highlighting node recommender:", err); }
+            
             // Resume timer
             const currentSec = parseFloat(statTime.textContent) || 0;
             let sec = currentSec;

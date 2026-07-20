@@ -186,9 +186,11 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                     if t in title_cell or title_cell in t:
                         matched_url = u
                         break
-                    # Check if major words of title match
-                    words_t = [w for w in t.split() if len(w) > 3]
-                    if words_t and all(w in title_cell for w in words_t[:2]):
+                    # Fuzzy match: shared significant words (>3 chars)
+                    words_t = set(w for w in t.split() if len(w) > 3)
+                    words_cell = set(w for w in title_cell.split() if len(w) > 3)
+                    intersection = words_t.intersection(words_cell)
+                    if len(intersection) >= 2 or (words_t and len(intersection) / len(words_t) >= 0.5):
                         matched_url = u
                         break
                 

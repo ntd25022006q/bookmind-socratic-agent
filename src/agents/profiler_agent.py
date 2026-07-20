@@ -35,6 +35,8 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
             "type": "node_start",
             "node": "researcher"  # Maps to node-researcher in UI
         })
+        import asyncio
+        await asyncio.sleep(1.2)
         
     print_agent_start("Researcher Agent", "Phân tích hồ sơ độc giả và nhu cầu tự học chủ động")
     llm = create_llm(MODEL_RESEARCHER_AGENT, config=config, streaming=True)

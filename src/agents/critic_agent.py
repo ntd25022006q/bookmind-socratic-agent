@@ -18,6 +18,8 @@ async def critic_node(state: ResearchState, config=None) -> dict:
             "type": "node_start",
             "node": "recommender"  # Maps to node-recommender in UI
         })
+        import asyncio
+        await asyncio.sleep(1.2)
         
     print_agent_start("Recommender Agent", "Phản biện tư duy và phát hiện điểm mù nhận thức độc giả")
     llm = create_llm(MODEL_ANALYST_AGENT, config=config, streaming=True)
