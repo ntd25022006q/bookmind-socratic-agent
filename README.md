@@ -100,9 +100,7 @@ Dự án được cấu hình tự động đồng bộ deploy từ nhánh duy n
 
 ## 👨‍💻 Thông tin Tác giả
 *   **Họ và tên:** Nguyễn Tiến Đạt
-*   **Mã số sinh viên:** 24070342
 *   **Trường:** Trường Quốc tế - Đại học Quốc gia Hà Nội (VNU-IS)
 *   **Ngành học:** AIT - Công nghệ thông tin ứng dụng
 *   **Khóa:** K24
-*   **Quê quán:** Hưng Yên (vùng đất gốc Thái Bình cũ)
 *   **Mục tiêu dự án:** Phát triển ứng dụng Multi-Agent hỗ trợ xây dựng Văn hóa Đọc hiện đại và tự học tích cực cho cộng đồng sinh viên ĐHQGHN.

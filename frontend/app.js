@@ -124,7 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
             school: getResolvedValue(profileInputs.school, profileInputs.schoolOther),
             purpose: getResolvedValue(profileInputs.purpose, profileInputs.purposeOther),
             interests: getResolvedValue(profileInputs.interests, profileInputs.interestsOther),
-            style: getResolvedValue(profileInputs.style, profileInputs.styleOther)
+            style: getResolvedValue(profileInputs.style, profileInputs.styleOther),
+            _schemaVersion: 2
         };
         localStorage.setItem('vnu_bookmind_profile', JSON.stringify(profileData));
         console.log("Saved reader profile:", profileData);
@@ -135,8 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (stored) {
             try {
                 const data = JSON.parse(stored);
-                // Clear old developer test credentials from local storage to keep it blank for the user
-                if (data.fullname === 'Nguyễn Tiến Đạt' || data.studentId === '24070342' || data.major === 'CNTT') {
+                // Clear stale/legacy cached profiles missing required schema version
+                if (!data._schemaVersion || data._schemaVersion < 2) {
                     localStorage.removeItem('vnu_bookmind_profile');
                     return;
                 }
