@@ -226,22 +226,33 @@ def search_dspace_api(query: str) -> list:
         print("[DSpace] Live API unavailable, using curated DSpace records.")
         results = [
             {
-                "id": "dspace/VNU_123/17617",
+                "id": "dspace/VNU_123/95041",
                 "source": "VNU Repository (DSpace)",
-                "title": "Nâng cao năng lực tự học và tư duy phản biện cho sinh viên ĐHQGHN trong kỷ nguyên số",
-                "author": "Nguyễn, Văn Hùng",
-                "date": "2021",
-                "handle": "VNU_123/17617",
-                "url": "https://repository.vnu.edu.vn/handle/VNU_123/17617",
-                "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/17617",
-                "location": "Kho lưu trữ số ĐHQGHN — Handle: VNU_123/17617"
+                "title": "Phát triển tư duy phản biện cho học sinh trong mô hình trường học thông minh",
+                "author": "Nguyễn, Thị Nga",
+                "date": "2018",
+                "handle": "VNU_123/95041",
+                "url": "https://repository.vnu.edu.vn/handle/VNU_123/95041",
+                "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/95041",
+                "location": "Kho lưu trữ số ĐHQGHN — Handle: VNU_123/95041"
+            },
+            {
+                "id": "dspace/VNU_123/173395",
+                "source": "VNU Repository (DSpace)",
+                "title": "Nghiên cứu tích hợp đảm bảo tính công bằng cho các mô hình học máy áp dụng AutoML",
+                "author": "Kiều, Thị Nhung",
+                "date": "2025",
+                "handle": "VNU_123/173395",
+                "url": "https://repository.vnu.edu.vn/handle/VNU_123/173395",
+                "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/173395",
+                "location": "Kho lưu trữ số ĐHQGHN — Handle: VNU_123/173395"
             },
             {
                 "id": "dspace/VNU_123/10492",
                 "source": "VNU Repository (DSpace)",
-                "title": "Phương pháp nghiên cứu trong khoa học máy tính",
-                "author": "Nguyễn, Hải Châu",
-                "date": "2019",
+                "title": "Một số vấn đề môi trường tại khu vực mỏ sắt Thạch Khê - Hà Tĩnh và đề xuất các giải pháp quản lý",
+                "author": "Nguyễn, Thị Minh Hải",
+                "date": "2015",
                 "handle": "VNU_123/10492",
                 "url": "https://repository.vnu.edu.vn/handle/VNU_123/10492",
                 "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/10492",
