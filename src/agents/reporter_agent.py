@@ -47,7 +47,7 @@ QUY TẮC VIẾT BÁO CÁO (BẮT BUỘC KHÔNG ĐƯỢC VI PHẠM):
 
 QUY TẮC BẢNG TÀI LIỆU THAM KHẢO (6 cột — BẮT BUỘC):
 - Bảng phải có đúng 6 cột: STT | Tên tài liệu | Tác giả | Năm | Nguồn | Link
-- Link PHẢI lấy trực tiếp từ danh mục VNU-LIC được cung cấp ở trên (opac.vnu.edu.vn / repository.vnu.edu.vn / bookworm.vnu.edu.vn / lib.vnu.edu.vn).
+- Link PHẢI lấy trực tiếp từ danh mục VNU-LIC được cung cấp ở trên (opac.lic.vnu.edu.vn / repository.vnu.edu.vn / bookworm.vnu.edu.vn / lib.vnu.edu.vn).
 - Tài liệu không có URL thật: ghi "Tài liệu bổ trợ (không có liên kết VNU-LIC)" ở cột Link.
 - TUYỆT ĐỐI không bịa URL, không thay bằng WorldCat/ISBN/Google Books hay bất kỳ trang ngoài.
 

@@ -1748,8 +1748,11 @@ function checkServerConnection() {
     function startPollingForReport() {
         if (pollingInterval) clearInterval(pollingInterval);
         
-        statStatus.textContent = 'Nghẽn mạng - Đang đồng bộ 🔄';
-        statStatus.style.color = 'var(--fpt-orange)';
+        const currentText = statStatus.textContent || '';
+        if (!currentText.includes('đang xử lý') && !currentText.includes('Đang chạy')) {
+            statStatus.textContent = 'Đang đồng bộ... 🔄';
+            statStatus.style.color = 'var(--fpt-orange)';
+        }
         
         if (consoleOutput) {
             const logDiv = document.createElement('div');
@@ -2463,19 +2466,15 @@ function checkServerConnection() {
 
             const statusText = statStatus.textContent || '';
             if (statusText.includes('Hoàn Thành') || statusText.includes('Bị Từ Chối') ||
-                statusText.includes('Đã tạm dừng') || statusText.includes('Thất Bại')) {
+                statusText.includes('Đã tạm dừng') || statusText.includes('Thất Bại') ||
+                statusText.includes('Chờ độc giả')) {
                 return;
             }
 
-            if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-            if (pollingInterval) { clearInterval(pollingInterval); pollingInterval = null; }
-
-            runBtn.disabled = false;
-            runBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> Kích Hoạt Phân Tích';
-            if (stopBtn) stopBtn.style.display = 'none';
-            statStatus.textContent = 'Mất kết nối ⚠️';
-            statStatus.style.color = '#ef4444';
-            localStorage.removeItem('fpt_active_search');
+            console.warn("SSE connection dropped, switching to polling...", err);
+            
+            // Switch to polling instead of displaying error
+            startPollingForReport();
         }
     }
 
@@ -3178,7 +3177,12 @@ function checkServerConnection() {
                         activeAgentBadge.textContent = 'Chờ độc giả';
                         activeAgentBadge.className = 'agent-badge active-risk_assessor';
                     } else {
-                        statStatus.textContent = 'Đang khôi phục 🔄';
+                        const name = parsed.activeNode ? (agentMappings[parsed.activeNode]?.name || 'Tác nhân') : '';
+                        if (name) {
+                            statStatus.textContent = `${name} đang xử lý…`;
+                        } else {
+                            statStatus.textContent = 'Đang đồng bộ... 🔄';
+                        }
                         statStatus.style.color = 'var(--fpt-orange)';
 
                         // Show notification banner

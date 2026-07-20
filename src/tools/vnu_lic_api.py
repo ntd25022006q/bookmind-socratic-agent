@@ -67,7 +67,7 @@ def optimize_search_query(query: str) -> str:
 
 
 # ─────────────────────────────────────────────────────────────────
-# NGUỒN 1: VNU-LIC OPAC (Koha) — opac.vnu.edu.vn
+# NGUỒN 1: VNU-LIC OPAC (Koha) — opac.lic.vnu.edu.vn
 # Sách in tại thư viện, tra cứu qua RSS feed
 # ─────────────────────────────────────────────────────────────────
 def search_koha_real(query: str) -> list:
@@ -76,7 +76,7 @@ def search_koha_real(query: str) -> list:
         return []
     results = []
     safe_query = urllib.parse.quote(query.strip())
-    url = f"https://opac.vnu.edu.vn/cgi-bin/koha/opac-search.pl?q={safe_query}&format=rss"
+    url = f"https://opac.lic.vnu.edu.vn/cgi-bin/koha/opac-search.pl?q={safe_query}&format=rss"
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, context=ssl_context, timeout=3) as resp:
@@ -94,7 +94,7 @@ def search_koha_real(query: str) -> list:
                 biblio_match = re.search(r'biblionumber=(\d+)', link)
                 if biblio_match:
                     biblionumber = biblio_match.group(1)
-                    link = f"https://opac.vnu.edu.vn/cgi-bin/koha/opac-detail.pl?biblionumber={biblionumber}"
+                    link = f"https://opac.lic.vnu.edu.vn/cgi-bin/koha/opac-detail.pl?biblionumber={biblionumber}"
                 if not link:
                     continue
                 desc_text = desc_el.text if desc_el is not None else ""
@@ -153,7 +153,7 @@ def search_koha_api(query: str) -> list:
     matched = [b for b in failsafe_db if any(w in b["title"].lower() or w in b["author"].lower() for w in q_lower.split() if len(w) > 2)]
     final_list = matched[:4] if len(matched) >= 2 else failsafe_db[:3]
     for item in final_list:
-        url = f"https://opac.vnu.edu.vn/cgi-bin/koha/opac-detail.pl?biblionumber={item['biblionumber']}"
+        url = f"https://opac.lic.vnu.edu.vn/cgi-bin/koha/opac-detail.pl?biblionumber={item['biblionumber']}"
         results.append({
             "id": f"koha/{item['biblionumber']}",
             "source": "VNU-LIC OPAC (Koha)",
