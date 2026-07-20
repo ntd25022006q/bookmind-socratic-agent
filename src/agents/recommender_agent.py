@@ -45,10 +45,16 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
         
     print_agent_start("Analyst Agent", "Truy xuất học liệu VNU-LIC Koha, DSpace & Bookworm và đề xuất tài liệu phù hợp")
     
-    # 1. Query live VNU-LIC Koha, VNU DSpace Repository and VNU Bookworm APIs
-    koha_results = await asyncio.to_thread(search_koha_api, topic)
-    dspace_results = await asyncio.to_thread(search_dspace_api, topic)
-    bookworm_results = await asyncio.to_thread(search_bookworm_api, topic)
+    # 1. Query live VNU-LIC Koha, VNU DSpace Repository and VNU Bookworm APIs concurrently with gather
+    koha_task = asyncio.to_thread(search_koha_api, topic)
+    dspace_task = asyncio.to_thread(search_dspace_api, topic)
+    bookworm_task = asyncio.to_thread(search_bookworm_api, topic)
+    
+    tasks_res = await asyncio.gather(koha_task, dspace_task, bookworm_task, return_exceptions=True)
+    
+    koha_results = tasks_res[0] if not isinstance(tasks_res[0], Exception) else []
+    dspace_results = tasks_res[1] if not isinstance(tasks_res[1], Exception) else []
+    bookworm_results = tasks_res[2] if not isinstance(tasks_res[2], Exception) else []
     
     # 2. Get Local RAG context for VNU recommended books
     rag_context, citations = get_rag_context(topic, query_type="consulting")
