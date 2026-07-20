@@ -5,7 +5,9 @@
   "trailingSlash": false,
   "ignoreCommand": "git diff HEAD~1 --name-only | grep -qE '^frontend/' && exit 1 || exit 0",
   "git": {
-    "deploymentEnabled": false
+    "deploymentEnabled": {
+      "main": true
+    }
   },
   "headers": [
     {
