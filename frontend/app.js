@@ -3107,6 +3107,11 @@ function checkServerConnection() {
                     topicInput.value = parsed.topic;
                     if (parsed.logs) consoleOutput.innerHTML = parsed.logs;
                     if (parsed.stateSnapshot) activeStateSnapshot = parsed.stateSnapshot;
+                    if (parsed.activeNode) {
+                        try {
+                            highlightNode(parsed.activeNode);
+                        } catch(e) { console.error("Error highlighting node:", e); }
+                    }
 
                     // Restore metrics badges
                     const s = parsed.stats || {};
