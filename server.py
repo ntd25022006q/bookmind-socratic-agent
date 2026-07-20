@@ -28,6 +28,30 @@ for _s in (sys.stdout, sys.stderr):
 # ── Concurrent pipeline protection (session-specific via asyncio.Locks) ───────
 _session_locks = {}
 _session_tasks = {}
+_session_history = {}  # session_id -> list of events
+_session_queues = {}   # session_id -> set of asyncio.Queue instances
+_session_queries = {}  # session_id -> (topic, user_profile, socratic_answers)
+_session_start_times = {}  # session_id -> start timestamp
+
+class SessionQueueAdapter(asyncio.Queue):
+    def __init__(self, session_id: str):
+        super().__init__()
+        self.session_id = session_id
+
+    async def put(self, item):
+        await publish_event(self.session_id, item)
+
+async def publish_event(session_id: str, event: dict):
+    if session_id not in _session_history:
+        _session_history[session_id] = []
+    _session_history[session_id].append(event)
+    
+    queues = _session_queues.get(session_id, set())
+    for q in list(queues):
+        try:
+            await q.put(event)
+        except Exception:
+            pass
 
 def get_session_lock(session_id: str) -> asyncio.Lock:
     sid = session_id if session_id else "default"
@@ -298,17 +322,20 @@ async def run_agents(request: RunRequest):
     if len(topic) > 5000:
         return {"error": "Chủ đề vượt quá giới hạn 5000 ký tự."}
 
-    # Cancel previous running task for this session if it exists to allow starting a new one cleanly
-    global _session_tasks
-    if session_id in _session_tasks:
-        old_task = _session_tasks[session_id]
-        if not old_task.done():
-            print(f"[Server] Cancelling active task for session {session_id} to start a new one.")
-            old_task.cancel()
+    global _session_tasks, _session_queries, _session_history, _session_start_times, _session_queues
+
+    is_running = session_id in _session_tasks and not _session_tasks[session_id].done()
+    query_key = (topic, user_profile, socratic_answers)
+    is_same_query = _session_queries.get(session_id) == query_key
+
+    if is_running and is_same_query:
+        print(f"[Server] Session {session_id} is already running the same query. Connecting client to existing stream.")
+    else:
+        if is_running:
+            print(f"[Server] Cancelling active task for session {session_id} because query changed.")
+            _session_tasks[session_id].cancel()
             try:
-                await old_task
-            except asyncio.CancelledError:
-                pass
+                await _session_tasks[session_id]
             except Exception:
                 pass
             
@@ -320,23 +347,26 @@ async def run_agents(request: RunRequest):
                 except Exception:
                     pass
 
-    # Acquire lock specifically for this session_id (allows multi-threading for different sessions)
-    lock = get_session_lock(session_id)
-    lock_acquired = False
-    for _attempt in range(10):
-        if not lock.locked():
-            await lock.acquire()
-            lock_acquired = True
-            break
-        await asyncio.sleep(0.5)
-    if not lock_acquired:
-        return {"error": "Hệ thống đang xử lý một yêu cầu khác trên cuộc trò chuyện này. Vui lòng đợi hoàn thành trước khi gửi yêu cầu mới."}
+        # Start execution in the background
+        _session_queries[session_id] = query_key
+        _session_history[session_id] = []
+        _session_start_times[session_id] = time.time()
 
-    # Clear stale model tracking data from previous runs
-    from src.utils.llm_factory import clear_actual_models
-    clear_actual_models()
+        # Clear stale model tracking data from previous runs
+        from src.utils.llm_factory import clear_actual_models
+        clear_actual_models()
 
-    async def event_generator():
+        lock = get_session_lock(session_id)
+        lock_acquired = False
+        for _attempt in range(10):
+            if not lock.locked():
+                await lock.acquire()
+                lock_acquired = True
+                break
+            await asyncio.sleep(0.5)
+        if not lock_acquired:
+            return {"error": "Hệ thống đang xử lý một yêu cầu khác trên cuộc trò chuyện này. Vui lòng đợi hoàn thành trước khi gửi yêu cầu mới."}
+
         initial_state = {
             "topic": topic,
             "user_profile": user_profile,
@@ -355,8 +385,6 @@ async def run_agents(request: RunRequest):
             "socratic_answers": socratic_answers,
         }
 
-        stream_queue = asyncio.Queue()
-
         async def run_graph_task():
             try:
                 # Clean up old reports and diagrams for this specific session
@@ -369,25 +397,26 @@ async def run_agents(request: RunRequest):
                         except Exception:
                             pass
 
-                # Run the graph app
+                # Run the graph app using SessionQueueAdapter
+                adapter = SessionQueueAdapter(session_id)
                 final_state = await graph_app.ainvoke(
                     initial_state,
                     config={
                         "configurable": {
                             "session_id": session_id,
-                            "stream_queue": stream_queue,
+                            "stream_queue": adapter,
                             "ollama_api_key": ollama_api_key,
                             "openrouter_api_key": openrouter_api_key
                         }
                     }
                 )
-                await stream_queue.put({
+                await publish_event(session_id, {
                     "type": "graph_complete",
                     "final_state": final_state
                 })
             except Exception as exc:
                 import traceback
-                await stream_queue.put({
+                await publish_event(session_id, {
                     "type": "error",
                     "error": str(exc) + "\n" + traceback.format_exc()
                 })
@@ -398,57 +427,94 @@ async def run_agents(request: RunRequest):
                         lock.release()
                     except Exception:
                         pass
-                await stream_queue.put({
+                await publish_event(session_id, {
                     "type": "done_sentinel"
                 })
 
-        # Start execution in the background — lưu reference theo session_id
-        global _session_tasks
-        graph_task = asyncio.create_task(run_graph_task())
-        _session_tasks[session_id] = graph_task
+        _session_tasks[session_id] = asyncio.create_task(run_graph_task())
 
-        start_time = time.time()
-        agent_tokens = {
-            "guardrail": 0,
-            "researcher": 0,
-            "analyst": 0,
-            "risk_assessor": 0,
-            "recommender": 0,
-            "reporter": 0
-        }
-        agent_models = {
-            "guardrail": "",
-            "researcher": "",
-            "analyst": "",
-            "risk_assessor": "",
-            "recommender": "",
-            "reporter": ""
-        }
-        agent_toks_per_sec = {
-            "guardrail": 0.0,
-            "researcher": 0.0,
-            "analyst": 0.0,
-            "risk_assessor": 0.0,
-            "recommender": 0.0,
-            "reporter": 0.0
-        }
-        agent_durations = {
-            "guardrail": 0.0,
-            "researcher": 0.0,
-            "analyst": 0.0,
-            "risk_assessor": 0.0,
-            "recommender": 0.0,
-            "reporter": 0.0
-        }
+    async def event_generator():
+        client_queue = asyncio.Queue()
+        if session_id not in _session_queues:
+            _session_queues[session_id] = set()
+        _session_queues[session_id].add(client_queue)
+
+        start_time = _session_start_times.get(session_id, time.time())
+        agent_tokens = {k: 0 for k in ["guardrail", "researcher", "analyst", "risk_assessor", "recommender", "reporter"]}
+        agent_models = {k: "" for k in ["guardrail", "researcher", "analyst", "risk_assessor", "recommender", "reporter"]}
+        agent_toks_per_sec = {k: 0.0 for k in ["guardrail", "researcher", "analyst", "risk_assessor", "recommender", "reporter"]}
+        agent_durations = {k: 0.0 for k in ["guardrail", "researcher", "analyst", "risk_assessor", "recommender", "reporter"]}
+
+        def process_event(event):
+            nonlocal start_time
+            if event.get("type") == "node_end":
+                node_name = event.get("node")
+                tokens = event.get("tokens", 0)
+                if node_name in agent_tokens:
+                    agent_tokens[node_name] = tokens
+                if node_name in agent_models and event.get("model"):
+                    agent_models[node_name] = event.get("model", "")
+                if node_name in agent_toks_per_sec:
+                    agent_toks_per_sec[node_name] = event.get("toks_per_sec", 0.0)
+                if node_name in agent_durations:
+                    agent_durations[node_name] = event.get("duration", 0.0)
+
+                if event.get("content"):
+                    event["content"] = clean_internal_filenames(event["content"])
+                if event.get("thinking"):
+                    event["thinking"] = clean_internal_filenames(event["thinking"])
+                return f"data: {json.dumps(event, ensure_ascii=False)}\n\n"
+
+            elif event.get("type") == "graph_complete":
+                final_state = event["final_state"]
+                elapsed = time.time() - start_time
+                if "elapsed_time" in event:
+                    elapsed = event["elapsed_time"]
+                else:
+                    event["elapsed_time"] = elapsed
+
+                if not final_state.get("socratic_answers") and not final_state.get("irrelevant", False):
+                    return f"data: {json.dumps({'socratic_pause': True, 'socratic_questions': final_state.get('risks', ''), 'state_snapshot': {'topic': final_state.get('topic', ''), 'user_profile': final_state.get('user_profile', ''), 'analysis': final_state.get('analysis', ''), 'risks': final_state.get('risks', ''), 'research_data': final_state.get('research_data', ''), 'retrieved_context': final_state.get('retrieved_context', ''), 'citations': final_state.get('citations', [])}}, ensure_ascii=False)}\n\n"
+
+                total_tokens = sum(agent_tokens.values())
+                agents_count = 1 if final_state.get("irrelevant") else 6
+
+                final_report = final_state.get("report", "# No report generated")
+                final_report = clean_internal_filenames(final_report)
+                try:
+                    Path(OUTPUT_DIR).mkdir(exist_ok=True)
+                except Exception:
+                    pass
+                
+                suffix = f"_{session_id}" if session_id else ""
+                (Path(OUTPUT_DIR) / f"research_report{suffix}.md").write_text(final_report, encoding="utf-8")
+
+                diagram_path = Path(OUTPUT_DIR) / f"diagram{suffix}.mermaid"
+                explanation_path = Path(OUTPUT_DIR) / f"diagram_explanation{suffix}.txt"
+                
+                diagram = diagram_path.read_text(encoding="utf-8") if diagram_path.exists() else ""
+                explanation = explanation_path.read_text(encoding="utf-8") if explanation_path.exists() else ""
+                explanation = clean_internal_filenames(explanation)
+
+                return f"data: {json.dumps({'done': True, 'report': final_report, 'diagram': diagram, 'explanation': explanation, 'stats': {'time': f'{elapsed:.3f}s', 'tokens': f'{total_tokens:,}', 'agents': agents_count, 'irrelevant': final_state.get('irrelevant', False), 'agent_tokens': agent_tokens, 'agent_models': agent_models, 'agent_toks_per_sec': agent_toks_per_sec, 'agent_durations': agent_durations}}, ensure_ascii=False)}\n\n"
+
+            else:
+                if event.get("content"):
+                    event["content"] = clean_internal_filenames(event["content"])
+                if event.get("thinking"):
+                    event["thinking"] = clean_internal_filenames(event["thinking"])
+                return f"data: {json.dumps(event, ensure_ascii=False)}\n\n"
 
         try:
+            history = list(_session_history.get(session_id, []))
+            for ev in history:
+                yield process_event(ev)
+                if ev.get("type") in ["graph_complete", "error", "done_sentinel"]:
+                    return
+
             while True:
-                if graph_task.done() and graph_task.exception():
-                    exc = graph_task.exception()
-                    yield f"data: {json.dumps({'error': str(exc)}, ensure_ascii=False)}\n\n"
-                    break
                 try:
-                    event = await asyncio.wait_for(stream_queue.get(), timeout=10.0)
+                    event = await asyncio.wait_for(client_queue.get(), timeout=15.0)
                 except asyncio.TimeoutError:
                     yield ": ping\n\n"
                     continue
@@ -458,71 +524,16 @@ async def run_agents(request: RunRequest):
                 elif event.get("type") == "error":
                     yield f"data: {json.dumps({'error': event['error']}, ensure_ascii=False)}\n\n"
                     break
-                elif event.get("type") == "graph_complete":
-                    final_state = event["final_state"]
-                    elapsed = time.time() - start_time
 
-                    # If Phase 1 (no socratic answers yet and query is relevant), pause and prompt user
-                    if not final_state.get("socratic_answers") and not final_state.get("irrelevant", False):
-                        if lock.locked():
-                            try:
-                                lock.release()
-                            except Exception:
-                                pass
-                        yield f"data: {json.dumps({'socratic_pause': True, 'socratic_questions': final_state.get('risks', ''), 'state_snapshot': {'topic': final_state.get('topic', ''), 'user_profile': final_state.get('user_profile', ''), 'analysis': final_state.get('analysis', ''), 'risks': final_state.get('risks', ''), 'research_data': final_state.get('research_data', ''), 'retrieved_context': final_state.get('retrieved_context', ''), 'citations': final_state.get('citations', [])}}, ensure_ascii=False)}\n\n"
-                        break
-
-                    total_tokens = sum(agent_tokens.values())
-                    agents_count = 1 if final_state.get("irrelevant") else 6
-
-                    final_report = final_state.get("report", "# No report generated")
-                    final_report = clean_internal_filenames(final_report)
-                    try:
-                        Path(OUTPUT_DIR).mkdir(exist_ok=True)
-                    except Exception:
-                        pass
-                    
-                    # Save session-specific report
-                    suffix = f"_{session_id}" if session_id else ""
-                    (Path(OUTPUT_DIR) / f"research_report{suffix}.md").write_text(final_report, encoding="utf-8")
-
-                    # Read diagram and explanation
-                    diagram_path = Path(OUTPUT_DIR) / f"diagram{suffix}.mermaid"
-                    explanation_path = Path(OUTPUT_DIR) / f"diagram_explanation{suffix}.txt"
-                    
-                    diagram = diagram_path.read_text(encoding="utf-8") if diagram_path.exists() else ""
-                    explanation = explanation_path.read_text(encoding="utf-8") if explanation_path.exists() else ""
-                    explanation = clean_internal_filenames(explanation)
-
-                    yield f"data: {json.dumps({'done': True, 'report': final_report, 'diagram': diagram, 'explanation': explanation, 'stats': {'time': f'{elapsed:.3f}s', 'tokens': f'{total_tokens:,}', 'agents': agents_count, 'irrelevant': final_state.get('irrelevant', False), 'agent_tokens': agent_tokens, 'agent_models': agent_models, 'agent_toks_per_sec': agent_toks_per_sec, 'agent_durations': agent_durations}}, ensure_ascii=False)}\n\n"
-                elif event.get("type") == "node_end":
-                    node_name = event.get("node")
-                    tokens = event.get("tokens", 0)
-                    if node_name in agent_tokens:
-                        agent_tokens[node_name] = tokens
-                    if node_name in agent_models and event.get("model"):
-                        agent_models[node_name] = event.get("model", "")
-                    if node_name in agent_toks_per_sec:
-                        agent_toks_per_sec[node_name] = event.get("toks_per_sec", 0.0)
-                    if node_name in agent_durations:
-                        agent_durations[node_name] = event.get("duration", 0.0)
-
-                    if event.get("content"):
-                        event["content"] = clean_internal_filenames(event["content"])
-                    if event.get("thinking"):
-                        event["thinking"] = clean_internal_filenames(event["thinking"])
-
-                    yield f"data: {json.dumps(event, ensure_ascii=False)}\n\n"
-                else:
-                    if event.get("content"):
-                        event["content"] = clean_internal_filenames(event["content"])
-                    if event.get("thinking"):
-                        event["thinking"] = clean_internal_filenames(event["thinking"])
-                    yield f"data: {json.dumps(event, ensure_ascii=False)}\n\n"
+                yield process_event(event)
+                if event.get("type") == "graph_complete":
+                    break
 
         except Exception as exc:
             import traceback
             yield f"data: {json.dumps({'error': str(exc) + chr(10) + traceback.format_exc()})}\n\n"
+        finally:
+            _session_queues[session_id].discard(client_queue)
 
     return StreamingResponse(
         event_generator(),

@@ -3191,8 +3191,14 @@ function checkServerConnection() {
                             }
                         }, 50);
 
-                        // Start polling to sync final result
-                        startPollingForReport();
+                        // Reconnect to SSE stream to sync logs and progress
+                        const postUrl = getApiPrefix() + '/api/run';
+                        const body = { 
+                            topic: parsed.topic,
+                            user_profile: getUserProfileString(),
+                            session_id: sessionId
+                        };
+                        connectSsePost(postUrl, body);
                     }
                     return;
                 }
