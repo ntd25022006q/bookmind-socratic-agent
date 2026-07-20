@@ -38,8 +38,19 @@ async def questioner_node(state: ResearchState, config=None) -> dict:
         })
         import asyncio
         await asyncio.sleep(1.2)
-    print_agent_start("Risk Assessor Agent", "Đặt câu hỏi Socratic kích thích tư duy phản biện")
-    llm = create_llm(MODEL_RESEARCHER_AGENT, config=config, streaming=True)
+    import random
+    socratic_perspectives = [
+        "Tập trung phản biện vào các giả định ngầm định (assumptions) mà độc giả thường coi là hiển nhiên trong chủ đề này.",
+        "Tập trung phản biện vào các hệ quả dài hạn (implications & consequences) nếu áp dụng các kiến thức trong sách một cách máy móc.",
+        "Tập trung phản biện vào các bằng chứng thực tế (evidence & examples) đối nghịch hoặc các trường hợp ngoại lệ mà sách chưa đề cập.",
+        "Tập trung vào góc nhìn đa chiều (alternative perspectives) để xem xét chủ đề dưới lăng kính của những nhóm đối tượng hoặc lý thuyết trái ngược.",
+        "Tập trung vào tính thực tiễn và tính khả thi (feasibility & actionability) của các phương pháp được gợi ý, tìm ra các điểm yếu khi triển khai thực tế.",
+        "Tập trung phát hiện các thiên kiến nhận thức (cognitive biases) phổ biến liên quan đến chủ đề này mà độc giả cần tự nhận thức được."
+    ]
+    chosen_perspective = random.choice(socratic_perspectives)
+
+    print_agent_start("Risk Assessor Agent", f"Đặt câu hỏi Socratic kích thích tư duy phản biện (Góc nhìn: {chosen_perspective})")
+    llm = create_llm(MODEL_RESEARCHER_AGENT, temperature=0.7, config=config, streaming=True)
     
     call_config = {}
     if stream_queue:
@@ -47,6 +58,10 @@ async def questioner_node(state: ResearchState, config=None) -> dict:
         call_config["callbacks"] = [QueueCallbackHandler(stream_queue, "risk_assessor")]
         
     prompt = f"""Bạn là Socrates Critic Agent của VNU BookMind. Dựa trên chủ đề "{topic}", hồ sơ độc giả "{profile}" và các cuốn sách đề xuất "{books}", hãy đặt ra 3 câu hỏi phản biện sâu sắc.
+
+YÊU CẦU ĐẶC BIỆT CHO LẦN ĐỐI THOẠI NÀY:
+- {chosen_perspective}
+- Đảm bảo các câu hỏi mang tính gợi mở mạnh mẽ, phong phú và kích thích tư duy sáng tạo, không rập khuôn hay trùng lặp.
 
 NGUYÊN TẮC KHÔNG TÓM TẮT HỘ:
 - Nếu người dùng yêu cầu tóm tắt sách (ví dụ: "Cuốn sách X nói về điều gì?", "Tóm tắt hộ cuốn Y"), bạn TUYỆT ĐỐI không được tóm tắt nội dung sách hay cung cấp câu trả lời sẵn. 

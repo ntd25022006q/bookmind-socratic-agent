@@ -316,6 +316,28 @@ async def run_agents(request: RunRequest):
     if len(topic) > 5000:
         return {"error": "Chủ đề vượt quá giới hạn 5000 ký tự."}
 
+    # Cancel previous running task for this session if it exists to allow starting a new one cleanly
+    global _session_tasks
+    if session_id in _session_tasks:
+        old_task = _session_tasks[session_id]
+        if not old_task.done():
+            print(f"[Server] Cancelling active task for session {session_id} to start a new one.")
+            old_task.cancel()
+            try:
+                await old_task
+            except asyncio.CancelledError:
+                pass
+            except Exception:
+                pass
+            
+            # Force release the lock for this session
+            lock = get_session_lock(session_id)
+            if lock.locked():
+                try:
+                    lock.release()
+                except Exception:
+                    pass
+
     # Acquire lock specifically for this session_id (allows multi-threading for different sessions)
     lock = get_session_lock(session_id)
     lock_acquired = False

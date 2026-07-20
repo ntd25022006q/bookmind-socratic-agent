@@ -104,6 +104,14 @@ QUY TẮC CÚ PHÁP NGHIÊM NGẶT:
     from config import OUTPUT_DIR
     from pathlib import Path
     Path(OUTPUT_DIR).mkdir(exist_ok=True)
+    
+    session_id = config.get("configurable", {}).get("session_id") if config else None
+    suffix = f"_{session_id}" if session_id else ""
+    
+    (Path(OUTPUT_DIR) / f"diagram{suffix}.mermaid").write_text(parsed["mermaid_diagram"], encoding="utf-8")
+    (Path(OUTPUT_DIR) / f"diagram_explanation{suffix}.txt").write_text(parsed["diagram_explanation"], encoding="utf-8")
+    
+    # Fallback global write for compatibility
     (Path(OUTPUT_DIR) / "diagram.mermaid").write_text(parsed["mermaid_diagram"], encoding="utf-8")
     (Path(OUTPUT_DIR) / "diagram_explanation.txt").write_text(parsed["diagram_explanation"], encoding="utf-8")
 
