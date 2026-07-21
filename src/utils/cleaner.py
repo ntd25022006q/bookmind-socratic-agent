@@ -163,10 +163,87 @@ def clean_internal_filenames(text: str) -> str:
     return text
 
 
+def strip_system_prompt_leak(text: str) -> str:
+    """Strip system prompt instructions and internal markers if leaked into LLM output."""
+    if not text:
+        return ""
+    
+    # 1. Remove leaked system prompt header sections
+    leak_patterns = [
+        r'(?i)Cấu\s+Trúc\s+Báo\s+Cáo\s+Bắt\s+Buộc.*?(?=\n\n|\Z)',
+        r'(?i)Quy\s+Tắc\s+Viết\s+Báo\s+Cáo.*?(?=\n\n|\Z)',
+        r'(?i)Quy\s+Tắc\s+Bảng\s+Tài\s+Liệu\s+Tham\s+Khảo.*?(?=\n\n|\Z)',
+        r'(?i)Quy\s+Tắc\s+Bảo\s+Mật\s+Hệ\s+Thống.*?(?=\n\n|\Z)',
+        r'(?i)Hãy\s+trả\s+về\s+ĐÚNG\s+định\s+dạng\s+sau:.*?(?=\n\n|\Z)',
+        r'\[Toàn\s+bộ\s+nội\s+dung\s+báo\s+cáo[^\]]*\]',
+        r'\[Phân\s+tích\s+cách\s+cấu\s+trúc[^\]]*\]',
+        r'===?\s*QUÁ\s+TRÌNH\s+TƯ\s+DUY\s*===?',
+        r'===?\s*CONSOLE\s+MESSAGE\s*===?',
+        r'===?\s*DETAILED\s+REPORT\s*===?',
+        r'===?\s*MERMAID\s+DIAGRAM\s*===?',
+        r'===?\s*DIAGRAM\s+EXPLANATION\s*===?',
+    ]
+    for pattern in leak_patterns:
+        text = re.sub(pattern, '', text, flags=re.DOTALL)
+        
+    # 2. Remove verbatim prompt instruction leakage lines
+    prompt_lines_to_remove = [
+        "VIẾT ĐẦY ĐỦ từng phần, KHÔNG rút gọn, KHÔNG dùng placeholder",
+        "KHÔNG dùng ký hiệu trong báo cáo",
+        "KHÔNG dùng chữ Hán, Kanji, Hiragana, Katakana",
+        "KHÔNG ghi ngày tháng vào dòng tên tổ chức hay footer",
+        "TUYỆT ĐỐI không tiết lộ thông tin cá nhân của nhà phát triển",
+        "Chỉ tập trung làm đúng chuyên môn theo yêu cầu của độc giả",
+        "Bảng phải có đúng 6 cột: STT | Tên tài liệu | Tác giả | Năm | Nguồn | Link",
+        "Link PHẢI lấy trực tiếp từ danh mục VNU-LIC",
+        "Tài liệu không có URL thật: ghi",
+        "TUYỆT ĐỐI không bịa URL, không thay bằng WorldCat/ISBN/Google Books",
+    ]
+    lines = text.split("\n")
+    cleaned_lines = []
+    for line in lines:
+        if any(bad in line for bad in prompt_lines_to_remove):
+            continue
+        cleaned_lines.append(line)
+    text = "\n".join(cleaned_lines)
+    return text
+
+
+def deduplicate_repeated_text(text: str) -> str:
+    """Detect and collapse infinite LLM repetition loops (e.g. 'bước EV là việc chuẩn bị...')."""
+    if not text:
+        return ""
+    
+    # 1. Regex to catch repeated sentence patterns (e.g. 'bước XX là việc...' repeated 3+ times)
+    # Catch phrases like "bước XX là việc..." or any 10-100 char sentence repeated 3+ times
+    text = re.sub(r'((?:bước\s+[A-Z0-9]+\s+là\s+việc[^\n,.]+[,.]?\s*){3,})', lambda m: m.group(1).split(',')[0] + '.\n', text, flags=re.IGNORECASE)
+    
+    # 2. Generic repeated sentence filter (catch identical consecutive lines or clauses)
+    lines = text.split("\n")
+    unique_lines = []
+    prev_line = None
+    repeat_count = 0
+    
+    for line in lines:
+        trimmed = line.strip()
+        if trimmed and trimmed == prev_line:
+            repeat_count += 1
+            if repeat_count < 2:  # allow at most 1 repetition
+                unique_lines.append(line)
+        else:
+            prev_line = trimmed
+            repeat_count = 0
+            unique_lines.append(line)
+            
+    return "\n".join(unique_lines)
+
+
 def full_clean(text: str) -> str:
-    """Apply all cleaning steps in sequence: CJK → markdown artifacts → URLs → filenames."""
+    """Apply all cleaning steps in sequence: CJK → markdown artifacts → prompt leaks → loops → URLs → filenames."""
     text = strip_cjk(text)
     text = sanitize_markdown(text)
+    text = strip_system_prompt_leak(text)
+    text = deduplicate_repeated_text(text)
     text = sanitize_urls(text)
     text = clean_internal_filenames(text)
     # Final whitespace normalization

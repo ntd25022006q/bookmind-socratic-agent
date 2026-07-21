@@ -83,7 +83,7 @@ QUY TẮC CÚ PHÁP NGHIÊM NGẶT:
 - KHÔNG dùng -.-->, --. >, hay bất kỳ biến thể sai khác
 - Nhãn nút không chứa ký tự đặc biệt, không chứa chữ Hán/Kanji]
 === DIAGRAM EXPLANATION ===
-[Giải thích chi tiết sơ đồ bằng tiếng Việt: mô tả từng nút và mối liên hệ, tối thiểu 3 đoạn văn hoàn chỉnh. Không dùng ** và không dùng chữ Hán.]
+[Giải thích súc tích lộ trình sơ đồ bằng tiếng Việt trong 2-3 đoạn văn hoàn chỉnh (mô tả mục tiêu chính, 3 giai đoạn đọc chính và kết quả học tập đạt được). KHÔNG dùng **, KHÔNG chữ Hán, và TUYỆT ĐỐI KHÔNG lặp đi lặp lại các câu liệt kê từng nút/bước bằng chữ cái tiếng Anh lặp vô tận.]
 """
 
     res = await llm.ainvoke(prompt, config=call_config)
