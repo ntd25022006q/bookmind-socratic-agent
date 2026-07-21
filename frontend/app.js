@@ -1,3 +1,4 @@
+// VNU-LIC OPAC Link Fix deployment trigger
 document.addEventListener('DOMContentLoaded', () => {
 
     // ── UI Elements ──────────────────────────────────────────────────────────
