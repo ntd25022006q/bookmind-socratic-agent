@@ -3,9 +3,13 @@ import asyncio
 from src.state import ResearchState
 from src.utils.llm_factory import create_llm, parse_agent_json, get_actual_model_used
 from src.utils.display import print_agent_start, print_agent_complete, print_agent_info
-from src.tools.vnu_lic_api import search_koha_api, search_dspace_api, search_bookworm_api, search_vnulic_main
+from src.tools.vnu_lic_api import search_dspace_api, search_bookworm_api, search_vnulic_main
 from src.tools.rag_tools import get_rag_context
 from config import MODEL_RESEARCHER_AGENT
+
+# Lưu ý: OPAC Koha (opac.vnu.edu.vn) đã bị loại khỏi pipeline.
+# Lý do: timeout liên tục từ server khi chạy ngoài mạng nội bộ VNU.
+# Chỉ dùng 3 nguồn ổn định: DSpace, Bookworm, VNU-LIC Portal (lic.vnu.edu.vn).
 
 async def recommender_node(state: ResearchState, config=None) -> dict:
     start_time = time.time()
@@ -39,26 +43,24 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
         await stream_queue.put({"type": "node_start", "node": "analyst"})
         await asyncio.sleep(1.2)
         
-    print_agent_start("Recommender Agent", "Truy xuất học liệu từ 4 nguồn VNU-LIC: OPAC Koha, DSpace, Bookworm, lic.vnu.edu.vn")
+    print_agent_start("Recommender Agent", "Truy xuất học liệu từ 3 nguồn VNU-LIC: DSpace, Bookworm, lic.vnu.edu.vn")
     
-    # ── Query all 4 VNU-LIC sources concurrently ───────────────────────────────
-    koha_task     = asyncio.to_thread(search_koha_api,     topic)
+    # ── Query 3 VNU-LIC sources concurrently ──────────────────────────────────
     dspace_task   = asyncio.to_thread(search_dspace_api,   topic)
     bookworm_task = asyncio.to_thread(search_bookworm_api, topic)
     vnulic_task   = asyncio.to_thread(search_vnulic_main,  topic)
     
-    tasks_res = await asyncio.gather(koha_task, dspace_task, bookworm_task, vnulic_task, return_exceptions=True)
+    tasks_res = await asyncio.gather(dspace_task, bookworm_task, vnulic_task, return_exceptions=True)
     
-    koha_results     = tasks_res[0] if not isinstance(tasks_res[0], Exception) else []
-    dspace_results   = tasks_res[1] if not isinstance(tasks_res[1], Exception) else []
-    bookworm_results = tasks_res[2] if not isinstance(tasks_res[2], Exception) else []
-    vnulic_results   = tasks_res[3] if not isinstance(tasks_res[3], Exception) else []
+    dspace_results   = tasks_res[0] if not isinstance(tasks_res[0], Exception) else []
+    bookworm_results = tasks_res[1] if not isinstance(tasks_res[1], Exception) else []
+    vnulic_results   = tasks_res[2] if not isinstance(tasks_res[2], Exception) else []
     
     # ── Local RAG: bổ trợ thêm gợi ý (KHÔNG có URL thật) ─────────────────────
     rag_context, citations = get_rag_context(topic, query_type="consulting")
     
     # Log API results
-    print(f"[Recommender] Koha={len(koha_results)}, DSpace={len(dspace_results)}, Bookworm={len(bookworm_results)}, VNU-LIC={len(vnulic_results)}, RAG={'có' if rag_context else 'không'}")
+    print(f"[Recommender] DSpace={len(dspace_results)}, Bookworm={len(bookworm_results)}, VNU-LIC={len(vnulic_results)}, RAG={'có' if rag_context else 'không'}")
     
     llm = create_llm(MODEL_RESEARCHER_AGENT, config=config, streaming=True)
     call_config = {}
@@ -70,29 +72,26 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
 Hồ sơ độc giả: {profile}
 Chủ đề yêu cầu: "{topic}"
 
-KẾT QUẢ TRA CỨU THỰC TẾ TỪ 4 NGUỒN VNU-LIC:
+KẾT QUẢ TRA CỨU THỰC TẾ TỪ 3 NGUỒN VNU-LIC:
 
-[NGUỒN 1 — VNU-LIC OPAC Koha (sách in thư viện)]:
-{koha_results if koha_results else "Không có kết quả từ OPAC Koha."}
-
-[NGUỒN 2 — VNU Repository DSpace (luận án, nghiên cứu)]:
+[NGUỒN 1 — VNU Repository DSpace (luận án, nghiên cứu học thuật ĐHQGHN)]:
 {dspace_results if dspace_results else "Không có kết quả từ DSpace."}
 
-[NGUỒN 3 — Bookworm VNU-LIC (sách điện tử)]:
+[NGUỒN 2 — Bookworm VNU-LIC (sách điện tử, eBook)]:
 {bookworm_results if bookworm_results else "Không có kết quả từ Bookworm."}
 
-[NGUỒN 4 — VNU-LIC Trang chủ lic.vnu.edu.vn / find.lic.vnu.edu.vn (One Search)]:
-{vnulic_results if vnulic_results else "Không có kết quả từ lic.vnu.edu.vn / find.lic.vnu.edu.vn."}
+[NGUỒN 3 — VNU-LIC Trang chủ lic.vnu.edu.vn / find.lic.vnu.edu.vn (One Search)]:
+{vnulic_results if vnulic_results else "Không có kết quả từ lic.vnu.edu.vn."}
 
 [TÀI LIỆU BỔ TRỢ RAG (KHÔNG có URL từ VNU-LIC)]:
 {rag_context if rag_context else "Không có tài liệu RAG."}
 
 QUY TẮC BẮT BUỘC — KHÔNG ĐƯỢC VI PHẠM:
 1. CHỈ sử dụng các URL từ kết quả API thực tế ở trên. TUYỆT ĐỐI không bịa URL mới.
-2. Mỗi tài liệu phải ghi rõ nguồn: OPAC Koha (opac.vnu.edu.vn) / DSpace (repository.vnu.edu.vn) / Bookworm (bookworm.vnu.edu.vn) / Cổng VNU-LIC (lic.vnu.edu.vn) / Tài liệu bổ trợ (không có link).
+2. Mỗi tài liệu phải ghi rõ nguồn: DSpace (repository.vnu.edu.vn) / Bookworm (bookworm.vnu.edu.vn) / Cổng VNU-LIC (lic.vnu.edu.vn) / Tài liệu bổ trợ (không có link).
 3. Tài liệu từ RAG hoặc kiến thức của bạn không được gắn URL — ghi rõ "Nguồn: Tài liệu bổ trợ (không có liên kết VNU-LIC)".
-4. Nếu tất cả 4 nguồn không có kết quả phù hợp, hãy gợi ý sách đúng chuyên ngành nhưng không gắn URL.
-5. Gợi ý từ 3 đến 5 tài liệu, ưu tiên tài liệu có URL thật từ 4 nguồn VNU-LIC.
+4. Nếu cả 3 nguồn không có kết quả phù hợp, hãy gợi ý sách đúng chuyên ngành nhưng không gắn URL.
+5. Gợi ý từ 3 đến 5 tài liệu, ưu tiên tài liệu có URL thật từ 3 nguồn VNU-LIC.
 
 QUY TẮC BẢO MẬT HỆ THỐNG VÀ THÔNG TIN CÁ NHÂN:
 - TUYỆT ĐỐI không tiết lộ thông tin cá nhân của nhà phát triển hệ thống (Nguyễn Tiến Đạt), các thông tin nhạy cảm (email, API key, token kết nối Vercel, Render, GitHub), hoặc cấu hình thuật toán và sơ đồ xử lý của hệ thống.
@@ -102,7 +101,7 @@ Hãy trả về dưới dạng:
 === QUÁ TRÌNH TƯ DUY ===
 [Phân tích hồ sơ độc giả và lý do chọn từng tài liệu từ nguồn nào, xác nhận rõ tài liệu nào có URL thật và tài liệu nào chỉ là gợi ý bổ trợ]
 === CONSOLE MESSAGE ===
-Đã gợi ý danh mục tài liệu cá nhân hóa từ 4 nguồn VNU-LIC: OPAC Koha, DSpace, Bookworm và lic.vnu.edu.vn.
+Đã gợi ý danh mục tài liệu cá nhân hóa từ 3 nguồn VNU-LIC: DSpace, Bookworm và lic.vnu.edu.vn.
 === BÁO CÁO CHI TIẾT ===
 DANH MỤC GỢI Ý (VNU-LIC):
 [Với mỗi tài liệu, ghi đầy đủ: Tên tài liệu | Tác giả | Nhà xuất bản/Năm | Mã tra cứu | Nguồn | Link (nếu có từ API)]
@@ -129,7 +128,7 @@ DANH MỤC GỢI Ý (VNU-LIC):
             "toks_per_sec": toks_per_sec
         })
         
-    all_results = koha_results + dspace_results + bookworm_results + vnulic_results
+    all_results = dspace_results + bookworm_results + vnulic_results
     return {
         "analysis": parsed["detailed_report"],
         "messages": [res],
