@@ -11,10 +11,11 @@ FILENAME_MAP = {
 # Known-good URL prefixes that are verifiably accessible
 APPROVED_URL_PREFIXES = [
     "https://repository.vnu.edu.vn/handle/",
-    "https://lic.vnu.edu.vn/",
-    "https://bookworm.vnu.edu.vn/",
-    "https://bookworm.lic.vnu.edu.vn/",
-    "http://opac.vnu.edu.vn/cgi-bin/koha/",
+    "http://lic.vnu.edu.vn/",            # Trang chủ VNU-LIC (Drupal) — hoạt động
+    "https://lic.vnu.edu.vn/",           # HTTPS redirect của lic.vnu.edu.vn
+    "https://bookworm.vnu.edu.vn/",      # Bookworm eBook platform — hoạt động
+    "http://opac.vnu.edu.vn/cgi-bin/koha/",   # Koha OPAC — chỉ HTTP (port 80)
+    "http://find.lic.vnu.edu.vn/",       # Primo Discovery — nội bộ VNU
     "https://books.google.com/",
     "https://archive.org/",
     "https://scholar.google.com/",
@@ -73,7 +74,21 @@ def sanitize_urls(text: str) -> str:
     # Remove cas.vnu.edu.vn links (internal CAS, not reachable externally)
     text = re.sub(
         r'https?://cas\.vnu\.edu\.vn[^\s\)\]\'"]*',
-        'https://lic.vnu.edu.vn/',
+        'http://lic.vnu.edu.vn/',  # Thay bằng domain trang chủ đúng
+        text
+    )
+
+    # Fix lib.vnu.edu.vn (không tồn tại - DNS fail) → lic.vnu.edu.vn (tồn tại)
+    text = re.sub(
+        r'https?://lib\.vnu\.edu\.vn[^\s\)\]\'"]*',
+        'http://lic.vnu.edu.vn/',
+        text
+    )
+
+    # Fix bookworm.lic.vnu.edu.vn (Apache default page) → bookworm.vnu.edu.vn (thực)
+    text = re.sub(
+        r'https?://bookworm\.lic\.vnu\.edu\.vn[^\s\)\]\'"]*',
+        'https://bookworm.vnu.edu.vn/',
         text
     )
 

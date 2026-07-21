@@ -39,7 +39,7 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
         await stream_queue.put({"type": "node_start", "node": "analyst"})
         await asyncio.sleep(1.2)
         
-    print_agent_start("Recommender Agent", "Truy xuất học liệu từ 4 nguồn VNU-LIC: OPAC, DSpace, Bookworm, lib.vnu.edu.vn")
+    print_agent_start("Recommender Agent", "Truy xuất học liệu từ 4 nguồn VNU-LIC: OPAC Koha, DSpace, Bookworm, lic.vnu.edu.vn")
     
     # ── Query all 4 VNU-LIC sources concurrently ───────────────────────────────
     koha_task     = asyncio.to_thread(search_koha_api,     topic)
@@ -81,15 +81,15 @@ KẾT QUẢ TRA CỨU THỰC TẾ TỪ 4 NGUỒN VNU-LIC:
 [NGUỒN 3 — Bookworm VNU-LIC (sách điện tử)]:
 {bookworm_results if bookworm_results else "Không có kết quả từ Bookworm."}
 
-[NGUỒN 4 — VNU-LIC Trang chủ lib.vnu.edu.vn (federated search)]:
-{vnulic_results if vnulic_results else "Không có kết quả từ lib.vnu.edu.vn."}
+[NGUỒN 4 — VNU-LIC Trang chủ lic.vnu.edu.vn / find.lic.vnu.edu.vn (One Search)]:
+{vnulic_results if vnulic_results else "Không có kết quả từ lic.vnu.edu.vn / find.lic.vnu.edu.vn."}
 
 [TÀI LIỆU BỔ TRỢ RAG (KHÔNG có URL từ VNU-LIC)]:
 {rag_context if rag_context else "Không có tài liệu RAG."}
 
 QUY TẮC BẮT BUỘC — KHÔNG ĐƯỢC VI PHẠM:
 1. CHỈ sử dụng các URL từ kết quả API thực tế ở trên. TUYỆT ĐỐI không bịa URL mới.
-2. Mỗi tài liệu phải ghi rõ nguồn: OPAC Koha / DSpace / Bookworm / lib.vnu.edu.vn / Tài liệu bổ trợ (không có link).
+2. Mỗi tài liệu phải ghi rõ nguồn: OPAC Koha (opac.vnu.edu.vn) / DSpace (repository.vnu.edu.vn) / Bookworm (bookworm.vnu.edu.vn) / Cổng VNU-LIC (lic.vnu.edu.vn) / Tài liệu bổ trợ (không có link).
 3. Tài liệu từ RAG hoặc kiến thức của bạn không được gắn URL — ghi rõ "Nguồn: Tài liệu bổ trợ (không có liên kết VNU-LIC)".
 4. Nếu tất cả 4 nguồn không có kết quả phù hợp, hãy gợi ý sách đúng chuyên ngành nhưng không gắn URL.
 5. Gợi ý từ 3 đến 5 tài liệu, ưu tiên tài liệu có URL thật từ 4 nguồn VNU-LIC.
@@ -102,7 +102,7 @@ Hãy trả về dưới dạng:
 === QUÁ TRÌNH TƯ DUY ===
 [Phân tích hồ sơ độc giả và lý do chọn từng tài liệu từ nguồn nào, xác nhận rõ tài liệu nào có URL thật và tài liệu nào chỉ là gợi ý bổ trợ]
 === CONSOLE MESSAGE ===
-Đã gợi ý danh mục tài liệu cá nhân hóa từ 4 nguồn VNU-LIC: OPAC, DSpace, Bookworm và lib.vnu.edu.vn.
+Đã gợi ý danh mục tài liệu cá nhân hóa từ 4 nguồn VNU-LIC: OPAC Koha, DSpace, Bookworm và lic.vnu.edu.vn.
 === BÁO CÁO CHI TIẾT ===
 DANH MỤC GỢI Ý (VNU-LIC):
 [Với mỗi tài liệu, ghi đầy đủ: Tên tài liệu | Tác giả | Nhà xuất bản/Năm | Mã tra cứu | Nguồn | Link (nếu có từ API)]
