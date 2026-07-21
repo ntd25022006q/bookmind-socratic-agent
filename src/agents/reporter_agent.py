@@ -96,12 +96,13 @@ QUY TẮC CÚ PHÁP NGHIÊM NGẶT:
     parsed["diagram_explanation"] = full_clean(parsed.get("diagram_explanation", ""))
 
     mermaid_code = full_clean(parsed.get("mermaid_diagram", ""))
-    # Auto-heal Mermaid dotted arrow syntax errors from LLMs
+    # Auto-heal Mermaid arrow syntax errors from LLMs
     import re
-    mermaid_code = re.sub(r'-\.-->', '-.->', mermaid_code)
-    mermaid_code = re.sub(r'--\.>', '-.->', mermaid_code)
-    mermaid_code = re.sub(r'-\.--', '-.-', mermaid_code)
-    mermaid_code = re.sub(r'\.\.>', '-.->', mermaid_code)
+    mermaid_code = re.sub(r'-\.-->+', '-.->', mermaid_code)
+    mermaid_code = re.sub(r'--\.+>', '-.->', mermaid_code)
+    mermaid_code = re.sub(r'-\.--+', '-.-', mermaid_code)
+    mermaid_code = re.sub(r'\.\.+>', '-.->', mermaid_code)
+    mermaid_code = re.sub(r'(\b\w+\b)\s+\1(?=\s*-\.->|\s*-->|\s*---|;|\n|$)', r'\1', mermaid_code)
     parsed["mermaid_diagram"] = mermaid_code
 
     # Save outputs

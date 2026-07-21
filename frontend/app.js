@@ -1555,6 +1555,13 @@ function checkServerConnection() {
         code = code.replace(/\u2194/g, '<-->');  // ↔
         code = code.replace(/\uFF0D\uFF1E/g, '-->');  // －＞ fullwidth
         
+        // 1.5 Auto-heal Mermaid invalid arrow syntaxes & duplicate node names from LLMs
+        code = code.replace(/-\.-->+/g, '-.->');
+        code = code.replace(/--\.+>/g, '-.->');
+        code = code.replace(/-\.--+/g, '-.-');
+        code = code.replace(/\.\.+>/g, '-.->');
+        code = code.replace(/(\b\w+\b)\s+\1(?=\s*-\.->|\s*-->|\s*---|;|\n|$)/g, '$1');
+
         // 2. Fix single-dash arrows in flowcharts
         if (code.includes('graph') || code.includes('flowchart') || code.includes('TD') || code.includes('LR')) {
             code = code.replace(/(?<!-)->(?!>)/g, '-->');
@@ -1761,8 +1768,8 @@ function checkServerConnection() {
             pollCount++;
             if (pollCount > MAX_POLLS) {
                 clearInterval(pollingInterval);
-                statStatus.textContent = 'Hết hạn kết nối ⚠️';
-                statStatus.style.color = '#ef4444';
+                statStatus.textContent = 'Sẵn sàng kích hoạt ⚡';
+                statStatus.style.color = 'var(--text-muted, #94a3b8)';
                 runBtn.disabled = false;
                 runBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> Kích Hoạt Phân Tích';
                 if (stopBtn) stopBtn.style.display = 'none';
@@ -3179,13 +3186,18 @@ function checkServerConnection() {
                         }
                         statStatus.style.color = 'var(--fpt-orange)';
 
-                        // Restore and resume the timer
-                        runStartTime = parsed.runStartTime || (Date.now() - parseFloat(parsed.stats?.time || '0') * 1000);
+                        // Restore and resume the timer with sanity checks (prevent stale 3500s timestamps)
+                        let parsedTimeSec = parseFloat(parsed.stats?.time || '0');
+                        if (isNaN(parsedTimeSec) || parsedTimeSec > 300) parsedTimeSec = 0;
+                        runStartTime = Date.now() - parsedTimeSec * 1000;
+                        
                         let lastSaveTime = Date.now();
                         if (timerInterval) clearInterval(timerInterval);
                         timerInterval = setInterval(() => {
                             const now = Date.now();
-                            statTime.textContent = `${((now - runStartTime) / 1000).toFixed(3)}s`;
+                            let elapsedSec = (now - runStartTime) / 1000;
+                            if (elapsedSec > 600) elapsedSec = 0; // Cap abnormal timer leaks
+                            statTime.textContent = `${elapsedSec.toFixed(3)}s`;
                             if (now - lastSaveTime >= 1000) {
                                 saveActiveSearchState('running');
                                 lastSaveTime = now;
@@ -3254,10 +3266,12 @@ function checkServerConnection() {
             } catch(err) { console.error("Error highlighting node recommender:", err); }
             
             // Resume timer
-            const currentSec = parseFloat(statTime.textContent) || 0;
+            let currentSec = parseFloat(statTime.textContent) || 0;
+            if (isNaN(currentSec) || currentSec > 300) currentSec = 0;
             let sec = currentSec;
             timerInterval = setInterval(() => {
                 sec += 0.001;
+                if (sec > 600) sec = 0;
                 statTime.textContent = sec.toFixed(3) + 's';
             }, 1);
 
