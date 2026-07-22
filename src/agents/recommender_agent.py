@@ -3,13 +3,15 @@ import asyncio
 from src.state import ResearchState
 from src.utils.llm_factory import create_llm, parse_agent_json, get_actual_model_used
 from src.utils.display import print_agent_start, print_agent_complete, print_agent_info
-from src.tools.vnu_lic_api import search_dspace_api, search_bookworm_api, search_vnulic_main
+from src.tools.vnu_lic_api import search_koha_api, search_dspace_api, search_bookworm_api, search_vnulic_main
 from src.tools.rag_tools import get_rag_context
 from config import MODEL_RECOMMENDER_AGENT
 
-# Lưu ý: OPAC Koha (opac.vnu.edu.vn) đã bị loại khỏi pipeline.
-# Lý do: timeout liên tục từ server khi chạy ngoài mạng nội bộ VNU.
-# Chỉ dùng 3 nguồn ổn định: DSpace, Bookworm, VNU-LIC Portal (lic.vnu.edu.vn).
+# ── Kết nối 4 nền tảng học liệu số VNU-LIC chính thống (Không bịa URL) ──────
+# 1. Koha OPAC: opac.vnu.edu.vn/cgi-bin/koha/opac-detail.pl?biblionumber=...
+# 2. DSpace Repository: repository.vnu.edu.vn/handle/...
+# 3. Bookworm eBook: bookworm.vnu.edu.vn/FDetail.aspx?id=...
+# 4. VNU-LIC Portal: lic.vnu.edu.vn/books/...
 
 async def recommender_node(state: ResearchState, config=None) -> dict:
     start_time = time.time()
@@ -43,24 +45,33 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
         await stream_queue.put({"type": "node_start", "node": "analyst"})
         await asyncio.sleep(1.2)
         
-    print_agent_start("Recommender Agent", "Truy xuất học liệu từ 3 nguồn VNU-LIC: DSpace, Bookworm, lic.vnu.edu.vn")
+    print_agent_start("Recommender Agent", "Truy xuất học liệu từ 4 nguồn VNU-LIC: OPAC Koha, DSpace, Bookworm, lic.vnu.edu.vn")
     
-    # ── Query 3 VNU-LIC sources concurrently ──────────────────────────────────
+    # ── Query ALL 4 VNU-LIC sources concurrently ──────────────────────────────
+    koha_task     = asyncio.to_thread(search_koha_api,     topic)
     dspace_task   = asyncio.to_thread(search_dspace_api,   topic)
     bookworm_task = asyncio.to_thread(search_bookworm_api, topic)
     vnulic_task   = asyncio.to_thread(search_vnulic_main,  topic)
     
-    tasks_res = await asyncio.gather(dspace_task, bookworm_task, vnulic_task, return_exceptions=True)
+    tasks_res = await asyncio.gather(koha_task, dspace_task, bookworm_task, vnulic_task, return_exceptions=True)
     
-    dspace_results   = tasks_res[0] if not isinstance(tasks_res[0], Exception) else []
-    bookworm_results = tasks_res[1] if not isinstance(tasks_res[1], Exception) else []
-    vnulic_results   = tasks_res[2] if not isinstance(tasks_res[2], Exception) else []
+    koha_results     = tasks_res[0] if not isinstance(tasks_res[0], Exception) else []
+    dspace_results   = tasks_res[1] if not isinstance(tasks_res[1], Exception) else []
+    bookworm_results = tasks_res[2] if not isinstance(tasks_res[2], Exception) else []
+    vnulic_results   = tasks_res[3] if not isinstance(tasks_res[3], Exception) else []
+    
+    # Combined VNU-LIC results from 4 platforms
+    vnu_lic_results = []
+    if koha_results:     vnu_lic_results.extend(koha_results)
+    if dspace_results:   vnu_lic_results.extend(dspace_results)
+    if bookworm_results: vnu_lic_results.extend(bookworm_results)
+    if vnulic_results:   vnu_lic_results.extend(vnulic_results)
     
     # ── Local RAG: bổ trợ thêm gợi ý (KHÔNG có URL thật) ─────────────────────
     rag_context, citations = get_rag_context(topic, query_type="consulting")
     
     # Log API results
-    print(f"[Recommender] DSpace={len(dspace_results)}, Bookworm={len(bookworm_results)}, VNU-LIC={len(vnulic_results)}, RAG={'có' if rag_context else 'không'}")
+    print(f"[Recommender] Koha={len(koha_results)}, DSpace={len(dspace_results)}, Bookworm={len(bookworm_results)}, VNU-LIC={len(vnulic_results)}, RAG={'có' if rag_context else 'không'}")
     
     llm = create_llm(MODEL_RECOMMENDER_AGENT, config=config, streaming=True)
     call_config = {}
