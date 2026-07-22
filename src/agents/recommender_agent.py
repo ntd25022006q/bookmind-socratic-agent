@@ -5,7 +5,7 @@ from src.utils.llm_factory import create_llm, parse_agent_json, get_actual_model
 from src.utils.display import print_agent_start, print_agent_complete, print_agent_info
 from src.tools.vnu_lic_api import search_dspace_api, search_bookworm_api, search_vnulic_main
 from src.tools.rag_tools import get_rag_context
-from config import MODEL_RESEARCHER_AGENT
+from config import MODEL_RECOMMENDER_AGENT
 
 # Lưu ý: OPAC Koha (opac.vnu.edu.vn) đã bị loại khỏi pipeline.
 # Lý do: timeout liên tục từ server khi chạy ngoài mạng nội bộ VNU.
@@ -62,7 +62,7 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
     # Log API results
     print(f"[Recommender] DSpace={len(dspace_results)}, Bookworm={len(bookworm_results)}, VNU-LIC={len(vnulic_results)}, RAG={'có' if rag_context else 'không'}")
     
-    llm = create_llm(MODEL_RESEARCHER_AGENT, config=config, streaming=True)
+    llm = create_llm(MODEL_RECOMMENDER_AGENT, config=config, streaming=True)
     call_config = {}
     if stream_queue:
         from src.utils.llm_factory import QueueCallbackHandler

@@ -77,13 +77,14 @@ Hãy trả về ĐÚNG định dạng sau:
 
 [Toàn bộ nội dung báo cáo chi tiết theo 9 phần trên — đầy đủ, không placeholder, không **, không chữ Hán]
 === MERMAID DIAGRAM ===
-[Sơ đồ flowchart LR phản ánh lộ trình đọc sách của độc giả DỰA TRÊN NỘI DUNG THỰC TẾ của báo cáo (không phải sơ đồ agent).
-QUY TẮC CÚ PHÁP NGHIÊM NGẶT:
+[Sơ đồ flowchart LR phản ánh lộ trình đọc sách của độc giả DỰA TRÊN NỘI DUNG THỰC TẾ của báo cáo.
+QUY TẮC CÚ PHÁP VÀ NGÔN NGỮ NGHIÊM NGẶT:
+- NHÃN NÚT BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT CÓ DẤU ĐẦY ĐỦ (Ví dụ: "Tinh thần tự học", "Lý thuyết phản biện", "Phương pháp NCKH", "Phân tích báo cáo AI", "Tư duy Socratic thực chiến"). TUYỆT ĐỐI KHÔNG BỎ DẤU TIẾNG VIỆT.
 - Nét đứt có mũi tên: chỉ dùng -.- > (1 chấm giữa 2 gạch). Ví dụ: A -.-> B hoặc A -. Text .-> B
 - KHÔNG dùng -.-->, --. >, hay bất kỳ biến thể sai khác
-- Nhãn nút không chứa ký tự đặc biệt, không chứa chữ Hán/Kanji]
+- Nhãn nút viết trong dấu ngoặc kép: A["Nhãn có dấu"] --> B["Nhãn có dấu"]]
 === DIAGRAM EXPLANATION ===
-[Giải thích súc tích lộ trình sơ đồ bằng tiếng Việt trong 2-3 đoạn văn hoàn chỉnh (mô tả mục tiêu chính, 3 giai đoạn đọc chính và kết quả học tập đạt được). KHÔNG dùng **, KHÔNG chữ Hán, và TUYỆT ĐỐI KHÔNG lặp đi lặp lại các câu liệt kê từng nút/bước bằng chữ cái tiếng Anh lặp vô tận.]
+[Giải thích súc tích lộ trình sơ đồ bằng tiếng Việt có dấu đầy đủ trong 2-3 đoạn văn hoàn chỉnh (mô tả mục tiêu chính, 3 giai đoạn đọc chính và kết quả học tập đạt được). KHÔNG dùng **, KHÔNG chữ Hán, và TUYỆT ĐỐI KHÔNG lặp đi lặp lại các câu liệt kê từng nút/bước bằng chữ cái tiếng Anh lặp vô tận.]
 """
 
     res = await llm.ainvoke(prompt, config=call_config)

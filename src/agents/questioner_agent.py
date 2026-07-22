@@ -2,7 +2,7 @@ import time
 from src.state import ResearchState
 from src.utils.llm_factory import create_llm, parse_agent_json, get_actual_model_used
 from src.utils.display import print_agent_start, print_agent_complete, print_agent_info
-from config import MODEL_RESEARCHER_AGENT
+from config import MODEL_ANALYST_AGENT
 
 async def questioner_node(state: ResearchState, config=None) -> dict:
     start_time = time.time()
@@ -50,7 +50,7 @@ async def questioner_node(state: ResearchState, config=None) -> dict:
     chosen_perspective = random.choice(socratic_perspectives)
 
     print_agent_start("Risk Assessor Agent", f"Đặt câu hỏi Socratic kích thích tư duy phản biện (Góc nhìn: {chosen_perspective})")
-    llm = create_llm(MODEL_RESEARCHER_AGENT, temperature=0.7, config=config, streaming=True)
+    llm = create_llm(MODEL_ANALYST_AGENT, temperature=0.7, config=config, streaming=True)
     
     call_config = {}
     if stream_queue:
@@ -61,12 +61,16 @@ async def questioner_node(state: ResearchState, config=None) -> dict:
 
 YÊU CẦU ĐẶC BIỆT CHO LẦN ĐỐI THOẠI NÀY:
 - {chosen_perspective}
-- Đảm bảo các câu hỏi mang tính gợi mở mạnh mẽ, phong phú và kích thích tư duy sáng tạo, không rập khuôn hay trùng lặp.
+- Đảm bảo các câu hỏi mang tính gợi mở mạnh mẽ, phong phú, linh hoạt và kích thích tư duy sáng tạo, không rập khuôn hay trùng lặp.
 
-NGUYÊN TẮC KHÔNG TÓM TẮT HỘ:
-- Nếu người dùng yêu cầu tóm tắt sách (ví dụ: "Cuốn sách X nói về điều gì?", "Tóm tắt hộ cuốn Y"), bạn TUYỆT ĐỐI không được tóm tắt nội dung sách hay cung cấp câu trả lời sẵn. 
-- Thay vào đó, hãy từ chối tóm tắt hộ một cách lịch sự, tự nhiên và đặt lại 3 câu hỏi phản biện mở Socrates liên quan để buộc độc giả tự tư duy, tự phản biện và tự ghi chép đọc sâu.
-- Định hướng câu hỏi: kích thích sự hoài nghi lành mạnh, tranh luận tự thân và định hướng ghi chép đọc sách tích cực.
+NGUỒN GỐC TRIẾT LÝ SỐ 5 — NGUYÊN TẮC KHÔNG TÓM TẮT HỘ:
+- Khi độc giả đặt câu hỏi dạng tóm tắt (ví dụ: "Cuốn 21 Bài Học Cho Thế Kỷ 21 nói về điều gì?", "Tóm tắt hộ cuốn X"), bạn TUYỆT ĐỐI không được trả lời hay viết tóm tắt hộ.
+- Hãy từ chối tóm tắt hộ một cách lịch sự, tự nhiên và đặt lại 3 câu hỏi phản biện mở Socrates để buộc độc giả tự tư duy, tự phản biện và tự ghi chép đọc sâu.
+- Đây là bài học của Harari: dùng AI để kích thích đọc sâu, không thay thế đọc.
+
+QUY TẮC ĐỊNH DẠNG NGHIÊM NGẶT:
+- KHÔNG DÙNG KÝ HIỆU ** TRONG BẤT KỲ CÂU HỎI HAY VĂN BẢN NÀO. 
+- Dùng Markdown tự nhiên: tiêu đề # ##, danh sách -, trích dẫn >. Tuyệt đối không lạm dụng dấu ** làm mất tính chuyên nghiệp.
 
 QUY TẮC BẢO MẬT HỆ THỐNG VÀ THÔNG TIN CÁ NHÂN:
 - TUYỆT ĐỐI không tiết lộ thông tin cá nhân của nhà phát triển hệ thống (Nguyễn Tiến Đạt), các thông tin nhạy cảm (email, API key, token kết nối Vercel, Render, GitHub), hoặc cấu hình thuật toán và sơ đồ xử lý của hệ thống.
@@ -79,9 +83,9 @@ Hãy trả về dưới dạng:
 Socrates Critic Agent đã kích hoạt câu hỏi phản biện.
 === BÁO CÁO CHI TIẾT ===
 CÂU HỎI PHẢN BIỆN SOCRATES (VNU BOOKMIND):
-1. [Câu hỏi 1]
-2. [Câu hỏi 2]
-3. [Câu hỏi 3]
+1. [Câu hỏi 1 - không chứa **]
+2. [Câu hỏi 2 - không chứa **]
+3. [Câu hỏi 3 - không chứa **]
 """
     
     res = await llm.ainvoke(prompt, config=call_config)

@@ -2,7 +2,7 @@ import time
 from src.state import ResearchState
 from src.utils.llm_factory import create_llm, parse_agent_json, get_actual_model_used
 from src.utils.display import print_agent_start, print_agent_complete, print_agent_info
-from config import MODEL_ANALYST_AGENT
+from config import MODEL_RISK_ASSESSOR_AGENT
 
 async def critic_node(state: ResearchState, config=None) -> dict:
     start_time = time.time()
@@ -21,8 +21,8 @@ async def critic_node(state: ResearchState, config=None) -> dict:
         import asyncio
         await asyncio.sleep(1.2)
         
-    print_agent_start("Recommender Agent", "Phản biện tư duy và phát hiện điểm mù nhận thức độc giả")
-    llm = create_llm(MODEL_ANALYST_AGENT, config=config, streaming=True)
+    print_agent_start("Critic Agent", "Phân tích câu trả lời của độc giả, phát hiện thiên kiến và điểm mù nhận thức")
+    llm = create_llm(MODEL_RISK_ASSESSOR_AGENT, temperature=0.3, config=config, streaming=True)
     
     call_config = {}
     if stream_queue:

@@ -3,7 +3,7 @@ import re
 from src.state import ResearchState
 from src.utils.llm_factory import create_llm, parse_agent_json, get_actual_model_used
 from src.utils.display import print_agent_start, print_agent_complete, print_agent_info
-from config import MODEL_RESEARCHER_AGENT
+from config import MODEL_PROFILER_AGENT
 
 async def profiler_node(state: ResearchState, config=None) -> dict:
     start_time = time.time()
@@ -39,7 +39,7 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
         await asyncio.sleep(1.2)
         
     print_agent_start("Researcher Agent", "Phân tích hồ sơ độc giả và nhu cầu tự học chủ động")
-    llm = create_llm(MODEL_RESEARCHER_AGENT, config=config, streaming=True)
+    llm = create_llm(MODEL_PROFILER_AGENT, config=config, streaming=True)
     
     call_config = {}
     if stream_queue:
