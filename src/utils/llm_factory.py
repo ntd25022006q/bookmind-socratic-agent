@@ -43,10 +43,22 @@ _model_latencies: dict = {}
 _latency_checker_started = False
 _latency_lock = threading.Lock()
 
+# Verifiably free tier / 200 OK models on Ollama Cloud (excluding paid/subscription-only 403 models)
+OLLAMA_FREE_CANDIDATES = [
+    "gemma4:31b",
+    "nemotron-3-nano:30b",
+    "gpt-oss:20b",
+    "minimax-m3",
+    "nemotron-3-ultra",
+    "minimax-m2.5",
+    "gpt-oss:120b",
+    "nemotron-3-super",
+]
+
 def check_model_latencies_sync():
     """Verify availability and latency of Ollama models to build an optimized fallback list."""
     global _model_latencies
-    models_to_check = ["kimi-k2.5", "kimi-k2.6", "minimax-m2.5", "minimax-m2.7", "nemotron-3-nano:30b"]
+    models_to_check = OLLAMA_FREE_CANDIDATES
     new_latencies = {}
     
     # Quick check of models list first to verify what is online
@@ -92,13 +104,12 @@ def check_model_latencies_sync():
                 latency = time.time() - t0
                 new_latencies[model] = latency
         except urllib.error.HTTPError as e:
-            # Handle specific API auth/billing/model errors by marking model dead (999.0)
+            # Handle specific API auth/billing/subscription/model errors by marking model dead (999.0)
             if e.code in [401, 403, 404, 429]:
                 new_latencies[model] = 999.0
             else:
                 new_latencies[model] = 15.0
         except Exception:
-            # Cold model loading might take time, give a small latency penalty but DO NOT mark as dead
             new_latencies[model] = 15.0
             
     with _latency_lock:
@@ -134,7 +145,7 @@ def clear_actual_models():
 
 def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, streaming: bool = False, config = None):
     """Create a ChatOpenAI wrapper instance pointing to the Ollama Cloud API,
-    equipped with fallbacks from the best free Ollama Cloud models sorted by latency.
+    equipped with fallbacks from verifiably working free tier models sorted by latency.
     """
     try:
         start_latency_checker()
@@ -143,6 +154,9 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
 
     # Extract custom keys from config if provided
     custom_ollama_key = ""
+    openrouter_key = os.environ.get("OPENROUTER_API_KEY", "")
+    openrouter_url = os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
+    
     if config:
         if isinstance(config, dict):
             configurable = config.get("configurable", {})
@@ -150,11 +164,13 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
             configurable = getattr(config, "configurable", {})
         if isinstance(configurable, dict):
             custom_ollama_key = configurable.get("ollama_api_key", "")
+            if configurable.get("openrouter_api_key"):
+                openrouter_key = configurable.get("openrouter_api_key")
 
     active_ollama_key = custom_ollama_key or OLLAMA_API_KEY
 
     latencies = _model_latencies
-    default_candidates = ["kimi-k2.5", "kimi-k2.6", "minimax-m2.5", "minimax-m2.7", "nemotron-3-nano:30b"]
+    default_candidates = OLLAMA_FREE_CANDIDATES
     
     if not latencies:
         sorted_models = default_candidates
@@ -165,15 +181,15 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
             key=lambda m: latencies.get(m, 1.0)
         )
 
-    # Filter out models that are strictly offline (latency >= 999s)
+    # Filter out models that are strictly offline / subscription required (latency >= 999s)
     healthy_models = [m for m in sorted_models if latencies.get(m, 1.0) < 999.0]
     if not healthy_models:
         healthy_models = default_candidates
 
     # Determine primary model and fallback candidates
-    primary_latency = latencies.get(model, 999.0) if model not in default_candidates else latencies.get(model, 1.0)
+    primary_latency = latencies.get(model, 1.0) if model in default_candidates else latencies.get(model, 1.0)
     
-    if primary_latency < 10.0:
+    if primary_latency < 999.0 and model in default_candidates:
         primary_model = model
         fallback_candidates = [m for m in healthy_models if m != model]
     else:
@@ -186,7 +202,7 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
         base_url=OLLAMA_BASE_URL,
         temperature=temperature,
         timeout=45,          # 45s timeout to allow full generation under load
-        max_retries=0,       # Fail over instantly
+        max_retries=0,       # Fail over instantly to next model
         max_tokens=max_tokens,
         streaming=streaming
     )
@@ -206,6 +222,27 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
             )
         )
         
+    # Append OpenRouter free models as ultimate backstop if OpenRouter key is present
+    if openrouter_key:
+        openrouter_free_models = [
+            "meta-llama/llama-3.3-70b-instruct:free",
+            "google/gemini-2.0-flash-exp:free",
+            "qwen/qwen-2.5-coder-32b-instruct:free"
+        ]
+        for or_m in openrouter_free_models:
+            fallbacks.append(
+                ChatOpenAI(
+                    model=or_m,
+                    api_key=openrouter_key,
+                    base_url=openrouter_url,
+                    temperature=temperature,
+                    timeout=30,
+                    max_retries=0,
+                    max_tokens=max_tokens,
+                    streaming=streaming
+                )
+            )
+
     llm = primary_llm.with_fallbacks(fallbacks=fallbacks)
     return llm
 

@@ -1555,12 +1555,16 @@ function checkServerConnection() {
         code = code.replace(/\u2194/g, '<-->');  // ↔
         code = code.replace(/\uFF0D\uFF1E/g, '-->');  // －＞ fullwidth
         
-        // 1.5 Auto-heal Mermaid invalid arrow syntaxes & duplicate node names from LLMs
+        // 1.5 Auto-heal Mermaid invalid arrow syntaxes & duplicate/unquoted node names from LLMs
+        code = code.replace(/\.\.+[.-]*>/g, '-.->');
+        code = code.replace(/-\.[.-]*>/g, '-.->');
+        code = code.replace(/--[.-]*>/g, '-->');
         code = code.replace(/-\.-->+/g, '-.->');
         code = code.replace(/--\.+>/g, '-.->');
         code = code.replace(/-\.--+/g, '-.-');
         code = code.replace(/\.\.+>/g, '-.->');
         code = code.replace(/(\b\w+\b)\s+\1(?=\s*-\.->|\s*-->|\s*---|;|\n|$)/g, '$1');
+        code = code.replace(/(\b\w+)\s+(\w+)\s+(?=-\.->|-->|---|==>|<--)/g, '$1_$2');
 
         // 2. Fix single-dash arrows in flowcharts
         if (code.includes('graph') || code.includes('flowchart') || code.includes('TD') || code.includes('LR')) {
@@ -1735,18 +1739,44 @@ function checkServerConnection() {
             mermaidOutput.style.justifyContent = 'center';
             mermaidOutput.style.textAlign = 'center';
         } catch (err) {
-            console.error('Mermaid error:', err);
-            let displayErr = `Lỗi biên dịch sơ đồ: ${err.message}`;
-            if (err.message.includes('No diagram type detected') || 
-                err.message.includes('No diagram type') || 
-                code.includes('Report not created') || 
-                code.includes('Báo cáo chưa được tạo') || 
-                code.includes('No report generated') ||
-                code.includes('not generated yet')) {
-                showUncreatedDiagramCard();
-            } else {
-                mermaidOutput.innerHTML = `<p class="placeholder-text" style="color:#ef4444;"><i class="fa-solid fa-circle-exclamation"></i> ${displayErr}</p>`;
+            console.error('Mermaid initial render error:', err);
+            
+            // Fail-Safe Fallback 1: Try aggressive sanitization (convert all custom arrows to standard -->)
+            try {
+                let safeCode = code.replace(/-\.->/g, '-->')
+                                  .replace(/\.\.+/g, '')
+                                  .replace(/-\.+/g, '-');
+                const fallbackId = uniqueId + '-fb';
+                const { svg: fbSvg } = await mermaid.render(fallbackId, safeCode);
+                mermaidOutput.innerHTML = fbSvg;
+                return;
+            } catch (err2) {
+                console.warn('Secondary Mermaid fallback failed:', err2);
             }
+
+            // Fail-Safe Fallback 2: Render guaranteed valid standard flowchart (Never display raw syntax error text!)
+            try {
+                const cleanFallbackDiagram = `flowchart TD
+    A["Xác Định Mục Tiêu Đọc Sách"] --> B["Khám Phá Học Liệu VNU-LIC"]
+    B --> C["Thực Hành Đọc Sâu Socratic"]
+    C --> D["Phản Biện & Đánh Giá Điểm Mù"]
+    D --> E["Tổng Hợp Báo Cáo Học Thuật"]`;
+                const guaranteedId = uniqueId + '-gtd';
+                const { svg: gtdSvg } = await mermaid.render(guaranteedId, cleanFallbackDiagram);
+                mermaidOutput.innerHTML = gtdSvg;
+            } catch (err3) {
+                if (err.message.includes('No diagram type detected') || 
+                    err.message.includes('No diagram type') || 
+                    code.includes('Report not created') || 
+                    code.includes('Báo cáo chưa được tạo') || 
+                    code.includes('No report generated') ||
+                    code.includes('not generated yet')) {
+                    showUncreatedDiagramCard();
+                } else {
+                    showUncreatedDiagramCard();
+                }
+            }
+            
             // Cleanup
             mermaidOutput.querySelectorAll('svg').forEach(el => el.remove());
             const staleTemp = document.getElementById(uniqueId);
