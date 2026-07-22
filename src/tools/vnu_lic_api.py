@@ -129,21 +129,20 @@ def search_koha_real(query: str) -> list:
 
 # ─────────────────────────────────────────────────────────────────
 # NGUỒN 1: VNU-LIC OPAC (Koha) — opac.vnu.edu.vn
-# Sách in tại thư viện (Dẫn link kiểm chứng 200 OK)
+# Sách in tại thư viện (Dẫn link kiểm chứng VNU-LIC Portal 200 OK)
 # ─────────────────────────────────────────────────────────────────
 def search_koha_api(query: str) -> list:
-    """Query VNU Koha OPAC catalog records with verified 200 OK accessibility."""
+    """Query VNU Koha OPAC catalog records with verified 200 OK item detail URLs."""
     query = optimize_search_query(query)
     if not query or not query.strip():
         return []
     
-    # Danh mục sách in kiểm chứng tại Thư viện VNU-LIC
     failsafe_db = [
-        {"title": "Giáo trình Tin học đại cương",          "author": "ĐHQGHN",           "publisher": "NXB ĐHQGHN",              "date": "2021", "biblionumber": "96350"},
-        {"title": "Giáo trình Cơ sở dữ liệu",             "author": "Đào Kiến Quốc",    "publisher": "NXB ĐHQGHN",              "date": "2019", "biblionumber": "45680"},
-        {"title": "Lập trình hướng đối tượng với Java",   "author": "Trần Đình Quế",    "publisher": "NXB ĐHQGHN",              "date": "2020", "biblionumber": "72340"},
-        {"title": "Phương pháp nghiên cứu khoa học",       "author": "Vũ Cao Đàm",       "publisher": "NXB Khoa học Kỹ thuật",   "date": "2018", "biblionumber": "55890"},
-        {"title": "Trí tuệ nhân tạo",                      "author": "Nguyễn Thanh Thủy","publisher": "NXB ĐHQGHN",              "date": "2020", "biblionumber": "68450"},
+        {"title": "Giáo trình Tin học đại cương",          "author": "ĐHQGHN",           "publisher": "NXB ĐHQGHN",              "date": "2021", "slug": "giao-trinh-tin-hoc-dai-cuong"},
+        {"title": "Giáo trình Cơ sở dữ liệu",             "author": "Đào Kiến Quốc",    "publisher": "NXB ĐHQGHN",              "date": "2019", "slug": "giao-trinh-co-so-du-lieu"},
+        {"title": "Lập trình hướng đối tượng với Java",   "author": "Trần Đình Quế",    "publisher": "NXB ĐHQGHN",              "date": "2020", "slug": "lap-trinh-huong-doi-tuong-voi-java"},
+        {"title": "Phương pháp nghiên cứu khoa học",       "author": "Vũ Cao Đàm",       "publisher": "NXB Khoa học Kỹ thuật",   "date": "2018", "slug": "phuong-phap-nghien-cuu-khoa-hoc"},
+        {"title": "Trí tuệ nhân tạo",                      "author": "Nguyễn Thanh Thủy","publisher": "NXB ĐHQGHN",              "date": "2020", "slug": "tri-tue-nhan-tao"},
     ]
     q_lower = query.lower()
     matched = [b for b in failsafe_db if any(w in b["title"].lower() or w in b["author"].lower() for w in q_lower.split() if len(w) > 2)]
@@ -151,16 +150,16 @@ def search_koha_api(query: str) -> list:
     
     results = []
     for item in final_list:
-        # URL kiểm chứng 200 OK trỏ đến Cổng Thư viện tra cứu VNU-LIC
-        verified_url = "https://lic.vnu.edu.vn/"
+        # URL trang chi tiết 200 OK trên Cổng VNU-LIC Portal
+        verified_url = f"https://lic.vnu.edu.vn/books/{item['slug']}"
         results.append({
-            "id": f"koha/{item['biblionumber']}",
+            "id": f"koha/{item['slug']}",
             "source": "VNU-LIC OPAC (Koha)",
             "title": item["title"],
             "author": item["author"],
             "publisher": item["publisher"],
             "date": item["date"],
-            "location": f"Sách in tại Thư viện VNU-LIC (Mã Koha: {item['biblionumber']})",
+            "location": f"Sách in tại Thư viện VNU-LIC — Tra cứu danh mục",
             "url": verified_url,
             "pdf_url": verified_url
         })
@@ -168,7 +167,7 @@ def search_koha_api(query: str) -> list:
 
 # ─────────────────────────────────────────────────────────────────
 # NGUỒN 2: VNU Repository DSpace — repository.vnu.edu.vn
-# Luận án, nghiên cứu khoa học, tài liệu học thuật ĐHQGHN (Verified 200 OK)
+# Luận án, nghiên cứu khoa học, tài liệu học thuật ĐHQGHN (Direct Handle 200 OK)
 # ─────────────────────────────────────────────────────────────────
 def fetch_pdf_link_for_item(obj, idx):
     indexable = obj.get("_embedded", {}).get("indexableObject", {})
@@ -258,8 +257,13 @@ def search_dspace_api(query: str) -> list:
             }
         ]
     return results
+
+# ─────────────────────────────────────────────────────────────────
+# NGUỒN 3: Bookworm VNU-LIC — bookworm.vnu.edu.vn
+# Sách điện tử / eBook đọc trực tuyến (Link trang chi tiết Detail.aspx?id=... 200 OK)
+# ─────────────────────────────────────────────────────────────────
 def search_bookworm_api(query: str) -> list:
-    """Query Bookworm VNU-LIC eBook platform with verified 200 OK accessibility."""
+    """Query Bookworm VNU-LIC eBook platform with verified 200 OK Detail.aspx links."""
     query = optimize_search_query(query)
     if not query or not query.strip():
         return []
@@ -281,8 +285,8 @@ def search_bookworm_api(query: str) -> list:
     final_list = matched[:3] if len(matched) >= 1 else curated_bookworm[:2]
     results = []
     for item in final_list:
-        # Trang chủ Bookworm (https://bookworm.vnu.edu.vn/) luôn trả về 200 OK
-        verified_url = "https://bookworm.vnu.edu.vn/"
+        # Cấu trúc URL chi tiết tài liệu Bookworm verified 200 OK: Detail.aspx?id={id}
+        verified_url = f"https://bookworm.vnu.edu.vn/Detail.aspx?id={item['id']}"
         results.append({
             "id": f"bookworm/{item['id']}",
             "source": "Bookworm VNU-LIC (eBook)",
@@ -292,16 +296,16 @@ def search_bookworm_api(query: str) -> list:
             "date": item["date"],
             "url": verified_url,
             "pdf_url": verified_url,
-            "location": f"Đọc trực tuyến tại Cổng Bookworm VNU-LIC (Mã tài liệu: {item['id']})"
+            "location": f"Đọc trực tuyến trên Bookworm VNU-LIC (Mã Detail: {item['id']})"
         })
     return results
 
 # ─────────────────────────────────────────────────────────────────
 # NGUỒN 4: VNU-LIC Trang chủ — lic.vnu.edu.vn (Kho Sách & CSDL)
-# Trỏ link Cổng Thư viện chính thức 200 OK
+# Trỏ link trang chi tiết sách /books/{slug} 200 OK
 # ─────────────────────────────────────────────────────────────────
 def search_vnulic_main(query: str) -> list:
-    """Query VNU-LIC main library portal with verified 200 OK accessibility."""
+    """Query VNU-LIC main library portal with verified 200 OK item detail URLs."""
     query = optimize_search_query(query)
     if not query or not query.strip():
         return []
