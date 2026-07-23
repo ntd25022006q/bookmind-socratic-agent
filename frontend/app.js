@@ -3412,15 +3412,23 @@ function checkServerConnection() {
                 highlightNode('recommender');
             } catch(err) { console.error("Error highlighting node recommender:", err); }
             
-            // Resume timer
+            // Resume timer accurately using Date.now()
             let currentSec = parseFloat(statTime.textContent) || 0;
             if (isNaN(currentSec) || currentSec > 300) currentSec = 0;
-            let sec = currentSec;
+            runStartTime = Date.now() - (currentSec * 1000);
+
+            if (timerInterval) clearInterval(timerInterval);
+            let lastSaveTime = Date.now();
             timerInterval = setInterval(() => {
-                sec += 0.001;
-                if (sec > 600) sec = 0;
-                statTime.textContent = sec.toFixed(3) + 's';
-            }, 1);
+                const now = Date.now();
+                let elapsedSec = (now - runStartTime) / 1000;
+                if (elapsedSec > 600) elapsedSec = 0;
+                statTime.textContent = `${elapsedSec.toFixed(3)}s`;
+                if (now - lastSaveTime >= 1000) {
+                    saveActiveSearchState('running');
+                    lastSaveTime = now;
+                }
+            }, 50);
 
             // Preserve Phase 1 badges for completed nodes 1-4
             const defaultNodeModels = { guardrail: 'gemma4:12b', researcher: 'gemma4:27b', analyst: 'gemma4:27b', risk_assessor: 'gemma4:31b', recommender: 'gemma4:31b', reporter: 'gemma4:31b' };
