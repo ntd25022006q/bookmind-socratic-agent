@@ -158,7 +158,6 @@ def search_koha_api(query: str) -> list:
     
     results = []
     for item in final_list:
-        opac_url = f"http://opac.vnu.edu.vn/cgi-bin/koha/opac-detail.pl?biblionumber={item['biblionumber']}"
         results.append({
             "id": f"koha/{item['biblionumber']}",
             "source": "VNU-LIC OPAC (Koha)",
@@ -166,9 +165,9 @@ def search_koha_api(query: str) -> list:
             "author": item["author"],
             "publisher": item["publisher"],
             "date": item["date"],
-            "location": f"Sách in tại Thư viện VNU-LIC (Mã Koha: {item['biblionumber']})",
-            "url": opac_url,
-            "pdf_url": opac_url
+            "location": f"Sách in tại quầy Thư viện VNU-LIC (Mã Koha: {item['biblionumber']}) — Yêu cầu kết nối mạng nội bộ / VNU VPN mới mở trực tiếp",
+            "url": "-",
+            "pdf_url": "-"
         })
     return results
 
