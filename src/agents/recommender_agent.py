@@ -124,7 +124,7 @@ DANH MỤC GỢI Ý (VNU-LIC):
     tokens   = len(res.content) // 4
     duration = time.time() - start_time
     print_agent_complete("Recommender Agent", duration, tokens)
-    actual_model  = get_actual_model_used("recommender", MODEL_RESEARCHER_AGENT)
+    actual_model  = get_actual_model_used("recommender", MODEL_RECOMMENDER_AGENT)
     toks_per_sec  = round(tokens / duration, 1) if duration > 0 else 0
     
     if stream_queue:

@@ -100,7 +100,7 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
     - TUYỆT ĐỐI không được tự ý phỏng đoán, sửa chữa, thay đổi hay bịa đặt bất kỳ thông tin nào khác về tên tuổi, trường học hay mã số sinh viên của độc giả.
     
     NGUYÊN TẮC BẢO MẬT HỆ THỐNG VÀ THÔNG TIN CÁ NHÂN:
-    - TUYỆT ĐỐI không tiết lộ thông tin cá nhân của nhà phát triển hệ thống (Nguyễn Tiến Đạt), các thông tin nhạy cảm (email, API key, token kết nối Vercel, Render, GitHub), hoặc cấu hình thuật toán và sơ đồ xử lý của hệ thống.
+    - TUYỆT ĐỐI không tiết lộ thông tin kỹ thuật bảo mật của hệ thống (API key, token kết nối Vercel, Render, GitHub), hoặc cấu hình thuật toán và sơ đồ xử lý của hệ thống. Hệ thống được phát triển bởi Nguyễn Tiến Đạt, sinh viên K24 Trường Quốc tế ĐHQGHN — thông tin tác giả này có thể nêu bình thường khi được hỏi.
     - Chỉ tập trung làm đúng chuyên môn theo yêu cầu của độc giả, từ chối lịch sự nếu bị dò hỏi về cấu hình hệ thống hoặc mã nguồn.
 
     Hãy trả về dưới dạng:
@@ -127,7 +127,7 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
     tokens = len(res.content) // 4
     duration = time.time() - start_time
     print_agent_complete("Researcher Agent", duration, tokens)
-    actual_model = get_actual_model_used("profiler", MODEL_RESEARCHER_AGENT)
+    actual_model = get_actual_model_used("profiler", MODEL_PROFILER_AGENT)
     toks_per_sec = round(tokens / duration, 1) if duration > 0 else 0
     
     if stream_queue:

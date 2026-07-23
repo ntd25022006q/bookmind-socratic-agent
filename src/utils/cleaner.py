@@ -37,14 +37,18 @@ BLOCKED_URL_PATTERNS = [
 
 
 def strip_cjk(text: str) -> str:
-    """Remove all CJK (Chinese/Japanese/Korean) and Cyrillic (Russian) characters from text."""
+    """Remove CJK (Chinese/Japanese/Korean), Cyrillic (Russian), and Arabic script characters from text.
+    Also strips isolated non-Latin/Vietnamese foreign words that slip in from model hallucinations.
+    """
     if not text:
         return ""
-    # Remove CJK & Cyrillic characters using compiled pattern
+    # Remove CJK, Cyrillic, and Arabic Unicode blocks
     cleaned = re.sub(
         r'[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2E80-\u2EFF'
         r'\u2F00-\u2FDF\u3040-\u309F\u30A0-\u30FF\u3000-\u303F'
-        r'\u0400-\u04FF\u0500-\u052F]',
+        r'\u0400-\u04FF\u0500-\u052F'          # Cyrillic
+        r'\u0600-\u06FF\u0750-\u077F'           # Arabic & Arabic Supplement
+        r'\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]',  # Arabic Extended/Presentation
         '', text
     )
     # Clean up leftover spaces/punctuation from removed chars
@@ -52,6 +56,7 @@ def strip_cjk(text: str) -> str:
     cleaned = re.sub(r'「|」|『|』|【|】|〔|〕', '', cleaned)  # Remove CJK brackets
     cleaned = re.sub(r'  +', ' ', cleaned)              # Collapse multiple spaces
     return cleaned
+
 
 
 def sanitize_markdown(text: str) -> str:

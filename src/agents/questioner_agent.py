@@ -94,7 +94,7 @@ CÂU HỎI PHẢN BIỆN SOCRATES (VNU BOOKMIND):
     tokens = len(res.content) // 4
     duration = time.time() - start_time
     print_agent_complete("Risk Assessor Agent", duration, tokens)
-    actual_model = get_actual_model_used("questioner", MODEL_RESEARCHER_AGENT)
+    actual_model = get_actual_model_used("questioner", MODEL_ANALYST_AGENT)
     toks_per_sec = round(tokens / duration, 1) if duration > 0 else 0
     
     if stream_queue:

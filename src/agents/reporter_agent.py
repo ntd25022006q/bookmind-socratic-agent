@@ -124,7 +124,7 @@ QUY TẮC CÚ PHÁP VÀ NGÔN NGỮ NGHIÊM NGẶT:
     tokens   = len(res.content) // 4
     duration = time.time() - start_time
     print_agent_complete("Reporter Agent", duration, tokens)
-    actual_model = get_actual_model_used("reporter", MODEL_RESEARCHER_AGENT)
+    actual_model = get_actual_model_used("reporter", MODEL_REPORTER_AGENT)
     toks_per_sec = round(tokens / duration, 1) if duration > 0 else 0
 
     if stream_queue:
