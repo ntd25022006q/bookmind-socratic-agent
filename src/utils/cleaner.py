@@ -291,13 +291,6 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
             "url": "https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff"
         },
         {
-            "title": "Visualizing atomic orbitals of an electron by Latex",
-            "author": "Doan T.H.Y., Nguyen V.H. et al.",
-            "date": "2021",
-            "source": "VNU Scholar Repository",
-            "url": "https://scholar.vnu.edu.vn/entities/publication/6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8"
-        },
-        {
             "title": "Intangible Capital and Growth : Essays on Labor Productivity, Monetary Economics, and Political Economy. Vol. 1",
             "author": "Roth, Felix",
             "date": "2022",
@@ -305,11 +298,18 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
             "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=170000"
         },
         {
+            "title": "Animaux Venimeux et Venins",
+            "author": "Philisalix, C.",
+            "date": "1922",
+            "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
+            "url": "https://lic.vnu.edu.vn/books/animaux-venimeux-et-venins"
+        },
+        {
             "title": "Annales de physique. Tome I",
             "author": "Société Française de Physique",
             "date": "1914",
-            "source": "Cổng Thư viện VNU-LIC",
-            "url": "https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3"
+            "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
+            "url": "https://lic.vnu.edu.vn/books/annales-de-physique-tome-i"
         },
         {
             "title": "Writing research papers : a guide to the process",
@@ -317,6 +317,13 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
             "date": "1982",
             "source": "Bookworm VNU-LIC",
             "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=172500"
+        },
+        {
+            "title": "Articles et pamphlets",
+            "author": "Courier, Paul-Louis",
+            "date": "1894",
+            "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
+            "url": "https://lic.vnu.edu.vn/books/articles-et-pamphlets"
         }
     ]
 
