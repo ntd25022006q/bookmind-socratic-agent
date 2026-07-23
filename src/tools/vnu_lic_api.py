@@ -165,7 +165,7 @@ def search_koha_api(query: str) -> list:
             "author": item["author"],
             "publisher": item["publisher"],
             "date": item["date"],
-            "location": f"Sách in tại quầy Thư viện VNU-LIC (Mã Koha: {item['biblionumber']}) — Yêu cầu kết nối mạng nội bộ / VNU VPN mới mở trực tiếp",
+            "location": f"Tài nguyên thư viện / Danh mục Koha (Mã: {item['biblionumber']}) — Yêu cầu kết nối mạng nội bộ ĐHQGHN (VNU Campus Network / VNU VPN) để truy cập trực tiếp",
             "url": "-",
             "pdf_url": "-"
         })
