@@ -1088,11 +1088,19 @@ function checkServerConnection() {
         currentMarkdown = '';
         currentDiagramCode = '';
 
-        // Reset agent metrics badges
+        // Reset agent metrics badges with default Gemma model names
+        const defaultNodeModels = {
+            guardrail: 'gemma4:12b',
+            researcher: 'gemma4:27b',
+            analyst: 'gemma4:27b',
+            risk_assessor: 'gemma4:31b',
+            recommender: 'gemma4:31b',
+            reporter: 'gemma4:31b'
+        };
         const agentKeys = ['guardrail', 'researcher', 'analyst', 'risk_assessor', 'recommender', 'reporter'];
         agentKeys.forEach(k => {
             const badge = document.getElementById(`metrics-${k}`);
-            if (badge) badge.textContent = '0.000s | 0 tk';
+            if (badge) badge.textContent = `${defaultNodeModels[k]} · Chờ...`;
         });
 
         // Reset typewriter queue
@@ -1456,13 +1464,22 @@ function checkServerConnection() {
         // Update metrics badge for this node in real-time sync with log printing!
         const badge = document.getElementById(`metrics-${item.node}`);
         if (badge) {
+            const defaultNodeModels = { guardrail: 'gemma4:12b', researcher: 'gemma4:27b', analyst: 'gemma4:27b', risk_assessor: 'gemma4:31b', recommender: 'gemma4:31b', reporter: 'gemma4:31b' };
+            let mdl = item.model ? item.model.split('/').pop() : '';
+            if (!mdl || mdl === 'bypass' || mdl === 'unknown') mdl = defaultNodeModels[item.node] || 'gemma4';
             const durVal = item.duration ? item.duration : 0;
-            const durText = `${durVal.toFixed(3)}s`;
-            const tk = item.tokens ? item.tokens.toLocaleString() : '0';
-            const tps = item.toks_per_sec ? item.toks_per_sec.toFixed(1) : '0.0';
-            const mdl = item.model ? item.model.split('/').pop() : '';
-            badge.textContent = mdl ? `${mdl} · ${durText} · ${tps} tk/s · ${tk} tk` : `${durText} · ${tk} tk`;
-            badge.title = item.model || '';
+            const tkVal = item.tokens ? item.tokens : 0;
+            if (durVal === 0 && tkVal === 0) {
+                if (!badge.textContent || badge.textContent.includes('Chờ...') || badge.textContent.includes('0.000s')) {
+                    badge.textContent = `${mdl} · Phase 1 ✓`;
+                }
+            } else {
+                const durText = `${durVal.toFixed(3)}s`;
+                const tkText = tkVal.toLocaleString();
+                const tpsText = item.toks_per_sec ? item.toks_per_sec.toFixed(1) : '0.0';
+                badge.textContent = `${mdl} · ${durText} · ${tpsText} tk/s · ${tkText} tk`;
+            }
+            badge.title = item.model || mdl;
         }
 
         let titleColor = '#94a3b8';
@@ -1930,17 +1947,26 @@ function checkServerConnection() {
 
                 // Update metrics badges for all agents in real-time
                 if (data.stats.agent_tokens) {
+                    const defaultNodeModels = { guardrail: 'gemma4:12b', researcher: 'gemma4:27b', analyst: 'gemma4:27b', risk_assessor: 'gemma4:31b', recommender: 'gemma4:31b', reporter: 'gemma4:31b' };
                     const agentKeys = ['guardrail', 'researcher', 'analyst', 'risk_assessor', 'recommender', 'reporter'];
                     agentKeys.forEach(k => {
                         const badge = document.getElementById(`metrics-${k}`);
                         if (badge) {
+                            let mdl = data.stats.agent_models && data.stats.agent_models[k] ? data.stats.agent_models[k].split('/').pop() : '';
+                            if (!mdl || mdl === 'bypass' || mdl === 'unknown') mdl = defaultNodeModels[k] || 'gemma4';
                             const durVal = data.stats.agent_durations && data.stats.agent_durations[k] ? data.stats.agent_durations[k] : 0;
-                            const durText = `${durVal.toFixed(3)}s`;
-                            const tk = data.stats.agent_tokens[k] ? data.stats.agent_tokens[k].toLocaleString() : '0';
-                            const tps = data.stats.agent_toks_per_sec && data.stats.agent_toks_per_sec[k] ? data.stats.agent_toks_per_sec[k].toFixed(1) : '0.0';
-                            const mdl = data.stats.agent_models && data.stats.agent_models[k] ? data.stats.agent_models[k].split('/').pop() : '';
-                            badge.textContent = mdl ? `${mdl} · ${durText} · ${tps} tk/s · ${tk} tk` : `${durText} · ${tk} tk`;
-                            badge.title = (data.stats.agent_models && data.stats.agent_models[k]) || '';
+                            const tkVal = data.stats.agent_tokens[k] ? data.stats.agent_tokens[k] : 0;
+                            if (durVal === 0 && tkVal === 0) {
+                                if (!badge.textContent || badge.textContent.includes('Chờ...') || badge.textContent.includes('0.000s')) {
+                                    badge.textContent = `${mdl} · Phase 1 ✓`;
+                                }
+                            } else {
+                                const durText = `${durVal.toFixed(3)}s`;
+                                const tkText = tkVal.toLocaleString();
+                                const tpsText = data.stats.agent_toks_per_sec && data.stats.agent_toks_per_sec[k] ? data.stats.agent_toks_per_sec[k].toFixed(1) : '0.0';
+                                badge.textContent = `${mdl} · ${durText} · ${tpsText} tk/s · ${tkText} tk`;
+                            }
+                            badge.title = (data.stats.agent_models && data.stats.agent_models[k]) || mdl;
                         }
                     });
                 }
@@ -3065,10 +3091,11 @@ function checkServerConnection() {
         if (directEdge) {
             directEdge.style.display = 'none';
         }
+        const defaultNodeModels = { guardrail: 'gemma4:12b', researcher: 'gemma4:27b', analyst: 'gemma4:27b', risk_assessor: 'gemma4:31b', recommender: 'gemma4:31b', reporter: 'gemma4:31b' };
         const agentKeys = ['guardrail', 'researcher', 'analyst', 'risk_assessor', 'recommender', 'reporter'];
         agentKeys.forEach(k => {
             const badge = document.getElementById(`metrics-${k}`);
-            if (badge) badge.textContent = '0.000s | 0 tk';
+            if (badge) badge.textContent = `${defaultNodeModels[k]} · Chờ...`;
         });
 
         consoleOutput.innerHTML = `
@@ -3337,6 +3364,15 @@ function checkServerConnection() {
                 if (sec > 600) sec = 0;
                 statTime.textContent = sec.toFixed(3) + 's';
             }, 1);
+
+            // Preserve Phase 1 badges for completed nodes 1-4
+            const defaultNodeModels = { guardrail: 'gemma4:12b', researcher: 'gemma4:27b', analyst: 'gemma4:27b', risk_assessor: 'gemma4:31b', recommender: 'gemma4:31b', reporter: 'gemma4:31b' };
+            ['guardrail', 'researcher', 'analyst', 'risk_assessor'].forEach(k => {
+                const badge = document.getElementById(`metrics-${k}`);
+                if (badge && (!badge.textContent || badge.textContent.includes('Chờ...') || badge.textContent.includes('0.000s'))) {
+                    badge.textContent = `${defaultNodeModels[k]} · Phase 1 ✓`;
+                }
+            });
 
             // Print intermediate resume log in console Output
             const resumeLog = document.createElement('div');
