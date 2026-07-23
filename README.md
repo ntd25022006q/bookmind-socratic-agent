@@ -99,21 +99,26 @@ Dưới đây là chi tiết từng bước vận hành thực tế của giao d
 
 ---
 
-### 3️⃣ Bước 3: Trạng Thái Đang Chạy & Luồng SSE Stream (`4_running_state.png`)
-![Trạng Thái Đang Chạy](docs/screenshots/4_running_state.png)
+### 3️⃣ Bước 3: Đối Thoại Phản Biện Socrates (Socratic Interactive Modal - `3_socratic_modal.png`)
+![Hội Thoại Phản Biện Socrates](docs/screenshots/3_socratic_modal.png)
 
-- **Mô tả giao diện**: Chỉ số trạng thái chuyển sang **"Đang chạy..."** màu cam rực rỡ. Nút kích hoạt chuyển thành nút `🔴 Dừng` màu cam. Các icon tác nhân trên sơ đồ sáng đèn theo thứ tự tuần tự, cập nhật thời gian xử lý và số lượng token theo thời gian thực (ví dụ: `gemma4:31b · 15.306s · 74.5 tk/s · 1,141 tk`).
-- **Cơ chế vận hành**: 
-  - Khung giữa (Console Log) hiển thị khối **Quá trình suy nghĩ (Thinking Process)** trong giao diện màu xanh đen học thuật, theo dõi chi tiết từng bước lập luận của Agent.
-  - Phía khung bên phải, luồng truyền phát sự kiện **SSE (Server-Sent Events)** truyền phát từng từ (word-by-word) mượt mà hiển thị 3 Câu Hỏi Phản Biện Socratic được sinh tự động dựa trên hồ sơ độc giả và chủ đề nghiên cứu.
+- **Mô tả giao diện**: Khi tác nhân **Socrates (04)** hoàn tất việc đặt câu hỏi, một cửa sổ Modal nổi lên với tiêu đề **HỘI THOẠI PHẢN BIỆN SOCRATES** hiển thị **3 Câu Hỏi Phản Biện Học Thuật** sinh tự động theo thời gian thực dựa trên hồ sơ cá nhân độc giả và chủ đề nghiên cứu (ví dụ: *Cuốn Writing research papers trong kỷ nguyên AI*, *Chủ nghĩa Thực chứng của Auguste Comte*, *Tính tái lập thí nghiệm trong AI*).
+- **Cơ chế kiểm soát & vận hành**:
+  - **Rào chắn bắt buộc phản biện (HTML5 Required Validation)**: Hệ thống tạm dừng pipeline để buộc độc giả tự suy ngẫm. Nếu sinh viên bấm nút `🚀 Gửi Câu Trả Lời Phản Biện` khi chưa nhập đủ 3 câu trả lời, trình duyệt sẽ hiển thị cảnh báo `Please fill out this field`, bảo đảm độc giả thực sự tham gia đối thoại phản biện chủ động.
+  - **Chuyển tiếp Phase 2**: Sau khi nhập đầy đủ câu trả lời, sinh viên nhấn gửi để chuyển toàn bộ dữ liệu đối thoại sang Tác nhân Phản biện và Biên soạn.
 
 ---
 
-### 4️⃣ Bước 4: Đối Thoại Phản Biện Socrates (Socratic Interactive Modal)
-![Hội Thoại Phản Biện Socrates](docs/screenshots/3_socratic_modal.png)
+### 4️⃣ Bước 4: Trạng Thái Đang Chạy - Tác Nhân Phản Biện (Running State - Critic Agent - `4_running_state.png`)
+![Trạng Thái Đang Chạy - Tác Nhân Phản Biện](docs/screenshots/4_running_state.png)
 
-- **Mô tả giao diện**: Khi tác nhân **Socrates (04)** hoàn tất việc tạo câu hỏi, một cửa sổ Modal nổi lên hiển thị **3 Câu Hỏi Phản Biện Socratic** độc đáo giúp sinh viên tự đánh giá điểm mù nhận thức.
-- **Cơ chế vận hành**: Hệ thống tạm dừng pipeline để chờ sinh viên tự suy ngẫm và nhập câu trả lời vào 3 ô văn bản tối màu. Sau khi nhấn `🚀 Gửi Câu Trả Lời Phản Biện`, Tác nhân **Phản Biện (Critic Agent 05)** và Tác nhân **Biên Soạn (Reporter Agent 06)** sẽ tiếp nhận các câu trả lời này để phân tích thiên kiến nhận thức, dựng ma trận Checkpoint tự vấn và biên soạn báo cáo khoa học hoàn chỉnh.
+- **Mô tả giao diện**: Trạng thái hiển thị **"Đang chạy..."** màu cam. Tác nhân **Phản Biện (Critic Agent 05 / Node 5/6)** sáng đèn màu xanh lá mạ trên sơ đồ phối hợp tác nhân (`gemma4:31b · Phase 2`). Khung bên phải hiển thị real-time các câu hỏi Socratic và khung giữa hiển thị nhật ký xử lý.
+- **Cơ chế vận hành**:
+  - **Phân tích Quá trình suy nghĩ (Thinking Process)**: Khung Console Log hiển thị khối tư duy màu xanh lục bảo tối, phân tích trực tiếp chất lượng câu trả lời phản biện của độc giả (sinh viên Nguyễn Tiến Đạt).
+  - **Nhận diện Điểm mù nhận thức (Cognitive Blind Spots) & Thiên kiến**: Agent 05 chỉ ra các rủi ro tư duy chiều sâu của sinh viên như:
+    - 🧠 *Thiên kiến lý tưởng hóa (Idealization Bias)*: Xu hướng tin tưởng tuyệt đối vào quy trình Open Science mà bỏ qua áp lực thương mại hóa và công bố quốc tế (`publish or perish`).
+    - 📚 *Tự tin quá mức vào lý thuyết (Theoretical Overconfidence)*: Việc chuyển dịch tư duy từ Chủ nghĩa Thực chứng sang Chủ nghĩa Bác bỏ (Karl Popper) nhưng coi thường tri thức trực giác.
+    - ⚙️ *Điểm mù về tính thực thi (Implementation Blind Spot)*: Nhầm lẫn giữa giải pháp logic lý thuyết và giới hạn tài nguyên tính toán thực tế (Compute Power / Hardware resources).
 
 ---
 
