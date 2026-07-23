@@ -543,7 +543,7 @@ async def run_agents(request: RunRequest):
 
 @app.get("/api/proxy")
 async def vnu_proxy_gateway(url: str):
-    """Seamless VNU Library Reverse Proxy Gateway to fetch Koha OPAC, DSpace, and Bookworm pages."""
+    """Direct VNU Library Reverse Proxy Gateway for Koha OPAC and DSpace Repository."""
     import urllib.request
     import ssl
     ssl_context = ssl.create_default_context()
@@ -562,29 +562,27 @@ async def vnu_proxy_gateway(url: str):
 
     try:
         req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, context=ssl_context, timeout=8) as resp:
+        with urllib.request.urlopen(req, context=ssl_context, timeout=10) as resp:
             content_type = resp.headers.get("Content-Type", "text/html; charset=utf-8")
-            body = resp.read()
-            return Response(content=body, media_type=content_type)
+            body = resp.read().decode('utf-8', errors='ignore')
+            
+            # Rewrite base href if HTML so styles and links work seamlessly
+            if "text/html" in content_type:
+                base_domain = "http://opac.vnu.edu.vn" if "opac" in url else "https://repository.vnu.edu.vn"
+                if "<head>" in body:
+                    body = body.replace("<head>", f'<head><base href="{base_domain}/">')
+            
+            return HTMLResponse(content=body, status_code=200)
     except Exception as e:
-        # Auto-fallback redirect to Bookworm or VNU-LIC Portal if OPAC/Repository is unreachable
-        if "opac.vnu.edu.vn" in url or "repository.vnu.edu.vn" in url:
-            fallback_target = "https://bookworm.vnu.edu.vn/" if "opac" in url else "https://lic.vnu.edu.vn/kho-sach-dong-duong"
-            return HTMLResponse(
-                f"""<!DOCTYPE html>
-                <html>
-                <head>
-                    <meta http-equiv="refresh" content="0; url={fallback_target}">
-                    <title>Đang chuyển hướng qua Cổng Học Liệu VNU-LIC...</title>
-                </head>
-                <body style="font-family: sans-serif; text-align: center; padding: 40px;">
-                    <h2>🔄 Đang tự động kết nối qua Cổng Học Liệu Công Cộng VNU-LIC...</h2>
-                    <p>Hệ thống tự động chuyển hướng đến bản ghi công cộng không cần kết nối VPN thủ công.</p>
-                </body>
-                </html>""",
-                media_type="text/html"
-            )
-        return HTMLResponse(f"<h3>Lỗi truy cập máy chủ VNU: {str(e)}</h3>", status_code=500)
+        return HTMLResponse(f"""<!DOCTYPE html>
+        <html>
+        <head><title>VNU Library Proxy</title></head>
+        <body style="font-family: sans-serif; text-align: center; padding: 40px;">
+            <h2>🏛️ Cổng Tra Cứu Thư Viện VNU-LIC</h2>
+            <p>Trạng thái kết nối máy chủ ({url}): <strong>{str(e)}</strong></p>
+            <p>Vui lòng thử lại hoặc kết nối mạng nội bộ ĐHQGHN.</p>
+        </body>
+        </html>""", status_code=502)
 
 if __name__ == "__main__":
     import uvicorn
