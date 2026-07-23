@@ -127,9 +127,9 @@ def search_koha_real(query: str) -> list:
                     "author": "VNU-LIC",
                     "publisher": publisher,
                     "date": published_date,
-                    "location": f"Tra cứu tại quầy thư viện VNU-LIC (Mã Koha: {biblionumber})",
-                    "url": link,
-                    "pdf_url": link
+                    "location": f"Sách in tại quầy Thư viện VNU-LIC (Mã Koha: {biblionumber}) — Yêu cầu mạng VNU",
+                    "url": "-",
+                    "pdf_url": "-"
                 })
     except Exception as e:
         print(f"[Koha OPAC] Timeout/Error: {e}")
