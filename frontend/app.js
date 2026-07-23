@@ -441,9 +441,10 @@ function checkServerConnection() {
 
   /* ── Report Container ── */
   .report-page {
-    max-width: 960px;
+    max-width: 1400px;
+    width: 95%;
     margin: 0 auto;
-    padding: 40px 32px;
+    padding: 32px 24px;
   }
 
   /* ── Markdown Report ── */
@@ -451,12 +452,12 @@ function checkServerConnection() {
     line-height: 1.75;
     color: #1e293b;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    padding: 48px 56px;
+    padding: 40px 48px;
     background: #ffffff;
     margin: 0;
     max-width: 100%;
     width: 100%;
-    overflow-x: hidden;
+    overflow-x: auto;
   }
 
   /* ── Headings ── */
@@ -516,16 +517,21 @@ function checkServerConnection() {
   }
 
   /* ── Tables ── */
+  .table-scroll-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 24px 0;
+  }
   .markdown-report table {
     display: table; width: 100%; table-layout: auto;
-    border-collapse: collapse; margin: 20px 0; font-size: 12.5px;
+    border-collapse: collapse; margin: 20px 0; font-size: 13px;
     border-top: 2px solid #0f172a; border-bottom: 2px solid #0f172a;
-    word-wrap: normal;
   }
   .markdown-report th, .markdown-report td {
-    border: none; padding: 10px 14px; text-align: left;
-    white-space: normal; word-wrap: normal; word-break: normal;
-    overflow-wrap: break-word; min-width: 60px;
+    border: none; padding: 10px 12px; text-align: left;
+    vertical-align: top; line-height: 1.5; word-wrap: normal; word-break: break-word;
+    overflow-wrap: break-word;
   }
   .markdown-report th {
     border-bottom: 2px solid #0f172a; font-weight: 700; color: #000000;
@@ -535,6 +541,16 @@ function checkServerConnection() {
     border-bottom: 1px solid #e5e7eb; color: #0f172a;
   }
   .markdown-report tr:last-child td { border-bottom: none; }
+
+  /* ── 8-Column Reference Table Widths ── */
+  .markdown-report table th:nth-child(1), .markdown-report table td:nth-child(1) { width: 50px; text-align: center; font-weight: 700; }
+  .markdown-report table th:nth-child(2), .markdown-report table td:nth-child(2) { width: 22%; min-width: 180px; font-weight: 600; }
+  .markdown-report table th:nth-child(3), .markdown-report table td:nth-child(3) { width: 14%; min-width: 120px; }
+  .markdown-report table th:nth-child(4), .markdown-report table td:nth-child(4) { width: 11%; min-width: 100px; }
+  .markdown-report table th:nth-child(5), .markdown-report table td:nth-child(5) { width: 55px; text-align: center; }
+  .markdown-report table th:nth-child(6), .markdown-report table td:nth-child(6) { width: 15%; min-width: 130px; }
+  .markdown-report table th:nth-child(7), .markdown-report table td:nth-child(7) { width: 11%; min-width: 100px; }
+  .markdown-report table th:nth-child(8), .markdown-report table td:nth-child(8) { width: 22%; min-width: 180px; word-break: break-all; }
 
   /* ── Code ── */
   .markdown-report code {
