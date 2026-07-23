@@ -351,6 +351,13 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
             "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=172500"
         },
         {
+            "title": "Auguste comte sa vie",
+            "author": "Cresson, André",
+            "date": "1947",
+            "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
+            "url": "https://lic.vnu.edu.vn/books/auguste-comte-sa-vie"
+        },
+        {
             "title": "Articles et pamphlets",
             "author": "M. Gorki",
             "date": "1950",

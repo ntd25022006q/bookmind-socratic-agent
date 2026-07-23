@@ -494,6 +494,13 @@ def search_vnulic_main(query: str) -> list:
 
     curated_vnulic = [
         {
+            "title": "Auguste comte sa vie",
+            "author": "Cresson, André",
+            "publisher": "Presses universitaires de France",
+            "date": "1947",
+            "slug": "auguste-comte-sa-vie"
+        },
+        {
             "title": "Animaux Venimeux et Venins",
             "author": "Marie Phisalix",
             "publisher": "Paris",
@@ -508,20 +515,6 @@ def search_vnulic_main(query: str) -> list:
             "slug": "annales-de-physique-tome-i"
         },
         {
-            "title": "Archives des instituts Pasteur d'Indochine. No 13",
-            "author": "Institut Pasteur d'Indochine",
-            "publisher": "Saigon - Paris",
-            "date": "1931",
-            "slug": "archives-des-instituts-pasteur-dindochine-no-13"
-        },
-        {
-            "title": "Auguste comte sa vie",
-            "author": "Gruber, Hermann",
-            "publisher": "Paris",
-            "date": "1892",
-            "slug": "auguste-comte-sa-vie"
-        },
-        {
             "title": "Articles et pamphlets",
             "author": "M. Gorki",
             "publisher": "Paris",
@@ -529,39 +522,39 @@ def search_vnulic_main(query: str) -> list:
             "slug": "articles-et-pamphlets"
         },
         {
-            "title": "Bulletin du Service Géologique de l'Indochine",
-            "author": "Service Géologique",
-            "publisher": "Hanoi",
-            "date": "1925",
-            "slug": "bulletin-du-service-geologique-de-lindochine"
+            "title": "Les Misérables. Tome Deuxième",
+            "author": "Victor Hugo",
+            "publisher": "Nelson",
+            "date": "1930",
+            "slug": "les-miserables-tome-deuxieme"
         },
         {
-            "title": "Flore générale de l'Indochine",
-            "author": "Lecomte, Henri",
-            "publisher": "Paris",
-            "date": "1912",
-            "slug": "flore-generale-de-lindochine"
+            "title": "La Végétation du globe: D'après sa disposition suivant les climats. Tome premier",
+            "author": "A. Grisebach ; P. De Tchihatchef",
+            "publisher": "Librairie J.-B Bailllaère et Fils",
+            "date": "1877",
+            "slug": "la-vegetation-du-globe-dapres-sa-disposition-suivant-les-climats-tome-premier"
         },
         {
-            "title": "La Cochinchine: Huit jours à Saigon",
-            "author": "Baurac, J.C.",
-            "publisher": "Saigon",
-            "date": "1894",
-            "slug": "la-cochinchine-huit-jours-a-saigon"
+            "title": "Les Races de palmipèdes par l'Image",
+            "author": "V. Pulinckx-EEman",
+            "publisher": "Chasse et Peche",
+            "date": "1926",
+            "slug": "les-races-de-palmipedes-par-limage"
         },
         {
-            "title": "Monographie de la province de Thanh-Hoa",
-            "author": "Chassigneux, E.",
-            "publisher": "Hanoi",
-            "date": "1929",
-            "slug": "monographie-de-la-province-de-thanh-hoa"
+            "title": "Éléments de construction : A l'usage de L'ingénieur. Tome I, Généralités",
+            "author": "F. Bernard ; A. L. Tourancheau",
+            "publisher": "Dunod",
+            "date": "1951",
+            "slug": "elements-de-construction-a-lusage-de-lingenieur-tome-i-generalites"
         },
         {
-            "title": "Notices sur la Cochinchine",
-            "author": "Garnier, Francis",
-            "publisher": "Paris",
-            "date": "1878",
-            "slug": "notices-sur-la-cochinchine"
+            "title": "Éléments de construction : A l'usage de L'ingénieur. Tome II",
+            "author": "A. L. Tourancheau",
+            "publisher": "Dunod",
+            "date": "1951",
+            "slug": "elements-de-construction-a-lusage-de-lingenieur-tome-ii-organes-simples-de-machines-et-assemblages-elementaires"
         }
     ]
     
