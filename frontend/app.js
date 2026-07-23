@@ -1564,7 +1564,10 @@ function checkServerConnection() {
         code = code.replace(/-\.--+/g, '-.-');
         code = code.replace(/\.\.+>/g, '-.->');
         code = code.replace(/(\b\w+\b)\s+\1(?=\s*-\.->|\s*-->|\s*---|;|\n|$)/g, '$1');
-        code = code.replace(/(\b\w+)\s+(\w+)\s+(?=-\.->|-->|---|==>|<--)/g, '$1_$2');
+        
+        // Enforce vertical Top-Down layout (flowchart TD like Hình 2)
+        code = code.replace(/\bflowchart\s+LR\b/gi, 'flowchart TD');
+        code = code.replace(/\bgraph\s+LR\b/gi, 'flowchart TD');
 
         // 2. Fix single-dash arrows in flowcharts
         if (code.includes('graph') || code.includes('flowchart') || code.includes('TD') || code.includes('LR')) {

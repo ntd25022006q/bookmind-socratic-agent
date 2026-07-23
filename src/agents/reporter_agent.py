@@ -83,12 +83,12 @@ Hãy trả về ĐÚNG định dạng sau:
 
 [Toàn bộ nội dung báo cáo chi tiết theo 9 phần trên — đầy đủ, không placeholder, không **, không chữ Hán]
 === MERMAID DIAGRAM ===
-[Sơ đồ flowchart LR phản ánh lộ trình đọc sách của độc giả DỰA TRÊN NỘI DUNG THỰC TẾ của báo cáo.
+[Sơ đồ flowchart TD (từ trên xuống dưới theo chiều dọc) phản ánh lộ trình đọc sách của độc giả DỰA TRÊN NỘI DUNG THỰC TẾ của báo cáo.
 QUY TẮC CÚ PHÁP VÀ NGÔN NGỮ NGHIÊM NGẶT:
-- NHÃN NÚT BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT CÓ DẤU ĐẦY ĐỦ (Ví dụ: "Tinh thần tự học", "Lý thuyết phản biện", "Phương pháp NCKH", "Phân tích báo cáo AI", "Tư duy Socratic thực chiến"). TUYỆT ĐỐI KHÔNG BỎ DẤU TIẾNG VIỆT.
-- Nét đứt có mũi tên: chỉ dùng -.- > (1 chấm giữa 2 gạch). Ví dụ: A -.-> B hoặc A -. Text .-> B
-- KHÔNG dùng -.-->, --. >, hay bất kỳ biến thể sai khác
-- Nhãn nút viết trong dấu ngoặc kép: A["Nhãn có dấu"] --> B["Nhãn có dấu"]]
+- BẮT BUỘC dùng cấu trúc chiều dọc: flowchart TD (Top-Down). KHÔNG DÙNG flowchart LR.
+- NHÃN NÚT BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT CÓ DẤU ĐẦY ĐỦ TRONG NGOẶC KÉP. Ví dụ: A["Xác Định Mục Tiêu Đọc Sách"] --> B["Khám Phá Học Liệu VNU-LIC"].
+- TUYỆT ĐỐI KHÔNG DÙNG NHÃN CHỮ CÁI LẠ NHƯ A_E, B_E, C_E.
+- Nét đứt có mũi tên: chỉ dùng -.- > (1 chấm giữa 2 gạch). Ví dụ: A -.-> B]
 === DIAGRAM EXPLANATION ===
 [Giải thích súc tích lộ trình sơ đồ bằng tiếng Việt có dấu đầy đủ trong 2-3 đoạn văn hoàn chỉnh (mô tả mục tiêu chính, 3 giai đoạn đọc chính và kết quả học tập đạt được). KHÔNG dùng **, KHÔNG chữ Hán, và TUYỆT ĐỐI KHÔNG lặp đi lặp lại các câu liệt kê từng nút/bước bằng chữ cái tiếng Anh lặp vô tận.]
 """
@@ -113,9 +113,13 @@ QUY TẮC CÚ PHÁP VÀ NGÔN NGỮ NGHIÊM NGẶT:
     mermaid_code = re.sub(r'-\.--+', '-.-', mermaid_code)
     mermaid_code = re.sub(r'\.\.+>', '-.->', mermaid_code)
     mermaid_code = re.sub(r'(\b\w+\b)\s+\1(?=\s*-\.->|\s*-->|\s*---|;|\n|$)', r'\1', mermaid_code)
-    mermaid_code = re.sub(r'(\b\w+)\s+(\w+)\s+(?=-\.->|-->|---|==>|<--)', r'\1_\2', mermaid_code)
+    
+    # Enforce vertical layout TD (Top-Down like Hình 2)
+    mermaid_code = re.sub(r'\bflowchart\s+LR\b', 'flowchart TD', mermaid_code, flags=re.IGNORECASE)
+    mermaid_code = re.sub(r'\bgraph\s+LR\b', 'flowchart TD', mermaid_code, flags=re.IGNORECASE)
+    
     if mermaid_code and not re.match(r'^\s*(flowchart|graph|sequenceDiagram|gantt|classDiagram)\b', mermaid_code, re.IGNORECASE):
-        mermaid_code = "flowchart LR\n" + mermaid_code
+        mermaid_code = "flowchart TD\n" + mermaid_code
     parsed["mermaid_diagram"] = mermaid_code
 
     # Save outputs

@@ -317,14 +317,14 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                     
                     real_url = matched_book.get("url", "")
                     if real_url:
-                        parts[6] = f"[Xem trực tiếp]({real_url})"
+                        parts[6] = f"[Xem trực tiếp tại VNU-LIC]({real_url})"
                     else:
-                        parts[6] = "Tra cứu trực tiếp tại VNU-LIC"
+                        parts[6] = "[Xem trực tiếp tại VNU-LIC](https://lic.vnu.edu.vn/books)"
                 else:
                     if parts[5].lower() in ["n/a", "", "tài liệu bổ trợ"]:
                         parts[5] = "Thư viện Tri thức số ĐHQGHN"
-                    if any(prefix in link_cell for prefix in ["vnu.edu.vn", "opac.", "repository.", "bookworm."]) or "[" in link_cell or "không có liên kết" in link_cell.lower() or "tài liệu bổ trợ" in link_cell.lower():
-                        parts[6] = "Tra cứu trực tiếp tại VNU-LIC"
+                    if "[" not in parts[6] or "tra cứu" in parts[6].lower():
+                        parts[6] = "[Xem trực tiếp tại VNU-LIC](https://lic.vnu.edu.vn/books)"
                 
                 lines[idx] = " | ".join(parts)
                 continue
