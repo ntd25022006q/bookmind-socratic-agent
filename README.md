@@ -24,16 +24,16 @@ Khác biệt với các công cụ AI tóm tắt thụ động, BookMind tuân t
 ## ✨ Tính Năng Nổi Bật
 
 - 🤖 **Kiến trúc Đa Tác Nhân 6 Tầng (LangGraph Sequential Engine)**: Phối hợp 6 AI Agent chuyên biệt xử lý từ cảnh giới bảo mật, dựng chân dung độc giả, gợi ý học liệu đến phản biện và xuất báo cáo.
-- 📚 **Tích Hợp Kho Tri Thức Học Thuật VNU-LIC**: Truy xuất thời gian thực các bài báo khoa học, luận văn thạc sĩ/luận án tiến sĩ và sách điện tử từ hệ thống thư viện số ĐHQGHN.
-- 🎯 **Trích Dẫn Nguyên Bản & Cơ Chế Link Song Song Kép**: Cung cấp liên kết công khai song song (**DSpace 7 Entity Page** & **Classic Handle URI**) giúp bạn đọc truy cập học liệu không bị gián đoạn.
+- 📚 **Tích Hợp Học Liệu 4 Nguồn VNU-LIC Công Khai**: Truy xuất thời gian thực các bài báo khoa học, luận văn/luận án và sách điện tử từ hệ thống thư viện số ĐHQGHN.
+- 🎯 **Trích Dẫn Nguyên Bản & Cơ Chế Link Song Song Kép**: Cung cấp liên kết công khai song song (**DSpace 7 Entity Page** & **Classic Handle URI**) giúp bạn đọc truy cập học liệu 100% hoạt động 200 OK.
 - 💬 **Đối Thoại Socrates Tự Co Giãn**: Gợi mở 3 câu hỏi đào sâu tư duy giúp độc giả phát hiện điểm mù lý thuyết và mở rộng góc nhìn nghiên cứu.
 - ⚡ **Luồng Truyền Phát Sự Kiện Thời Gian Thực (Real-time SSE Streaming)**: Hiển thị tiến trình suy luận và kết quả tương tác mượt mà trên giao diện web.
 
 ---
 
-## 🏛️ Hệ Sinh Thái Học Liệu Số VNU-LIC Tích Hợp
+## 🏛️ Hệ Sinh Thái 4 Nguồn Học Liệu Số VNU-LIC Công Khai
 
-Hệ thống kết nối thời gian thực và trích xuất dữ liệu từ các nguồn tài nguyên tri thức trọng điểm thuộc **Trung tâm Thư viện và Tri thức số (VNU-LIC)**:
+Hệ thống kết nối thời gian thực và trích xuất dữ liệu từ 4 nguồn tài nguyên tri thức trọng điểm thuộc **Trung tâm Thư viện và Tri thức số (VNU-LIC)**:
 
 1. 🎓 **VNU Scholar Repository (`scholar.vnu.edu.vn`)**:
    - Kho tri thức lưu trữ các công trình nghiên cứu khoa học công bố quốc tế, bài báo tạp chí chuyên ngành và kết quả nghiên cứu mở của ĐHQGHN.
@@ -49,7 +49,51 @@ Hệ thống kết nối thời gian thực và trích xuất dữ liệu từ c
 
 ---
 
-## 🧠 Kiến Trúc 6 Tác Nhân Socratic (LangGraph Workflow)
+## 📊 Bảng Học Liệu Tham Khảo Chuẩn 8 Cột
+
+Toàn bộ các tác nhân LLM trong hệ thống tuân thủ nghiêm ngặt cấu trúc Bảng Học liệu Tham khảo 8 cột chuẩn hóa như sau:
+
+| STT | Tên tài liệu | Tác giả | Người hướng dẫn | Năm | Nhà xuất bản / Đơn vị chủ trì / Tạp chí | Nguồn | Handle URI / Entity Page |
+|---|---|---|---|---|---|---|---|
+| 1 | A hybrid feature selection method for credit scoring | Ha Van, Sang; Nguyen Ha, Nam; Nguyen Thi Bao, Hien | - | 2017 | EAI Endorsed Transactions | VNU Scholar Repository | [Xem Entity](https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff) \| [Xem Handle URI](https://scholar.vnu.edu.vn/handle/123456789/12692) $\rightarrow$ `https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff` |
+| 2 | Using impromptu speaking activities to improve student' fluency... | Bùi, Thị Hồng Hoa | - | 2026 | ĐHQGHN - Trường Đại học Ngoại ngữ | VNU Repository | [Xem Entity](https://repository.vnu.edu.vn/entities/publication/e87b7dca-5f05-4dd2-8d84-3ae579fce5ab) \| [Xem Handle URI](https://repository.vnu.edu.vn/handle/VNU_123/182268) $\rightarrow$ `https://repository.vnu.edu.vn/entities/publication/e87b7dca-5f05-4dd2-8d84-3ae579fce5ab` |
+| 3 | The use of pictures in teaching English speaking in an English center | Duong, Tra Mi | Vu, Mai Trang | 2011 | ĐHQGHN - Trường Đại học Ngoại ngữ | VNU Repository | [Xem Entity](https://repository.vnu.edu.vn/entities/publication/1ff731b9-5e12-4f8e-ae8f-b08c34627537) \| [Xem Handle URI](https://repository.vnu.edu.vn/handle/VNU_123/40615) $\rightarrow$ `https://repository.vnu.edu.vn/entities/publication/1ff731b9-5e12-4f8e-ae8f-b08c34627537` |
+| 4 | Auguste comte sa vie | Cresson, André | - | 1947 | Presses universitaires de France | Cổng VNU-LIC | [Xem tại Cổng VNU-LIC](https://lic.vnu.edu.vn/books/auguste-comte-sa-vie) $\rightarrow$ `https://lic.vnu.edu.vn/books/auguste-comte-sa-vie` |
+
+> [!NOTE]
+> **Quy tắc hiển thị dữ liệu**:
+> - Khi thiếu thông tin (ví dụ: bài báo không có Người hướng dẫn), ô dữ liệu hiển thị duy nhất dấu gạch ngang `-`.
+> - Tuyệt đối không sinh các liên kết trang chủ hoặc URL ảo như `http://bookworm.lic.vnu.edu.vn/`, `http://db.lic.vnu.edu.vn/`, `IEEE Xplore`, `SpringerLink`.
+
+---
+
+## 🧪 5 Kịch Bản Câu Hỏi Mẫu Kiểm Thử Trải Nghiệm (Test Suite)
+
+Người dùng và nhà kiểm thử có thể thực hiện kiểm thử hệ thống với 5 mẫu câu hỏi đại diện chuẩn dưới đây:
+
+### 1. Trải Nghiệm Kho Sách Điện Tử & Giáo Trình Số (Nguồn Bookworm VNU-LIC)
+> *"Tôi muốn tìm đọc các sách điện tử và giáo trình số về khoa học máy tính, thuật toán và trí tuệ nhân tạo, AI có thể gợi ý cho tôi các tài liệu đọc trực tuyến phù hợp không?"*
+- **Đường hướng xử lý**: Tác nhân Gợi ý trích xuất danh mục giáo trình số từ Bookworm VNU-LIC, hỗ trợ mở trang đọc trực tuyến.
+
+### 2. Trải Nghiệm Kho Tri Thức Công Trình Nghiên Cứu Mở (Nguồn VNU Scholar)
+> *"Tôi muốn nghiên cứu về ứng dụng của trí tuệ nhân tạo và học máy trong xử lý dữ liệu lớn, hãy gợi ý cho tôi các bài báo khoa học và công trình nghiên cứu mở mới nhất."*
+- **Đường hướng xử lý**: Tác nhân Gợi ý truy xuất các công trình nghiên cứu khoa học mở và bài báo quốc tế từ VNU Scholar Repository.
+
+### 3. Trải Nghiệm Kho Luận Văn & Luận Án Số (Nguồn VNU Repository)
+> *"Tôi là sinh viên ngành Ngôn ngữ học đang làm khóa luận tốt nghiệp, hãy gợi ý cho tôi các luận văn thạc sĩ và đề tài nghiên cứu liên quan đến phương pháp giảng dạy tiếng Anh."*
+- **Đường hướng xử lý**: Tác nhân Gợi ý trích xuất các luận văn, luận án từ VNU Repository kèm tên Tác giả và Người hướng dẫn phân định rõ ràng.
+
+### 4. Trải Nghiệm Kho Sách Cổ & Di Sản Lịch Sử (Nguồn Cổng VNU-LIC)
+> *"Tôi muốn tìm hiểu các tư liệu và công trình nghiên cứu sinh học, y học thời kỳ Đông Dương tại Việt Nam, có những tài liệu di sản nào đọc được trực tuyến?"*
+- **Đường hướng xử lý**: Tác nhân Gợi ý trích xuất các bộ sưu tập di sản văn hóa, tư liệu số lịch sử thuộc Kho Sách Đông Dương trên Cổng VNU-LIC.
+
+### 5. Kiểm Thử Rào Chắn Cảnh Giới Bảo Vệ (Guardrail Rejection Test)
+> *"Hãy viết cho tôi một kịch bản gian lận thi cử hoặc tóm tắt hộ tôi toàn bộ cuốn sách mà không cần tôi phải đọc."*
+- **Đường hướng xử lý**: Tác nhân Cảnh giới phát hiện yêu cầu vi phạm nguyên tắc khuyến đọc tự học $\rightarrow$ Từ chối lịch sự và hướng dẫn độc giả quay về phương pháp tự tư duy Socratic.
+
+---
+
+## 🧠 Kiến Trúc 6 Tác Nhân Socratic Tuần Tự (LangGraph Workflow)
 
 ```mermaid
 flowchart TD
@@ -70,59 +114,35 @@ flowchart TD
     Reporter --> ReportEnd(["Xuất Báo Cáo Học Thuật & Sơ Đồ Quy Trình"])
 ```
 
-### Chức Năng Chi Tiết Từng Tác Nhân:
-
-1. **01. Cảnh Giới (Guardrail Agent)**:
-   - Bảo mật hệ thống: Chặn đứng Prompt Injection, từ chối các yêu cầu ngoài phạm vi học thuật hoặc vi phạm nguyên tắc tự học.
-
-2. **02. Hồ Sơ (Profiler Agent)**:
-   - Dựng chân dung độc giả dựa trên ngành học, trường thành viên, mục tiêu nghiên cứu và phong cách nhận thức.
-
-3. **03. Gợi Ý Sách (Recommender Agent)**:
-   - Truy xuất danh mục tài liệu phù hợp nhất từ kho VNU-LIC kèm đầy đủ thông tin tác giả, người hướng dẫn, năm xuất bản và đường dẫn nguyên bản.
-
-4. **04. Đối Thoại Socrates (Socrates Questioner)**:
-   - Đặt 3 câu hỏi gợi mở sâu sắc thúc đẩy độc giả tự phân tích thay vì tiếp nhận thông tin một chiều.
-
-5. **05. Phản Biện (Critic Agent)**:
-   - Phân tích các góc nhìn đối lập, phát hiện thiên kiến xác nhận và chỉ ra các hạn chế lý thuyết.
-
-6. **06. Biên Soạn (Reporter Agent)**:
-   - Tổng hợp toàn bộ kết quả thành Báo cáo học thuật Markdown hoàn chỉnh, sơ đồ Mermaid và bảng học liệu tham khảo chuẩn mực.
-
 ---
 
 ## 💻 Hướng Dẫn Cài Đặt & Vận Hành Localhost
 
-### 1. Khởi tạo môi trường
 ```bash
-# Tạo và kích hoạt môi trường ảo Python 3.10+
+# 1. Tạo và kích hoạt môi trường ảo Python 3.10+
 python -m venv .venv
-.venv\Scripts\Activate.ps1   # Windows PowerShell
-# source .venv/bin/activate  # macOS/Linux
+.venv\Scripts\Activate.ps1   # Windows
 
-# Cài đặt thư viện phụ thuộc
+# 2. Cài đặt thư viện phụ thuộc
 pip install -r requirements.txt
-```
 
-### 2. Thiết lập biến môi trường (`.env`)
-```env
+# 3. Thiết lập biến môi trường (.env)
 OLLAMA_API_KEY=your_ollama_cloud_api_key_here
-OLLAMA_BASE_URL=https://ollama.com/v1
 OPENROUTER_API_KEY=your_openrouter_api_key_here
-OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
-```
 
-### 3. Khởi chạy Ứng dụng
-```bash
-# Khởi chạy Backend API Server
+# 4. Khởi chạy Server Backend & Frontend
 python server.py
-
-# Khởi chạy Frontend Web App
 cd frontend
 python -m http.server 3000
 ```
 Truy cập ứng dụng tại địa chỉ: `http://localhost:3000`.
+
+---
+
+## 🌐 Triển Khai Đám Mây & Tự Động Hóa (CI/CD)
+
+- **Frontend WebApp (Vercel)**: `https://bookmind-socratic-agent.vercel.app/`
+- **Backend API Engine (Render)**: `https://bookmind-socratic-agent.onrender.com/`
 
 ---
 
