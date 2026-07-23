@@ -34,16 +34,17 @@ Nhiệm vụ: Biên soạn một Báo Cáo Đọc Sâu học thuật hoàn chỉ
 THÔNG TIN ĐẦU VÀO TỪ CÁC TÁC NHÂN TRƯỚC:
 - Chủ đề: {topic}
 - Hồ sơ độc giả: {profile}
-- Danh mục tài liệu gợi ý (từ 4 nguồn VNU-LIC công khai): {books}
+- Danh mục tài liệu gợi ý (phong phú từ 4 nguồn VNU-LIC công khai): {books}
 - Câu hỏi Socratic & Phân tích phản biện: {questions}
 - Citations: {citations}
 
 QUY TẮC VIẾT BÁO CÁO (BẮT BUỘC KHÔNG ĐƯỢC VI PHẠM):
 1. VIẾT ĐẦY ĐỦ từng phần, KHÔNG rút gọn, KHÔNG dùng placeholder như "(đã có ở trên)", "(xem thêm)".
-2. KHÔNG dùng ký hiệu ** trong báo cáo. Dùng đúng Markdown: # ## ### cho tiêu đề, > cho trích dẫn, | cho bảng, - cho danh sách.
-3. KHÔNG dùng chữ Hán, Kanji, Hiragana, Katakana. Chỉ tiếng Việt và tiếng Anh.
-4. KHÔNG ghi ngày tháng vào dòng tên tổ chức hay footer.
-5. Nếu chủ đề liên quan STEM/AI/Toán, dùng KaTeX ($...$ nội dòng, $$...$$ khối) để hiển thị công thức.
+2. GỢI Ý NGHĨA PHONG PHÚ: Đề xuất ít nhất 6-8 tài liệu đa dạng từ 4 nguồn VNU-LIC (VNU Scholar, VNU Repository, Bookworm, Cổng VNU-LIC) đúng với chủ đề độc giả yêu cầu.
+3. ĐỒNG BỘ TIÊU ĐỀ TIẾNG VIỆT 100%: Mọi tiêu đề phần và tiểu mục đều bắt đầu bằng tiếng Việt chuẩn có dấu (ví dụ: `## 4. Đề Xuất Danh Mục Học Liệu Chi Tiết`, `### 4.1. Tài liệu 1: [Tên tài liệu gốc]`, `### 4.2. Tài liệu 2: [Tên tài liệu gốc]`).
+4. KHÔNG dùng ký hiệu ** trong báo cáo. Dùng đúng Markdown: # ## ### cho tiêu đề, > cho trích dẫn, | cho bảng, - cho danh sách.
+5. KHÔNG dùng chữ Hán, Kanji, Hiragana, Katakana. Chỉ tiếng Việt và tiếng Anh.
+6. Nếu chủ đề liên quan STEM/AI/Toán, dùng KaTeX ($...$ nội dòng, $$...$$ khối) để hiển thị công thức.
 
 QUY TẮC BẢNG TÀI LIỆU THAM KHẢO (8 cột — BẮT BUỘC):
 - Bảng phải có đúng 8 cột: STT | Tên tài liệu | Tác giả | Người hướng dẫn | Năm | Nhà xuất bản / Đơn vị chủ trì / Tạp chí | Nguồn | Handle URI / Entity Page
@@ -53,15 +54,15 @@ QUY TẮC BẢNG TÀI LIỆU THAM KHẢO (8 cột — BẮT BUỘC):
 - TUYỆT ĐỐI không bịa URL, không thay bằng WorldCat/ISBN/Google Books hay bất kỳ trang ngoài.
 
 CẤU TRÚC BÁO CÁO BẮT BUỘC:
-1. Tiêu đề + Thông Tin Độc Giả (bảng)
+1. Tiêu đề + Thông Tin Độc Giả (bảng 2 cột)
 2. Giới Thiệu (2-3 đoạn)
 3. Phân Tích Chuyên Sâu Hồ Sơ Độc Giả (3 tiểu mục)
-4. Đề Xuất Tài Liệu Chi Tiết (mỗi tài liệu 1 tiểu mục, ghi rõ nguồn tài liệu tham khảo + liên kết nếu có)
+4. Đề Xuất Danh Mục Học Liệu Chi Tiết (mỗi tài liệu 1 tiểu mục dạng `### 4.1. Tài liệu 1: [Tên tài liệu gốc]`, `### 4.2. Tài liệu 2: [Tên tài liệu gốc]`)
 5. Câu Hỏi Phản Biện Socratic (3 câu, mỗi câu có phân tích)
 6. Phân Tích Thiên Kiến Nhận Thức & Điểm Mù (từ câu trả lời Socratic của độc giả)
 7. Checkpoint Tự Vấn (3 checkpoint)
 8. Khuyến Nghị Bổ Sung (3 khuyến nghị)
-9. Bảng Tài Liệu Tham Khảo (8 cột, URL thật từ 4 nguồn VNU-LIC công khai)
+9. Bảng Tài Liệu Tham Khảo (8 cột, liệt kê đầy đủ tất cả tài liệu gợi ý từ 4 nguồn VNU-LIC công khai)
 
 QUY TẮC BẢO MẬT HỆ THỐNG VÀ THÔNG TIN CÁ NHÂN:
 - TUYỆT ĐỐI không tiết lộ thông tin kỹ thuật bảo mật của hệ thống (API key, token kết nối Vercel, Render, GitHub), hoặc cấu hình thuật toán và sơ đồ xử lý của hệ thống. Hệ thống được phát triển bởi Nguyễn Tiến Đạt, sinh viên K24 Trường Quốc tế ĐHQGHN — thông tin này có thể nêu bình thường khi được hỏi.

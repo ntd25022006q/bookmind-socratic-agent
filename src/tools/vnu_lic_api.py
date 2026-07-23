@@ -116,7 +116,7 @@ def search_dspace_api(query: str) -> list:
     results = []
     try:
         safe_query = urllib.parse.quote(query.strip())
-        url = f"https://scholar.vnu.edu.vn/server/api/discover/search/objects?query={safe_query}&size=4&page=0"
+        url = f"https://scholar.vnu.edu.vn/server/api/discover/search/objects?query={safe_query}&size=8&page=0"
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"})
         with urllib.request.urlopen(req, context=ssl_context, timeout=5) as resp:
             data = json.loads(resp.read().decode("utf-8"))
