@@ -67,6 +67,10 @@ Dưới đây là chi tiết từng bước vận hành thực tế của giao d
 ![Trạng Thái Sẵn Sàng](docs/screenshots/2_ready_state.png)
 
 - **Mô tả giao diện**: Giao diện khởi tạo với trạng thái **"Sẵn sàng"** hiển thị màu xanh lá cây tại khung Chỉ số vận hành. Sơ đồ phối hợp 6 Tác nhân ở trên cùng ở chế độ chờ (0.000s | 0 tk). Khung Báo cáo học thuật bên phải hiển thị "BÁO CÁO CHƯA ĐƯỢC TẠO".
+- **📍 Chỉ Báo Nút Trạng Thái Kết Nối Máy Chủ (Connection Status Dot)**: Nút đèn tròn nhỏ nằm cạnh tiêu đề *Câu Hỏi & Yêu Cầu* phản ánh trực quan 3 giai đoạn kết nối hệ thống:
+  - ⚪ **Chấm màu xám (`#94a3b8`)**: **Khởi tạo ban đầu** — Hệ thống vừa tải trang, chưa có bất kỳ truy vấn hay kết nối nào diễn ra (chưa có gì xảy ra).
+  - 🔴 **Chấm màu đỏ (`#ef4444`)**: **Bắt đầu khởi động** — Hệ thống đang gửi tín hiệu Ping kiểm tra hoặc máy chủ Backend đang tiến hành khởi động dịch vụ (đang chờ kết nối).
+  - 🟢 **Chấm màu xanh lá cây (`#10b981`)**: **Kết nối thành công** — Máy chủ API Backend đã phản hồi `200 OK`, hệ thống đã thiết lập kết nối thời gian thực thông suốt và sẵn sàng nhận lệnh phân tích.
 - **Cơ chế vận hành**: Hệ thống lắng nghe yêu cầu nhập từ ô văn bản `Nhập nội dung cần phân tích`. Độc giả có thể nhấn nút `⚡ Kích Hoạt Phân Tích` để gửi truy vấn đến Pipeline 6 Tác nhân.
 
 ---

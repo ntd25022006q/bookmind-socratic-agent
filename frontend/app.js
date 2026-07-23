@@ -530,12 +530,12 @@ function checkServerConnection() {
   }
   .markdown-report th, .markdown-report td {
     border: none; padding: 10px 12px; text-align: left;
-    vertical-align: top; line-height: 1.5; word-wrap: normal; word-break: break-word;
+    vertical-align: top; line-height: 1.5; word-wrap: normal; word-break: normal;
     overflow-wrap: break-word;
   }
   .markdown-report th {
     border-bottom: 2px solid #0f172a; font-weight: 700; color: #000000;
-    background: #f8fafc;
+    background: #f8fafc; white-space: nowrap;
   }
   .markdown-report td {
     border-bottom: 1px solid #e5e7eb; color: #0f172a;
@@ -543,14 +543,14 @@ function checkServerConnection() {
   .markdown-report tr:last-child td { border-bottom: none; }
 
   /* ── 8-Column Reference Table Widths ── */
-  .markdown-report table th:nth-child(1), .markdown-report table td:nth-child(1) { width: 50px; text-align: center; font-weight: 700; }
+  .markdown-report table th:nth-child(1), .markdown-report table td:nth-child(1) { min-width: 65px; width: 65px; white-space: nowrap; text-align: center; font-weight: 700; }
   .markdown-report table th:nth-child(2), .markdown-report table td:nth-child(2) { width: 22%; min-width: 180px; font-weight: 600; }
   .markdown-report table th:nth-child(3), .markdown-report table td:nth-child(3) { width: 14%; min-width: 120px; }
   .markdown-report table th:nth-child(4), .markdown-report table td:nth-child(4) { width: 11%; min-width: 100px; }
-  .markdown-report table th:nth-child(5), .markdown-report table td:nth-child(5) { width: 55px; text-align: center; }
+  .markdown-report table th:nth-child(5), .markdown-report table td:nth-child(5) { min-width: 75px; width: 75px; white-space: nowrap; text-align: center; }
   .markdown-report table th:nth-child(6), .markdown-report table td:nth-child(6) { width: 15%; min-width: 130px; }
-  .markdown-report table th:nth-child(7), .markdown-report table td:nth-child(7) { width: 11%; min-width: 100px; }
-  .markdown-report table th:nth-child(8), .markdown-report table td:nth-child(8) { width: 22%; min-width: 180px; word-break: break-all; }
+  .markdown-report table th:nth-child(7), .markdown-report table td:nth-child(7) { width: 10%; min-width: 95px; }
+  .markdown-report table th:nth-child(8), .markdown-report table td:nth-child(8) { width: 23%; min-width: 200px; word-break: break-all; }
 
   /* ── Code ── */
   .markdown-report code {
