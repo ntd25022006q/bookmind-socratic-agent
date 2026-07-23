@@ -285,31 +285,31 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
     default_verified_pool = [
         {
             "title": "A hybrid feature selection method for credit scoring",
-            "author": "Nguyen Thi, Sang et al.",
-            "date": "2024",
+            "author": "Ha Van, Sang; Nguyen Ha, Nam; Nguyen Thi Bao, Hien",
+            "date": "2017",
             "source": "VNU Scholar Repository",
             "url": "https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff"
         },
         {
             "title": "Visualizing atomic orbitals of an electron by Latex",
             "author": "Doan T.H.Y., Nguyen V.H. et al.",
-            "date": "2024",
+            "date": "2021",
             "source": "VNU Scholar Repository",
             "url": "https://scholar.vnu.edu.vn/entities/publication/6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8"
         },
         {
-            "title": "Emerging crosslinking techniques for glove manufacturers",
-            "author": "Tran Van, Tuan et al.",
-            "date": "2024",
-            "source": "VNU Scholar Repository",
-            "url": "https://scholar.vnu.edu.vn/entities/publication/d22b29cf-e57f-49c4-94cb-2020574dbd42"
-        },
-        {
-            "title": "Intangible Capital and Growth : Essays on Labor Productivity, Monetary Economics. Vol. 1",
+            "title": "Intangible Capital and Growth : Essays on Labor Productivity, Monetary Economics, and Political Economy. Vol. 1",
             "author": "Roth, Felix",
             "date": "2022",
             "source": "Bookworm VNU-LIC",
             "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=170000"
+        },
+        {
+            "title": "Annales de physique. Tome I",
+            "author": "Société Française de Physique",
+            "date": "1914",
+            "source": "Cổng Thư viện VNU-LIC",
+            "url": "https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3"
         },
         {
             "title": "Writing research papers : a guide to the process",
