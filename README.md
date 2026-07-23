@@ -30,7 +30,7 @@ Hệ thống kết nối thời gian thực và trích xuất dữ liệu từ 5
    - **Mẫu liên kết**: `https://bookworm.vnu.edu.vn/EDetail.aspx?id={id}`
 
 2. **VNU Scholar Repository (`scholar.vnu.edu.vn`)**:
-   - **Mô tả**: Nền tảng quản trị tri thức số DSpace-CRIS lưu trữ bài báo khoa học, công trình nghiên cứu công bố quốc tế, luận án tiến sĩ và kết quả NCKH mở của ĐHQGHN.
+   - **Mô tả**: Nền tảng quản trị tri thức số lưu trữ bài báo khoa học, công trình nghiên cứu công bố quốc tế, luận án tiến sĩ và kết quả nghiên cứu khoa học mở của ĐHQGHN.
    - **Mẫu liên kết**: `https://scholar.vnu.edu.vn/entities/publication/{uuid}`
 
 3. **Cổng Thông Tin & Kho Sách Đông Dương (`lic.vnu.edu.vn`)**:
@@ -42,10 +42,10 @@ Hệ thống kết nối thời gian thực và trích xuất dữ liệu từ 5
 ### 🔒 Nguồn Tra Cứu Mạng Nội Bộ (VNU Campus Network Resources)
 
 4. **Koha OPAC Catalog (`opac.vnu.edu.vn`)**:
-   - **Mô tả**: Hệ thống quản trị thư viện tích hợp Koha ILS, hỗ trợ tra cứu thư mục, vị trí xếp giá và mã biblionumber của tài liệu in. Truy cập trực tiếp yêu cầu kết nối mạng nội bộ ĐHQGHN (VNU Campus Network / VNU VPN).
+   - **Mô tả**: Hệ thống quản trị thư viện tích hợp, hỗ trợ tra cứu thư mục, vị trí xếp giá và thông tin mã tài liệu in. Truy cập trực tiếp yêu cầu kết nối mạng nội bộ ĐHQGHN (VNU Campus Network / VNU VPN).
 
 5. **DSpace VNU Repository (`repository.vnu.edu.vn`)**:
-   - **Mô tả**: Kho tài nguyên lưu trữ số nội bộ chuyên quản lý luận văn, luận án và tài liệu học thuật theo chuẩn Handle định danh. Truy cập trực tiếp yêu cầu kết nối mạng nội bộ ĐHQGHN (VNU Campus Network / VNU VPN).
+   - **Mô tả**: Kho tài nguyên lưu trữ số nội bộ chuyên quản lý luận văn, luận án và tài liệu học thuật định danh. Truy cập trực tiếp yêu cầu kết nối mạng nội bộ ĐHQGHN (VNU Campus Network / VNU VPN).
 
 ---
 
@@ -76,13 +76,13 @@ flowchart TD
 
 1. **01. Cảnh Giới (Guardrail Agent)**:
    - Xác thực tính hợp lệ của chủ đề nghiên cứu.
-   - Thường trực bảo mật: Chặn đứng Prompt Injection, ngăn rò rỉ cấu hình thuật toán, thông tin cá nhân và tài khoản truy cập.
+   - Thường trực bảo mật: Chặn đứng Prompt Injection, bảo vệ cấu hình thuật toán và thông tin truy cập hệ thống.
 
 2. **02. Hồ Sơ (Profiler Agent)**:
    - Phân tích thông tin cá nhân hóa của độc giả (Trường thành viên, Ngành học, Mục tiêu đọc, Phong cách nhận thức) để dựng chân dung nghiên cứu.
 
 3. **03. Gợi Ý Sách (Recommender Agent)**:
-   - Tìm kiếm song song từ các CSDL VNU-LIC kết hợp RAG nội bộ. Đề xuất danh mục tài liệu phù hợp nhất kèm thông tin trích dẫn nguyên bản.
+   - Tìm kiếm song song từ các cơ sở dữ liệu VNU-LIC kết hợp chỉ mục tri thức nội bộ. Đề xuất danh mục tài liệu phù hợp nhất kèm thông tin trích dẫn nguyên bản.
 
 4. **04. Đối Thoại Socrates (Socrates Questioner)**:
    - Xây dựng 3 câu hỏi đối thoại gợi mở sâu sắc, thúc đẩy độc giả tự phân tích thay vì tiếp nhận thông tin một chiều.
@@ -97,7 +97,7 @@ flowchart TD
 
 ## ⚡ Động Cơ LLM Động & Cơ Chế Dự Phòng (Auto-Fallback Engine)
 
-- **Tự động chuyển đổi mô hình**: Ưu tiên mô hình tốc độ cao và suy luận sâu trên Ollama Cloud (`gemma4:31b`, `nemotron-3-nano:30b`).
+- **Tự động chuyển đổi mô hình**: Ưu tiên mô hình tốc độ cao và suy luận sâu trên Ollama Cloud API Key (`gemma4:31b`, `nemotron-3-nano:30b`).
 - **Xử lý sự cố linh hoạt**: Tự động chuyển hướng sang chuỗi mô hình dự phòng OpenRouter nếu phát sinh sự cố hạn ngạch (Rate Limit), đảm bảo tiến trình nghiên cứu không bị ngắt quãng.
 
 ---
@@ -138,7 +138,7 @@ Truy cập ứng dụng tại địa chỉ: `http://localhost:3000`.
 
 ## 🌐 Triển Khai Đám Mây & Tự Động Hóa (CI/CD)
 
-- Tích hợp quy trình CI/CD tự động đồng bộ mã nguồn từ nhánh `main` trên GitHub.
+- Hệ thống được cấu hình tự động đồng bộ xây dựng và triển khai từ nhánh `main` trên GitHub.
 - **Tầng Giao Diện (Frontend)**: Triển khai trên hạ tầng Web tĩnh hiệu năng cao.
 - **Tầng Xử Lý (Backend)**: Dịch vụ FastAPI xử lý đa tác nhân và phát dòng sự kiện SSE thời gian thực.
 
