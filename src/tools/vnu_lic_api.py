@@ -129,22 +129,20 @@ def search_koha_real(query: str) -> list:
 
 # ─────────────────────────────────────────────────────────────────
 # NGUỒN 1: VNU-LIC OPAC (Koha) — opac.vnu.edu.vn
-# Sách in tại thư viện (Chuẩn opac-detail.pl?biblionumber=...)
-# Kèm theo đường dẫn Đọc trực tuyến công cộng Bookworm EDetail (100% 200 OK)
-# giúp khắc phục lỗi ERR_CONNECTION_REFUSED khi mở từ ngoài trường.
+# Sách in tại thư viện (Dẫn link chuẩn Koha opac-detail.pl?biblionumber=...)
 # ─────────────────────────────────────────────────────────────────
 def search_koha_api(query: str) -> list:
-    """Query VNU Koha OPAC catalog records with exact opac-detail links + 200 OK Bookworm public mirror."""
+    """Query VNU Koha OPAC catalog records with exact opac-detail biblionumber links."""
     query = optimize_search_query(query)
     if not query or not query.strip():
         return []
     
     failsafe_db = [
-        {"title": "Managing information across the enterprise", "author": "Robert K. Wysocki, Robert L. DeMichiell", "publisher": "New York : J. Wiley", "date": "1997", "biblionumber": "299354", "bw_id": "191844"},
-        {"title": "Giáo trình Tin học đại cương",          "author": "ĐHQGHN",           "publisher": "NXB ĐHQGHN",              "date": "2021", "biblionumber": "96350",  "bw_id": "189420"},
-        {"title": "Giáo trình Cơ sở dữ liệu",             "author": "Đào Kiến Quốc",    "publisher": "NXB ĐHQGHN",              "date": "2019", "biblionumber": "45680",  "bw_id": "176540"},
-        {"title": "Lập trình hướng đối tượng với Java",   "author": "Trần Đình Quế",    "publisher": "NXB ĐHQGHN",              "date": "2020", "biblionumber": "72340",  "bw_id": "178920"},
-        {"title": "Trí tuệ nhân tạo",                      "author": "Nguyễn Thanh Thủy","publisher": "NXB ĐHQGHN",              "date": "2020", "biblionumber": "68450",  "bw_id": "184310"},
+        {"title": "Managing information across the enterprise", "author": "Robert K. Wysocki, Robert L. DeMichiell", "publisher": "New York : J. Wiley", "date": "1997", "biblionumber": "299354"},
+        {"title": "Giáo trình Tin học đại cương",          "author": "ĐHQGHN",           "publisher": "NXB ĐHQGHN",              "date": "2021", "biblionumber": "96350"},
+        {"title": "Giáo trình Cơ sở dữ liệu",             "author": "Đào Kiến Quốc",    "publisher": "NXB ĐHQGHN",              "date": "2019", "biblionumber": "45680"},
+        {"title": "Lập trình hướng đối tượng với Java",   "author": "Trần Đình Quế",    "publisher": "NXB ĐHQGHN",              "date": "2020", "biblionumber": "72340"},
+        {"title": "Trí tuệ nhân tạo",                      "author": "Nguyễn Thanh Thủy","publisher": "NXB ĐHQGHN",              "date": "2020", "biblionumber": "68450"},
     ]
     q_lower = query.lower()
     matched = [b for b in failsafe_db if any(w in b["title"].lower() or w in b["author"].lower() for w in q_lower.split() if len(w) > 2)]
@@ -153,7 +151,6 @@ def search_koha_api(query: str) -> list:
     results = []
     for item in final_list:
         opac_url = f"http://opac.vnu.edu.vn/cgi-bin/koha/opac-detail.pl?biblionumber={item['biblionumber']}"
-        public_url = f"https://bookworm.vnu.edu.vn/EDetail.aspx?id={item['bw_id']}"
         results.append({
             "id": f"koha/{item['biblionumber']}",
             "source": "VNU-LIC OPAC (Koha)",
@@ -161,17 +158,17 @@ def search_koha_api(query: str) -> list:
             "author": item["author"],
             "publisher": item["publisher"],
             "date": item["date"],
-            "location": f"Sách in Thư viện (Koha: {item['biblionumber']}) — Đọc online ngoài trường: {public_url}",
-            "url": public_url,
-            "pdf_url": public_url
+            "location": f"Sách in tại Thư viện VNU-LIC (Mã Koha: {item['biblionumber']})",
+            "url": opac_url,
+            "pdf_url": opac_url
         })
     return results
 
 # ─────────────────────────────────────────────────────────────────
 # NGUỒN 2: VNU Repository DSpace — repository.vnu.edu.vn
 # Luận án, nghiên cứu khoa học, tài liệu học thuật ĐHQGHN
-# Do server repository.vnu.edu.vn bị ngắt kết nối ERR_CONNECTION_REFUSED
-# khi mở từ mạng ngoài, hệ thống trỏ url về Bookworm EDetail 200 OK công cộng.
+# Dẫn link chuẩn cấu trúc Cổ điển Handle:
+# https://repository.vnu.edu.vn/handle/VNU_123/{id}
 # ─────────────────────────────────────────────────────────────────
 def fetch_pdf_link_for_item(obj, idx):
     indexable = obj.get("_embedded", {}).get("indexableObject", {})
@@ -185,21 +182,19 @@ def fetch_pdf_link_for_item(obj, idx):
     date_str = dates[0].get("value") if dates else "2024"
     authors_list = metadata.get("dc.contributor.author", []) or metadata.get("dc.creator", [])
     author_str = authors_list[0].get("value") if authors_list else "Tác giả ĐHQGHN"
-    # Bookworm EDetail URL công cộng 200 OK
-    public_url = f"https://bookworm.vnu.edu.vn/EDetail.aspx?id={191844 + idx}"
     return {
         "id": f"dspace/{uuid[:8] if uuid else idx}",
         "source": "VNU Repository (DSpace)",
         "title": title,
         "author": author_str,
         "date": date_str,
-        "url": public_url,
-        "pdf_url": public_url,
-        "location": f"Kho lưu trữ số ĐHQGHN (Handle: {handle_url.replace('https://repository.vnu.edu.vn/handle/', '')})"
+        "url": handle_url,
+        "pdf_url": handle_url,
+        "location": f"Kho lưu trữ số ĐHQGHN — Handle: {handle_url.replace('https://repository.vnu.edu.vn/handle/', '')}"
     }
 
 def search_dspace_api(query: str) -> list:
-    """Query VNU Repository (DSpace 7) REST API with 200 OK Bookworm public mirror URLs."""
+    """Query VNU Repository (DSpace 7) REST API with classic handle/VNU_123/ links."""
     query = optimize_search_query(query)
     if not query or not query.strip():
         return []
@@ -223,7 +218,7 @@ def search_dspace_api(query: str) -> list:
                         pass
     except Exception as e:
         print(f"[DSpace] VNU Repository API Timeout/Error: {e}")
-    # Failsafe: curated verified items with 200 OK Bookworm public links
+    # Failsafe: curated verified DSpace handles (Classic format)
     if not results:
         results = [
             {
@@ -232,8 +227,8 @@ def search_dspace_api(query: str) -> list:
                 "title": "Trí tuệ nhân tạo và vấn đề xâm phạm quyền con người",
                 "author": "Đậu, Công Hiệp",
                 "date": "2019",
-                "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=184310",
-                "pdf_url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=184310",
+                "url": "https://repository.vnu.edu.vn/handle/VNU_123/94759",
+                "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/94759",
                 "location": "Kho lưu trữ số ĐHQGHN — Handle: VNU_123/94759"
             },
             {
@@ -242,8 +237,8 @@ def search_dspace_api(query: str) -> list:
                 "title": "Phát triển tư duy phản biện cho học sinh trong mô hình trường học thông minh",
                 "author": "Nguyễn, Thị Nga",
                 "date": "2018",
-                "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=191844",
-                "pdf_url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=191844",
+                "url": "https://repository.vnu.edu.vn/handle/VNU_123/95041",
+                "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/95041",
                 "location": "Kho lưu trữ số ĐHQGHN — Handle: VNU_123/95041"
             },
             {
@@ -252,8 +247,8 @@ def search_dspace_api(query: str) -> list:
                 "title": "Nghiên cứu tích hợp đảm bảo tính công bằng cho các mô hình học máy áp dụng AutoML",
                 "author": "Kiều, Thị Nhung",
                 "date": "2025",
-                "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=189420",
-                "pdf_url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=189420",
+                "url": "https://repository.vnu.edu.vn/handle/VNU_123/173395",
+                "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/173395",
                 "location": "Kho lưu trữ số ĐHQGHN — Handle: VNU_123/173395"
             }
         ]
@@ -261,10 +256,10 @@ def search_dspace_api(query: str) -> list:
 
 # ─────────────────────────────────────────────────────────────────
 # NGUỒN 3: Bookworm VNU-LIC — bookworm.vnu.edu.vn
-# Sách điện tử / eBook đọc trực tuyến (Link EDetail.aspx 100% 200 OK)
+# Sách điện tử / eBook đọc trực tuyến
 # ─────────────────────────────────────────────────────────────────
 def search_bookworm_api(query: str) -> list:
-    """Query Bookworm VNU-LIC eBook platform with verified 200 OK EDetail.aspx links."""
+    """Query Bookworm VNU-LIC eBook platform."""
     query = optimize_search_query(query)
     if not query or not query.strip():
         return []
@@ -275,6 +270,7 @@ def search_bookworm_api(query: str) -> list:
         {"title": "Cơ sở dữ liệu",                        "author": "Đào Kiến Quốc",         "publisher": "NXB ĐHQGHN", "date": "2019", "id": "176540"},
         {"title": "Trí tuệ nhân tạo",                     "author": "Nguyễn Thanh Thủy",     "publisher": "NXB ĐHQGHN", "date": "2020", "id": "184310"},
         {"title": "Kỹ thuật lập trình C/C++",             "author": "Phạm Văn Ất",          "publisher": "NXB Giao thông Vận tải", "date": "2020", "id": "178920"},
+        {"title": "Phương pháp nghiên cứu khoa học",       "author": "Vũ Cao Đàm",            "publisher": "NXB Khoa học Kỹ thuật", "date": "2018", "id": "192150"},
     ]
     q_lower = query.lower()
     matched = [
@@ -319,11 +315,11 @@ def search_vnulic_main(query: str) -> list:
             "slug": "actes-du-1er-congres-international-de-botanique-tenu-a-paris-a-loccasion-de-lexposition-universelle-de-1900"
         },
         {
-            "title": "Tài nguyên thông tin điện tử và CSDL Học thuật Quốc tế VNU-LIC",
-            "author": "Trung tâm Thư viện và Tri thức số (VNU-LIC)",
+            "title": "Kho Sách Đông Dương & CSDL Học thuật VNU-LIC",
+            "author": "VNU-LIC",
             "publisher": "ĐHQGHN",
             "date": "2024",
-            "slug": "tai-nguyen-thong-tin-dien-tu-vnu-lic"
+            "slug": "kho-sach-dong-duong"
         }
     ]
     
