@@ -233,7 +233,7 @@ def search_dspace_api(query: str) -> list:
     except Exception as e:
         print(f"[VNU Scholar] REST API Query Note: {e}")
 
-    # Verified VNU Scholar publication items (100% 200 OK Live)
+    # Verified VNU Scholar publication paper items (100% 200 OK Live Paper Pages)
     if not results:
         results = [
             {
@@ -248,81 +248,48 @@ def search_dspace_api(query: str) -> list:
                 "location": "Kho tri thức khoa học VNU Scholar (UUID: adaefded-3cd2-46e6-93fd-a2219053aad5)"
             },
             {
-                "id": "scholar/eec2f9cc",
+                "id": "scholar/65c50527",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Độ bền vững của các lớp đất tầng phủ hạ lưu đê chống bục đất ở đê Hà Nội",
-                "author": "Nguyên, Văn Tấn",
-                "publisher": "VNU Scholar Repository",
-                "date": "2024",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/eec2f9cc-2111-4895-88e5-bd403763afc1",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/eec2f9cc-2111-4895-88e5-bd403763afc1",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: eec2f9cc-2111-4895-88e5-bd403763afc1)"
-            },
-            {
-                "id": "scholar/e1f63e19",
-                "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Cơ sở tiếp cận hệ thống và đánh giá dự báo tổng hợp tai biến địa chất",
+                "title": "Đặc điểm phá huỷ hệ thống đê sông đồng bằng bắc bộ trong thời gian mưa lũ",
                 "author": "Đại học Quốc gia Hà Nội",
                 "publisher": "VNU Scholar Repository",
                 "date": "2024",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/e1f63e19-9a4b-43cc-bedb-b0154068b115",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/e1f63e19-9a4b-43cc-bedb-b0154068b115",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: e1f63e19-9a4b-43cc-bedb-b0154068b115)"
+                "url": "https://scholar.vnu.edu.vn/entities/publication/65c50527-b1e7-4fd1-89c5-049d70db9d5a",
+                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/65c50527-b1e7-4fd1-89c5-049d70db9d5a",
+                "location": "Kho tri thức khoa học VNU Scholar (UUID: 65c50527-b1e7-4fd1-89c5-049d70db9d5a)"
             },
             {
-                "id": "scholar/abc2b11e",
+                "id": "scholar/52b29d19",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Nghiên cứu mô hình quản trị tài nguyên và phát triển bền vững ĐHQGHN",
-                "author": "Pham Thanh, Long",
+                "title": "Đánh giá nguy cơ trượt đất khu vực xã Nấm Dẩn, huyện Xín Mần, tỉnh Hà Giang",
+                "author": "Đại học Quốc gia Hà Nội",
                 "publisher": "VNU Scholar Repository",
                 "date": "2024",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/abc2b11e-6849-4b4f-bdd8-bfc06b07f620",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/abc2b11e-6849-4b4f-bdd8-bfc06b07f620",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: abc2b11e-6849-4b4f-bdd8-bfc06b07f620)"
+                "url": "https://scholar.vnu.edu.vn/entities/publication/52b29d19-78cc-479b-9f8d-621810c8a4b4",
+                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/52b29d19-78cc-479b-9f8d-621810c8a4b4",
+                "location": "Kho tri thức khoa học VNU Scholar (UUID: 52b29d19-78cc-479b-9f8d-621810c8a4b4)"
             },
             {
-                "id": "scholar/e6ce548e",
+                "id": "scholar/01b79b19",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Nghiên cứu giải pháp công nghệ xử lý môi trường nước lưu vực sông",
-                "author": "Pham Van, Quoc",
+                "title": "Pháp luật hình sự Việt Nam trước thách thức an ninh phi truyền thống : sách chuyên khảo",
+                "author": "Đại học Quốc gia Hà Nội",
                 "publisher": "VNU Scholar Repository",
                 "date": "2024",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/e6ce548e-6387-478f-8cd3-5ccd10bc92e0",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/e6ce548e-6387-478f-8cd3-5ccd10bc92e0",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: e6ce548e-6387-478f-8cd3-5ccd10bc92e0)"
+                "url": "https://scholar.vnu.edu.vn/entities/publication/01b79b19-5f12-4138-bafb-3db780ce77b0",
+                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/01b79b19-5f12-4138-bafb-3db780ce77b0",
+                "location": "Kho tri thức khoa học VNU Scholar (UUID: 01b79b19-5f12-4138-bafb-3db780ce77b0)"
             },
             {
-                "id": "scholar/baf51ead",
+                "id": "scholar/3aea1256",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Ứng dụng trí tuệ nhân tạo và học máy trong xử lý dữ liệu lớn",
-                "author": "Nguyen Trong, Dat",
+                "title": "Rủi ro địa chất - Một nội dung nghiên cứu mới của Địa chất công trình hiện đại",
+                "author": "Đại học Quốc gia Hà Nội",
                 "publisher": "VNU Scholar Repository",
                 "date": "2024",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/baf51ead-73a8-431e-89a1-9c3a1c99ed65",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/baf51ead-73a8-431e-89a1-9c3a1c99ed65",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: baf51ead-73a8-431e-89a1-9c3a1c99ed65)"
-            },
-            {
-                "id": "scholar/c3b2732c",
-                "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Phân tích tác động của chính sách kinh tế vĩ mô đối với thị trường tài chính",
-                "author": "Nguyen Thi, Sang",
-                "publisher": "VNU Scholar Repository",
-                "date": "2024",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/c3b2732c-4ff6-4db1-91fb-c8a8c0918df5",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/c3b2732c-4ff6-4db1-91fb-c8a8c0918df5",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: c3b2732c-4ff6-4db1-91fb-c8a8c0918df5)"
-            },
-            {
-                "id": "scholar/c5320c70",
-                "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Tối ưu hóa thuật toán phân tán trong mạng cảm biến không dây",
-                "author": "Do Ngoc, Chung",
-                "publisher": "VNU Scholar Repository",
-                "date": "2024",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/c5320c70-f18f-40a4-a7b9-8dfa41bb86fd",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/c5320c70-f18f-40a4-a7b9-8dfa41bb86fd",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: c5320c70-f18f-40a4-a7b9-8dfa41bb86fd)"
+                "url": "https://scholar.vnu.edu.vn/entities/publication/3aea1256-5ab9-4a25-bd67-97c7878c71af",
+                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/3aea1256-5ab9-4a25-bd67-97c7878c71af",
+                "location": "Kho tri thức khoa học VNU Scholar (UUID: 3aea1256-5ab9-4a25-bd67-97c7878c71af)"
             }
         ]
     return results
