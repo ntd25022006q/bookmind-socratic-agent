@@ -1,6 +1,6 @@
-# VNU BookMind Socratic 🧠📚
+# 🧠📚 VNU BookMind Socratic
 
-> **Nền Tảng Đa Tác Nhân (Multi-Agent Architecture) Hỗ Trợ Đọc Sâu & Phản Biện Socratic Dành Cho Sinh Viên**
+> **Nền Tảng AI Đa Tác Nhân (Multi-Agent Architecture) Hỗ Trợ Đọc Sâu & Phản Biện Socratic Dành Cho Sinh Viên**
 >
 > 🚀 *Giải pháp trí tuệ nhân tạo nâng cao văn hóa đọc chủ động, tích hợp triết lý Socratic và kho tri thức học thuật VNU-LIC*
 
@@ -17,81 +17,39 @@
 
 Khác biệt với các công cụ AI tóm tắt thụ động, BookMind tuân thủ chặt chẽ triết lý phương pháp Socrates: **AI không đọc hộ hay tóm tắt sẵn văn bản, mà đưa ra các câu hỏi gợi mở, phân tích điểm mù nhận thức và khuyến khích độc giả tự đối thoại, tự ghi chép và đưa ra kết luận.**
 
-Tác giả dự án: **Nguyễn Tiến Đạt** (Sinh viên K24, Trường Quốc tế, Đại học Quốc gia Hà Nội).
+- **Tác giả dự án**: **Nguyễn Tiến Đạt** (Sinh viên K24, Trường Quốc tế, Đại học Quốc gia Hà Nội).
 
 ---
 
-## 🏛️ Danh Mục & Quy Chuẩn Phân Loại 4 Nguồn Học Liệu Số VNU-LIC Công Khai
+## ✨ Tính Năng Nổi Bật
+
+- 🤖 **Kiến trúc Đa Tác Nhân 6 Tầng (LangGraph Sequential Engine)**: Phối hợp 6 AI Agent chuyên biệt xử lý từ cảnh giới bảo mật, dựng chân dung độc giả, gợi ý học liệu đến phản biện và xuất báo cáo.
+- 📚 **Tích Hợp Kho Tri Thức Học Thuật VNU-LIC**: Truy xuất thời gian thực các bài báo khoa học, luận văn thạc sĩ/luận án tiến sĩ và sách điện tử từ hệ thống thư viện số ĐHQGHN.
+- 🎯 **Trích Dẫn Nguyên Bản & Cơ Chế Link Song Song Kép**: Cung cấp liên kết công khai song song (**DSpace 7 Entity Page** & **Classic Handle URI**) giúp bạn đọc truy cập học liệu không bị gián đoạn.
+- 💬 **Đối Thoại Socrates Tự Co Giãn**: Gợi mở 3 câu hỏi đào sâu tư duy giúp độc giả phát hiện điểm mù lý thuyết và mở rộng góc nhìn nghiên cứu.
+- ⚡ **Luồng Truyền Phát Sự Kiện Thời Gian Thực (Real-time SSE Streaming)**: Hiển thị tiến trình suy luận và kết quả tương tác mượt mà trên giao diện web.
+
+---
+
+## 🏛️ Hệ Sinh Thái Học Liệu Số VNU-LIC Tích Hợp
 
 Hệ thống kết nối thời gian thực và trích xuất dữ liệu từ các nguồn tài nguyên tri thức trọng điểm thuộc **Trung tâm Thư viện và Tri thức số (VNU-LIC)**:
 
-### 🌐 Nguồn Mở Truy Cập Trực Tiếp Công Khai (Public Access Resources)
+1. 🎓 **VNU Scholar Repository (`scholar.vnu.edu.vn`)**:
+   - Kho tri thức lưu trữ các công trình nghiên cứu khoa học công bố quốc tế, bài báo tạp chí chuyên ngành và kết quả nghiên cứu mở của ĐHQGHN.
 
-1. **VNU Scholar Repository (`scholar.vnu.edu.vn`)**:
-   - **Mô tả**: Nền tảng quản trị tri thức số lưu trữ bài báo khoa học, công trình nghiên cứu công bố quốc tế, luận án tiến sĩ và kết quả nghiên cứu khoa học mở của ĐHQGHN.
-   - **Cơ chế Link**: Hỗ trợ 2 link song song kép (**DSpace 7 Entity Page** & **Classic Handle URI**).
+2. 🏛️ **VNU Repository (`repository.vnu.edu.vn`)**:
+   - Kho lưu trữ số luận văn thạc sĩ, luận án tiến sĩ và tài liệu học thuật thuộc hệ thống các trường đại học thành viên ĐHQGHN (ULIS, VNU-IS, HUS, USSH, VNU-UEB, VNU-UL...).
 
-2. **VNU Repository (`repository.vnu.edu.vn`)**:
-   - **Mô tả**: Kho lưu trữ số luận văn thạc sĩ, luận án tiến sĩ và công trình khoa học nguyên bản thuộc hệ thống các trường thành viên ĐHQGHN (ULIS, VNU-IS, HUS, USSH, VNU-UEB, VNU-UL...).
-   - **Cơ chế Link**: Hỗ trợ 2 link song song kép (**Entity Page** & **Handle URI**).
+3. 📖 **Bookworm VNU-LIC (`bookworm.vnu.edu.vn`)**:
+   - Kho sách điện tử, giáo trình số và tài liệu tham khảo bản quyền phục vụ học tập và giảng dạy.
 
-3. **Bookworm VNU-LIC (`bookworm.vnu.edu.vn`)**:
-   - **Mô tả**: Kho sách điện tử, giáo trình số và tài liệu tham khảo bản quyền. Cho phép bạn đọc tra cứu và đọc trực tiếp trên trình duyệt web.
-
-4. **Cổng Thông Tin & Kho Sách Đông Dương (`lic.vnu.edu.vn`)**:
-   - **Mô tả**: Bộ sưu tập di sản văn hóa, tư liệu số lịch sử và tài liệu quý hiếm thời kỳ Đông Dương do VNU-LIC số hóa.
+4. 📚 **Cổng Thông Tin & Kho Sách Đông Dương (`lic.vnu.edu.vn`)**:
+   - Bộ sưu tập di sản văn hóa, tư liệu số lịch sử và tài liệu quý hiếm thời kỳ Đông Dương do VNU-LIC số hóa.
 
 ---
 
-### ⚠️ Ghi Chú Kỹ Thuật Về Koha OPAC (`opac.vnu.edu.vn`)
-
-> [!IMPORTANT]
-> **Tạm thời không sinh link Koha OPAC cho LLMs**:
-> Máy chủ Koha OPAC (`opac.vnu.edu.vn`) quản lý sách in truyền thống yêu cầu kết nối Mạng nội bộ ĐHQGHN (VNU Campus Network / VNU VPN). Để đảm bảo sinh viên và người dùng truy cập từ mạng ngoài **không gặp lỗi liên kết chết (Dead Link / Connection Timeout)**, hệ thống AI Agent được thiết lập **tạm thời không sinh link Koha OPAC**.
-> Thay vào đó, **VNU Scholar** và **VNU Repository** được sử dụng làm nguồn công khai thay thế trực tiếp, đảm bảo 100% tài liệu trích xuất có liên kết công khai hoạt động 200 OK.
-
----
-
-## 📊 Định Dạng Bảng Tham Khảo Chuẩn 8 Cột Cho LLM Agent
-
-Toàn bộ các tác nhân LLM trong hệ thống tuân thủ nghiêm ngặt cấu trúc Bảng Học liệu Tham khảo 8 cột chuẩn hóa như sau:
-
-| STT | Tên tài liệu | Tác giả | Người hướng dẫn | Năm | Nhà xuất bản / Đơn vị chủ trì / Tạp chí | Nguồn | Handle URI / Entity Page |
-|---|---|---|---|---|---|---|---|
-| 1 | A hybrid feature selection method for credit scoring | Ha Van, Sang; Nguyen Ha, Nam; Nguyen Thi Bao, Hien | - | 2017 | EAI Endorsed Transactions | VNU Scholar | [Xem Entity](https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff) \| [Xem Handle URI](https://scholar.vnu.edu.vn/handle/123456789/12692) $\rightarrow$ `https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff` |
-| 2 | Using impromptu speaking activities to improve student' fluency... | Bùi, Thị Hồng Hoa | - | 2026 | ĐHQGHN - Trường Đại học Ngoại ngữ | VNU Repository | [Xem Entity](https://repository.vnu.edu.vn/entities/publication/e87b7dca-5f05-4dd2-8d84-3ae579fce5ab) \| [Xem Handle URI](https://repository.vnu.edu.vn/handle/VNU_123/182268) $\rightarrow$ `https://repository.vnu.edu.vn/entities/publication/e87b7dca-5f05-4dd2-8d84-3ae579fce5ab` |
-| 3 | Integration der flüchtlinge auf dem Deutschen arbeitsmarkt... | Đào, Thị Thắm | Trần, Thị Hạnh | 2022 | ĐHQGHN - Trường Đại học Ngoại ngữ | VNU Repository | [Xem Entity](https://repository.vnu.edu.vn/entities/publication/1ff7218c-e60e-4f3a-922d-c017d0a65ec9) \| [Xem Handle URI](https://repository.vnu.edu.vn/handle/VNU_123/143559) $\rightarrow$ `https://repository.vnu.edu.vn/entities/publication/1ff7218c-e60e-4f3a-922d-c017d0a65ec9` |
-| 4 | Auguste comte sa vie | Cresson, André | - | 1947 | Presses universitaires de France | Cổng VNU-LIC | [Xem tại Cổng VNU-LIC](https://lic.vnu.edu.vn/books/auguste-comte-sa-vie) $\rightarrow$ `https://lic.vnu.edu.vn/books/auguste-comte-sa-vie` |
-
-### 🛠️ Quy Tắc Trình Bày Dữ Liệu Bắt Buộc:
-1. **Thiếu thông tin**: Khi một ô dữ liệu không có thông tin (ví dụ: bài báo/sách không có Người hướng dẫn), phải điền duy nhất một dấu gạch ngang `-`. Không tự bịa văn bản "Không có" hay điền sai thông tin.
-2. **Link song song**: Đối với các tài liệu VNU Scholar và VNU Repository, Cột 8 phải hiển thị đồng thời link **DSpace Entity Page** và link **Classic Handle URI**, kèm URL RAW dạng văn bản để người dùng copy trực tiếp.
-
----
-
-## 🔗 Thông Số Kỹ Thuật API Endpoint Chính Thức
-
-Hệ thống truy xuất dữ liệu nguyên bản thông qua 4 API Endpoint đã được kiểm xác:
-
-1. **VNU Scholar REST API**:
-   - `GET https://scholar.vnu.edu.vn/server/api/core/items/{uuid}`
-   - Trích xuất: `dc.title`, `dc.contributor.author`, `dc.date.issued`, `dc.relation.ispublishedin`, `dc.identifier.uri`
-
-2. **VNU Repository REST API**:
-   - `GET https://repository.vnu.edu.vn/server/api/discover/search/objects?dsoType=item`
-   - Trích xuất: `dc.title`, `dc.contributor.author`, `dc.contributor.advisor`, `dc.publisher`, `dc.identifier.uri`
-
-3. **Bookworm VNU-LIC API**:
-   - `GET https://bookworm.vnu.edu.vn/EDetail.aspx?id={id}`
-   - Trích xuất mã EDetail sách điện tử bản quyền.
-
-4. **Cổng Thư viện VNU-LIC API**:
-   - `GET https://lic.vnu.edu.vn/books/{slug}`
-   - Trích xuất sách cổ di sản Đông Dương theo Slug kiểm định `200 OK`.
-
----
-
-## 🧠 Kiến Trúc 6 Tác Nhân Socratic Tuần Tự (LangGraph Engine)
+## 🧠 Kiến Trúc 6 Tác Nhân Socratic (LangGraph Workflow)
 
 ```mermaid
 flowchart TD
@@ -112,20 +70,55 @@ flowchart TD
     Reporter --> ReportEnd(["Xuất Báo Cáo Học Thuật & Sơ Đồ Quy Trình"])
 ```
 
+### Chức Năng Chi Tiết Từng Tác Nhân:
+
+1. **01. Cảnh Giới (Guardrail Agent)**:
+   - Bảo mật hệ thống: Chặn đứng Prompt Injection, từ chối các yêu cầu ngoài phạm vi học thuật hoặc vi phạm nguyên tắc tự học.
+
+2. **02. Hồ Sơ (Profiler Agent)**:
+   - Dựng chân dung độc giả dựa trên ngành học, trường thành viên, mục tiêu nghiên cứu và phong cách nhận thức.
+
+3. **03. Gợi Ý Sách (Recommender Agent)**:
+   - Truy xuất danh mục tài liệu phù hợp nhất từ kho VNU-LIC kèm đầy đủ thông tin tác giả, người hướng dẫn, năm xuất bản và đường dẫn nguyên bản.
+
+4. **04. Đối Thoại Socrates (Socrates Questioner)**:
+   - Đặt 3 câu hỏi gợi mở sâu sắc thúc đẩy độc giả tự phân tích thay vì tiếp nhận thông tin một chiều.
+
+5. **05. Phản Biện (Critic Agent)**:
+   - Phân tích các góc nhìn đối lập, phát hiện thiên kiến xác nhận và chỉ ra các hạn chế lý thuyết.
+
+6. **06. Biên Soạn (Reporter Agent)**:
+   - Tổng hợp toàn bộ kết quả thành Báo cáo học thuật Markdown hoàn chỉnh, sơ đồ Mermaid và bảng học liệu tham khảo chuẩn mực.
+
 ---
 
 ## 💻 Hướng Dẫn Cài Đặt & Vận Hành Localhost
 
+### 1. Khởi tạo môi trường
 ```bash
-# 1. Tạo và kích hoạt môi trường ảo Python 3.10+
+# Tạo và kích hoạt môi trường ảo Python 3.10+
 python -m venv .venv
-.venv\Scripts\Activate.ps1   # Windows
+.venv\Scripts\Activate.ps1   # Windows PowerShell
+# source .venv/bin/activate  # macOS/Linux
 
-# 2. Cài đặt thư viện phụ thuộc
+# Cài đặt thư viện phụ thuộc
 pip install -r requirements.txt
+```
 
-# 3. Khởi chạy Server Backend & Frontend
+### 2. Thiết lập biến môi trường (`.env`)
+```env
+OLLAMA_API_KEY=your_ollama_cloud_api_key_here
+OLLAMA_BASE_URL=https://ollama.com/v1
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
+```
+
+### 3. Khởi chạy Ứng dụng
+```bash
+# Khởi chạy Backend API Server
 python server.py
+
+# Khởi chạy Frontend Web App
 cd frontend
 python -m http.server 3000
 ```
