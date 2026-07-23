@@ -251,6 +251,18 @@ def search_dspace_api(query: str) -> list:
                 "location": "Luận văn thạc sĩ ULIS - Master Theses (Handle: VNU_123/182268)"
             },
             {
+                "id": "scholar/1ff731b9",
+                "source": "VNU Repository (repository.vnu.edu.vn)",
+                "title": "The use of pictures in teaching English speaking in an English center",
+                "author": "Duong, Tra Mi; Vu, Mai Trang (Người hướng dẫn)",
+                "publisher": "Kho lưu trữ số ĐHQGHN",
+                "date": "2011",
+                "url": "https://repository.vnu.edu.vn/entities/publication/1ff731b9-5e12-4f8e-ae8f-b08c34627537",
+                "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/40615",
+                "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/40615",
+                "location": "Kho lưu trữ số ĐHQGHN (Handle: VNU_123/40615)"
+            },
+            {
                 "id": "scholar/1ff7218c",
                 "source": "VNU Repository (repository.vnu.edu.vn)",
                 "title": "Integration der flüchtlinge auf dem Deutschen arbeitsmarkt = So sánh hai mô hình hỗ trợ người tị nạn...",

@@ -300,6 +300,14 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
             "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/182268"
         },
         {
+            "title": "The use of pictures in teaching English speaking in an English center",
+            "author": "Duong, Tra Mi; Vu, Mai Trang (Người hướng dẫn)",
+            "date": "2011",
+            "source": "VNU Repository (repository.vnu.edu.vn)",
+            "url": "https://repository.vnu.edu.vn/entities/publication/1ff731b9-5e12-4f8e-ae8f-b08c34627537",
+            "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/40615"
+        },
+        {
             "title": "Visualizing atomic orbitals of an electron by Latex",
             "author": "Nguyen Hoang, Hai",
             "date": "2022",
