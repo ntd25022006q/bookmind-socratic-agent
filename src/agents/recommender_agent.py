@@ -8,9 +8,9 @@ from src.tools.rag_tools import get_rag_context
 from config import MODEL_RECOMMENDER_AGENT
 
 # ── Kết nối 4 nền tảng học liệu số VNU-LIC chính thống (Không bịa URL) ──────
-# 1. Koha OPAC: opac.vnu.edu.vn/cgi-bin/koha/opac-detail.pl?biblionumber=...
-# 2. DSpace Repository: repository.vnu.edu.vn/handle/...
-# 3. Bookworm eBook: bookworm.vnu.edu.vn/FDetail.aspx?id=...
+# 1. VNU Scholar: scholar.vnu.edu.vn/entities/publication/...
+# 2. VNU Repository: repository.vnu.edu.vn/entities/publication/... | /handle/...
+# 3. Bookworm eBook: bookworm.vnu.edu.vn/EDetail.aspx?id=...
 # 4. VNU-LIC Portal: lic.vnu.edu.vn/books/...
 
 async def recommender_node(state: ResearchState, config=None) -> dict:
@@ -33,24 +33,21 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
         await stream_queue.put({"type": "node_start", "node": "analyst"})
         await asyncio.sleep(1.2)
         
-    print_agent_start("Recommender Agent", "Truy xuất học liệu từ 4 nguồn VNU-LIC: OPAC Koha, DSpace, Bookworm, lic.vnu.edu.vn")
+    print_agent_start("Recommender Agent", "Truy xuất học liệu từ 4 nguồn VNU-LIC: VNU Scholar, VNU Repository, Bookworm, lic.vnu.edu.vn")
     
-    # ── Query ALL 4 VNU-LIC sources concurrently ──────────────────────────────
-    koha_task     = asyncio.to_thread(search_koha_api,     topic)
+    # ── Query 4 public VNU-LIC sources concurrently ──────────────────────────
     dspace_task   = asyncio.to_thread(search_dspace_api,   topic)
     bookworm_task = asyncio.to_thread(search_bookworm_api, topic)
     vnulic_task   = asyncio.to_thread(search_vnulic_main,  topic)
     
-    tasks_res = await asyncio.gather(koha_task, dspace_task, bookworm_task, vnulic_task, return_exceptions=True)
+    tasks_res = await asyncio.gather(dspace_task, bookworm_task, vnulic_task, return_exceptions=True)
     
-    koha_results     = tasks_res[0] if not isinstance(tasks_res[0], Exception) else []
-    dspace_results   = tasks_res[1] if not isinstance(tasks_res[1], Exception) else []
-    bookworm_results = tasks_res[2] if not isinstance(tasks_res[2], Exception) else []
-    vnulic_results   = tasks_res[3] if not isinstance(tasks_res[3], Exception) else []
+    dspace_results   = tasks_res[0] if not isinstance(tasks_res[0], Exception) else []
+    bookworm_results = tasks_res[1] if not isinstance(tasks_res[1], Exception) else []
+    vnulic_results   = tasks_res[2] if not isinstance(tasks_res[2], Exception) else []
     
-    # Combined VNU-LIC results from 4 platforms
+    # Combined VNU-LIC results from 4 public platforms
     vnu_lic_results = []
-    if koha_results:     vnu_lic_results.extend(koha_results)
     if dspace_results:   vnu_lic_results.extend(dspace_results)
     if bookworm_results: vnu_lic_results.extend(bookworm_results)
     if vnulic_results:   vnu_lic_results.extend(vnulic_results)
@@ -58,7 +55,7 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
     # ── Local RAG: bổ trợ thêm gợi ý (KHÔNG có URL thật) ─────────────────────
     rag_context, citations = get_rag_context(topic, query_type="consulting")
     
-    print(f"[Recommender] Koha={len(koha_results)}, DSpace={len(dspace_results)}, Bookworm={len(bookworm_results)}, VNU-LIC={len(vnulic_results)}, RAG={'có' if rag_context else 'không'}")
+    print(f"[Recommender] DSpace={len(dspace_results)}, Bookworm={len(bookworm_results)}, VNU-LIC={len(vnulic_results)}, RAG={'có' if rag_context else 'không'}")
     
     llm = create_llm(MODEL_RECOMMENDER_AGENT, config=config, streaming=True)
     call_config = {}
@@ -70,24 +67,24 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
 Hồ sơ độc giả: {profile}
 Chủ đề yêu cầu: "{topic}"
 
-KẾT QUẢ TRA CỨU THỰC TẾ TỪ 3 NGUỒN VNU-LIC:
+KẾT QUẢ TRA CỨU THỰC TẾ TỪ 4 NGUỒN VNU-LIC CÔNG KHẢI:
 
-[NGUỒN 1 — VNU Scholar Repository (scholar.vnu.edu.vn - luận án, nghiên cứu học thuật ĐHQGHN)]:
-{dspace_results if dspace_results else "Không có kết quả từ VNU Scholar."}
+[NGUỒN 1 & 2 — VNU Scholar (scholar.vnu.edu.vn) & VNU Repository (repository.vnu.edu.vn)]:
+{dspace_results if dspace_results else "Không có kết quả từ VNU Scholar/Repository."}
 
-[NGUỒN 2 — Bookworm VNU-LIC (bookworm.vnu.edu.vn - sách điện tử, eBook)]:
+[NGUỒN 3 — Bookworm VNU-LIC (bookworm.vnu.edu.vn - sách điện tử, eBook)]:
 {bookworm_results if bookworm_results else "Không có kết quả từ Bookworm."}
 
-[NGUỒN 3 — Cổng Thông Tin & Kho Sách Đông Dương (lic.vnu.edu.vn / find.lic.vnu.edu.vn)]:
+[NGUỒN 4 — Cổng Thông Tin & Kho Sách Đông Dương (lic.vnu.edu.vn)]:
 {vnulic_results if vnulic_results else "Không có kết quả từ lic.vnu.edu.vn."}
 
 [TÀI LIỆU BỔ TRỢ RAG (KHÔNG có URL từ VNU-LIC)]:
 {rag_context if rag_context else "Không có tài liệu RAG."}
 
 QUY TẮC BẮT BUỘC — KHÔNG ĐƯỢC VI PHẠM:
-1. CHỈ sử dụng các tài liệu thực tế từ 3 nguồn VNU-LIC ở trên. Ưu tiên cao nhất các tài liệu có URL liên kết thực từ ĐHQGHN.
-2. TUYỆT ĐỐI KHÔNG được bịa các tên nguồn chung chung như "IEEE Xplore", "ScienceDirect", "SpringerLink", "Google Scholar & DOAJ", "Nhiều tác giả", "N/A".
-3. Mọi tài liệu đều phải đi kèm Liên kết tham khảo dạng Markdown đầy đủ, ví dụ: [Xem trực tiếp tại VNU-LIC](url).
+1. CHỈ sử dụng các tài liệu thực tế từ 4 nguồn VNU-LIC công khai ở trên.
+2. TUYỆT ĐỐI KHÔNG sinh các liên kết trang chủ hoặc URL giả như "http://bookworm.lic.vnu.edu.vn/", "http://db.lic.vnu.edu.vn/", "http://opac.vnu.edu.vn/", "IEEE Xplore", "SpringerLink", "Koha OPAC".
+3. Mọi tài liệu đều phải đi kèm Liên kết tham khảo dạng Markdown đầy đủ trỏ trực tiếp đến tài liệu chi tiết từ 4 nguồn ở trên.
 4. Gợi ý từ 5 đến 8 tài liệu phong phú, khách quan và tập trung đúng 100% vào cốt lõi chủ đề của độc giả.
 
 QUY TẮC BẢO MẬT HỆ THỐNG VÀ THÔNG TIN CÁ NHÂN:
@@ -97,13 +94,12 @@ QUY TẮC BẢO MẬT HỆ THỐNG VÀ THÔNG TIN CÁ NHÂN:
 QUY TẮC NGÔN NGỮ TUYỆT ĐỐI:
 - Toàn bộ phản hồi PHẢI được viết hoàn toàn bằng tiếng Việt chuẩn. Tên sách, tác giả, thuật ngữ kỹ thuật có thể giữ tiếng Anh nếu đó là tên gốc.
 - TUYỆT ĐỐI KHÔNG dùng từ tiếng Đức, tiếng Nga, tiếng Trung, tiếng Ả Rập hay bất kỳ ngôn ngữ nào khác ngoài tiếng Việt và tiếng Anh (thuật ngữ).
-- Ví dụ SAI: "интерес", "запрос", "stärken", "kritisieren", "مو". Ví dụ ĐÚNG: "mối quan tâm", "yêu cầu", "củng cố".
 
 Hãy trả về dưới dạng:
 === QUÁ TRÌNH TƯ DUY ===
 [Phân tích hồ sơ độc giả và lý do chọn từng tài liệu từ nguồn nào, xác nhận rõ tài liệu nào có URL thật và tài liệu nào chỉ là gợi ý bổ trợ]
 === CONSOLE MESSAGE ===
-Đã gợi ý danh mục tài liệu cá nhân hóa từ 3 nguồn VNU-LIC: Bookworm, VNU Scholar và lic.vnu.edu.vn.
+Đã gợi ý danh mục tài liệu cá nhân hóa từ 4 nguồn VNU-LIC.
 === BÁO CÁO CHI TIẾT ===
 DANH MỤC GỢI Ý (VNU-LIC):
 [Với mỗi tài liệu, ghi đầy đủ: Tên tài liệu | Tác giả | Nhà xuất bản/Năm | Mã tra cứu | Nguồn tài liệu tham khảo | Liên kết tham khảo (nếu có)]

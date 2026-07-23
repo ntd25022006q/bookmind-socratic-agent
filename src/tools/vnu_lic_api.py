@@ -71,108 +71,13 @@ def optimize_search_query(query: str) -> str:
     return q.strip() or query
 
 
-# ─────────────────────────────────────────────────────────────────
-# NGUỒN 1: VNU-LIC OPAC (Koha) — opac.vnu.edu.vn
-# Sách in tại thư viện, tra cứu qua RSS feed
-# ─────────────────────────────────────────────────────────────────
 def search_koha_real(query: str) -> list:
-    """Query live Koha OPAC VNU via RSS search feed."""
-    if not query or not query.strip():
-        return []
-    results = []
-    safe_query = urllib.parse.quote(query.strip())
-    url = f"http://opac.vnu.edu.vn/cgi-bin/koha/opac-search.pl?q={safe_query}&format=rss"
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, context=ssl_context, timeout=3) as resp:
-            xml_data = resp.read()
-            root = ET.fromstring(xml_data)
-            items = root.findall('.//item')
-            for idx, item in enumerate(items[:4]):
-                title_el = item.find('title')
-                link_el  = item.find('link')
-                desc_el  = item.find('description')
-                title = title_el.text.strip() if title_el is not None else "Không rõ tựa đề"
-                title = title.rstrip(" /").strip()
-                link = link_el.text.strip() if link_el is not None else ""
-                biblionumber = ""
-                biblio_match = re.search(r'biblionumber=(\d+)', link)
-                if biblio_match:
-                    biblionumber = biblio_match.group(1)
-                    link = f"http://opac.vnu.edu.vn/cgi-bin/koha/opac-detail.pl?biblionumber={biblionumber}"
-                if not link:
-                    continue
-                desc_text = desc_el.text if desc_el is not None else ""
-                publisher = "NXB ĐHQGHN"
-                published_date = "2024"
-                p_match = re.search(r'<p>(.*?)</p>', desc_text, re.DOTALL)
-                if p_match:
-                    p_text = clean_html(p_match.group(1)).strip()
-                    if ":" in p_text:
-                        parts = p_text.split(":")
-                        pub_part = parts[1].strip()
-                        if "," in pub_part:
-                            pub_subparts = pub_part.split(",")
-                            publisher = pub_subparts[0].strip()
-                            year_match = re.search(r'\b\d{4}\b', pub_subparts[1])
-                            if year_match:
-                                published_date = year_match.group(0)
-                results.append({
-                    "id": f"koha/{biblionumber or idx+1}",
-                    "source": "VNU-LIC OPAC (Koha)",
-                    "title": title,
-                    "author": "VNU-LIC",
-                    "publisher": publisher,
-                    "date": published_date,
-                    "location": f"Sách in tại quầy Thư viện VNU-LIC (Mã Koha: {biblionumber}) — Yêu cầu mạng VNU",
-                    "url": "-",
-                    "pdf_url": "-"
-                })
-    except Exception as e:
-        print(f"[Koha OPAC] Timeout/Error: {e}")
-    return results
+    """Disabled OPAC search."""
+    return []
 
-# ─────────────────────────────────────────────────────────────────
-# NGUỒN 1: VNU-LIC OPAC (Koha) — opac.vnu.edu.vn
-# Sách in tại thư viện (Dẫn link chuẩn Koha opac-detail.pl?biblionumber=...)
-# ─────────────────────────────────────────────────────────────────
 def search_koha_api(query: str) -> list:
-    """Query VNU Koha OPAC catalog records with exact opac-detail biblionumber links."""
-    query = optimize_search_query(query)
-    if not query or not query.strip():
-        return []
-    
-    failsafe_db = [
-        {"title": "Managing distributed databases : Building bridges between database islands", "author": "Burleson, Donald K.", "publisher": "N.Y. : John Wiley & Sons", "date": "1994", "biblionumber": "299342"},
-        {"title": "Managing information across the enterprise", "author": "Robert K. Wysocki, Robert L. DeMichiell", "publisher": "New York : J. Wiley", "date": "1997", "biblionumber": "299354"},
-        {"title": "Giáo trình Tin học đại cương",          "author": "ĐHQGHN",           "publisher": "NXB ĐHQGHN",              "date": "2021", "biblionumber": "96350"},
-        {"title": "Giáo trình Cơ sở dữ liệu",             "author": "Đào Kiến Quốc",    "publisher": "NXB ĐHQGHN",              "date": "2019", "biblionumber": "45680"},
-        {"title": "Lập trình hướng đối tượng với Java",   "author": "Trần Đình Quế",    "publisher": "NXB ĐHQGHN",              "date": "2020", "biblionumber": "72340"},
-        {"title": "Trí tuệ nhân tạo",                      "author": "Nguyễn Thanh Thủy","publisher": "NXB ĐHQGHN",              "date": "2020", "biblionumber": "68450"},
-        {"title": "Phân tích và thiết kế thuật toán",     "author": "Hoàng Văn Kiếm",   "publisher": "NXB ĐHQGHN",              "date": "2018", "biblionumber": "81200"},
-        {"title": "Hệ quản trị cơ sở dữ liệu Oracle",     "author": "Nguyễn Kim Anh",   "publisher": "NXB ĐHQGHN",              "date": "2021", "biblionumber": "91450"},
-        {"title": "Khai phá dữ liệu và ứng dụng",          "author": "Hà Quang Thụy",    "publisher": "NXB ĐHQGHN",              "date": "2022", "biblionumber": "102300"},
-        {"title": "Mạng máy tính và các hệ thống mở",     "author": "Nguyễn Thúc Hải",  "publisher": "NXB ĐHQGHN",              "date": "2023", "biblionumber": "110500"},
-    ]
-    q_lower = query.lower()
-    matched = [b for b in failsafe_db if any(w in b["title"].lower() or w in b["author"].lower() for w in q_lower.split() if len(w) > 2)]
-    final_list = matched[:3] if len(matched) >= 1 else failsafe_db[:3]
-    
-    results = []
-    for item in final_list:
-        verified_koha_url = f"https://opac.vnu.edu.vn/cgi-bin/koha/opac-detail.pl?biblionumber={item['biblionumber']}"
-        results.append({
-            "id": f"koha/{item['biblionumber']}",
-            "source": "VNU-LIC OPAC (Koha)",
-            "title": item["title"],
-            "author": item["author"],
-            "publisher": item["publisher"],
-            "date": item["date"],
-            "location": f"Tài nguyên thư viện / Danh mục Koha (Mã: {item['biblionumber']})",
-            "url": verified_koha_url,
-            "pdf_url": verified_koha_url
-        })
-    return results
+    """Disabled OPAC search - focus strictly on 4 public VNU-LIC sources."""
+    return []
 
 # ─────────────────────────────────────────────────────────────────
 # NGUỒN 2: VNU Repository DSpace — repository.vnu.edu.vn

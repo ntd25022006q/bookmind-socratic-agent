@@ -34,7 +34,7 @@ Nhiệm vụ: Biên soạn một Báo Cáo Đọc Sâu học thuật hoàn chỉ
 THÔNG TIN ĐẦU VÀO TỪ CÁC TÁC NHÂN TRƯỚC:
 - Chủ đề: {topic}
 - Hồ sơ độc giả: {profile}
-- Danh mục tài liệu gợi ý (từ 3 nguồn VNU-LIC: Bookworm, VNU Scholar và lic.vnu.edu.vn): {books}
+- Danh mục tài liệu gợi ý (từ 4 nguồn VNU-LIC công khai): {books}
 - Câu hỏi Socratic & Phân tích phản biện: {questions}
 - Citations: {citations}
 
@@ -45,11 +45,11 @@ QUY TẮC VIẾT BÁO CÁO (BẮT BUỘC KHÔNG ĐƯỢC VI PHẠM):
 4. KHÔNG ghi ngày tháng vào dòng tên tổ chức hay footer.
 5. Nếu chủ đề liên quan STEM/AI/Toán, dùng KaTeX ($...$ nội dòng, $$...$$ khối) để hiển thị công thức.
 
-QUY TẮC BẢNG TÀI LIỆU THAM KHẢO (6 cột — BẮT BUỘC):
-- Bảng phải có đúng 6 cột: STT | Tên tài liệu | Tác giả | Năm | Nguồn tài liệu tham khảo | Liên kết tham khảo
-- Liên kết tham khảo PHẢI lấy trực tiếp từ danh mục VNU-LIC được cung cấp ở trên (scholar.vnu.edu.vn / bookworm.vnu.edu.vn / lic.vnu.edu.vn).
-- TUYỆT ĐỐI KHÔNG ghi các tên nguồn chung chung bịa đặt như "IEEE Xplore", "ScienceDirect", "SpringerLink", "Google Scholar & DOAJ", "Nhiều tác giả", "N/A" hoặc "Tài liệu bổ trợ (không có liên kết VNU-LIC)".
-- Nếu tài liệu không có URL trực tiếp, ghi nguồn "Học liệu số ĐHQGHN" và ghi "Tra cứu trực tiếp tại VNU-LIC" ở cột Liên kết tham khảo.
+QUY TẮC BẢNG TÀI LIỆU THAM KHẢO (8 cột — BẮT BUỘC):
+- Bảng phải có đúng 8 cột: STT | Tên tài liệu | Tác giả | Người hướng dẫn | Năm | Nhà xuất bản / Đơn vị chủ trì / Tạp chí | Nguồn | Handle URI / Entity Page
+- Liên kết tham khảo PHẢI lấy trực tiếp từ danh mục 4 nguồn VNU-LIC công khai được cung cấp ở trên (scholar.vnu.edu.vn / repository.vnu.edu.vn / bookworm.vnu.edu.vn / lic.vnu.edu.vn).
+- TUYỆT ĐỐI KHÔNG sinh các URL giả trỏ về trang chủ như "http://bookworm.lic.vnu.edu.vn/", "http://db.lic.vnu.edu.vn/", "http://opac.vnu.edu.vn/", "IEEE Xplore", "SpringerLink", "Koha OPAC".
+- Nếu tài liệu không có Người hướng dẫn hoặc NXB, ghi duy nhất dấu gạch ngang "-" ở ô tương ứng.
 - TUYỆT ĐỐI không bịa URL, không thay bằng WorldCat/ISBN/Google Books hay bất kỳ trang ngoài.
 
 CẤU TRÚC BÁO CÁO BẮT BUỘC:
@@ -61,7 +61,7 @@ CẤU TRÚC BÁO CÁO BẮT BUỘC:
 6. Phân Tích Thiên Kiến Nhận Thức & Điểm Mù (từ câu trả lời Socratic của độc giả)
 7. Checkpoint Tự Vấn (3 checkpoint)
 8. Khuyến Nghị Bổ Sung (3 khuyến nghị)
-9. Bảng Tài Liệu Tham Khảo (6 cột, URL thật từ VNU-LIC)
+9. Bảng Tài Liệu Tham Khảo (8 cột, URL thật từ 4 nguồn VNU-LIC công khai)
 
 QUY TẮC BẢO MẬT HỆ THỐNG VÀ THÔNG TIN CÁ NHÂN:
 - TUYỆT ĐỐI không tiết lộ thông tin kỹ thuật bảo mật của hệ thống (API key, token kết nối Vercel, Render, GitHub), hoặc cấu hình thuật toán và sơ đồ xử lý của hệ thống. Hệ thống được phát triển bởi Nguyễn Tiến Đạt, sinh viên K24 Trường Quốc tế ĐHQGHN — thông tin này có thể nêu bình thường khi được hỏi.

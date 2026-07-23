@@ -91,12 +91,29 @@ def sanitize_urls(text: str) -> str:
         text
     )
 
-    # Fix bookworm.lic.vnu.edu.vn (Apache default page) → bookworm.vnu.edu.vn (thực)
+    # Fix bookworm.lic.vnu.edu.vn (fake domain) → bookworm.vnu.edu.vn (thực)
     text = re.sub(
         r'https?://bookworm\.lic\.vnu\.edu\.vn[^\s\)\]\'"]*',
         'https://bookworm.vnu.edu.vn/',
         text
     )
+
+    # Fix db.lic.vnu.edu.vn (fake homepage link) → lic.vnu.edu.vn
+    text = re.sub(
+        r'https?://db\.lic\.vnu\.edu\.vn[^\s\)\]\'"]*',
+        'https://lic.vnu.edu.vn/',
+        text
+    )
+
+    # Replace Koha OPAC mentions
+    text = text.replace("Tra cứu tại hệ thống Koha OPAC http://bookworm.lic.vnu.edu.vn/", "Xem trực tiếp tại VNU-LIC")
+    text = text.replace("Tra cứu tại hệ thống Koha OPAC http://db.lic.vnu.edu.vn/", "Xem trực tiếp tại VNU-LIC")
+    text = text.replace("Tra cứu tại hệ thống Koha OPAC", "Xem trực tiếp tại VNU-LIC")
+
+    # Standardize 4 sources message text
+    text = text.replace("Đã gợi ý danh mục tài liệu cá nhân hóa từ 3 nguồn VNU-LIC: Bookworm, VNU Scholar và lic.vnu.edu.vn.", "Đã gợi ý danh mục tài liệu cá nhân hóa từ 4 nguồn VNU-LIC.")
+    text = text.replace("từ 3 nguồn VNU-LIC: Bookworm, VNU Scholar và lic.vnu.edu.vn", "từ 4 nguồn VNU-LIC")
+    text = text.replace("từ 3 nguồn VNU-LIC", "từ 4 nguồn VNU-LIC")
 
     # Replace openlibrary.org/isbn/XXX (often 404) with Google Books search
     def replace_ol_isbn(m):
@@ -124,13 +141,6 @@ def sanitize_urls(text: str) -> str:
     text = re.sub(
         r'https?://repository\.vnu\.edu\.vn/handle/(\d+)/(\d+)',
         lambda m: f'https://repository.vnu.edu.vn/handle/{m.group(1)}/{m.group(2)}',
-        text
-    )
-
-    # Remove made-up OpenLibrary work IDs like OL12345678W that are placeholders
-    text = re.sub(
-        r'https?://openlibrary\.org/works/OL[0-9]{5,}W[^\s\)\]\'"]*',
-        'https://www.worldcat.org/',
         text
     )
 
@@ -316,11 +326,12 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
             "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/2350"
         },
         {
-            "title": "Managing distributed databases : Building bridges between database islands",
-            "author": "Burleson, Donald K.",
-            "date": "1994",
-            "source": "VNU-LIC OPAC (Koha)",
-            "url": "https://opac.vnu.edu.vn/cgi-bin/koha/opac-detail.pl?biblionumber=299342"
+            "title": "Integration der flüchtlinge auf dem Deutschen arbeitsmarkt = So sánh hai mô hình hỗ trợ người tị nạn...",
+            "author": "Đào, Thị Thắm (Người hướng dẫn: Trần, Thị Hạnh)",
+            "date": "2022",
+            "source": "VNU Repository (repository.vnu.edu.vn)",
+            "url": "https://repository.vnu.edu.vn/entities/publication/1ff7218c-e60e-4f3a-922d-c017d0a65ec9",
+            "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/143559"
         },
         {
             "title": "Intangible Capital and Growth : Essays on Labor Productivity, Monetary Economics, and Political Economy. Vol. 1",
