@@ -297,6 +297,103 @@ def full_clean(text: str) -> str:
     return text.strip()
 
 
+default_verified_pool = [
+    {
+        "title": "A hybrid feature selection method for credit scoring",
+        "author": "Ha Van, Sang; Nguyen Ha, Nam; Nguyen Thi Bao, Hien",
+        "publisher_journal": "EAI Endorsed Transactions",
+        "date": "2017",
+        "source": "VNU Scholar Repository",
+        "url": "https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff",
+        "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/12692"
+    },
+    {
+        "title": "Using impromptu speaking activities to improve student' fluency: an action research",
+        "author": "Bùi, Thị Hồng Hoa",
+        "publisher_journal": "ĐHQGHN - Trường Đại học Ngoại ngữ (ULIS)",
+        "date": "2026",
+        "source": "VNU Repository (repository.vnu.edu.vn)",
+        "url": "https://repository.vnu.edu.vn/entities/publication/e87b7dca-5f05-4dd2-8d84-3ae579fce5ab",
+        "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/182268"
+    },
+    {
+        "title": "The use of pictures in teaching English speaking in an English center",
+        "author": "Duong, Tra Mi; Vu, Mai Trang (Người hướng dẫn)",
+        "publisher_journal": "ĐHQGHN - Trường Đại học Ngoại ngữ (ULIS)",
+        "date": "2011",
+        "source": "VNU Repository (repository.vnu.edu.vn)",
+        "url": "https://repository.vnu.edu.vn/entities/publication/1ff731b9-5e12-4f8e-ae8f-b08c34627537",
+        "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/40615"
+    },
+    {
+        "title": "Visualizing atomic orbitals of an electron by Latex",
+        "author": "Nguyen Hoang, Hai",
+        "publisher_journal": "European Journal of Physics",
+        "date": "2022",
+        "source": "VNU Scholar Repository",
+        "url": "https://scholar.vnu.edu.vn/entities/publication/6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8",
+        "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/2350"
+    },
+    {
+        "title": "Integration der flüchtlinge auf dem Deutschen arbeitsmarkt = So sánh hai mô hình hỗ trợ người tị nạn...",
+        "author": "Đào, Thị Thắm (Người hướng dẫn: Trần, Thị Hạnh)",
+        "publisher_journal": "ĐHQGHN - Trường Đại học Ngoại ngữ (ULIS)",
+        "date": "2022",
+        "source": "VNU Repository (repository.vnu.edu.vn)",
+        "url": "https://repository.vnu.edu.vn/entities/publication/1ff7218c-e60e-4f3a-922d-c017d0a65ec9",
+        "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/143559"
+    },
+    {
+        "title": "Intangible Capital and Growth : Essays on Labor Productivity, Monetary Economics, and Political Economy. Vol. 1",
+        "author": "Roth, Felix",
+        "publisher_journal": "Springer",
+        "date": "2022",
+        "source": "Bookworm VNU-LIC",
+        "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=170000"
+    },
+    {
+        "title": "Animaux Venimeux et Venins",
+        "author": "Marie Phisalix",
+        "publisher_journal": "Paris",
+        "date": "1922",
+        "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
+        "url": "https://lic.vnu.edu.vn/books/animaux-venimeux-et-venins"
+    },
+    {
+        "title": "Annales de physique. Tome I",
+        "author": "A. Cotton",
+        "publisher_journal": "Paris",
+        "date": "1931",
+        "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
+        "url": "https://lic.vnu.edu.vn/books/annales-de-physique-tome-i"
+    },
+    {
+        "title": "Writing research papers : a guide to the process",
+        "author": "Weidenborner, Stephen; Caruso, Domenick",
+        "publisher_journal": "St. Martin's Press",
+        "date": "1982",
+        "source": "Bookworm VNU-LIC",
+        "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=172500"
+    },
+    {
+        "title": "Auguste comte sa vie",
+        "author": "Cresson, André",
+        "publisher_journal": "Presses universitaires de France",
+        "date": "1947",
+        "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
+        "url": "https://lic.vnu.edu.vn/books/auguste-comte-sa-vie"
+    },
+    {
+        "title": "Articles et pamphlets",
+        "author": "M. Gorki",
+        "publisher_journal": "Paris",
+        "date": "1950",
+        "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
+        "url": "https://lic.vnu.edu.vn/books/articles-et-pamphlets"
+    }
+]
+
+
 def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
     """Sanitize report references and strictly enforce VNU-LIC URLs to prevent hallucinations or generic placeholders."""
     generic_placeholders = [
@@ -315,102 +412,6 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
             
     lines = report.split("\n")
     used_book_indices = set()
-
-    default_verified_pool = [
-        {
-            "title": "A hybrid feature selection method for credit scoring",
-            "author": "Ha Van, Sang; Nguyen Ha, Nam; Nguyen Thi Bao, Hien",
-            "publisher_journal": "EAI Endorsed Transactions",
-            "date": "2017",
-            "source": "VNU Scholar Repository",
-            "url": "https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff",
-            "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/12692"
-        },
-        {
-            "title": "Using impromptu speaking activities to improve student' fluency: an action research",
-            "author": "Bùi, Thị Hồng Hoa",
-            "publisher_journal": "ĐHQGHN - Trường Đại học Ngoại ngữ (ULIS)",
-            "date": "2026",
-            "source": "VNU Repository (repository.vnu.edu.vn)",
-            "url": "https://repository.vnu.edu.vn/entities/publication/e87b7dca-5f05-4dd2-8d84-3ae579fce5ab",
-            "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/182268"
-        },
-        {
-            "title": "The use of pictures in teaching English speaking in an English center",
-            "author": "Duong, Tra Mi; Vu, Mai Trang (Người hướng dẫn)",
-            "publisher_journal": "ĐHQGHN - Trường Đại học Ngoại ngữ (ULIS)",
-            "date": "2011",
-            "source": "VNU Repository (repository.vnu.edu.vn)",
-            "url": "https://repository.vnu.edu.vn/entities/publication/1ff731b9-5e12-4f8e-ae8f-b08c34627537",
-            "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/40615"
-        },
-        {
-            "title": "Visualizing atomic orbitals of an electron by Latex",
-            "author": "Nguyen Hoang, Hai",
-            "publisher_journal": "European Journal of Physics",
-            "date": "2022",
-            "source": "VNU Scholar Repository",
-            "url": "https://scholar.vnu.edu.vn/entities/publication/6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8",
-            "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/2350"
-        },
-        {
-            "title": "Integration der flüchtlinge auf dem Deutschen arbeitsmarkt = So sánh hai mô hình hỗ trợ người tị nạn...",
-            "author": "Đào, Thị Thắm (Người hướng dẫn: Trần, Thị Hạnh)",
-            "publisher_journal": "ĐHQGHN - Trường Đại học Ngoại ngữ (ULIS)",
-            "date": "2022",
-            "source": "VNU Repository (repository.vnu.edu.vn)",
-            "url": "https://repository.vnu.edu.vn/entities/publication/1ff7218c-e60e-4f3a-922d-c017d0a65ec9",
-            "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/143559"
-        },
-        {
-            "title": "Intangible Capital and Growth : Essays on Labor Productivity, Monetary Economics, and Political Economy. Vol. 1",
-            "author": "Roth, Felix",
-            "publisher_journal": "Springer",
-            "date": "2022",
-            "source": "Bookworm VNU-LIC",
-            "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=170000"
-        },
-        {
-            "title": "Animaux Venimeux et Venins",
-            "author": "Marie Phisalix",
-            "publisher_journal": "Paris",
-            "date": "1922",
-            "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
-            "url": "https://lic.vnu.edu.vn/books/animaux-venimeux-et-venins"
-        },
-        {
-            "title": "Annales de physique. Tome I",
-            "author": "A. Cotton",
-            "publisher_journal": "Paris",
-            "date": "1931",
-            "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
-            "url": "https://lic.vnu.edu.vn/books/annales-de-physique-tome-i"
-        },
-        {
-            "title": "Writing research papers : a guide to the process",
-            "author": "Weidenborner, Stephen; Caruso, Domenick",
-            "publisher_journal": "St. Martin's Press",
-            "date": "1982",
-            "source": "Bookworm VNU-LIC",
-            "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=172500"
-        },
-        {
-            "title": "Auguste comte sa vie",
-            "author": "Cresson, André",
-            "publisher_journal": "Presses universitaires de France",
-            "date": "1947",
-            "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
-            "url": "https://lic.vnu.edu.vn/books/auguste-comte-sa-vie"
-        },
-        {
-            "title": "Articles et pamphlets",
-            "author": "M. Gorki",
-            "publisher_journal": "Paris",
-            "date": "1950",
-            "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
-            "url": "https://lic.vnu.edu.vn/books/articles-et-pamphlets"
-        }
-    ]
 
     cleaned_pool = []
     if vnu_lic_results:
