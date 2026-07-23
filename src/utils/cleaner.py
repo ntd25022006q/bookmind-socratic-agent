@@ -37,13 +37,14 @@ BLOCKED_URL_PATTERNS = [
 
 
 def strip_cjk(text: str) -> str:
-    """Remove all CJK (Chinese/Japanese/Korean) characters from text."""
+    """Remove all CJK (Chinese/Japanese/Korean) and Cyrillic (Russian) characters from text."""
     if not text:
         return ""
-    # Remove CJK characters using compiled pattern
+    # Remove CJK & Cyrillic characters using compiled pattern
     cleaned = re.sub(
         r'[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2E80-\u2EFF'
-        r'\u2F00-\u2FDF\u3040-\u309F\u30A0-\u30FF\u3000-\u303F]',
+        r'\u2F00-\u2FDF\u3040-\u309F\u30A0-\u30FF\u3000-\u303F'
+        r'\u0400-\u04FF\u0500-\u052F]',
         '', text
     )
     # Clean up leftover spaces/punctuation from removed chars
