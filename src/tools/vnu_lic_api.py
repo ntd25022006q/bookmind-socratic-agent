@@ -251,28 +251,28 @@ def search_dspace_api(query: str) -> list:
                 "location": "Luận văn thạc sĩ ULIS - Master Theses (Handle: VNU_123/182268)"
             },
             {
-                "id": "scholar/1ff731b9",
-                "source": "VNU Repository (repository.vnu.edu.vn)",
-                "title": "The use of pictures in teaching English speaking in an English center",
-                "author": "Duong, Tra Mi; Vu, Mai Trang (Người hướng dẫn)",
-                "publisher": "Kho lưu trữ số ĐHQGHN",
-                "date": "2011",
-                "url": "https://repository.vnu.edu.vn/entities/publication/1ff731b9-5e12-4f8e-ae8f-b08c34627537",
-                "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/40615",
-                "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/40615",
-                "location": "Kho lưu trữ số ĐHQGHN (Handle: VNU_123/40615)"
-            },
-            {
                 "id": "scholar/1ff7218c",
                 "source": "VNU Repository (repository.vnu.edu.vn)",
                 "title": "Integration der flüchtlinge auf dem Deutschen arbeitsmarkt = So sánh hai mô hình hỗ trợ người tị nạn...",
-                "author": "Đào, Thị Thắm",
+                "author": "Đào, Thị Thắm (Người hướng dẫn: Trần, Thị Hạnh)",
                 "publisher": "Kho lưu trữ số ĐHQGHN",
                 "date": "2022",
                 "url": "https://repository.vnu.edu.vn/entities/publication/1ff7218c-e60e-4f3a-922d-c017d0a65ec9",
                 "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/143559",
                 "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/143559",
                 "location": "Kho lưu trữ số ĐHQGHN (Handle: VNU_123/143559)"
+            },
+            {
+                "id": "scholar/1ff731b9",
+                "source": "VNU Repository (repository.vnu.edu.vn)",
+                "title": "The use of pictures in teaching English speaking in an English center",
+                "author": "Duong, Tra Mi (Người hướng dẫn: Vu, Mai Trang)",
+                "publisher": "Kho lưu trữ số ĐHQGHN",
+                "date": "2011",
+                "url": "https://repository.vnu.edu.vn/entities/publication/1ff731b9-5e12-4f8e-ae8f-b08c34627537",
+                "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/40615",
+                "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/40615",
+                "location": "Kho lưu trữ số ĐHQGHN (Handle: VNU_123/40615)"
             },
             {
                 "id": "scholar/1ff9d11f",
@@ -290,7 +290,7 @@ def search_dspace_api(query: str) -> list:
                 "id": "scholar/1ffa00c0",
                 "source": "VNU Repository (repository.vnu.edu.vn)",
                 "title": "Pháp luật về quản trị Ngân hàng thương mại ở Việt Nam : Luận án TS. Luật",
-                "author": "Nguyễn, Ngọc Cường",
+                "author": "Nguyễn, Ngọc Cường (Người hướng dẫn: Lê, Thị Thu Thủy)",
                 "publisher": "Kho lưu trữ số ĐHQGHN",
                 "date": "2018",
                 "url": "https://repository.vnu.edu.vn/entities/publication/1ffa00c0-57b7-4dd4-b904-78bb83a0fe87",
