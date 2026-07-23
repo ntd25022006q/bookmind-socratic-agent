@@ -27,15 +27,12 @@ Hệ thống kết nối thời gian thực và trích xuất dữ liệu từ 5
 
 1. **Bookworm VNU-LIC (`bookworm.vnu.edu.vn`)**:
    - **Mô tả**: Kho sách điện tử, giáo trình số và tài liệu tham khảo bản quyền. Cho phép bạn đọc tra cứu và đọc trực tiếp trên trình duyệt hoặc ứng dụng VNU-LIC.
-   - **Mẫu liên kết**: `https://bookworm.vnu.edu.vn/EDetail.aspx?id={id}`
 
 2. **VNU Scholar Repository (`scholar.vnu.edu.vn`)**:
    - **Mô tả**: Nền tảng quản trị tri thức số lưu trữ bài báo khoa học, công trình nghiên cứu công bố quốc tế, luận án tiến sĩ và kết quả nghiên cứu khoa học mở của ĐHQGHN.
-   - **Mẫu liên kết**: `https://scholar.vnu.edu.vn/entities/publication/{uuid}`
 
 3. **Cổng Thông Tin & Kho Sách Đông Dương (`lic.vnu.edu.vn`)**:
    - **Mô tả**: Bộ sưu tập di sản văn hóa, tư liệu số lịch sử và tài liệu quý hiếm thời kỳ Đông Dương do VNU-LIC số hóa.
-   - **Mẫu liên kết**: `https://lic.vnu.edu.vn/books/{slug}`
 
 ---
 
