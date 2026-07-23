@@ -48,7 +48,8 @@ QUY TẮC VIẾT BÁO CÁO (BẮT BUỘC KHÔNG ĐƯỢC VI PHẠM):
 QUY TẮC BẢNG TÀI LIỆU THAM KHẢO (6 cột — BẮT BUỘC):
 - Bảng phải có đúng 6 cột: STT | Tên tài liệu | Tác giả | Năm | Nguồn tài liệu tham khảo | Liên kết tham khảo
 - Liên kết tham khảo PHẢI lấy trực tiếp từ danh mục VNU-LIC được cung cấp ở trên (repository.vnu.edu.vn / bookworm.vnu.edu.vn / lic.vnu.edu.vn).
-- Tài liệu không có URL thật: ghi "Đang cập nhật" ở cột Liên kết tham khảo.
+- TUYỆT ĐỐI KHÔNG ghi các tên nguồn chung chung bịa đặt như "IEEE Xplore", "ScienceDirect", "SpringerLink", "Google Scholar & DOAJ", "Nhiều tác giả", "N/A" hoặc "Tài liệu bổ trợ (không có liên kết VNU-LIC)".
+- Nếu tài liệu không có URL trực tiếp, ghi nguồn "Học liệu số ĐHQGHN" và ghi "Tra cứu trực tiếp tại VNU-LIC" ở cột Liên kết tham khảo.
 - TUYỆT ĐỐI không bịa URL, không thay bằng WorldCat/ISBN/Google Books hay bất kỳ trang ngoài.
 
 CẤU TRÚC BÁO CÁO BẮT BUỘC:

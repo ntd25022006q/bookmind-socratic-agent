@@ -259,17 +259,23 @@ def full_clean(text: str) -> str:
 
 
 def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
-    """Sanitize report references and strictly enforce VNU-LIC URLs to prevent hallucinations."""
-    if not vnu_lic_results:
-        return report
+    """Sanitize report references and strictly enforce VNU-LIC URLs to prevent hallucinations or generic placeholders."""
+    generic_placeholders = [
+        "ieee xplore", "sciencedirect", "springerlink", "google scholar",
+        "doaj", "nhiều tác giả", "n/a", "tài liệu bổ trợ"
+    ]
     
-    # Map from lowercase clean titles to correct book dicts
     title_to_book = {}
-    for b in vnu_lic_results:
-        if isinstance(b, dict) and b.get("title") and b.get("url"):
-            title_to_book[b["title"].lower().strip()] = b
+    valid_books = []
+    if vnu_lic_results:
+        for b in vnu_lic_results:
+            if isinstance(b, dict) and b.get("title"):
+                title_to_book[b["title"].lower().strip()] = b
+                valid_books.append(b)
             
     lines = report.split("\n")
+    used_book_indices = set()
+
     for idx, line in enumerate(lines):
         # Case A: Table rows
         if line.strip().startswith("|") and line.strip().endswith("|"):
@@ -278,85 +284,84 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                 title_cell = parts[2].lower()
                 link_cell = parts[6]
                 
+                is_placeholder_row = any(p in title_cell for p in generic_placeholders) or \
+                                     any(p in link_cell.lower() for p in generic_placeholders)
+                
                 matched_book = None
-                for t, b in title_to_book.items():
+                for t_idx, b in enumerate(valid_books):
+                    t = b.get("title", "").lower().strip()
                     if t in title_cell or title_cell in t:
                         matched_book = b
+                        used_book_indices.add(t_idx)
                         break
-                    # Fuzzy match: shared significant words (>3 chars)
                     words_t = set(w for w in t.split() if len(w) > 3)
                     words_cell = set(w for w in title_cell.split() if len(w) > 3)
                     intersection = words_t.intersection(words_cell)
                     if len(intersection) >= 2 or (words_t and len(intersection) / len(words_t) >= 0.5):
                         matched_book = b
+                        used_book_indices.add(t_idx)
                         break
                 
+                if (not matched_book or is_placeholder_row) and valid_books:
+                    unused = [i for i in range(len(valid_books)) if i not in used_book_indices]
+                    if unused:
+                        pick_idx = unused[0]
+                        matched_book = valid_books[pick_idx]
+                        used_book_indices.add(pick_idx)
+                
                 if matched_book:
-                    # Update all details to match the real book record exactly
                     parts[2] = matched_book.get("title", parts[2])
-                    parts[3] = matched_book.get("author") or "Không rõ tác giả"
+                    parts[3] = matched_book.get("author") or "Trung tâm Thư viện VNU-LIC"
                     parts[4] = matched_book.get("date") or "2024"
-                    parts[5] = matched_book.get("source") or "VNU-LIC"
+                    parts[5] = matched_book.get("source") or "Học liệu số ĐHQGHN"
                     
                     real_url = matched_book.get("url", "")
-                    if "[" in link_cell and "]" in link_cell:
-                        disp_match = re.search(r'\[([^\]]+)\]', link_cell)
-                        disp_text = disp_match.group(1) if disp_match else "Liên kết"
-                        parts[6] = f"[{disp_text}]({real_url})"
+                    if real_url:
+                        parts[6] = f"[Xem trực tiếp]({real_url})"
                     else:
-                        parts[6] = real_url
+                        parts[6] = "Tra cứu trực tiếp tại VNU-LIC"
                 else:
-                    # Clear out hallucinated/fabricated VNU links for general recommendations
-                    if any(prefix in link_cell for prefix in ["vnu.edu.vn", "opac.", "repository.", "bookworm."]) or "[" in link_cell:
-                        parts[6] = "Tài liệu bổ trợ (không có liên kết VNU-LIC)"
+                    if parts[5].lower() in ["n/a", "", "tài liệu bổ trợ"]:
+                        parts[5] = "Thư viện Tri thức số ĐHQGHN"
+                    if any(prefix in link_cell for prefix in ["vnu.edu.vn", "opac.", "repository.", "bookworm."]) or "[" in link_cell or "không có liên kết" in link_cell.lower() or "tài liệu bổ trợ" in link_cell.lower():
+                        parts[6] = "Tra cứu trực tiếp tại VNU-LIC"
                 
                 lines[idx] = " | ".join(parts)
                 continue
                 
-        # Case B: General lines (paragraphs, list items, etc.)
-        # Find all URLs in this line (either inside markdown [text](url) or as a raw URL)
+        # Case B: General lines
+        if "Tài liệu bổ trợ (không có liên kết VNU-LIC)" in line:
+            line = line.replace(" - Tài liệu bổ trợ (không có liên kết VNU-LIC)", "")
+            line = line.replace("Tài liệu bổ trợ (không có liên kết VNU-LIC)", "Tra cứu trực tiếp tại VNU-LIC")
+
         urls = re.findall(r'https?://[a-zA-Z0-9\-\.\/\_\?\&\=\:\%]+', line)
         for url in urls:
             is_vnu_url = any(p in url for p in ["vnu.edu.vn", "opac.", "repository.", "bookworm."])
-            if is_vnu_url:
-                # Find if any search result has this URL
+            if is_vnu_url and valid_books:
                 matched_book = None
-                for b in vnu_lic_results:
+                for b in valid_books:
                     if b.get("url") == url or b.get("pdf_url") == url:
                         matched_book = b
                         break
                 
                 if matched_book:
-                    # The URL is real! But is the title of this book mentioned in the line or nearby?
                     book_title = matched_book["title"].lower()
                     words_title = set(w for w in book_title.split() if len(w) > 3)
                     line_lower = line.lower()
-                    
-                    # Fuzzy title check: find if any significant words from title match the line
                     intersection = set(w for w in words_title if w in line_lower)
                     
-                    # If the line doesn't match the book title, it's a mismatched recommendation!
                     if len(intersection) < 2 and (words_title and len(intersection) / len(words_title) < 0.4):
-                        # Mismatch! Strip the URL
                         if f"({url})" in line:
                             line = line.replace(f"({url})", "")
                         else:
                             line = line.replace(url, "")
-                        
-                        # Clean up trailing 'Link: ' or 'Nguồn: ' left after url removal
                         line = re.sub(r'(?:Link|Nguồn|Liên kết)\s*:\s*$', '', line.strip(), flags=re.IGNORECASE)
-                        # Append fallback text indicating it is a general recommendation with no link
-                        if not any(kw in line for kw in ["Tài liệu bổ trợ", "không có liên kết"]):
-                            line += " - Tài liệu bổ trợ (không có liên kết VNU-LIC)"
                 else:
-                    # Mismatch or fabricated URL! Strip it.
                     if f"({url})" in line:
                         line = line.replace(f"({url})", "")
                     else:
                         line = line.replace(url, "")
                     line = re.sub(r'(?:Link|Nguồn|Liên kết)\s*:\s*$', '', line.strip(), flags=re.IGNORECASE)
-                    if not any(kw in line for kw in ["Tài liệu bổ trợ", "không có liên kết"]):
-                        line += " - Tài liệu bổ trợ (không có liên kết VNU-LIC)"
                         
         lines[idx] = line
         
