@@ -20,20 +20,8 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
     
     stream_queue = config.get("configurable", {}).get("stream_queue") if config else None
     
-    # ── Phase 2 bypass: skip re-querying APIs, reuse Phase 1 results ──────────
+    # ── Phase 2 bypass: reuse Phase 1 search results ──────────────────────────
     if state.get("socratic_answers"):
-        if stream_queue:
-            await stream_queue.put({"type": "node_start", "node": "analyst"})
-            await stream_queue.put({
-                "type": "node_end",
-                "node": "analyst",
-                "content": "Đã truy xuất danh mục sách từ Phase 1 — bỏ qua để tiếp tục Phản Biện.",
-                "thinking": "",
-                "tokens": 0,
-                "duration": 0.0,
-                "model": "bypass",
-                "toks_per_sec": 0.0
-            })
         return {
             "analysis": state.get("analysis", ""),
             "retrieved_context": state.get("retrieved_context", ""),
@@ -84,13 +72,13 @@ Chủ đề yêu cầu: "{topic}"
 
 KẾT QUẢ TRA CỨU THỰC TẾ TỪ 3 NGUỒN VNU-LIC:
 
-[NGUỒN 1 — VNU Repository DSpace (luận án, nghiên cứu học thuật ĐHQGHN)]:
-{dspace_results if dspace_results else "Không có kết quả từ DSpace."}
+[NGUỒN 1 — VNU Scholar Repository (scholar.vnu.edu.vn - luận án, nghiên cứu học thuật ĐHQGHN)]:
+{dspace_results if dspace_results else "Không có kết quả từ VNU Scholar."}
 
-[NGUỒN 2 — Bookworm VNU-LIC (sách điện tử, eBook)]:
+[NGUỒN 2 — Bookworm VNU-LIC (bookworm.vnu.edu.vn - sách điện tử, eBook)]:
 {bookworm_results if bookworm_results else "Không có kết quả từ Bookworm."}
 
-[NGUỒN 3 — VNU-LIC Trang chủ lic.vnu.edu.vn / find.lic.vnu.edu.vn (One Search)]:
+[NGUỒN 3 — Cổng Thông Tin & Kho Sách Đông Dương (lic.vnu.edu.vn / find.lic.vnu.edu.vn)]:
 {vnulic_results if vnulic_results else "Không có kết quả từ lic.vnu.edu.vn."}
 
 [TÀI LIỆU BỔ TRỢ RAG (KHÔNG có URL từ VNU-LIC)]:
@@ -115,7 +103,7 @@ Hãy trả về dưới dạng:
 === QUÁ TRÌNH TƯ DUY ===
 [Phân tích hồ sơ độc giả và lý do chọn từng tài liệu từ nguồn nào, xác nhận rõ tài liệu nào có URL thật và tài liệu nào chỉ là gợi ý bổ trợ]
 === CONSOLE MESSAGE ===
-Đã gợi ý danh mục tài liệu cá nhân hóa từ 3 nguồn VNU-LIC: DSpace, Bookworm và lic.vnu.edu.vn.
+Đã gợi ý danh mục tài liệu cá nhân hóa từ 3 nguồn VNU-LIC: Bookworm, VNU Scholar và lic.vnu.edu.vn.
 === BÁO CÁO CHI TIẾT ===
 DANH MỤC GỢI Ý (VNU-LIC):
 [Với mỗi tài liệu, ghi đầy đủ: Tên tài liệu | Tác giả | Nhà xuất bản/Năm | Mã tra cứu | Nguồn tài liệu tham khảo | Liên kết tham khảo (nếu có)]

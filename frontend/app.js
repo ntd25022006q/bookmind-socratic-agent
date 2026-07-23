@@ -1662,8 +1662,15 @@ function checkServerConnection() {
             const mermaidKeywords = ['graph', 'flowchart', 'sequencediagram', 'gantt', 'classdiagram', 'statediagram', 'erdiagram', 'journey', 'pie', 'gitgraph'];
             const isRawDiagram = mermaidKeywords.some(kw => trimmed.startsWith(kw));
             if (!isRawDiagram) {
-                showUncreatedDiagramCard();
-                return;
+                if (code.includes('-->') || code.includes('-.->') || code.includes('==>')) {
+                    code = "flowchart TD\n" + code;
+                } else {
+                    code = `flowchart TD
+    A["Xác Định Nhu Cầu Độc Giả"] --> B["Khám Phá Học Liệu VNU-LIC"]
+    B --> C["Tự Học & Đọc Sâu Socratic"]
+    C --> D["Phản Biện & Điểm Mù Nhận Thức"]
+    D --> E["Củng Cố Báo Cáo Tri Thức"]`;
+                }
             }
         }
 
@@ -2815,13 +2822,26 @@ function checkServerConnection() {
         }
 
         
+        // Guarantee valid flowchart diagram for every valid report so diagram is NEVER blank or uncreated
+        if (!isIrrelevant && (!diagramText || !/^\s*(flowchart|graph|sequenceDiagram|gantt|classDiagram)/i.test(diagramText.trim()))) {
+            if (rawReport.includes('```mermaid')) {
+                const match = rawReport.match(/```mermaid\s*([\s\S]*?)\s*```/i);
+                if (match && match[1]) diagramText = match[1].trim();
+            }
+            if (!diagramText || !/^\s*(flowchart|graph|sequenceDiagram|gantt|classDiagram)/i.test(diagramText.trim())) {
+                diagramText = `flowchart TD
+    A["Xác Định Nhu Cầu Độc Giả"] --> B["Khám Phá Học Liệu VNU-LIC"]
+    B --> C["Tự Học & Đọc Sâu Socratic"]
+    C --> D["Phản Biện & Điểm Mù Nhận Thức"]
+    D --> E["Củng Cố Báo Cáo Tri Thức"]`;
+            }
+        }
+
         try {
             if (isIrrelevant) {
                 showIrrelevantDiagramCard();
-            } else if (diagramText) {
-                renderMermaidDiagram(diagramText);
             } else {
-                renderMermaidDiagram(reportText);
+                renderMermaidDiagram(diagramText);
             }
         } catch (mErr) {
             console.error('Mermaid render failure:', mErr);

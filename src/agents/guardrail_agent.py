@@ -10,23 +10,8 @@ async def guardrail_node(state: ResearchState, config=None) -> dict:
     start_time = time.time()
     stream_queue = config.get("configurable", {}).get("stream_queue") if config else None
     
-    # Phase 2 resume bypass
+    # Phase 2 resume bypass: reuse Phase 1 validation
     if state.get("socratic_answers"):
-        if stream_queue:
-            await stream_queue.put({
-                "type": "node_start",
-                "node": "guardrail"
-            })
-            await stream_queue.put({
-                "type": "node_end",
-                "node": "guardrail",
-                "content": "Đã xác thực hợp lệ từ Phase 1 — bỏ qua để tiếp tục Phản Biện.",
-                "thinking": "",
-                "tokens": 0,
-                "duration": 0.0,
-                "model": "bypass",
-                "toks_per_sec": 0.0
-            })
         return {
             "irrelevant": False,
             "analysis": state.get("analysis", ""),
