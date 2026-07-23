@@ -392,25 +392,40 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         # Case A: Table rows
         if line.strip().startswith("|") and line.strip().endswith("|"):
             parts = [p.strip() for p in line.split("|")]
-            if len(parts) >= 7:
+            if len(parts) >= 4:
                 first_cell = parts[1].lower()
                 second_cell = parts[2].lower()
-                # Skip table header row and markdown separator row (---)
-                if "stt" in first_cell or "tên tài liệu" in second_cell or "---" in first_cell or "---" in second_cell or "---" in parts[3]:
-                    lines[idx] = line
+                
+                # Format Header Row to strict 8-Column Schema
+                if "stt" in first_cell or "tên tài liệu" in second_cell:
+                    lines[idx] = "| STT | Tên tài liệu | Tác giả | Người hướng dẫn | Năm | Nhà xuất bản / Đơn vị chủ trì / Tạp chí | Nguồn | Handle URI / Entity Page |"
+                    continue
+
+                # Format Separator Row
+                if "---" in first_cell or "---" in second_cell or "---" in parts[3]:
+                    lines[idx] = "|---|---|---|---|---|---|---|---|"
                     continue
 
                 item = pool[table_row_count % len(pool)]
                 table_row_count += 1
 
-                parts[1] = str(table_row_count)
-                parts[2] = item.get("title", parts[2])
+                stt_val = str(table_row_count)
+                title_val = item.get("title", parts[2] if len(parts) > 2 else "-")
                 
                 # Check for advisor in author string
                 raw_author = item.get("author") or "-"
                 if " (Người hướng dẫn: " in raw_author:
                     main_author, advisor_part = raw_author.split(" (Người hướng dẫn: ")
                     advisor = advisor_part.rstrip(")")
+                elif " (Người hướng dẫn)" in raw_author:
+                    clean_a = raw_author.replace(" (Người hướng dẫn)", "")
+                    if "; " in clean_a:
+                        parts_a = clean_a.split("; ")
+                        main_author = parts_a[0]
+                        advisor = "; ".join(parts_a[1:])
+                    else:
+                        main_author = clean_a
+                        advisor = "-"
                 else:
                     main_author = raw_author
                     advisor = "-"
@@ -423,36 +438,22 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                     src_label = "VNU Repository"
                 elif "bookworm" in real_url:
                     src_label = "Bookworm VNU-LIC"
-                elif "opac" in real_url:
-                    src_label = "Koha OPAC"
                 else:
                     src_label = "Cổng VNU-LIC"
 
                 if handle_url and handle_url != real_url:
                     link_str = f"[Xem Entity]({real_url}) \| [Xem Handle URI]({handle_url}) → {real_url}"
-                else:
+                elif real_url and real_url != "-":
                     link_str = f"[Xem trực tiếp tại {src_label}]({real_url}) → {real_url}"
-
-                if len(parts) >= 9:
-                    parts[3] = main_author
-                    parts[4] = advisor
-                    parts[5] = str(item.get("date", "-"))
-                    parts[6] = item.get("publisher_journal") or item.get("publisher") or "-"
-                    parts[7] = item.get("source") or src_label
-                    parts[8] = link_str
-                elif len(parts) >= 8:
-                    parts[3] = main_author
-                    parts[4] = str(item.get("date", "-"))
-                    parts[5] = item.get("publisher_journal") or item.get("publisher") or "-"
-                    parts[6] = item.get("source") or src_label
-                    parts[7] = link_str
                 else:
-                    parts[3] = raw_author
-                    parts[4] = str(item.get("date", "-"))
-                    parts[5] = item.get("source") or src_label
-                    parts[6] = link_str
-                
-                lines[idx] = " | ".join(parts)
+                    link_str = "-"
+
+                date_val = str(item.get("date") or "-")
+                pub_val = item.get("publisher_journal") or item.get("publisher") or "-"
+                source_val = item.get("source") or src_label
+
+                # Strictly construct 8-column markdown row
+                lines[idx] = f"| {stt_val} | {title_val} | {main_author} | {advisor} | {date_val} | {pub_val} | {source_val} | {link_str} |"
                 continue
                 
         # Case B: General lines
