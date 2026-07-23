@@ -58,9 +58,9 @@ Hệ thống kết nối thời gian thực và trích xuất dữ liệu từ 4
 
 ---
 
-## 📸 Quy Trình Vận Hành 11 Màn Hình Trực Quan (UI & System State Walkthrough)
+## 📸 Quy Trình Vận Hành 12 Màn Hình Trực Quan (UI & System State Walkthrough)
 
-Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh minh họa thực tế của giao diện **VNU BookMind Socratic** từ **Khởi tạo hồ sơ** $\rightarrow$ **Cảnh giới an toàn** $\rightarrow$ **Hội thoại Socratic** $\rightarrow$ **Phản biện điểm mù** $\rightarrow$ **Xuất báo cáo Offline**:
+Dưới đây là chi tiết hành trình trải nghiệm 12 màn hình ảnh minh họa thực tế của giao diện **VNU BookMind Socratic** từ **Khởi tạo hồ sơ** $\rightarrow$ **Cảnh giới an toàn** $\rightarrow$ **Hội thoại Socratic** $\rightarrow$ **Phản biện điểm mù** $\rightarrow$ **Xuất báo cáo Offline**:
 
 ---
 
