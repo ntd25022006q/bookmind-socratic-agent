@@ -1764,23 +1764,11 @@ function checkServerConnection() {
                 const guaranteedId = uniqueId + '-gtd';
                 const { svg: gtdSvg } = await mermaid.render(guaranteedId, cleanFallbackDiagram);
                 mermaidOutput.innerHTML = gtdSvg;
+                return;
             } catch (err3) {
-                if (err.message.includes('No diagram type detected') || 
-                    err.message.includes('No diagram type') || 
-                    code.includes('Report not created') || 
-                    code.includes('Báo cáo chưa được tạo') || 
-                    code.includes('No report generated') ||
-                    code.includes('not generated yet')) {
-                    showUncreatedDiagramCard();
-                } else {
-                    showUncreatedDiagramCard();
-                }
+                showUncreatedDiagramCard();
+                return;
             }
-            
-            // Cleanup
-            mermaidOutput.querySelectorAll('svg').forEach(el => el.remove());
-            const staleTemp = document.getElementById(uniqueId);
-            if (staleTemp) staleTemp.remove();
         }
     }
 
@@ -2339,13 +2327,21 @@ function checkServerConnection() {
             }
             const badge = document.getElementById(`metrics-${data.node}`);
             if (badge) {
-                const durVal = data.duration ? data.duration : 0;
-                const durText = `${durVal.toFixed(3)}s`;
-                const tk = data.tokens ? data.tokens.toLocaleString() : '0';
-                const tps = data.toks_per_sec ? data.toks_per_sec.toFixed(1) : '0.0';
                 const mdl = data.model ? data.model.split('/').pop() : '';
-                badge.textContent = mdl ? `${mdl} · ${durText} · ${tps} tk/s · ${tk} tk` : `${durText} · ${tk} tk`;
-                badge.title = data.model || '';
+                if (mdl === 'bypass') {
+                    // Preserve Phase 1 metrics if already present
+                    if (!badge.textContent || badge.textContent === 'Chờ...' || badge.textContent.includes('bypass')) {
+                        badge.textContent = 'Phase 1 ✓';
+                        badge.title = 'Đã hoàn thành ở Phase 1';
+                    }
+                } else {
+                    const durVal = data.duration ? data.duration : 0;
+                    const durText = `${durVal.toFixed(3)}s`;
+                    const tk = data.tokens ? data.tokens.toLocaleString() : '0';
+                    const tps = data.toks_per_sec ? data.toks_per_sec.toFixed(1) : '0.0';
+                    badge.textContent = mdl ? `${mdl} · ${durText} · ${tps} tk/s · ${tk} tk` : `${durText} · ${tk} tk`;
+                    badge.title = data.model || '';
+                }
             }
 
             // Sync with final cleaned text from server

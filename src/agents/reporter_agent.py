@@ -114,6 +114,8 @@ QUY TẮC CÚ PHÁP VÀ NGÔN NGỮ NGHIÊM NGẶT:
     mermaid_code = re.sub(r'\.\.+>', '-.->', mermaid_code)
     mermaid_code = re.sub(r'(\b\w+\b)\s+\1(?=\s*-\.->|\s*-->|\s*---|;|\n|$)', r'\1', mermaid_code)
     mermaid_code = re.sub(r'(\b\w+)\s+(\w+)\s+(?=-\.->|-->|---|==>|<--)', r'\1_\2', mermaid_code)
+    if mermaid_code and not re.match(r'^\s*(flowchart|graph|sequenceDiagram|gantt|classDiagram)\b', mermaid_code, re.IGNORECASE):
+        mermaid_code = "flowchart LR\n" + mermaid_code
     parsed["mermaid_diagram"] = mermaid_code
 
     # Save outputs
