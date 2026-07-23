@@ -320,8 +320,8 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         },
         {
             "title": "Articles et pamphlets",
-            "author": "Courier, Paul-Louis",
-            "date": "1894",
+            "author": "M. Gorki",
+            "date": "1950",
             "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
             "url": "https://lic.vnu.edu.vn/books/articles-et-pamphlets"
         }

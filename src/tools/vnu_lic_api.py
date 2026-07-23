@@ -443,9 +443,9 @@ def search_vnulic_main(query: str) -> list:
         },
         {
             "title": "Articles et pamphlets",
-            "author": "Courier, Paul-Louis",
+            "author": "M. Gorki",
             "publisher": "Paris",
-            "date": "1894",
+            "date": "1950",
             "slug": "articles-et-pamphlets"
         }
     ]

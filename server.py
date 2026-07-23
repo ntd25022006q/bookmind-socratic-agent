@@ -554,9 +554,7 @@ async def vnu_proxy_gateway(url: str):
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "X-Forwarded-For": "111.65.250.1",
-        "Via": "1.1 vnu-vpn-gateway.vnu.edu.vn"
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
     }
 
     if not url.startswith(("http://", "https://")):
