@@ -68,6 +68,8 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
     
     p_name_val      = p_name      if p_name      else "(Chưa cung cấp)"
     p_mssv_val      = p_mssv      if p_mssv      else "(Chưa cung cấp)"
+    p_major_val     = p_major     if p_major     else "(Chưa cung cấp)"
+    p_cohort_val    = p_cohort    if p_cohort    else "(Chưa cung cấp)"
     p_school_val    = p_school    if p_school    else "(Chưa cung cấp)"
     p_style_val     = p_style     if p_style     else "(Chưa cung cấp)"
     p_year_val      = p_year      if p_year      else "(Chưa cung cấp)"
@@ -115,7 +117,7 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
     HỒ SƠ ĐỘC GIẢ:
     - Họ và tên độc giả: {p_name_val}
     - Mã số sinh viên: {p_mssv_val}
-    - Ngành học & Khóa: {p_major_val}
+    - Ngành học & Khóa: {p_major_cohort_val}
     - Trường thành viên: {p_school_val}
     - Sinh viên năm: {p_year_val}
     - Mục đích đọc sách: {p_purpose_val}
