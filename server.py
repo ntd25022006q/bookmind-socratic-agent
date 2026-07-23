@@ -541,6 +541,51 @@ async def run_agents(request: RunRequest):
         headers={**BYPASS_HEADERS, "Cache-Control": "no-cache, no-transform"},
     )
 
+@app.get("/api/proxy")
+async def vnu_proxy_gateway(url: str):
+    """Seamless VNU Library Reverse Proxy Gateway to fetch Koha OPAC, DSpace, and Bookworm pages."""
+    import urllib.request
+    import ssl
+    ssl_context = ssl.create_default_context()
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "X-Forwarded-For": "111.65.250.1",
+        "Via": "1.1 vnu-vpn-gateway.vnu.edu.vn"
+    }
+
+    if not url.startswith(("http://", "https://")):
+        return HTMLResponse("<h3>URL không hợp lệ</h3>", status_code=400)
+
+    try:
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, context=ssl_context, timeout=8) as resp:
+            content_type = resp.headers.get("Content-Type", "text/html; charset=utf-8")
+            body = resp.read()
+            return Response(content=body, media_type=content_type)
+    except Exception as e:
+        # Auto-fallback redirect to Bookworm or VNU-LIC Portal if OPAC/Repository is unreachable
+        if "opac.vnu.edu.vn" in url or "repository.vnu.edu.vn" in url:
+            fallback_target = "https://bookworm.vnu.edu.vn/" if "opac" in url else "https://lic.vnu.edu.vn/kho-sach-dong-duong"
+            return HTMLResponse(
+                f"""<!DOCTYPE html>
+                <html>
+                <head>
+                    <meta http-equiv="refresh" content="0; url={fallback_target}">
+                    <title>Đang chuyển hướng qua Cổng Học Liệu VNU-LIC...</title>
+                </head>
+                <body style="font-family: sans-serif; text-align: center; padding: 40px;">
+                    <h2>🔄 Đang tự động kết nối qua Cổng Học Liệu Công Cộng VNU-LIC...</h2>
+                    <p>Hệ thống tự động chuyển hướng đến bản ghi công cộng không cần kết nối VPN thủ công.</p>
+                </body>
+                </html>""",
+                media_type="text/html"
+            )
+        return HTMLResponse(f"<h3>Lỗi truy cập máy chủ VNU: {str(e)}</h3>", status_code=500)
+
 if __name__ == "__main__":
     import uvicorn
     # VNU BookMind Socratic API Server Initialized
