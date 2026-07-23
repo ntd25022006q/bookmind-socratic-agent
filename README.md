@@ -49,6 +49,52 @@ Hệ thống kết nối thời gian thực và trích xuất dữ liệu từ 4
 
 ---
 
+## 📸 Trải Nghiệm Giao Diện & Quy Trình Vận Hành Thời Gian Thực (UI & System State Walkthrough)
+
+Dưới đây là chi tiết từng bước vận hành thực tế của giao diện **VNU BookMind Socratic** trải qua các trạng thái từ **Sẵn sàng** $\rightarrow$ **Đang chạy** $\rightarrow$ **Hội thoại Socratic** $\rightarrow$ **Hoàn thành**:
+
+---
+
+### 1️⃣ Bước 1: Thiết Lập Chân Dung Độc Giả (Profile Setup Modal)
+![Thiết Lập Chân Dung Độc Giả](docs/screenshots/1_profile_modal.png)
+
+- **Mô tả giao diện**: Khi lần đầu truy cập hệ thống, một cửa sổ Modal hiện ra yêu cầu sinh viên điền thông tin học thuật cá nhân: *Họ và tên, MSSV, Sinh viên năm mấy, Trường thành viên ĐHQGHN, Ngành học, Mục đích đọc sách chính, Lĩnh vực quan tâm và Phong cách đọc ưa thích*.
+- **Cơ chế vận hành**: Thông tin được lưu an toàn vào `LocalStorage` của trình duyệt. Tác nhân **Profiler Agent (02)** sẽ truy xuất dữ liệu này để cá nhân hóa toàn bộ nội dung đề xuất học liệu và xây dựng ma trận đối thoại phản biện.
+
+---
+
+### 2️⃣ Bước 2: Trạng Thái Sẵn Sàng (Ready State)
+![Trạng Thái Sẵn Sàng](docs/screenshots/2_ready_state.png)
+
+- **Mô tả giao diện**: Giao diện khởi tạo với trạng thái **"Sẵn sàng"** hiển thị màu xanh lá cây tại khung Chỉ số vận hành. Sơ đồ phối hợp 6 Tác nhân ở trên cùng ở chế độ chờ (0.000s | 0 tk). Khung Báo cáo học thuật bên phải hiển thị "BÁO CÁO CHƯA ĐƯỢC TẠO".
+- **Cơ chế vận hành**: Hệ thống lắng nghe yêu cầu nhập từ ô văn bản `Nhập nội dung cần phân tích`. Độc giả có thể nhấn nút `⚡ Kích Hoạt Phân Tích` để gửi truy vấn đến Pipeline 6 Tác nhân.
+
+---
+
+### 3️⃣ Bước 3: Đối Thoại Phản Biện Socrates (Socratic Interactive Modal)
+![Hội Thoại Phản Biện Socrates](docs/screenshots/3_socratic_modal.png)
+
+- **Mô tả giao diện**: Khi tác nhân **Socrates (04)** được kích hoạt, một cửa sổ Modal nổi lên hiển thị **3 Câu Hỏi Phản Biện Socratic** được sinh tự động dựa trên tài liệu nghiên cứu và chủ đề độc giả đặt ra.
+- **Cơ chế vận hành**: Hệ thống tạm dừng pipeline để chờ sinh viên tự suy ngẫm và nhập câu trả lời vào 3 ô văn bản. Sau khi nhấn `🚀 Gửi Câu Trả Lời Phản Biện`, Tác nhân **Phản Biện (Critic Agent 05)** sẽ nhận các câu trả lời này để phân tích thiên kiến nhận thức, điểm mù lý thuyết và dựng ma trận Checkpoint tự vấn.
+
+---
+
+### 4️⃣ Bước 4: Trạng Thái Đang Chạy (Running State & Real-time SSE Stream)
+![Trạng Thái Đang Chạy](docs/screenshots/4_running_state.png)
+
+- **Mô tả giao diện**: Chỉ số trạng thái chuyển sang **"Đang chạy..."** màu cam rực rỡ. Nút kích hoạt chuyển thành nút `🔴 Dừng` màu cam. Các icon tác nhân trên sơ đồ sáng đèn theo thứ tự tuần tự, cập nhật thời gian xử lý và số lượng token theo thời gian thực (ví dụ: `gemma4:31b · 15.306s · 74.5 tk/s · 1,141 tk`).
+- **Cơ chế vận hành**: Phía khung giữa (Console Log), luồng truyền phát sự kiện **SSE (Server-Sent Events)** hiển thị quá trình suy nghĩ (Thinking Process) và nhật ký phân tích của từng Agent. Phía khung bên phải, Báo cáo học thuật được truyền phát từng từ (word-by-word) mượt mà với Bảng 8 cột nguyên bản trích xuất từ 4 nguồn VNU-LIC.
+
+---
+
+### 5️⃣ Bước 5: Trạng Thái Hoàn Thành (Completed State & Mermaid Flowchart)
+![Trạng Thái Hoàn Thành](docs/screenshots/5_completed_state.png)
+
+- **Mô tả giao diện**: Trạng thái hiển thị **"Hoàn Thành"** màu xanh lá cây kèm icon tích xanh. Tổng thời gian xử lý và tổng số token toàn pipeline được thống kê đầy đủ (ví dụ: `68.433s | 4,491 Token`). Các nút chức năng xuất báo cáo (`Khởi Chạy Lại`, `Xuất báo cáo chi tiết`, `Xuất sơ đồ quy trình`) được kích hoạt.
+- **Cơ chế vận hành**: Khung bên phải cho phép chuyển đổi giữa tab **Báo Cáo Chi Tiết** và tab **Sơ Đồ Quy Trình**. Tab Sơ đồ hiển thị biểu đồ **Mermaid.js Flowchart TD (Top-Down)** phản ánh trực quan lộ trình đọc sách Socratic của độc giả kèm đoạn văn mô tả giải thích chi tiết 3 giai đoạn đọc.
+
+---
+
 ## 📊 Bảng Học Liệu Tham Khảo Chuẩn 8 Cột
 
 Toàn bộ các tác nhân LLM trong hệ thống tuân thủ nghiêm ngặt cấu trúc Bảng Học liệu Tham khảo 8 cột chuẩn hóa như sau:
@@ -78,7 +124,7 @@ Người dùng và nhà kiểm thử có thể thực hiện kiểm thử hệ t
 > *"Tôi là sinh viên ngành Ngôn ngữ học đang làm khóa luận tốt nghiệp, hãy gợi ý cho tôi các luận văn thạc sĩ và đề tài nghiên cứu liên quan đến phương pháp giảng dạy tiếng Anh."*
 - **Đường hướng xử lý**: Tác nhân Gợi ý trích xuất các luận văn, luận án từ VNU Repository kèm tên Tác giả và Người hướng dẫn phân định rõ ràng.
 
-### 4. Trải Nghiệm Kho Sách Cổ & Di Sản Lịch Sử (Nguồn Cổng VNU-LIC)
+### 4. Trải Nghiệm Kho Sách Cổ & Di Sản Lịch Lử (Nguồn Cổng VNU-LIC)
 > *"Tôi muốn tìm hiểu các tư liệu và công trình nghiên cứu sinh học, y học thời kỳ Đông Dương tại Việt Nam, có những tài liệu di sản nào đọc được trực tuyến?"*
 - **Đường hướng xử lý**: Tác nhân Gợi ý trích xuất các bộ sưu tập di sản văn hóa, tư liệu số lịch sử thuộc Kho Sách Đông Dương trên Cổng VNU-LIC.
 
