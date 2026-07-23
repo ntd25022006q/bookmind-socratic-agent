@@ -288,21 +288,24 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
             "author": "Ha Van, Sang; Nguyen Ha, Nam; Nguyen Thi Bao, Hien",
             "date": "2017",
             "source": "VNU Scholar Repository",
-            "url": "https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff"
+            "url": "https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff",
+            "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/12692"
         },
         {
             "title": "Using impromptu speaking activities to improve student' fluency: an action research",
             "author": "Bùi, Thị Hồng Hoa",
             "date": "2026",
             "source": "VNU Repository (repository.vnu.edu.vn)",
-            "url": "https://repository.vnu.edu.vn/entities/publication/e87b7dca-5f05-4dd2-8d84-3ae579fce5ab"
+            "url": "https://repository.vnu.edu.vn/entities/publication/e87b7dca-5f05-4dd2-8d84-3ae579fce5ab",
+            "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/182268"
         },
         {
             "title": "Visualizing atomic orbitals of an electron by Latex",
             "author": "Nguyen Hoang, Hai",
             "date": "2022",
             "source": "VNU Scholar Repository",
-            "url": "https://scholar.vnu.edu.vn/entities/publication/6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8"
+            "url": "https://scholar.vnu.edu.vn/entities/publication/6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8",
+            "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/2350"
         },
         {
             "title": "Managing distributed databases : Building bridges between database islands",
@@ -381,6 +384,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                 parts[5] = item.get("source") or "VNU Scholar Repository"
 
                 real_url = item.get("url", "")
+                handle_url = item.get("handle_url", "")
                 if "scholar" in real_url:
                     src_label = "VNU Scholar"
                 elif "repository" in real_url:
@@ -392,7 +396,10 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                 else:
                     src_label = "Cổng VNU-LIC"
 
-                parts[6] = f"[Xem trực tiếp tại {src_label}]({real_url}) → {real_url}"
+                if handle_url and handle_url != real_url:
+                    parts[6] = f"[Xem Entity]({real_url}) \| [Xem Handle URI]({handle_url}) → {real_url}"
+                else:
+                    parts[6] = f"[Xem trực tiếp tại {src_label}]({real_url}) → {real_url}"
                 
                 lines[idx] = " | ".join(parts)
                 continue

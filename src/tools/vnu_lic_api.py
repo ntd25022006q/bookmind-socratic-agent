@@ -246,6 +246,7 @@ def search_dspace_api(query: str) -> list:
                 "publisher": "ĐHQGHN - Trường Đại học Ngoại ngữ (ULIS)",
                 "date": "2026",
                 "url": "https://repository.vnu.edu.vn/entities/publication/e87b7dca-5f05-4dd2-8d84-3ae579fce5ab",
+                "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/182268",
                 "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/182268",
                 "location": "Luận văn thạc sĩ ULIS - Master Theses (Handle: VNU_123/182268)"
             },
@@ -257,8 +258,9 @@ def search_dspace_api(query: str) -> list:
                 "publisher": "VNU Scholar Repository",
                 "date": "2017",
                 "url": "https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff",
+                "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/12692",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: 9c1b5dd9-167b-4f4f-9084-c5808ec35fff)"
+                "location": "Kho tri thức khoa học VNU Scholar (Handle: 123456789/12692)"
             },
             {
                 "id": "scholar/6f7669c1",
@@ -268,8 +270,9 @@ def search_dspace_api(query: str) -> list:
                 "publisher": "VNU Scholar Repository",
                 "date": "2022",
                 "url": "https://scholar.vnu.edu.vn/entities/publication/6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8",
+                "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/2350",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: 6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8)"
+                "location": "Kho tri thức khoa học VNU Scholar (Handle: 123456789/2350)"
             },
             {
                 "id": "scholar/d22b29cf",
@@ -279,8 +282,9 @@ def search_dspace_api(query: str) -> list:
                 "publisher": "VNU Scholar Repository",
                 "date": "2019",
                 "url": "https://scholar.vnu.edu.vn/entities/publication/d22b29cf-e57f-49c4-94cb-2020574dbd42",
+                "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/2843",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/d22b29cf-e57f-49c4-94cb-2020574dbd42",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: d22b29cf-e57f-49c4-94cb-2020574dbd42)"
+                "location": "Kho tri thức khoa học VNU Scholar (Handle: 123456789/2843)"
             },
             {
                 "id": "scholar/f5b2a42f",
@@ -290,8 +294,9 @@ def search_dspace_api(query: str) -> list:
                 "publisher": "VNU Scholar Repository",
                 "date": "2021",
                 "url": "https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3",
+                "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/3569",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: f5b2a42f-c816-4403-bb30-a05b375da5b3)"
+                "location": "Kho tri thức khoa học VNU Scholar (Handle: 123456789/3569)"
             },
             {
                 "id": "scholar/1ac7c747",
@@ -301,8 +306,9 @@ def search_dspace_api(query: str) -> list:
                 "publisher": "VNU Scholar Repository",
                 "date": "2017",
                 "url": "https://scholar.vnu.edu.vn/entities/publication/1ac7c747-31d8-498c-8360-adac30f80ecf",
+                "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/10250",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/1ac7c747-31d8-498c-8360-adac30f80ecf",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: 1ac7c747-31d8-498c-8360-adac30f80ecf)"
+                "location": "Kho tri thức khoa học VNU Scholar (Handle: 123456789/10250)"
             },
             {
                 "id": "scholar/bda6e0b8",
@@ -312,8 +318,9 @@ def search_dspace_api(query: str) -> list:
                 "publisher": "VNU Scholar Repository",
                 "date": "2016",
                 "url": "https://scholar.vnu.edu.vn/entities/publication/bda6e0b8-a71a-4fdf-9a09-789956213ecb",
+                "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/2631",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/bda6e0b8-a71a-4fdf-9a09-789956213ecb",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: bda6e0b8-a71a-4fdf-9a09-789956213ecb)"
+                "location": "Kho tri thức khoa học VNU Scholar (Handle: 123456789/2631)"
             },
             {
                 "id": "scholar/2b64e51d",
@@ -323,8 +330,9 @@ def search_dspace_api(query: str) -> list:
                 "publisher": "VNU Scholar Repository",
                 "date": "2023",
                 "url": "https://scholar.vnu.edu.vn/entities/publication/2b64e51d-139b-4278-ad5d-62fb156066c8",
+                "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/9390",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/2b64e51d-139b-4278-ad5d-62fb156066c8",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: 2b64e51d-139b-4278-ad5d-62fb156066c8)"
+                "location": "Kho tri thức khoa học VNU Scholar (Handle: 123456789/9390)"
             },
             {
                 "id": "scholar/fadb9f5a",
@@ -334,8 +342,9 @@ def search_dspace_api(query: str) -> list:
                 "publisher": "VNU Scholar Repository",
                 "date": "2020",
                 "url": "https://scholar.vnu.edu.vn/entities/publication/fadb9f5a-cb77-45b8-8f71-a6ed4dfddf76",
+                "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/3592",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/fadb9f5a-cb77-45b8-8f71-a6ed4dfddf76",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: fadb9f5a-cb77-45b8-8f71-a6ed4dfddf76)"
+                "location": "Kho tri thức khoa học VNU Scholar (Handle: 123456789/3592)"
             }
         ]
         q_lower = query.lower()
