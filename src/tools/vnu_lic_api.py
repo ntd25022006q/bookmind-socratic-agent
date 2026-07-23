@@ -237,59 +237,59 @@ def search_dspace_api(query: str) -> list:
     if not results:
         results = [
             {
-                "id": "scholar/adaefded",
+                "id": "scholar/f5b2a42f",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "The integration of Mn and Co redox couples endowed MnCo2O4-modified electrochemical sensing platform for ultrasensitive detection of Carbendazim residue in fruit and vegetable samples",
-                "author": "Huyen, Nguyen Ngoc; Dinh, Ngo Xuan; Mai, Vu Thi Huong et al.",
-                "publisher": "Food Chemistry (ISSN: 0308-8146)",
-                "date": "2026-05",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/adaefded-3cd2-46e6-93fd-a2219053aad5",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/adaefded-3cd2-46e6-93fd-a2219053aad5",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: adaefded-3cd2-46e6-93fd-a2219053aad5)"
-            },
-            {
-                "id": "scholar/65c50527",
-                "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Đặc điểm phá huỷ hệ thống đê sông đồng bằng bắc bộ trong thời gian mưa lũ",
-                "author": "Đại học Quốc gia Hà Nội",
+                "title": "Temporal changes of adsorbed layer thickness and electrophoresis of polystyrene sulfate latex particles after long incubation of oppositely charged polyelectrolytes with different charge densities",
+                "author": "Pham Thanh, Long et al.",
                 "publisher": "VNU Scholar Repository",
                 "date": "2024",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/65c50527-b1e7-4fd1-89c5-049d70db9d5a",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/65c50527-b1e7-4fd1-89c5-049d70db9d5a",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: 65c50527-b1e7-4fd1-89c5-049d70db9d5a)"
+                "url": "https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3",
+                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3",
+                "location": "Kho tri thức khoa học VNU Scholar (UUID: f5b2a42f-c816-4403-bb30-a05b375da5b3)"
             },
             {
-                "id": "scholar/52b29d19",
+                "id": "scholar/1ac7c747",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Đánh giá nguy cơ trượt đất khu vực xã Nấm Dẩn, huyện Xín Mần, tỉnh Hà Giang",
-                "author": "Đại học Quốc gia Hà Nội",
+                "title": "Green synthesis and crystal structure of 3-(benzothiazol-2-yl)thiophene",
+                "author": "Pham Van, Quoc et al.",
                 "publisher": "VNU Scholar Repository",
                 "date": "2024",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/52b29d19-78cc-479b-9f8d-621810c8a4b4",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/52b29d19-78cc-479b-9f8d-621810c8a4b4",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: 52b29d19-78cc-479b-9f8d-621810c8a4b4)"
+                "url": "https://scholar.vnu.edu.vn/entities/publication/1ac7c747-31d8-498c-8360-adac30f80ecf",
+                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/1ac7c747-31d8-498c-8360-adac30f80ecf",
+                "location": "Kho tri thức khoa học VNU Scholar (UUID: 1ac7c747-31d8-498c-8360-adac30f80ecf)"
             },
             {
-                "id": "scholar/01b79b19",
+                "id": "scholar/bda6e0b8",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Pháp luật hình sự Việt Nam trước thách thức an ninh phi truyền thống : sách chuyên khảo",
-                "author": "Đại học Quốc gia Hà Nội",
+                "title": "Nghiên cứu ảnh hưởng của hàm lượng cadimi (Cd ) và chì (Pb) trong đất đến khả năng sinh trưởng và hấp thu Cd, Pb của cây lu lu đực (Solanum nigrum L.)",
+                "author": "Nguyen Trong, Dat et al.",
                 "publisher": "VNU Scholar Repository",
                 "date": "2024",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/01b79b19-5f12-4138-bafb-3db780ce77b0",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/01b79b19-5f12-4138-bafb-3db780ce77b0",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: 01b79b19-5f12-4138-bafb-3db780ce77b0)"
+                "url": "https://scholar.vnu.edu.vn/entities/publication/bda6e0b8-a71a-4fdf-9a09-789956213ecb",
+                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/bda6e0b8-a71a-4fdf-9a09-789956213ecb",
+                "location": "Kho tri thức khoa học VNU Scholar (UUID: bda6e0b8-a71a-4fdf-9a09-789956213ecb)"
             },
             {
-                "id": "scholar/3aea1256",
+                "id": "scholar/9c1b5dd9",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Rủi ro địa chất - Một nội dung nghiên cứu mới của Địa chất công trình hiện đại",
-                "author": "Đại học Quốc gia Hà Nội",
+                "title": "A hybrid feature selection method for credit scoring",
+                "author": "Nguyen Thi, Sang et al.",
                 "publisher": "VNU Scholar Repository",
                 "date": "2024",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/3aea1256-5ab9-4a25-bd67-97c7878c71af",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/3aea1256-5ab9-4a25-bd67-97c7878c71af",
-                "location": "Kho tri thức khoa học VNU Scholar (UUID: 3aea1256-5ab9-4a25-bd67-97c7878c71af)"
+                "url": "https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff",
+                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff",
+                "location": "Kho tri thức khoa học VNU Scholar (UUID: 9c1b5dd9-167b-4f4f-9084-c5808ec35fff)"
+            },
+            {
+                "id": "scholar/2b64e51d",
+                "source": "VNU Scholar (scholar.vnu.edu.vn)",
+                "title": "Study on some biological characteristics of the albino strain of medicinal fungus Cordyceps militaris isolated in Vietnam",
+                "author": "Do Ngoc, Chung et al.",
+                "publisher": "VNU Scholar Repository",
+                "date": "2024",
+                "url": "https://scholar.vnu.edu.vn/entities/publication/2b64e51d-139b-4278-ad5d-62fb156066c8",
+                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/2b64e51d-139b-4278-ad5d-62fb156066c8",
+                "location": "Kho tri thức khoa học VNU Scholar (UUID: 2b64e51d-139b-4278-ad5d-62fb156066c8)"
             }
         ]
     return results
