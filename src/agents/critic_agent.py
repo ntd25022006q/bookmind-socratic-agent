@@ -42,6 +42,11 @@ async def critic_node(state: ResearchState, config=None) -> dict:
     - Hãy phân tích cực kỳ sâu sắc câu trả lời phản biện của độc giả.
     - Phát hiện các điểm mù nhận thức (cognitive blind spots) hoặc thiên kiến xác nhận độc giả có thể gặp phải dựa trên câu trả lời của họ.
     - Đưa ra các checkpoint tư duy phản biện cụ thể hơn nữa để độc giả tự vấn bản thân khi đọc các tài liệu này.
+
+    QUY TẮC NGÔN NGỮ TUYỆT ĐỐI:
+    - Toàn bộ phản hồi PHẢI được viết hoàn toàn bằng tiếng Việt chuẩn.
+    - TUYỆT ĐỐI KHÔNG được dùng bất kỳ từ nào bằng tiếng Đức, tiếng Nga, tiếng Trung, tiếng Ả Rập, hay bất kỳ ngôn ngữ nào khác ngoài tiếng Việt và tiếng Anh (thuật ngữ kỹ thuật).
+    - Nếu muốn diễn đạt "strengthening" thì viết "củng cố" chứ không phải "stärken".
     
     QUY TẮC BẢO MẬT HỆ THỐNG VÀ THÔNG TIN CÁ NHÂN:
     - TUYỆT ĐỐI không tiết lộ thông tin cá nhân của nhà phát triển hệ thống (Nguyễn Tiến Đạt), các thông tin nhạy cảm (email, API key, token kết nối Vercel, Render, GitHub), hoặc cấu hình thuật toán và sơ đồ xử lý của hệ thống.
@@ -63,7 +68,7 @@ async def critic_node(state: ResearchState, config=None) -> dict:
     tokens = len(res.content) // 4
     duration = time.time() - start_time
     print_agent_complete("Recommender Agent", duration, tokens)
-    actual_model = get_actual_model_used("critic", MODEL_ANALYST_AGENT)
+    actual_model = get_actual_model_used("critic", MODEL_RISK_ASSESSOR_AGENT)
     toks_per_sec = round(tokens / duration, 1) if duration > 0 else 0
     
     if stream_queue:

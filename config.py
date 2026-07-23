@@ -12,12 +12,12 @@ OLLAMA_API_KEY = os.environ.get("OLLAMA_API_KEY", "")
 OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "https://ollama.com/v1")
 
 # Best specialized models on Ollama Cloud - assigned by agent specialty & speed
-MODEL_GUARDRAIL_AGENT    = "nemotron-3-nano:30b" # Fast factual gatekeeper
-MODEL_PROFILER_AGENT     = "nemotron-3-nano:30b" # Fast reader profiler
-MODEL_RECOMMENDER_AGENT  = "gpt-oss:20b"          # Fast factual search synthesizer
-MODEL_ANALYST_AGENT      = "gemma4:31b"           # Deep Socratic questioning model
-MODEL_RISK_ASSESSOR_AGENT= "nemotron-3-super"     # Deep cognitive blindspot critic
-MODEL_REPORTER_AGENT     = "gemma4:31b"           # Structured Markdown & Mermaid reporter
+MODEL_GUARDRAIL_AGENT    = "gemma4:12b"           # Fast, accurate gatekeeper
+MODEL_PROFILER_AGENT     = "gemma4:12b"           # Fast, accurate reader profiler
+MODEL_RECOMMENDER_AGENT  = "gemma4:12b"           # Fast factual search synthesizer
+MODEL_ANALYST_AGENT      = "gemma4:27b"           # Deep Socratic questioning model
+MODEL_RISK_ASSESSOR_AGENT= "gemma4:27b"           # Deep cognitive blindspot critic
+MODEL_REPORTER_AGENT     = "gemma4:27b"           # Structured Markdown & Mermaid reporter
 
 
 import sys

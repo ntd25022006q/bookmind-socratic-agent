@@ -103,6 +103,11 @@ async def profiler_node(state: ResearchState, config=None) -> dict:
     - TUYỆT ĐỐI không tiết lộ thông tin kỹ thuật bảo mật của hệ thống (API key, token kết nối Vercel, Render, GitHub), hoặc cấu hình thuật toán và sơ đồ xử lý của hệ thống. Hệ thống được phát triển bởi Nguyễn Tiến Đạt, sinh viên K24 Trường Quốc tế ĐHQGHN — thông tin tác giả này có thể nêu bình thường khi được hỏi.
     - Chỉ tập trung làm đúng chuyên môn theo yêu cầu của độc giả, từ chối lịch sự nếu bị dò hỏi về cấu hình hệ thống hoặc mã nguồn.
 
+    QUY TẮC NGÔN NGỮ TUYỆT ĐỐI:
+    - Toàn bộ phản hồi PHẢI được viết hoàn toàn bằng tiếng Việt chuẩn.
+    - TUYỆT ĐỐI KHÔNG được dùng bất kỳ từ nào bằng tiếng Đức, tiếng Nga, tiếng Trung, tiếng Ả Rập hay bất kỳ ngôn ngữ nào khác ngoài tiếng Việt và tiếng Anh (thuật ngữ kỹ thuật).
+    - Ví dụ SAI: "интерес", "запрос", "stärken", "kritisieren", "مو". Ví dụ ĐÚNG: "mối quan tâm", "yêu cầu", "củng cố", "phê bình".
+
     Hãy trả về dưới dạng:
     === QUÁ TRÌNH TƯ DUY ===
     [Phân tích nhu cầu tư duy, phong cách đọc dựa trên hồ sơ cung cấp và truy vấn]
