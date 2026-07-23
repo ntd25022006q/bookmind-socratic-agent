@@ -251,6 +251,42 @@ def search_dspace_api(query: str) -> list:
                 "location": "Luận văn thạc sĩ ULIS - Master Theses (Handle: VNU_123/182268)"
             },
             {
+                "id": "scholar/1ff7218c",
+                "source": "VNU Repository (repository.vnu.edu.vn)",
+                "title": "Integration der flüchtlinge auf dem Deutschen arbeitsmarkt = So sánh hai mô hình hỗ trợ người tị nạn...",
+                "author": "Đào, Thị Thắm",
+                "publisher": "Kho lưu trữ số ĐHQGHN",
+                "date": "2022",
+                "url": "https://repository.vnu.edu.vn/entities/publication/1ff7218c-e60e-4f3a-922d-c017d0a65ec9",
+                "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/143559",
+                "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/143559",
+                "location": "Kho lưu trữ số ĐHQGHN (Handle: VNU_123/143559)"
+            },
+            {
+                "id": "scholar/1ff9d11f",
+                "source": "VNU Repository (repository.vnu.edu.vn)",
+                "title": "Mấy ý kiến về: Hoạt động thương nghiệp nông thôn Đồng bằng Bắc Bộ thế kỷ XVIII - XIX",
+                "author": "Nguyễn, Quang Ngọc; Phan, Đại Doãn",
+                "publisher": "Kho lưu trữ số ĐHQGHN",
+                "date": "1985",
+                "url": "https://repository.vnu.edu.vn/entities/publication/1ff9d11f-fe57-4475-93fb-9715f412a55d",
+                "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/70927",
+                "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/70927",
+                "location": "Kho lưu trữ số ĐHQGHN (Handle: VNU_123/70927)"
+            },
+            {
+                "id": "scholar/1ffa00c0",
+                "source": "VNU Repository (repository.vnu.edu.vn)",
+                "title": "Pháp luật về quản trị Ngân hàng thương mại ở Việt Nam : Luận án TS. Luật",
+                "author": "Nguyễn, Ngọc Cường",
+                "publisher": "Kho lưu trữ số ĐHQGHN",
+                "date": "2018",
+                "url": "https://repository.vnu.edu.vn/entities/publication/1ffa00c0-57b7-4dd4-b904-78bb83a0fe87",
+                "handle_url": "https://repository.vnu.edu.vn/handle/VNU_123/65391",
+                "pdf_url": "https://repository.vnu.edu.vn/handle/VNU_123/65391",
+                "location": "Luận án tiến sĩ ĐHQGHN (Handle: VNU_123/65391)"
+            },
+            {
                 "id": "scholar/9c1b5dd9",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
                 "title": "A hybrid feature selection method for credit scoring",
@@ -321,30 +357,6 @@ def search_dspace_api(query: str) -> list:
                 "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/2631",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/bda6e0b8-a71a-4fdf-9a09-789956213ecb",
                 "location": "Kho tri thức khoa học VNU Scholar (Handle: 123456789/2631)"
-            },
-            {
-                "id": "scholar/2b64e51d",
-                "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Study on some biological characteristics of the albino strain of medicinal fungus Cordyceps militaris isolated in Vietnam",
-                "author": "Do, Thi Kim Trang; Dao, Ngoc Anh; Tran, Bao Tram; Truong, Thi Chien; Nguyen, Minh Nam; Tran, Van Tuan; Vu, Xuan Tao",
-                "publisher": "VNU Scholar Repository",
-                "date": "2023",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/2b64e51d-139b-4278-ad5d-62fb156066c8",
-                "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/9390",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/2b64e51d-139b-4278-ad5d-62fb156066c8",
-                "location": "Kho tri thức khoa học VNU Scholar (Handle: 123456789/9390)"
-            },
-            {
-                "id": "scholar/fadb9f5a",
-                "source": "VNU Scholar (scholar.vnu.edu.vn)",
-                "title": "Adsorption of Poly(acrylic acid) onto Negatively Charged Polystyrene Sulfate Latex Particles by Means of Particle Tracking of Brownian Motion...",
-                "author": "Thi Hai Yen Doan; Pham T.D.; Yamashita Y.; Adachi Y.",
-                "publisher": "VNU Scholar Repository",
-                "date": "2020",
-                "url": "https://scholar.vnu.edu.vn/entities/publication/fadb9f5a-cb77-45b8-8f71-a6ed4dfddf76",
-                "handle_url": "https://scholar.vnu.edu.vn/handle/123456789/3592",
-                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/fadb9f5a-cb77-45b8-8f71-a6ed4dfddf76",
-                "location": "Kho tri thức khoa học VNU Scholar (Handle: 123456789/3592)"
             }
         ]
         q_lower = query.lower()
