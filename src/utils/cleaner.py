@@ -298,6 +298,13 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
             "url": "https://repository.vnu.edu.vn/entities/publication/e87b7dca-5f05-4dd2-8d84-3ae579fce5ab"
         },
         {
+            "title": "Visualizing atomic orbitals of an electron by Latex",
+            "author": "Nguyen Hoang, Hai",
+            "date": "2022",
+            "source": "VNU Scholar Repository",
+            "url": "https://scholar.vnu.edu.vn/entities/publication/6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8"
+        },
+        {
             "title": "Managing distributed databases : Building bridges between database islands",
             "author": "Burleson, Donald K.",
             "date": "1994",

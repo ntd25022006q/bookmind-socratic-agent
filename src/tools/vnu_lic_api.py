@@ -264,9 +264,9 @@ def search_dspace_api(query: str) -> list:
                 "id": "scholar/6f7669c1",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
                 "title": "Visualizing atomic orbitals of an electron by Latex",
-                "author": "Doan T.H.Y., Nguyen V.H. et al.",
+                "author": "Nguyen Hoang, Hai",
                 "publisher": "VNU Scholar Repository",
-                "date": "2024",
+                "date": "2022",
                 "url": "https://scholar.vnu.edu.vn/entities/publication/6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8",
                 "location": "Kho tri thức khoa học VNU Scholar (UUID: 6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8)"
@@ -275,9 +275,9 @@ def search_dspace_api(query: str) -> list:
                 "id": "scholar/d22b29cf",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
                 "title": "Emerging crosslinking techniques for glove manufacturers with improved nitrile glove properties and reduced allergic risks",
-                "author": "Tran Van, Tuan et al.",
+                "author": "Yew G.Y.; Tham T.C.; Law C.L.; Chu D.-T.; Ogino C.; Show P.L.",
                 "publisher": "VNU Scholar Repository",
-                "date": "2024",
+                "date": "2019",
                 "url": "https://scholar.vnu.edu.vn/entities/publication/d22b29cf-e57f-49c4-94cb-2020574dbd42",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/d22b29cf-e57f-49c4-94cb-2020574dbd42",
                 "location": "Kho tri thức khoa học VNU Scholar (UUID: d22b29cf-e57f-49c4-94cb-2020574dbd42)"
@@ -286,9 +286,9 @@ def search_dspace_api(query: str) -> list:
                 "id": "scholar/f5b2a42f",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
                 "title": "Temporal changes of adsorbed layer thickness and electrophoresis of polystyrene sulfate latex particles after long incubation of oppositely charged polyelectrolytes with different charge densities",
-                "author": "Pham Thanh, Long et al.",
+                "author": "Doan T.H.Y.; Pham T.D.; Hunziker J.; Hoang T.H.",
                 "publisher": "VNU Scholar Repository",
-                "date": "2024",
+                "date": "2021",
                 "url": "https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3",
                 "location": "Kho tri thức khoa học VNU Scholar (UUID: f5b2a42f-c816-4403-bb30-a05b375da5b3)"
@@ -297,12 +297,45 @@ def search_dspace_api(query: str) -> list:
                 "id": "scholar/1ac7c747",
                 "source": "VNU Scholar (scholar.vnu.edu.vn)",
                 "title": "Green synthesis and crystal structure of 3-(benzothiazol-2-yl)thiophene",
-                "author": "Pham Van, Quoc et al.",
+                "author": "Nguyen Ngoc, L.; Vu Quoc, T.; Duong Quoc, H.; Vu Quoc, M.; Truong Minh, L.; Pham, C.T.; van Meervelt, L.",
                 "publisher": "VNU Scholar Repository",
-                "date": "2024",
+                "date": "2017",
                 "url": "https://scholar.vnu.edu.vn/entities/publication/1ac7c747-31d8-498c-8360-adac30f80ecf",
                 "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/1ac7c747-31d8-498c-8360-adac30f80ecf",
                 "location": "Kho tri thức khoa học VNU Scholar (UUID: 1ac7c747-31d8-498c-8360-adac30f80ecf)"
+            },
+            {
+                "id": "scholar/bda6e0b8",
+                "source": "VNU Scholar (scholar.vnu.edu.vn)",
+                "title": "Nghiên cứu ảnh hưởng của hàm lượng cadimi (Cd ) và chì (Pb) trong đất đến khả năng sinh trưởng và hấp thu Cd, Pb của cây lu lu đực (Solanum nigrum L.)",
+                "author": "Pham Thi My Phuong; Le Tat Khuong; Dang Thi Kim Chi; Nguyen Manh, Khai",
+                "publisher": "VNU Scholar Repository",
+                "date": "2016",
+                "url": "https://scholar.vnu.edu.vn/entities/publication/bda6e0b8-a71a-4fdf-9a09-789956213ecb",
+                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/bda6e0b8-a71a-4fdf-9a09-789956213ecb",
+                "location": "Kho tri thức khoa học VNU Scholar (UUID: bda6e0b8-a71a-4fdf-9a09-789956213ecb)"
+            },
+            {
+                "id": "scholar/2b64e51d",
+                "source": "VNU Scholar (scholar.vnu.edu.vn)",
+                "title": "Study on some biological characteristics of the albino strain of medicinal fungus Cordyceps militaris isolated in Vietnam",
+                "author": "Do, Thi Kim Trang; Dao, Ngoc Anh; Tran, Bao Tram; Truong, Thi Chien; Nguyen, Minh Nam; Tran, Van Tuan; Vu, Xuan Tao",
+                "publisher": "VNU Scholar Repository",
+                "date": "2023",
+                "url": "https://scholar.vnu.edu.vn/entities/publication/2b64e51d-139b-4278-ad5d-62fb156066c8",
+                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/2b64e51d-139b-4278-ad5d-62fb156066c8",
+                "location": "Kho tri thức khoa học VNU Scholar (UUID: 2b64e51d-139b-4278-ad5d-62fb156066c8)"
+            },
+            {
+                "id": "scholar/fadb9f5a",
+                "source": "VNU Scholar (scholar.vnu.edu.vn)",
+                "title": "Adsorption of Poly(acrylic acid) onto Negatively Charged Polystyrene Sulfate Latex Particles by Means of Particle Tracking of Brownian Motion...",
+                "author": "Thi Hai Yen Doan; Pham T.D.; Yamashita Y.; Adachi Y.",
+                "publisher": "VNU Scholar Repository",
+                "date": "2020",
+                "url": "https://scholar.vnu.edu.vn/entities/publication/fadb9f5a-cb77-45b8-8f71-a6ed4dfddf76",
+                "pdf_url": "https://scholar.vnu.edu.vn/entities/publication/fadb9f5a-cb77-45b8-8f71-a6ed4dfddf76",
+                "location": "Kho tri thức khoa học VNU Scholar (UUID: fadb9f5a-cb77-45b8-8f71-a6ed4dfddf76)"
             }
         ]
         q_lower = query.lower()
