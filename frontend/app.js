@@ -2335,22 +2335,36 @@ function checkServerConnection() {
                     edgeEl.classList.add('active');
                 }
             }
+            const defaultNodeModels = {
+                guardrail: 'gemma4:12b',
+                researcher: 'gemma4:27b',
+                analyst: 'gemma4:27b',
+                risk_assessor: 'gemma4:31b',
+                recommender: 'gemma4:31b',
+                reporter: 'gemma4:31b'
+            };
+
             const badge = document.getElementById(`metrics-${data.node}`);
             if (badge) {
-                const mdl = data.model ? data.model.split('/').pop() : '';
-                if (mdl === 'bypass') {
-                    // Preserve Phase 1 metrics if already present
-                    if (!badge.textContent || badge.textContent === 'Chờ...' || badge.textContent.includes('bypass')) {
-                        badge.textContent = 'Phase 1 ✓';
-                        badge.title = 'Đã hoàn thành ở Phase 1';
+                let mdl = data.model ? data.model.split('/').pop() : '';
+                if (!mdl || mdl === 'bypass' || mdl === 'unknown') {
+                    mdl = defaultNodeModels[data.node] || 'gemma4';
+                }
+                
+                const durVal = data.duration ? data.duration : 0;
+                const tkVal = data.tokens ? data.tokens : 0;
+                
+                if (durVal === 0 && tkVal === 0) {
+                    if (!badge.textContent || badge.textContent === 'Chờ...' || badge.textContent.includes('0.000s')) {
+                        badge.textContent = `${mdl} · Phase 1 ✓`;
+                        badge.title = `${mdl} - Đã hoàn thành ở Phase 1`;
                     }
                 } else {
-                    const durVal = data.duration ? data.duration : 0;
                     const durText = `${durVal.toFixed(3)}s`;
-                    const tk = data.tokens ? data.tokens.toLocaleString() : '0';
-                    const tps = data.toks_per_sec ? data.toks_per_sec.toFixed(1) : '0.0';
-                    badge.textContent = mdl ? `${mdl} · ${durText} · ${tps} tk/s · ${tk} tk` : `${durText} · ${tk} tk`;
-                    badge.title = data.model || '';
+                    const tkText = tkVal.toLocaleString();
+                    const tpsText = data.toks_per_sec ? data.toks_per_sec.toFixed(1) : '0.0';
+                    badge.textContent = `${mdl} · ${durText} · ${tpsText} tk/s · ${tkText} tk`;
+                    badge.title = data.model || mdl;
                 }
             }
 

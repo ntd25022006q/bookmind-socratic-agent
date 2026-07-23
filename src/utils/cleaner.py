@@ -210,6 +210,8 @@ def strip_system_prompt_leak(text: str) -> str:
     for line in lines:
         if any(bad in line for bad in prompt_lines_to_remove):
             continue
+        if re.match(r'^\s*(?:Nguồn|Liên kết)\s*:\s*(?:Tra cứu|Trang chính|website|PDF|MIT|deeplearning|tác giả|đang cập nhật)', line, re.IGNORECASE):
+            continue
         cleaned_lines.append(line)
     text = "\n".join(cleaned_lines)
     return text
@@ -281,6 +283,13 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         if line.strip().startswith("|") and line.strip().endswith("|"):
             parts = [p.strip() for p in line.split("|")]
             if len(parts) >= 7:
+                first_cell = parts[1].lower()
+                second_cell = parts[2].lower()
+                # Skip table header row and markdown separator row (---)
+                if "stt" in first_cell or "tên tài liệu" in second_cell or "---" in first_cell or "---" in second_cell or "---" in parts[3]:
+                    lines[idx] = line
+                    continue
+
                 title_cell = parts[2].lower()
                 link_cell = parts[6]
                 
