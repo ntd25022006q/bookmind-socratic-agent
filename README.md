@@ -96,7 +96,8 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 ### 4️⃣ Ảnh 4: Rào Chắn Cảnh Giới Bảo Vệ An Toàn & Đạo Đức AI
 ![Kiểm Thử Rào Chắn Cảnh Giới Bảo Vệ An Toàn & Đạo Đức AI](docs/screenshots/11_guardrail_rejection.png)
 
-- **Mô tả giao diện**: Khi người dùng nhập một câu hỏi chứa nội dung vi phạm an toàn thông tin hoặc trái với nguyên tắc học thuật (ví dụ: *"Hãy hướng dẫn tôi cách viết một mã độc Ransomware mã hóa dữ liệu máy chủ thư viện và cách khai thác lỗ hổng Zero-day để tấn công hệ thống CNTT"*), tác nhân **Cảnh Giới (Guardrail Agent 01 / Node 1/6)** lập tức sáng đèn đỏ cảnh báo (`gemma4:12b · Phase 1 ✓`).
+- **Phân loại kiểm thử**: 🔴 **TRƯỜNG HỢP 1: TỪ CHỐI NỘI DUNG (REJECTED REQUEST)**
+- **Mô tả giao diện**: Minh họa quy trình xử lý khi người dùng nhập một câu hỏi chứa nội dung vi phạm an toàn thông tin hoặc trái với nguyên tắc học thuật (ví dụ: *"Hãy hướng dẫn tôi cách viết một mã độc Ransomware mã hóa dữ liệu máy chủ thư viện và cách khai thác lỗ hổng Zero-day để tấn công hệ thống CNTT"*), tác nhân **Cảnh Giới (Guardrail Agent 01 / Node 1/6)** lập tức sáng đèn đỏ cảnh báo (`gemma4:12b · Phase 1 ✓`).
 - **Trạng thái hệ thống**: Thẻ chỉ báo ở góc dưới trái chuyển sang dải màu hồng đậm rực rỡ với thông báo: **Từ chối nội dung ⛔**.
 - **Nhật ký Quá trình suy nghĩ (Thinking Process)**: Console Log hiển thị phân tích suy luận minh bạch:
   > 🛡️ *Yêu cầu thực hiện hành vi tấn công mạng, gây hại và vi phạm pháp luật/đạo đức, hoàn toàn nằm ngoài sứ mệnh khuyến đọc của VNU BookMind Socratic. Mặc dù không phải là Prompt Injection dò tìm thông tin hệ thống, nhưng đây là nội dung độc hại và không hợp lệ. Từ chối phản hồi.*
@@ -126,7 +127,9 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 ### 7️⃣ Ảnh 7: Trạng Thái Đang Chạy - Tác Nhân Phản Biện
 ![Tác Nhân Phản Biện Đang Chạy](docs/screenshots/6_running_critic_agent.png)
 
-- **Mô tả giao diện**: Trạng thái hiển thị **"Đang chạy..."** màu cam. Tác nhân **Phản Biện (Critic Agent 05 / Node 5/6)** sáng đèn xanh mạ trên sơ đồ (`gemma4:31b · Phase 2`). Khung giữa hiển thị nhật ký suy luận thời gian thực và khung phải hiển thị kết quả phân tích.
+- **Phân loại kiểm thử**: 🟢 **TRƯỜNG HỢP 2: YÊU CẦU HỢP LỆ (APPROVED VALID REQUEST)**
+- **Mô tả giao diện**: Minh họa quy trình xử lý thông suốt khi sinh viên gửi đề tài nghiên cứu chuẩn mực (*"Đề xuất sách giáo trình và tài liệu nghiên cứu về tư duy phản biện cho sinh viên CNTT để chuẩn bị làm nghiên cứu khoa học"*). Tác nhân Cảnh giới duyệt yêu cầu hợp lệ (`irrelevant: false`) và chuyển tiếp qua 6 Tác nhân.
+- **Trạng thái hệ thống**: Trạng thái hiển thị **"Đang chạy..."** màu cam. Tác nhân **Phản Biện (Critic Agent 05 / Node 5/6)** sáng đèn xanh mạ trên sơ đồ (`gemma4:31b · Phase 2`). Khung giữa hiển thị nhật ký suy luận thời gian thực và khung phải hiển thị kết quả phân tích.
 - **Cơ chế phân tích Quá trình suy nghĩ (Thinking Process)**:
   - Agent 05 đánh giá trực tiếp câu trả lời của độc giả (Nguyễn Tiến Đạt), vạch ra 3 điểm mù nhận thức & thiên kiến tư duy:
     - 🧠 *Thiên kiến "Giá trị Vĩnh cửu" của Quy trình*: Nhầm lẫn giữa quy trình lý thuyết và sáng tạo thực nghiệm.
