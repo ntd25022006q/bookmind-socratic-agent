@@ -269,11 +269,16 @@ def strip_rag_hallucinations(text: str) -> str:
     text = text.replace("Koha OPAC", "VNU-LIC")
     text = text.replace("Thư viện Xuân Thủy", "Thư viện ĐHQGHN")
 
-    # 2. Remove standalone lines that ONLY mention database proxies or IEEE/SpringerLink standalone bullet points
+    # 2. Remove standalone lines that ONLY mention database proxies or raw MERMAID section markers
     lines = text.split("\n")
     cleaned_lines = []
     for line in lines:
         l_strip = line.strip()
+        l_upper = l_strip.upper()
+        if l_upper in ["MERMAID", "MERMAID DIAGRAM", "=== MERMAID DIAGRAM ===", "=== MERMAID ===", "=== DIAGRAM EXPLANATION ===", "=== DETAILED REPORT ==="]:
+            continue
+        if l_upper.startswith("=== ") and l_upper.endswith(" ==="):
+            continue
         if any(db in l_strip.lower() for db in ["ieee xplore", "springerlink", "sciencedirect (elsevier)"]):
             if "truy cập qua proxy" in l_strip.lower() or "csdl khoa học kỹ thuật" in l_strip.lower() or "cơ sở dữ liệu" in l_strip.lower():
                 continue

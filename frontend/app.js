@@ -1304,9 +1304,9 @@ function checkServerConnection() {
             .replace(/===?\s*(CONSOLE MESSAGE|THÔNG BÁO CONSOLE|NHẬT KÝ CONSOLE|TÓM TẮT CONSOLE|NHẬT KÝ|TÓM TẮT)\s*===?/gi, '')
             .replace(/===?\s*(DETAILED REPORT|BÁO CÁO CHI TIẾT|BÁO CÁO CỤ THỂ|BÁO CÁO)\s*===?/gi, '')
             .replace(/===?\s*(DIAGRAM EXPLANATION|GIẢI THÍCH CHI TIẾT SƠ ĐỒ|GIẢI THÍCH SƠ ĐỒ|GIẢI THÍCH)\s*===?/gi, '')
-            .replace(/===?\s*(MERMAID DIAGRAM|SƠ ĐỒ MERMAID|BIỂU ĐỒ MERMAID)\s*===?/gi, '')
+            .replace(/===?\s*(MERMAID DIAGRAM|SƠ ĐỒ MERMAID|BIỂU ĐỒ MERMAID|MERMAID)\s*===?/gi, '')
             .replace(/^\s*[-*=]{3,}\s*$/gm, '') // Lines containing only --- or ===
-            .replace(/^\s*(THINKING|CONSOLE MESSAGE|DETAILED REPORT|DIAGRAM EXPLANATION|MERMAID DIAGRAM)\s*$/gim, '')
+            .replace(/^\s*(THINKING|CONSOLE MESSAGE|DETAILED REPORT|DIAGRAM EXPLANATION|MERMAID DIAGRAM|MERMAID)\s*$/gim, '')
             .replace(/^\s*(QUÁ TRÌNH TƯ DUY|SUY NGHĨ|TƯ DUY|THÔNG BÁO CONSOLE|NHẬT KÝ CONSOLE|TÓM TẮT CONSOLE|NHẬT KÝ|TÓM TẮT)\s*$/gim, '')
             .replace(/^\s*(BÁO CÁO CHI TIẾT|BÁO CÁO CỤ THỂ|BÁO CÁO|GIẢI THÍCH CHI TIẾT SƠ ĐỒ|GIẢI THÍCH SƠ ĐỒ|GIẢI THÍCH|SƠ ĐỒ MERMAID|BIỂU ĐỒ MERMAID)\s*$/gim, '');
 
