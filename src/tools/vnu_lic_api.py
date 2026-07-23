@@ -149,6 +149,10 @@ def search_koha_api(query: str) -> list:
         {"title": "Giáo trình Cơ sở dữ liệu",             "author": "Đào Kiến Quốc",    "publisher": "NXB ĐHQGHN",              "date": "2019", "biblionumber": "45680"},
         {"title": "Lập trình hướng đối tượng với Java",   "author": "Trần Đình Quế",    "publisher": "NXB ĐHQGHN",              "date": "2020", "biblionumber": "72340"},
         {"title": "Trí tuệ nhân tạo",                      "author": "Nguyễn Thanh Thủy","publisher": "NXB ĐHQGHN",              "date": "2020", "biblionumber": "68450"},
+        {"title": "Phân tích và thiết kế thuật toán",     "author": "Hoàng Văn Kiếm",   "publisher": "NXB ĐHQGHN",              "date": "2018", "biblionumber": "81200"},
+        {"title": "Hệ quản trị cơ sở dữ liệu Oracle",     "author": "Nguyễn Kim Anh",   "publisher": "NXB ĐHQGHN",              "date": "2021", "biblionumber": "91450"},
+        {"title": "Khai phá dữ liệu và ứng dụng",          "author": "Hà Quang Thụy",    "publisher": "NXB ĐHQGHN",              "date": "2022", "biblionumber": "102300"},
+        {"title": "Mạng máy tính và các hệ thống mở",     "author": "Nguyễn Thúc Hải",  "publisher": "NXB ĐHQGHN",              "date": "2023", "biblionumber": "110500"},
     ]
     q_lower = query.lower()
     matched = [b for b in failsafe_db if any(w in b["title"].lower() or w in b["author"].lower() for w in q_lower.split() if len(w) > 2)]
@@ -457,6 +461,41 @@ def search_vnulic_main(query: str) -> list:
             "publisher": "Paris",
             "date": "1950",
             "slug": "articles-et-pamphlets"
+        },
+        {
+            "title": "Bulletin du Service Géologique de l'Indochine",
+            "author": "Service Géologique",
+            "publisher": "Hanoi",
+            "date": "1925",
+            "slug": "bulletin-du-service-geologique-de-lindochine"
+        },
+        {
+            "title": "Flore générale de l'Indochine",
+            "author": "Lecomte, Henri",
+            "publisher": "Paris",
+            "date": "1912",
+            "slug": "flore-generale-de-lindochine"
+        },
+        {
+            "title": "La Cochinchine: Huit jours à Saigon",
+            "author": "Baurac, J.C.",
+            "publisher": "Saigon",
+            "date": "1894",
+            "slug": "la-cochinchine-huit-jours-a-saigon"
+        },
+        {
+            "title": "Monographie de la province de Thanh-Hoa",
+            "author": "Chassigneux, E.",
+            "publisher": "Hanoi",
+            "date": "1929",
+            "slug": "monographie-de-la-province-de-thanh-hoa"
+        },
+        {
+            "title": "Notices sur la Cochinchine",
+            "author": "Garnier, Francis",
+            "publisher": "Paris",
+            "date": "1878",
+            "slug": "notices-sur-la-cochinchine"
         }
     ]
     
