@@ -422,9 +422,9 @@ def search_vnulic_main(query: str) -> list:
         },
         {
             "title": "Annales de physique. Tome I",
-            "author": "Société Française de Physique",
+            "author": "A. Cotton",
             "publisher": "Paris",
-            "date": "1914",
+            "date": "1931",
             "slug": "annales-de-physique-tome-i"
         },
         {

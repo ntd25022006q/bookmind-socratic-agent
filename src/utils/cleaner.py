@@ -306,8 +306,8 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         },
         {
             "title": "Annales de physique. Tome I",
-            "author": "Société Française de Physique",
-            "date": "1914",
+            "author": "A. Cotton",
+            "date": "1931",
             "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
             "url": "https://lic.vnu.edu.vn/books/annales-de-physique-tome-i"
         },
