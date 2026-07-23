@@ -141,8 +141,8 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 ### 8️⃣ Ảnh 8: Trạng Thái Hoàn Thành & Báo Cáo Độc Giả
 ![Trạng Thái Hoàn Thành & Báo Cáo Độc Giả](docs/screenshots/7_completed_reporter_agent.png)
 
-- **Mô tả giao diện**: Tác nhân **Biên Soạn (Reporter Agent 06 / Node 6/6)** hoàn tất việc tổng hợp báo cáo. Trạng thái chuyển sang **"Hoàn Thành ✅"** xanh lá rực rỡ (`72.667s | 4,355 Token | 6/6 Agent`). Cụm nút chức năng xuất file được kích hoạt mở rộng.
-- **Cơ chế hiển thị**: Khung bên phải hiển thị Mục 1: **Thông Tin Độc Giả** dưới dạng bảng 2 cột chuẩn hóa (`AIT - Khóa K24`, `Trường Quốc tế`...), đảm bảo bảo tồn nguyên văn 100% dữ liệu hồ sơ sinh viên.
+- **Mô tả giao diện**: Tác nhân **Biên Soạn (Reporter Agent 06 / Node 6/6)** hoàn tất việc tổng hợp báo cáo. Trạng thái chuyển sang **"Hoàn Thành ✅"** xanh lá rực rỡ với các thông số vận hành thực tế (`69.159s | 4,552 Token | 6/6 Agent`). Cụm nút chức năng `C Khởi Chạy Lại`, `📄 Xuất báo cáo chi tiết`, và `🖼️ Xuất sơ đồ quy trình` được kích hoạt mở rộng.
+- **Cơ chế hiển thị**: Khung bên phải hiển thị Mục 1: **Thông Tin Độc Giả** dưới dạng bảng 2 cột chuẩn hóa (*Họ và tên: Nguyễn Tiến Đạt, MSSV: 24070342, Ngành học & Khóa: AIT - Khóa K24, Trường Quốc tế...*), đảm bảo bảo tồn nguyên văn 100% dữ liệu hồ sơ sinh viên.
 
 ---
 
@@ -150,14 +150,14 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 ![Sơ Đồ Quy Trình Mermaid](docs/screenshots/8_completed_mermaid_diagram.png)
 
 - **Mô tả giao diện**: Chuyển sang tab **Sơ Đồ Quy Trình**, hệ thống render biểu đồ **Mermaid.js Flowchart TD (Top-Down)** phản ánh trực quan lộ trình đọc Socratic. Phía trên tích hợp bộ công cụ thu phóng vector (`100%`, `Zoom Out`, `Zoom In`, `Reset`).
-- **Cơ chế vận hành**: Khung dưới hiển thị đoạn văn **Mô tả chi tiết sơ đồ** giải thích súc tích lộ trình 3 giai đoạn đọc sâu.
+- **Cơ chế vận hành**: Khung dưới hiển thị đoạn văn **Mô tả chi tiết sơ đồ** giải thích súc tích lộ trình 3 giai đoạn đọc sâu từ khởi tạo mục tiêu AI đến làm chủ tư duy độc lập.
 
 ---
 
 ### 🔟 Ảnh 10: Mở File Báo Cáo Chi Tiết HTML Offline
 ![Mở File Báo Cáo Chi Tiết HTML Offline](docs/screenshots/9_export_html_report_table.png)
 
-- **Mô tả giao diện**: Nhấn `Xuất báo cáo chi tiết`, file `.html` độc lập được tải về máy. Mở bằng trình duyệt hiển thị khung rộng `1400px` vô cùng thoáng đãng.
+- **Mô tả giao diện**: Nhấn `Xuất báo cáo chi tiết`, tệp HTML độc lập (`BaoCao_De_xuat_sach_giao_trinh_va_tai_lieu_nghien_cuu_ve_tu_duy_pha_20260724.html` - `27.7 KB`) được tải về máy. Mở bằng trình duyệt hiển thị khung rộng `1400px` vô cùng thoáng đãng.
 - **Cơ chế Bảng 8 Cột Trích Dẫn DSpace**: **Mục 9. Bảng Tài Liệu Tham Khảo** chuẩn 8 cột với thiết kế `white-space: nowrap` cho cột STT (`65px`) và Năm (`75px`) không bao giờ vỡ dòng. Mỗi tài liệu đi kèm link đôi DSpace công khai (**Xem Entity** & **Xem Handle URI**) kèm URL gốc phía dưới.
 
 ---
@@ -165,8 +165,16 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 ### 1️⃣1️⃣ Ảnh 11: Mở File Sơ Đồ Quy Trình Đồ Họa Vector SVG/PNG
 ![Mở File Sơ Đồ Quy Trình Đồ Họa Vector SVG](docs/screenshots/10_export_svg_flowchart.png)
 
-- **Mô tả giao diện**: Nhấn `Xuất sơ đồ quy trình`, hệ thống kết xuất sơ đồ Mermaid thành file ảnh đồ họa vector `.svg` hoặc `.png` sắc nét.
-- **Cơ chế ứng dụng**: Ảnh chuẩn vector không bị mờ nhòe khi phóng to hay in ấn, sẵn sàng để sinh viên chèn thẳng vào báo cáo NCKH hoặc slide thuyết trình luận văn.
+- **Mô tả giao diện**: Nhấn `Xuất sơ đồ quy trình`, hệ thống kết xuất sơ đồ Mermaid thành tệp đồ họa vector `.svg` sắc nét (`VNU_BookMind_SoDo_QuyTrinh_2026-07-23.svg` - `19.6 KB`).
+- **Cơ chế ứng dụng**: Ảnh chuẩn vector sắc nét không bị mờ nhòe khi phóng to hay in ấn, sẵn sàng để sinh viên chèn thẳng vào báo cáo NCKH hoặc slide thuyết trình luận văn.
+
+---
+
+### 1️⃣2️⃣ Ảnh 12: Nhật Ký Tải Xuất Báo Cáo Offline & Sơ Đồ Vector
+![Nhật Ký Tải Xuất Báo Cáo Offline](docs/screenshots/12_download_history.png)
+
+- **Mô tả giao diện**: Nhật ký tải xuống thực tế trên trình duyệt chứng minh 2 tệp xuất bản độc lập được kết xuất thành công: tệp sơ đồ vector `.svg` (`19.6 KB`) và tệp báo cáo chi tiết `.html` (`27.7 KB`).
+- **Ý nghĩa đối với Ban Giám Khảo**: Đây là bằng chứng thực tế cho thấy tính năng đóng gói báo cáo và đồ họa quy trình vận hành trơn tru 100%, hỗ trợ sinh viên lưu trữ offline hoặc đính kèm trực tiếp vào hồ sơ nghiên cứu khoa học.
 
 ---
 
