@@ -74,7 +74,7 @@ async def reporter_node(state: ResearchState, config=None) -> dict:
         await asyncio.sleep(1.2)
 
     print_agent_start("Reporter Agent", "Tổng hợp báo cáo đọc sâu Socratic và sơ đồ Mermaid")
-    llm = create_llm(MODEL_REPORTER_AGENT, config=config, streaming=True)
+    llm = create_llm(MODEL_REPORTER_AGENT, temperature=0.2, max_tokens=8192, config=config, streaming=True)
 
     call_config = {}
     if stream_queue:
@@ -153,8 +153,17 @@ QUY TẮC CÚ PHÁP VÀ NGÔN NGỮ NGHIÊM NGẶT:
     # Post-processing: strip CJK, remove **, fix Mermaid syntax, and enforce strict citations
     vnu_lic_results = state.get("vnu_lic_results", [])
     report_clean = full_clean(parsed.get("detailed_report", ""))
-    parsed["detailed_report"]    = enforce_strict_citations(report_clean, vnu_lic_results)
-    parsed["diagram_explanation"] = full_clean(parsed.get("diagram_explanation", ""))
+
+    # Hard Guarantee 1: Always enforce Section 9 (Bảng Tài Liệu Tham Khảo 8 cột)
+    if "bảng tài liệu tham khảo" not in report_clean.lower() and "9. bảng" not in report_clean.lower():
+        report_clean += f"\n\n## 9. Bảng Tài Liệu Tham Khảo\n\n{exact_table_markdown}\n"
+
+    parsed["detailed_report"] = enforce_strict_citations(report_clean, vnu_lic_results)
+    
+    explanation_clean = full_clean(parsed.get("diagram_explanation", ""))
+    if not explanation_clean or len(explanation_clean.strip()) < 20:
+        explanation_clean = f"Sơ đồ quy trình phản ánh lộ trình đọc sâu Socratic cá nhân hóa cho chủ đề nghiên cứu '{topic}'. Lộ trình tích hợp học liệu 4 nguồn VNU-LIC, hỗ trợ độc giả vượt qua các điểm mù nhận thức và hình thành phương pháp luận nghiên cứu khoa học chuyên sâu."
+    parsed["diagram_explanation"] = explanation_clean
 
     mermaid_code = full_clean(parsed.get("mermaid_diagram", ""))
     # Auto-heal Mermaid arrow syntax errors & node name anomalies from LLMs
@@ -168,12 +177,23 @@ QUY TẮC CÚ PHÁP VÀ NGÔN NGỮ NGHIÊM NGẶT:
     mermaid_code = re.sub(r'\.\.+>', '-.->', mermaid_code)
     mermaid_code = re.sub(r'(\b\w+\b)\s+\1(?=\s*-\.->|\s*-->|\s*---|;|\n|$)', r'\1', mermaid_code)
     
-    # Enforce vertical layout TD (Top-Down like Hình 2)
+    # Enforce vertical layout TD (Top-Down)
     mermaid_code = re.sub(r'\bflowchart\s+LR\b', 'flowchart TD', mermaid_code, flags=re.IGNORECASE)
     mermaid_code = re.sub(r'\bgraph\s+LR\b', 'flowchart TD', mermaid_code, flags=re.IGNORECASE)
     
     if mermaid_code and not re.match(r'^\s*(flowchart|graph|sequenceDiagram|gantt|classDiagram)\b', mermaid_code, re.IGNORECASE):
         mermaid_code = "flowchart TD\n" + mermaid_code
+
+    # Hard Guarantee 2: If Mermaid code is missing or corrupted, generate standard 7-step Flowchart TD
+    if not mermaid_code or len(mermaid_code.strip()) < 15:
+        mermaid_code = """flowchart TD
+    A["1. Xác Định Mục Tiêu NCKH & Độc Giả"] --> B["2. Khám Phá Học Liệu VNU-LIC 4 Nguồn"]
+    B --> C["3. Phân Tích Phương Pháp Luận & Nghiên Cứu"]
+    C --> D["4. Vận Dụng 3 Câu Hỏi Phản Biện Socratic"]
+    D --> E["5. Nhận Diện Điểm Mù Nhận Thức & Thiên Kiến"]
+    E --> F["6. Thiết Lập 3 Checkpoint Tự Vấn Khoa Học"]
+    F --> G["7. Hình Thành Tư Duy Nghiên Cứu AI Chuyên Sâu"]"""
+    
     parsed["mermaid_diagram"] = mermaid_code
 
     # Save outputs

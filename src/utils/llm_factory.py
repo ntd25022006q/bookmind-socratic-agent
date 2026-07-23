@@ -147,7 +147,7 @@ def clear_actual_models():
     _actual_model_used.set({})
 
 
-def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, streaming: bool = False, config = None):
+def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 8192, streaming: bool = False, config = None):
     """Create a ChatOpenAI wrapper instance pointing to the Ollama Cloud API,
     equipped with fallbacks from verifiably working free tier models sorted by latency.
     """
