@@ -291,6 +291,20 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
             "url": "https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff"
         },
         {
+            "title": "Using impromptu speaking activities to improve student' fluency: an action research",
+            "author": "Bùi, Thị Hồng Hoa",
+            "date": "2026",
+            "source": "VNU Repository (repository.vnu.edu.vn)",
+            "url": "https://repository.vnu.edu.vn/entities/publication/e87b7dca-5f05-4dd2-8d84-3ae579fce5ab"
+        },
+        {
+            "title": "Managing distributed databases : Building bridges between database islands",
+            "author": "Burleson, Donald K.",
+            "date": "1994",
+            "source": "VNU-LIC OPAC (Koha)",
+            "url": "https://opac.vnu.edu.vn/cgi-bin/koha/opac-detail.pl?biblionumber=299342"
+        },
+        {
             "title": "Intangible Capital and Growth : Essays on Labor Productivity, Monetary Economics, and Political Economy. Vol. 1",
             "author": "Roth, Felix",
             "date": "2022",
