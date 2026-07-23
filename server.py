@@ -59,17 +59,19 @@ def get_session_lock(session_id: str) -> asyncio.Lock:
         _session_locks[sid] = asyncio.Lock()
     return _session_locks[sid]
 
-# ── Lifespan: replaces deprecated @app.on_event("startup") ──────────────────
 @asynccontextmanager
 async def lifespan(app_instance):
-    # Startup: pre-initialize RAG cached documents in memory
-    from src.tools.rag_tools import get_all_docs
-    print("Pre-initializing RAG documents in memory...")
-    try:
-        await asyncio.to_thread(get_all_docs)
-        print("RAG documents cached in memory and ready!")
-    except Exception as e:
-        print(f"Failed to pre-initialize RAG documents: {e}")
+    # Non-blocking background startup so FastAPI starts & responds to /api/health INSTANTLY (<0.1s)!
+    async def _init_rag_bg():
+        try:
+            from src.tools.rag_tools import get_all_docs
+            print("Pre-initializing RAG documents in background...")
+            await asyncio.to_thread(get_all_docs)
+            print("RAG documents cached in memory and ready!")
+        except Exception as e:
+            print(f"Failed to pre-initialize RAG documents: {e}")
+
+    asyncio.create_task(_init_rag_bg())
     yield
     # Shutdown: cleanup if needed
     print("Shutting down...")
