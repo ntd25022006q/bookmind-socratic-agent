@@ -47,16 +47,16 @@ _latency_lock = threading.Lock()
 # Primary: gemma4 family (fast, accurate, Vietnamese-safe, no foreign char bleed)
 # Fallback: other verified free-tier models
 OLLAMA_FREE_CANDIDATES = [
-    "gemma4:2b",            # Ultra-fast, ideal for gating tasks
-    "gemma4:12b",           # Fast + accurate, general purpose
-    "gemma4:27b",           # Deep reasoning, Socratic analysis
-    "gemma4:31b",           # Largest gemma4, max quality
+    "gemma4:12b",           # Fast + accurate gatekeeper & general model
+    "gemma4:27b",           # Deep reader profiling & factual synthesis
+    "gemma4:31b",           # Deepest reasoning & structured academic Markdown
+    "gemma4:2b",            # Light & fast fallback
     "gemma3:27b",           # Fallback: older gemma generation
     "gemma3:12b",           # Fallback: older gemma small
-    "llama3.3:70b",         # Fallback: Meta LLaMA deep reasoning
-    "phi4:14b",             # Fallback: Microsoft Phi-4
-    "gpt-oss:20b",          # Fallback: legacy candidate
-    "nemotron-3-super",     # Fallback: NVIDIA nemotron
+    "gemma3:4b",            # Fallback: ultra light
+    "llama3.3:70b",         # Emergency fallback
+    "phi4:14b",             # Emergency fallback
+    "nemotron-3-super"      # Emergency fallback
 ]
 
 def check_model_latencies_sync():
@@ -179,10 +179,10 @@ def create_llm(model: str, temperature: float = 0.2, max_tokens: int = 2000, str
     if not latencies:
         sorted_models = default_candidates
     else:
-        # Sort based on latency (lowest/healthiest first)
+        # Sort based on Gemma priority first, then latency
         sorted_models = sorted(
             default_candidates,
-            key=lambda m: latencies.get(m, 1.0)
+            key=lambda m: (0 if "gemma" in m.lower() else 1, latencies.get(m, 1.0))
         )
 
     # Filter out models that are strictly offline / subscription required (latency >= 999s)
