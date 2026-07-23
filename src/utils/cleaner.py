@@ -263,8 +263,9 @@ def full_clean(text: str) -> str:
 def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
     """Sanitize report references and strictly enforce VNU-LIC URLs to prevent hallucinations or generic placeholders."""
     generic_placeholders = [
-        "ieee xplore", "sciencedirect", "springerlink", "google scholar",
-        "doaj", "nhiều tác giả", "n/a", "tài liệu bổ trợ"
+        "ieee xplore", "ieee", "sciencedirect", "sciencedirect (elsevier)", "edirect",
+        "springerlink", "springerlink (springer)", "erlink", "google scholar",
+        "google scholar & doaj", "doaj", "nhiều tác giả", "n/a", "tài liệu bổ trợ"
     ]
     
     title_to_book = {}
@@ -325,15 +326,15 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                     parts[5] = matched_book.get("source") or "Học liệu số ĐHQGHN"
                     
                     real_url = matched_book.get("url", "")
-                    if real_url:
+                    if real_url and real_url != "-":
                         parts[6] = f"[Xem trực tiếp tại VNU-LIC]({real_url})"
                     else:
-                        parts[6] = "[Xem trực tiếp tại VNU-LIC](https://lic.vnu.edu.vn/books)"
+                        parts[6] = "[Xem trực tiếp tại VNU Scholar](https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3)"
                 else:
                     if parts[5].lower() in ["n/a", "", "tài liệu bổ trợ"]:
                         parts[5] = "Thư viện Tri thức số ĐHQGHN"
-                    if "[" not in parts[6] or "tra cứu" in parts[6].lower():
-                        parts[6] = "[Xem trực tiếp tại VNU-LIC](https://lic.vnu.edu.vn/books)"
+                    if "[" not in parts[6] or "tra cứu" in parts[6].lower() or "lic.vnu.edu.vn/books" in parts[6]:
+                        parts[6] = "[Xem trực tiếp tại VNU Scholar](https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3)"
                 
                 lines[idx] = " | ".join(parts)
                 continue

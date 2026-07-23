@@ -454,16 +454,16 @@ def search_vnulic_main(query: str) -> list:
     ]
     final_list = matched[:3] if matched else curated_vnulic[:3]
     for idx, item in enumerate(final_list):
-        portal_detail_url = f"https://lic.vnu.edu.vn/books/{item['slug']}"
+        portal_detail_url = "https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3"
         results.append({
             "id": f"vnulic/{idx+1}",
-            "source": "VNU-LIC Portal (lic.vnu.edu.vn)",
+            "source": "VNU Scholar (scholar.vnu.edu.vn)",
             "title": item["title"],
             "author": item["author"],
             "publisher": item.get("publisher", "VNU-LIC"),
             "date": item["date"],
             "url": portal_detail_url,
             "pdf_url": portal_detail_url,
-            "location": f"Kho Sách Đông Dương Cổng Thư viện VNU-LIC (Slug: {item['slug']})"
+            "location": f"Kho tri thức khoa học VNU Scholar (Slug: {item['slug']})"
         })
     return results
