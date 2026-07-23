@@ -12,12 +12,9 @@ ssl_context = ssl.create_default_context()
 ssl_context.check_hostname = False
 ssl_context.verify_mode = ssl.CERT_NONE
 
-# VNU VPN Proxy Gateway Headers
 DEFAULT_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "Accept": "application/json, text/html, application/xhtml+xml",
-    "X-Forwarded-For": "111.65.250.1",
-    "Via": "1.1 vnu-vpn-gateway.vnu.edu.vn"
+    "Accept": "application/json, text/html, application/xhtml+xml"
 }
 
 def clean_html(raw_html: str) -> str:
