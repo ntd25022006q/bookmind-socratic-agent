@@ -4,7 +4,6 @@
 >
 > 🚀 *Nền tảng trí tuệ nhân tạo thế hệ mới kết hợp triết lý Socratic và kho tri thức học thuật VNU-LIC*
 
-[![Production Status](https://img.shields.io/badge/Production-Active-16a069?style=for-the-badge&logo=vercel)](https://bookmind-socratic-agent.vercel.app/)
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-Multi--Agent-orange?style=for-the-badge)](https://github.com/langchain-ai/langgraph)
@@ -24,31 +23,31 @@ Phương pháp tiếp cận dựa trên triết lý Socratic: **AI không đọc
 
 Hệ thống kết nối trực tiếp và phân loại minh bạch 5 nguồn tài nguyên tri thức số của **Trung tâm Thư viện và Tri thức số (VNU-LIC)**:
 
-### 🌐 Group 1: Các Nguồn Mở Trực Tiếp 100% Công Cộng (200 OK — Không Cần VPN)
+### 🌐 Group 1: Các Nguồn Mở Trực Tiếp Công Cộng (Không Cần VPN)
 
 1. **Bookworm VNU-LIC (`bookworm.vnu.edu.vn`)**:
    - **Tài nguyên**: Giáo trình, sách điện tử và sách tham khảo đọc trực tuyến.
-   - **Mẫu URL chuẩn**: `https://bookworm.vnu.edu.vn/EDetail.aspx?id={id}` (**✅ 200 OK**)
+   - **Mẫu URL chuẩn**: `https://bookworm.vnu.edu.vn/EDetail.aspx?id={id}`
 
 2. **VNU Scholar Repository (`scholar.vnu.edu.vn`)**:
-   - **Tài nguyên**: Công trình nghiên cứu khoa học, bài báo tạp chí quốc tế (ISI/Scopus), luận án tiến sĩ. Thay thế tuyệt đối cho các liên kết ngoài trường.
-   - **Mẫu URL chuẩn**: `https://scholar.vnu.edu.vn/entities/publication/{uuid}` (**✅ 200 OK**)
+   - **Tài nguyên**: Công trình nghiên cứu khoa học, bài báo tạp chí quốc tế, luận án tiến sĩ công khai.
+   - **Mẫu URL chuẩn**: `https://scholar.vnu.edu.vn/entities/publication/{uuid}`
 
 3. **Kho Sách Đông Dương & Cổng LIC (`lic.vnu.edu.vn`)**:
    - **Tài nguyên**: Bộ sưu tập sách cổ, di sản văn hóa và tài liệu số di sản VNU-LIC.
-   - **Mẫu URL chuẩn**: `https://lic.vnu.edu.vn/books/{slug}` (**✅ 200 OK**)
+   - **Mẫu URL chuẩn**: `https://lic.vnu.edu.vn/books/{slug}`
 
 ---
 
-### 🔒 Group 2: Các Nguồn Tra Cứu Nội Bộ (Yêu Cầu Mạng Nội Bộ / VNU VPN)
+### 🔒 Group 2: Các Nguồn Tra Cứu Nội Bộ (Mạng Nội Bộ ĐHQGHN / VNU VPN)
 
 4. **Koha OPAC Catalog (`opac.vnu.edu.vn`)**:
-   - **Tài nguyên**: Danh mục tra cứu sách in tại quầy thư viện VNU-LIC.
-   - **Chính sách hiển thị**: Do hệ thống tường lửa ĐHQGHN chặn IP ngoài trường, các tài liệu sách in được hiển thị thông tin metadata chuẩn xác 100% (tên sách, tác giả, nhà xuất bản, mã biblionumber) kèm liên kết `-` và chú thích rõ: *"Yêu cầu mạng nội bộ / VNU VPN để truy cập trực tiếp"*.
+   - **Tài nguyên**: CSDL tra cứu danh mục tài nguyên thư viện.
+   - **Định dạng liên kết**: `-` (Yêu cầu kết nối mạng nội bộ ĐHQGHN / VNU VPN để truy cập trực tiếp).
 
 5. **DSpace VNU Repository (`repository.vnu.edu.vn`)**:
-   - **Tài nguyên**: Kho lưu trữ tài liệu nội bộ mạng trường.
-   - **Chính sách hiển thị**: Hiển thị metadata chuẩn xác 100% (Handle ID) kèm liên kết `-` và chú thích rõ: *"Yêu cầu mạng nội bộ / VNU VPN để truy cập trực tiếp"*.
+   - **Tài nguyên**: Kho tài nguyên lưu trữ số nội bộ ĐHQGHN.
+   - **Định dạng liên kết**: `-` (Yêu cầu kết nối mạng nội bộ ĐHQGHN / VNU VPN để truy cập trực tiếp).
 
 ---
 
@@ -76,7 +75,7 @@ flowchart TD
 ### Chi Tiết 6 Tác Nhân:
 1. **01. Cảnh Giới (Guardrail Agent)**: Phân loại câu hỏi, chặn Prompt Injection và các yêu cầu nằm ngoài phạm vi khuyến đọc.
 2. **02. Hồ Sơ (Profiler Agent)**: Phân tích chân dung độc giả (Trường, Ngành, Mục tiêu đọc).
-3. **03. Gợi Ý Sách (Recommender Agent)**: Truy xuất song song từ Bookworm, VNU Scholar, và VNU-LIC Portal. Đề xuất link công khai 200 OK hoặc ghi chú rõ yêu cầu VNU VPN.
+3. **03. Gợi Ý Sách (Recommender Agent)**: Truy xuất song song từ Bookworm, VNU Scholar, và VNU-LIC Portal. Đề xuất link công khai hoặc ghi chú rõ yêu cầu VNU VPN cho nguồn nội bộ.
 4. **04. Đối Thoại Socrates (Socrates Questioner)**: Đưa ra 3 câu hỏi gợi mở sâu sắc kích thích tự vấn dựa trên tài liệu.
 5. **05. Phản Biện (Critic Agent)**: Phân tích điểm mù nhận thức và góc nhìn đối lập.
 6. **06. Biên Soạn (Reporter Agent)**: Tổng hợp báo cáo Markdown hoàn chỉnh, bảng 6 cột chuẩn, sơ đồ Mermaid và KaTeX.
@@ -114,10 +113,11 @@ Truy cập: `http://localhost:3000`.
 
 ---
 
-## 🌐 Triển Khai Cloud (CI/CD)
+## 🌐 Triển Khai Cloud & Tự Động Hóa (CI/CD)
 
-- 🌐 **Frontend (Vercel)**: [bookmind-socratic-agent.vercel.app](https://bookmind-socratic-agent.vercel.app/)
-- ⚙️ **Backend (Render)**: [bookmind-socratic-agent-5o4p.onrender.com](https://bookmind-socratic-agent-5o4p.onrender.com/api/health)
+- Hệ thống được cấu hình tự động đồng bộ xây dựng và triển khai từ nhánh `main` trên GitHub.
+- **Frontend**: Nền tảng giao diện web tĩnh tương tác trực tiếp với người dùng.
+- **Backend**: Dịch vụ API Web Service xử lý đa tác nhân và định tuyến dữ liệu thời gian thực.
 
 ---
 
