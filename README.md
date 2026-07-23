@@ -1,8 +1,8 @@
 # VNU BookMind Socratic 🧠📚
 
-> **Hệ thống Đa Tác Nhân (Multi-Agent) Hỗ Trợ Đọc Sâu & Phản Biện Socratic Dành Cho Sinh Viên**
+> **Nền Tảng Đa Tác Nhân (Multi-Agent Architecture) Hỗ Trợ Đọc Sâu & Phản Biện Socratic Dành Cho Sinh Viên**
 >
-> 🚀 *Nền tảng trí tuệ nhân tạo thế hệ mới kết hợp triết lý Socratic và kho tri thức học thuật VNU-LIC*
+> 🚀 *Giải pháp trí tuệ nhân tạo nâng cao văn hóa đọc chủ động, tích hợp triết lý Socratic và kho tri thức học thuật VNU-LIC*
 
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
@@ -11,47 +11,47 @@
 
 ---
 
-## 🌟 Giới Thiệu Dự Án
+## 🌟 Giới Thiệu Dự Án & Triết Lý Socratic
 
-**VNU BookMind Socratic** là ứng dụng Web thông minh dựa trên kiến trúc Đa Tác Nhân (Multi-Agent Architecture), hỗ trợ văn hóa đọc chủ động, tự học và tư duy phản biện cho sinh viên Đại học Quốc gia Hà Nội (ĐHQGHN).
+**VNU BookMind Socratic** là hệ thống phần mềm trí tuệ nhân tạo chuyên biệt được xây dựng dựa trên kiến trúc Đa Tác Nhân (Multi-Agent System), hướng tới mục tiêu thúc đẩy tư duy phản biện, hỗ trợ nghiên cứu khoa học và phát triển thói quen tự học đọc sâu cho sinh viên Đại học Quốc gia Hà Nội (ĐHQGHN).
 
-Phương pháp tiếp cận dựa trên triết lý Socratic: **AI không đọc hộ hay tóm tắt thay con người, mà đóng vai trò người đối thoại đặt câu hỏi gợi mở để người đọc tự tư duy, phân tích và ghi chép đọc sâu.**
+Khác biệt với các công cụ AI tóm tắt thụ động, BookMind tuân thủ chặt chẽ triết lý phương pháp Socrates: **AI không đọc hộ hay tóm tắt sẵn văn bản, mà đưa ra các câu hỏi gợi mở, phân tích điểm mù nhận thức và khuyến khích độc giả tự đối thoại, tự ghi chép và đưa ra kết luận.**
 
 ---
 
-## 🏛️ Quy Chuẩn Trích Xuất & Phân Loại 5 Nguồn Học Liệu Số VNU-LIC
+## 🏛️ Danh Mục & Quy Chuẩn Phân Loại 5 Nguồn Học Liệu Số VNU-LIC
 
-Hệ thống kết nối trực tiếp và phân loại minh bạch 5 nguồn tài nguyên tri thức số của **Trung tâm Thư viện và Tri thức số (VNU-LIC)**:
+Hệ thống kết nối thời gian thực và trích xuất dữ liệu từ 5 nguồn tài nguyên tri thức trọng điểm thuộc **Trung tâm Thư viện và Tri thức số (VNU-LIC)**:
 
-### 🌐 Group 1: Các Nguồn Mở Trực Tiếp Công Cộng (Không Cần VPN)
+### 🌐 Nguồn Mở Truy Cập Trực Tiếp (Public Access Resources)
 
 1. **Bookworm VNU-LIC (`bookworm.vnu.edu.vn`)**:
-   - **Tài nguyên**: Giáo trình, sách điện tử và sách tham khảo đọc trực tuyến.
-   - **Mẫu URL chuẩn**: `https://bookworm.vnu.edu.vn/EDetail.aspx?id={id}`
+   - **Mô tả**: Kho sách điện tử, giáo trình số và tài liệu tham khảo bản quyền. Cho phép bạn đọc tra cứu và đọc trực tiếp trên trình duyệt hoặc ứng dụng VNU-LIC.
+   - **Mẫu liên kết**: `https://bookworm.vnu.edu.vn/EDetail.aspx?id={id}`
 
 2. **VNU Scholar Repository (`scholar.vnu.edu.vn`)**:
-   - **Tài nguyên**: Công trình nghiên cứu khoa học, bài báo tạp chí quốc tế, luận án tiến sĩ công khai.
-   - **Mẫu URL chuẩn**: `https://scholar.vnu.edu.vn/entities/publication/{uuid}`
+   - **Mô tả**: Nền tảng quản trị tri thức số DSpace-CRIS lưu trữ bài báo khoa học, công trình nghiên cứu công bố quốc tế, luận án tiến sĩ và kết quả NCKH mở của ĐHQGHN.
+   - **Mẫu liên kết**: `https://scholar.vnu.edu.vn/entities/publication/{uuid}`
 
-3. **Kho Sách Đông Dương & Cổng LIC (`lic.vnu.edu.vn`)**:
-   - **Tài nguyên**: Bộ sưu tập sách cổ, di sản văn hóa và tài liệu số di sản VNU-LIC.
-   - **Mẫu URL chuẩn**: `https://lic.vnu.edu.vn/books/{slug}`
+3. **Cổng Thông Tin & Kho Sách Đông Dương (`lic.vnu.edu.vn`)**:
+   - **Mô tả**: Bộ sưu tập di sản văn hóa, tư liệu số lịch sử và tài liệu quý hiếm thời kỳ Đông Dương do VNU-LIC số hóa.
+   - **Mẫu liên kết**: `https://lic.vnu.edu.vn/books/{slug}`
 
 ---
 
-### 🔒 Group 2: Các Nguồn Tra Cứu Nội Bộ (Mạng Nội Bộ ĐHQGHN / VNU VPN)
+### 🔒 Nguồn Tra Cứu Mạng Nội Bộ (VNU Campus Network Resources)
 
 4. **Koha OPAC Catalog (`opac.vnu.edu.vn`)**:
-   - **Tài nguyên**: CSDL tra cứu danh mục tài nguyên thư viện.
-   - **Định dạng liên kết**: `-` (Yêu cầu kết nối mạng nội bộ ĐHQGHN / VNU VPN để truy cập trực tiếp).
+   - **Mô tả**: Hệ thống quản trị thư viện tích hợp Koha ILS, hỗ trợ tra cứu thư mục, vị trí xếp giá và mã biblionumber của tài liệu in. Truy cập trực tiếp yêu cầu kết nối mạng nội bộ ĐHQGHN (VNU Campus Network / VNU VPN).
 
 5. **DSpace VNU Repository (`repository.vnu.edu.vn`)**:
-   - **Tài nguyên**: Kho tài nguyên lưu trữ số nội bộ ĐHQGHN.
-   - **Định dạng liên kết**: `-` (Yêu cầu kết nối mạng nội bộ ĐHQGHN / VNU VPN để truy cập trực tiếp).
+   - **Mô tả**: Kho tài nguyên lưu trữ số nội bộ chuyên quản lý luận văn, luận án và tài liệu học thuật theo chuẩn Handle định danh. Truy cập trực tiếp yêu cầu kết nối mạng nội bộ ĐHQGHN (VNU Campus Network / VNU VPN).
 
 ---
 
-## 🧠 Kiến Trúc 6 Tác Nhân Socratic (LangGraph Pipeline)
+## 🧠 Kiến Trúc 6 Tác Nhân Socratic Tuần Tự (LangGraph Engine)
+
+Hệ thống vận hành dựa trên đồ thị luồng công việc 6 tác nhân chuyên biệt, phối hợp tuần tự để đảm bảo độ chính xác và chiều sâu tri thức:
 
 ```mermaid
 flowchart TD
@@ -72,20 +72,50 @@ flowchart TD
     Reporter --> ReportEnd(["Xuất Báo Cáo Học Thuật & Sơ Đồ Quy Trình"])
 ```
 
-### Chi Tiết 6 Tác Nhân:
-1. **01. Cảnh Giới (Guardrail Agent)**: Phân loại câu hỏi, chặn Prompt Injection và các yêu cầu nằm ngoài phạm vi khuyến đọc.
-2. **02. Hồ Sơ (Profiler Agent)**: Phân tích chân dung độc giả (Trường, Ngành, Mục tiêu đọc).
-3. **03. Gợi Ý Sách (Recommender Agent)**: Truy xuất song song từ Bookworm, VNU Scholar, và VNU-LIC Portal. Đề xuất link công khai hoặc ghi chú rõ yêu cầu VNU VPN cho nguồn nội bộ.
-4. **04. Đối Thoại Socrates (Socrates Questioner)**: Đưa ra 3 câu hỏi gợi mở sâu sắc kích thích tự vấn dựa trên tài liệu.
-5. **05. Phản Biện (Critic Agent)**: Phân tích điểm mù nhận thức và góc nhìn đối lập.
-6. **06. Biên Soạn (Reporter Agent)**: Tổng hợp báo cáo Markdown hoàn chỉnh, bảng 6 cột chuẩn, sơ đồ Mermaid và KaTeX.
+### Nhiệm Vụ Chi Tiết Từng Tác Nhân:
+
+1. **01. Cảnh Giới (Guardrail Agent)**:
+   - Xác thực tính hợp lệ của chủ đề nghiên cứu.
+   - Thường trực bảo mật: Chặn đứng Prompt Injection, ngăn rò rỉ cấu hình thuật toán, thông tin cá nhân và tài khoản truy cập.
+
+2. **02. Hồ Sơ (Profiler Agent)**:
+   - Phân tích thông tin cá nhân hóa của độc giả (Trường thành viên, Ngành học, Mục tiêu đọc, Phong cách nhận thức) để dựng chân dung nghiên cứu.
+
+3. **03. Gợi Ý Sách (Recommender Agent)**:
+   - Tìm kiếm song song từ các CSDL VNU-LIC kết hợp RAG nội bộ. Đề xuất danh mục tài liệu phù hợp nhất kèm thông tin trích dẫn nguyên bản.
+
+4. **04. Đối Thoại Socrates (Socrates Questioner)**:
+   - Xây dựng 3 câu hỏi đối thoại gợi mở sâu sắc, thúc đẩy độc giả tự phân tích thay vì tiếp nhận thông tin một chiều.
+
+5. **05. Phản Biện (Critic Agent)**:
+   - Đánh giá góc nhìn đối lập, phát hiện thiên kiến xác nhận (Confirmation Bias) và chỉ ra các điểm mù lý thuyết.
+
+6. **06. Biên Soạn (Reporter Agent)**:
+   - Tổng hợp toàn bộ kết quả thành Báo cáo học thuật Markdown hoàn chỉnh, bảng tham khảo chuẩn, sơ đồ lộ trình Mermaid và công thức KaTeX.
 
 ---
 
-## 💻 Hướng Dẫn Cài Đặt & Chạy Localhost
+## ⚡ Động Cơ LLM Động & Cơ Chế Dự Phòng (Auto-Fallback Engine)
 
-### 1. Cấu hình môi trường
-Tạo tệp `.env` tại thư mục gốc:
+- **Tự động chuyển đổi mô hình**: Ưu tiên mô hình tốc độ cao và suy luận sâu trên Ollama Cloud (`gemma4:31b`, `nemotron-3-nano:30b`).
+- **Xử lý sự cố linh hoạt**: Tự động chuyển hướng sang chuỗi mô hình dự phòng OpenRouter nếu phát sinh sự cố hạn ngạch (Rate Limit), đảm bảo tiến trình nghiên cứu không bị ngắt quãng.
+
+---
+
+## 💻 Hướng Dẫn Cài Đặt & Vận Hành Localhost
+
+### 1. Khởi tạo môi trường
+```bash
+# Tạo và kích hoạt môi trường ảo Python 3.10+
+python -m venv .venv
+.venv\Scripts\Activate.ps1   # Windows PowerShell
+# source .venv/bin/activate  # macOS/Linux
+
+# Cài đặt thư viện phụ thuộc
+pip install -r requirements.txt
+```
+
+### 2. Thiết lập cấu hình biến môi trường (`.env`)
 ```env
 OLLAMA_API_KEY=your_ollama_cloud_api_key_here
 OLLAMA_BASE_URL=https://ollama.com/v1
@@ -93,33 +123,27 @@ OPENROUTER_API_KEY=your_openrouter_api_key_here
 OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
 ```
 
-### 2. Khởi chạy Backend (FastAPI)
+### 3. Khởi chạy Server Backend & Frontend
 ```bash
-python -m venv .venv
-.venv\Scripts\Activate.ps1   # Windows PowerShell
-# source .venv/bin/activate  # macOS/Linux
-
-pip install -r requirements.txt
+# Khởi chạy Backend API Server
 python server.py
-```
-Backend chạy tại: `http://127.0.0.1:8000` (Swagger Docs: `http://127.0.0.1:8000/docs`).
 
-### 3. Khởi chạy Frontend
-```bash
+# Khởi chạy Frontend Web App
 cd frontend
 python -m http.server 3000
 ```
-Truy cập: `http://localhost:3000`.
+Truy cập ứng dụng tại địa chỉ: `http://localhost:3000`.
 
 ---
 
-## 🌐 Triển Khai Cloud & Tự Động Hóa (CI/CD)
+## 🌐 Triển Khai Đám Mây & Tự Động Hóa (CI/CD)
 
-- Hệ thống được cấu hình tự động đồng bộ xây dựng và triển khai từ nhánh `main` trên GitHub.
-- **Frontend**: Nền tảng giao diện web tĩnh tương tác trực tiếp với người dùng.
-- **Backend**: Dịch vụ API Web Service xử lý đa tác nhân và định tuyến dữ liệu thời gian thực.
+- Tích hợp quy trình CI/CD tự động đồng bộ mã nguồn từ nhánh `main` trên GitHub.
+- **Tầng Giao Diện (Frontend)**: Triển khai trên hạ tầng Web tĩnh hiệu năng cao.
+- **Tầng Xử Lý (Backend)**: Dịch vụ FastAPI xử lý đa tác nhân và phát dòng sự kiện SSE thời gian thực.
 
 ---
 
 ## 📜 Bản Quyền & Giấy Phép
-Dự án nghiên cứu phục vụ phát triển Văn hóa Đọc và Tri thức số tại ĐHQGHN, phát hành theo giấy phép [MIT License](LICENSE).
+
+Dự án nghiên cứu phục vụ phát triển Văn hóa Đọc và Tri thức số tại ĐHQGHN, tuân thủ giấy phép mã nguồn mở [MIT License](LICENSE).
