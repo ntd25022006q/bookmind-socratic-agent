@@ -275,7 +275,7 @@ def strip_rag_hallucinations(text: str) -> str:
     for line in lines:
         l_strip = line.strip()
         l_upper = l_strip.upper()
-        if l_upper in ["MERMAID", "MERMAID DIAGRAM", "=== MERMAID DIAGRAM ===", "=== MERMAID ===", "=== DIAGRAM EXPLANATION ===", "=== DETAILED REPORT ==="]:
+        if l_upper in ["MER", "MERM", "MERMAID", "MERMAID DIAGRAM", "=== MERMAID DIAGRAM ===", "=== MERMAID ===", "=== DIAGRAM EXPLANATION ===", "=== DETAILED REPORT ==="] or l_upper.startswith("=== MER") or l_upper.startswith("MERMAID"):
             continue
         if l_upper.startswith("=== ") and l_upper.endswith(" ==="):
             continue
@@ -284,7 +284,9 @@ def strip_rag_hallucinations(text: str) -> str:
                 continue
         cleaned_lines.append(line)
         
-    return "\n".join(cleaned_lines)
+    res = "\n".join(cleaned_lines)
+    res = re.sub(r'\n\s*MER(?:MAID)?\s*$', '', res, flags=re.IGNORECASE)
+    return res
 
 
 def full_clean(text: str) -> str:

@@ -1433,11 +1433,13 @@ function checkServerConnection() {
         // Remove standard section headers if they leaked into report content
         cleaned = cleaned.replace(/===[\s\S]*?===/g, '');
 
-        // Filter lines that are purely section markers
+        // Filter lines that are purely section markers or stray MER artifacts
         const lines = cleaned.split('\n');
         const filteredLines = lines.filter(line => {
             const upper = line.trim().toUpperCase();
-            if (upper.includes('MERMAID DIAGRAM') ||
+            if (upper === 'MER' || upper === 'MERM' || upper === 'MERMAID' ||
+                upper.startsWith('MERMAID') || upper.startsWith('=== MER') ||
+                upper.includes('MERMAID DIAGRAM') ||
                 upper.includes('DIAGRAM EXPLANATION') ||
                 upper.includes('GIẢI THÍCH SƠ ĐỒ') ||
                 upper.includes('SƠ ĐỒ MERMAID') ||
@@ -1447,7 +1449,9 @@ function checkServerConnection() {
             return true;
         });
 
-        return filteredLines.join('\n').trim();
+        let finalCleaned = filteredLines.join('\n').trim();
+        finalCleaned = finalCleaned.replace(/\n\s*MER(?:MAID)?\s*$/gi, '');
+        return finalCleaned.trim();
     }
 
     // ── Print Queue ──────────────────────────────────────────────────────────
