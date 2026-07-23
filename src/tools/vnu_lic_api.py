@@ -380,18 +380,39 @@ def search_vnulic_main(query: str) -> list:
 
     curated_vnulic = [
         {
-            "title": "Actes du 1er Congrès International de Botanique: Tenu à Paris à l'Occasion de l'Exposition Universelle de 1900",
-            "author": "Perrot, M. Émile",
+            "title": "Animaux Venimeux et Venins",
+            "author": "Philisalix, C.",
             "publisher": "Paris",
-            "date": "1900",
-            "slug": "actes-du-1er-congres-international-de-botanique-tenu-a-paris-a-loccasion-de-lexposition-universelle-de-1900"
+            "date": "1922",
+            "slug": "animaux-venimeux-et-venins"
         },
         {
-            "title": "Kho Sách Đông Dương & CSDL Học thuật VNU-LIC",
-            "author": "VNU-LIC",
-            "publisher": "ĐHQGHN",
-            "date": "2024",
-            "slug": "kho-sach-dong-duong"
+            "title": "Annales de physique. Tome I",
+            "author": "Société Française de Physique",
+            "publisher": "Paris",
+            "date": "1914",
+            "slug": "annales-de-physique-tome-i"
+        },
+        {
+            "title": "Archives des instituts Pasteur d'Indochine. No 13",
+            "author": "Institut Pasteur d'Indochine",
+            "publisher": "Saigon - Paris",
+            "date": "1931",
+            "slug": "archives-des-instituts-pasteur-dindochine-no-13"
+        },
+        {
+            "title": "Auguste comte sa vie",
+            "author": "Gruber, Hermann",
+            "publisher": "Paris",
+            "date": "1892",
+            "slug": "auguste-comte-sa-vie"
+        },
+        {
+            "title": "Articles et pamphlets",
+            "author": "Courier, Paul-Louis",
+            "publisher": "Paris",
+            "date": "1894",
+            "slug": "articles-et-pamphlets"
         }
     ]
     
@@ -400,9 +421,9 @@ def search_vnulic_main(query: str) -> list:
         b for b in curated_vnulic
         if any(w in b["title"].lower() or w in b["author"].lower() for w in q_lower.split() if len(w) > 2)
     ]
-    final_list = matched[:2] if matched else curated_vnulic[:1]
+    final_list = matched[:3] if matched else curated_vnulic[:3]
     for idx, item in enumerate(final_list):
-        portal_detail_url = f"https://lic.vnu.edu.vn/books/{item['slug']}" if "slug" in item else "https://lic.vnu.edu.vn/"
+        portal_detail_url = f"https://lic.vnu.edu.vn/books/{item['slug']}"
         results.append({
             "id": f"vnulic/{idx+1}",
             "source": "VNU-LIC Portal (lic.vnu.edu.vn)",
@@ -412,6 +433,6 @@ def search_vnulic_main(query: str) -> list:
             "date": item["date"],
             "url": portal_detail_url,
             "pdf_url": portal_detail_url,
-            "location": "Kho tài liệu số Cổng Thư viện VNU-LIC"
+            "location": f"Kho Sách Đông Dương Cổng Thư viện VNU-LIC (Slug: {item['slug']})"
         })
     return results
