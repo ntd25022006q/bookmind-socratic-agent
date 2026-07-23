@@ -13,11 +13,25 @@
 
 ## 🌟 Giới Thiệu Dự Án & Triết Lý Socratic
 
-**VNU BookMind Socratic** là hệ thống phần mềm trí tuệ nhân tạo chuyên biệt được xây dựng dựa trên kiến trúc Đa Tác Nhân (Multi-Agent System), hướng tới mục tiêu thúc đẩy tư duy phản biện, hỗ trợ nghiên cứu khoa học và phát triển thói quen tự học đọc sâu cho sinh viên Đại học Quốc gia Hà Nội (ĐHQGHN).
+**VNU BookMind Socratic** là hệ thống phần mềm trí tuệ nhân tạo chuyên biệt được xây dựng dựa trên kiến trúc **Đa Tác Nhân (Multi-Agent System)** kết hợp cùng nền tảng **LangGraph Orchestration Engine**, hướng tới mục tiêu thúc đẩy tư duy phản biện, hỗ trợ nghiên cứu khoa học và phát triển thói quen tự học đọc sâu cho sinh viên Đại học Quốc gia Hà Nội (ĐHQGHN).
 
-Khác biệt với các công cụ AI tóm tắt thụ động, BookMind tuân thủ chặt chẽ triết lý phương pháp Socrates: **AI không đọc hộ hay tóm tắt sẵn văn bản, mà đưa ra các câu hỏi gợi mở, phân tích điểm mù nhận thức và khuyến khích độc giả tự đối thoại, tự ghi chép và đưa ra kết luận.**
+Khác biệt hoàn toàn với các công cụ AI tóm tắt thụ động thông thường, BookMind tuân thủ chặt chẽ triết lý phương pháp Socrates: **AI không đọc hộ hay tóm tắt sẵn văn bản để sinh viên lười tư duy, mà đưa ra các câu hỏi gợi mở, phân tích điểm mù nhận thức, kích thích độc giả tự đối thoại, tự ghi chép và tự rút ra kết luận học thuật.**
 
-- **Tác giả dự án**: **Nguyễn Tiến Đạt** (Sinh viên K24, Trường Quốc tế, Đại học Quốc gia Hà Nội).
+- 🎓 **Tác giả dự án**: **Nguyễn Tiến Đạt** (Sinh viên K24, Trường Quốc tế, Đại học Quốc gia Hà Nội).
+
+---
+
+## 💎 Triết Lý Thiết Kế: Ưu Tiên Chất Lượng Học Thuật & Độ Sâu Phản Biện
+
+> [!IMPORTANT]
+> **TÔN CHỈ THIẾT KẾ HỆ THỐNG**:
+> **VNU BookMind Socratic KHÔNG ưu tiên tốc độ phản hồi hời hợt vài giây như các Chatbot thương mại thông thường, mà tập trung tối đa vào CHẤT LƯỢNG HỌC THUẬT, ĐỘ CHÍNH XÁC TRÍCH DẪN NGUYÊN BẢN & ĐỘ SÂU TƯ DUY PHẢN BIỆN SOCRATES.**
+
+Để đạt được chất lượng nghiên cứu khoa học chuẩn mực, toàn bộ hệ thống vận hành tuần tự qua 6 Tác nhân AI chuyên biệt (sử dụng các mô hình LLM tiên tiến như `gemma4:31b`). Việc dành thời gian suy luận sâu (Deep Reasoning) giúp hệ thống:
+1. 🔍 **Thực hiện RAG học thuật đa nguồn**: Kiểm tra và đối soát từng công trình nghiên cứu từ 4 kho dữ liệu VNU-LIC công khai.
+2. 🎯 **Bảo đảm 100% liên kết hoạt động (200 OK)**: Cung cấp liên kết công khai song song (**DSpace 7 Entity Page** & **Classic Handle URI**) mà không bao giờ sinh liên kết ảo/hallucination.
+3. 💬 **Thiết lập ma trận câu hỏi Socratic cá nhân hóa**: Đào sâu đúng điểm mù lý thuyết dựa trên chân dung sinh viên và đề tài nghiên cứu.
+4. 📄 **Xuất báo cáo khoa học hoàn chỉnh**: Dựng sơ đồ quy trình Mermaid.js và bảng tài liệu tham khảo 8 cột chuẩn hóa.
 
 ---
 
@@ -68,7 +82,7 @@ Dưới đây là chi tiết từng bước vận hành thực tế của giao d
 
 - **Mô tả giao diện**: Giao diện khởi tạo với trạng thái **"Sẵn sàng"** hiển thị màu xanh lá cây tại khung Chỉ số vận hành. Sơ đồ phối hợp 6 Tác nhân ở trên cùng ở chế độ chờ (0.000s | 0 tk). Khung Báo cáo học thuật bên phải hiển thị "BÁO CÁO CHƯA ĐƯỢC TẠO".
 - **📍 Chỉ Báo Nút Trạng Thái Kết Nối Máy Chủ (Connection Status Dot)**: Nút đèn tròn nhỏ nằm cạnh tiêu đề *Câu Hỏi & Yêu Cầu* phản ánh trực quan 3 giai đoạn kết nối hệ thống:
-  - ⚪ **Chấm màu xám (`#94a3b8`)**: **Khởi tạo ban đầu** — Hệ thống vừa tải trang, chưa có bất kỳ truy vấn hay kết nối nào diễn ra (chưa có gì xảy ra).
+  - ⚪ **Chấm màu xám (`#94a3b8`)**: **Khởi tạo ban đầu** — Hệ thống vừa tải trang, chưa có bất kỳ truy vấn hay kết nối nào diễn ra (trạng thái tĩnh, chưa có gì xảy ra).
   - 🔴 **Chấm màu đỏ (`#ef4444`)**: **Bắt đầu khởi động** — Hệ thống đang gửi tín hiệu Ping kiểm tra hoặc máy chủ Backend đang tiến hành khởi động dịch vụ (đang chờ kết nối).
   - 🟢 **Chấm màu xanh lá cây (`#10b981`)**: **Kết nối thành công** — Máy chủ API Backend đã phản hồi `200 OK`, hệ thống đã thiết lập kết nối thời gian thực thông suốt và sẵn sàng nhận lệnh phân tích.
 - **Cơ chế vận hành**: Hệ thống lắng nghe yêu cầu nhập từ ô văn bản `Nhập nội dung cần phân tích`. Độc giả có thể nhấn nút `⚡ Kích Hoạt Phân Tích` để gửi truy vấn đến Pipeline 6 Tác nhân.
@@ -99,7 +113,11 @@ Dưới đây là chi tiết từng bước vận hành thực tế của giao d
 
 ---
 
-## 📊 Bảng Học Liệu Tham Khảo Chuẩn 8 Cột
+## 📊 Bảng Học Liệu Tham Khảo Chuẩn 8 Cột (Bản Mẫu Minh Họa Quy Chuẩn)
+
+> [!NOTE]
+> **GHI CHÚ QUY CHUẨN ĐẦU RA**:
+> Bảng 8 cột dưới đây là **MẪU MINH HỌA QUY CHUẨN CẤU TRÚC ĐẦU RA** của hệ thống. Trong quá trình vận hành thực tế, Tác nhân Biên soạn (Reporter Agent 06) sẽ dựa vào đề tài nghiên cứu cụ thể của từng sinh viên để trích xuất danh mục tài liệu thực tế tương ứng từ 4 kho dữ liệu VNU-LIC.
 
 Toàn bộ các tác nhân LLM trong hệ thống tuân thủ nghiêm ngặt cấu trúc Bảng Học liệu Tham khảo 8 cột chuẩn hóa như sau:
 
@@ -128,7 +146,7 @@ Người dùng và nhà kiểm thử có thể thực hiện kiểm thử hệ t
 > *"Tôi là sinh viên ngành Ngôn ngữ học đang làm khóa luận tốt nghiệp, hãy gợi ý cho tôi các luận văn thạc sĩ và đề tài nghiên cứu liên quan đến phương pháp giảng dạy tiếng Anh."*
 - **Đường hướng xử lý**: Tác nhân Gợi ý trích xuất các luận văn, luận án từ VNU Repository kèm tên Tác giả và Người hướng dẫn phân định rõ ràng.
 
-### 4. Trải Nghiệm Kho Sách Cổ & Di Sản Lịch Lử (Nguồn Cổng VNU-LIC)
+### 4. Trải Nghiệm Kho Sách Cổ & Di Sản Lịch Sử (Nguồn Cổng VNU-LIC)
 > *"Tôi muốn tìm hiểu các tư liệu và công trình nghiên cứu sinh học, y học thời kỳ Đông Dương tại Việt Nam, có những tài liệu di sản nào đọc được trực tuyến?"*
 - **Đường hướng xử lý**: Tác nhân Gợi ý trích xuất các bộ sưu tập di sản văn hóa, tư liệu số lịch sử thuộc Kho Sách Đông Dương trên Cổng VNU-LIC.
 
