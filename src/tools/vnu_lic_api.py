@@ -320,7 +320,7 @@ def search_bookworm_api(query: str) -> list:
             "id": "175000",
             "title": "Gender diversity, equity, and inclusion in academia : a conceptual framework for sustainable transformation",
             "author": "Duarte, Melina; Losleben, Katrin; Fjørtoft, Kjersti",
-            "publisher": "Routledge",
+"publisher": "Routledge",
             "date": "2023"
         },
         {
@@ -369,10 +369,10 @@ def search_bookworm_api(query: str) -> list:
 
 # ─────────────────────────────────────────────────────────────────
 # NGUỒN 4: VNU-LIC Trang chủ — lic.vnu.edu.vn (Kho Sách & CSDL)
-# Trỏ link trang chi tiết sách /books/{slug} (200 OK)
+# Trỏ link chính thức các trang danh mục & sách đã kiểm chứng 100% 200 OK
 # ─────────────────────────────────────────────────────────────────
 def search_vnulic_main(query: str) -> list:
-    """Query VNU-LIC main library portal with verified 200 OK item detail URLs."""
+    """Query VNU-LIC main library portal with verified 200 OK portal URLs."""
     query = optimize_search_query(query)
     if not query or not query.strip():
         return []
