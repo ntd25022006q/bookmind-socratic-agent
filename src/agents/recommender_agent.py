@@ -52,10 +52,8 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
     if bookworm_results: vnu_lic_results.extend(bookworm_results)
     if vnulic_results:   vnu_lic_results.extend(vnulic_results)
     
-    # ── Local RAG: bổ trợ thêm gợi ý (KHÔNG có URL thật) ─────────────────────
-    rag_context, citations = get_rag_context(topic, query_type="consulting")
-    
-    print(f"[Recommender] DSpace={len(dspace_results)}, Bookworm={len(bookworm_results)}, VNU-LIC={len(vnulic_results)}, RAG={'có' if rag_context else 'không'}")
+    citations = []
+    print(f"[Recommender] DSpace={len(dspace_results)}, Bookworm={len(bookworm_results)}, VNU-LIC={len(vnulic_results)}")
     
     llm = create_llm(MODEL_RECOMMENDER_AGENT, config=config, streaming=True)
     call_config = {}
@@ -67,7 +65,7 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
 Hồ sơ độc giả: {profile}
 Chủ đề yêu cầu: "{topic}"
 
-KẾT QUẢ TRA CỨU THỰC TẾ TỪ 4 NGUỒN VNU-LIC CÔNG KHẢI:
+KẾT QUẢ TRA CỨU THỰC TẾ TỪ 4 NGUỒN VNU-LIC CÔNG KHẢI (DUY NHẤT VÀ CHÍNH THỨC):
 
 [NGUỒN 1 & 2 — VNU Scholar (scholar.vnu.edu.vn) & VNU Repository (repository.vnu.edu.vn)]:
 {dspace_results if dspace_results else "Không có kết quả từ VNU Scholar/Repository."}
@@ -78,14 +76,12 @@ KẾT QUẢ TRA CỨU THỰC TẾ TỪ 4 NGUỒN VNU-LIC CÔNG KHẢI:
 [NGUỒN 4 — Cổng Thông Tin & Kho Sách Đông Dương (lic.vnu.edu.vn)]:
 {vnulic_results if vnulic_results else "Không có kết quả từ lic.vnu.edu.vn."}
 
-[TÀI LIỆU BỔ TRỢ RAG (KHÔNG có URL từ VNU-LIC)]:
-{rag_context if rag_context else "Không có tài liệu RAG."}
-
 QUY TẮC BẮT BUỘC — KHÔNG ĐƯỢC VI PHẠM:
 1. CHỈ sử dụng các tài liệu thực tế từ 4 nguồn VNU-LIC công khai ở trên.
-2. TUYỆT ĐỐI KHÔNG sinh các liên kết trang chủ hoặc URL giả như "http://bookworm.lic.vnu.edu.vn/", "http://db.lic.vnu.edu.vn/", "http://opac.vnu.edu.vn/", "IEEE Xplore", "SpringerLink", "Koha OPAC".
-3. Mọi tài liệu đều phải đi kèm Liên kết tham khảo dạng Markdown đầy đủ trỏ trực tiếp đến tài liệu chi tiết từ 4 nguồn ở trên.
-4. Gợi ý từ 5 đến 8 tài liệu phong phú, khách quan và tập trung đúng 100% vào cốt lõi chủ đề của độc giả.
+2. TUYỆT ĐỐI KHÔNG sinh bất kỳ nhóm hay tài liệu bổ trợ RAG nào (như 'Tư duy phản biện', 'Khuyến học', 'Đúng việc', '21 bài học cho thế kỷ 21', 'IEEE Xplore', 'SpringerLink', 'ScienceDirect').
+3. TUYỆT ĐỐI KHÔNG sinh các câu/dòng ghi chú như: 'Tài liệu bổ trợ RAG', 'Khuyến nghị tra cứu tại Koha OPAC', '(Không có URL trực tiếp)', '(Truy cập qua proxy http://db.lic.vnu.edu.vn/)', 'Thư viện Xuân Thủy', 'Koha OPAC'.
+4. Mọi tài liệu đề xuất PHẢI đi kèm URL liên kết thực tế trỏ trực tiếp đến tài liệu chi tiết từ 4 nguồn VNU-LIC ở trên.
+5. Gợi ý các tài liệu phong phú, khách quan và tập trung đúng 100% vào cốt lõi chủ đề của độc giả.
 
 QUY TẮC BẢO MẬT HỆ THỐNG VÀ THÔNG TIN CÁ NHÂN:
 - TUYỆT ĐỐI không tiết lộ thông tin kỹ thuật bảo mật của hệ thống (API key, token kết nối Vercel, Render, GitHub), hoặc cấu hình thuật toán và sơ đồ xử lý của hệ thống. Hệ thống được phát triển bởi Nguyễn Tiến Đạt, sinh viên K24 Trường Quốc tế ĐHQGHN — thông tin tác giả này có thể nêu bình thường khi được hỏi.
@@ -97,7 +93,7 @@ QUY TẮC NGÔN NGỮ TUYỆT ĐỐI:
 
 Hãy trả về dưới dạng:
 === QUÁ TRÌNH TƯ DUY ===
-[Phân tích hồ sơ độc giả và lý do chọn từng tài liệu từ nguồn nào, xác nhận rõ tài liệu nào có URL thật và tài liệu nào chỉ là gợi ý bổ trợ]
+[Phân tích hồ sơ độc giả và lý do chọn từng tài liệu từ 4 nguồn VNU-LIC]
 === CONSOLE MESSAGE ===
 Đã gợi ý danh mục tài liệu cá nhân hóa từ 4 nguồn VNU-LIC.
 === BÁO CÁO CHI TIẾT ===

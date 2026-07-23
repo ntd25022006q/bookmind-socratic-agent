@@ -256,6 +256,30 @@ def deduplicate_repeated_text(text: str) -> str:
     return "\n".join(unique_lines)
 
 
+def strip_rag_hallucinations(text: str) -> str:
+    """Purge all fake RAG supplementary notes, proxy URLs, and Koha OPAC hallucinations."""
+    bad_patterns = [
+        r'.*db\.lic\.vnu\.edu\.vn.*',
+        r'.*bookworm\.lic\.vnu\.edu\.vn.*',
+        r'.*Truy cập qua proxy.*',
+        r'.*Khuyến nghị tra cứu tại Koha OPAC.*',
+        r'.*Tài liệu bổ trợ RAG.*',
+        r'.*Không có URL trực tiếp.*',
+        r'.*IEEE Xplore.*',
+        r'.*SpringerLink.*',
+        r'.*ScienceDirect.*',
+        r'.*Thư viện Xuân Thủy.*',
+        r'.*Koha OPAC.*',
+    ]
+    lines = text.split("\n")
+    cleaned_lines = []
+    for line in lines:
+        if any(re.search(pat, line, flags=re.IGNORECASE) for pat in bad_patterns):
+            continue
+        cleaned_lines.append(line)
+    return "\n".join(cleaned_lines)
+
+
 def full_clean(text: str) -> str:
     """Apply all cleaning steps in sequence: CJK → markdown artifacts → prompt leaks → loops → URLs → filenames."""
     text = strip_cjk(text)
@@ -264,9 +288,7 @@ def full_clean(text: str) -> str:
     text = deduplicate_repeated_text(text)
     text = sanitize_urls(text)
     text = clean_internal_filenames(text)
-    # Strip unnecessary proxy mentions
-    text = re.sub(r'\(?\s*Truy cập qua proxy db\.lic\.vnu\.edu\.vn\s*\)?', '', text, flags=re.IGNORECASE)
-    text = text.replace("db.lic.vnu.edu.vn", "lic.vnu.edu.vn")
+    text = strip_rag_hallucinations(text)
     # Final whitespace normalization
     text = re.sub(r'\n{3,}', '\n\n', text)
     text = re.sub(r'  +', ' ', text)
@@ -490,7 +512,6 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                         line = line.replace(url, "")
                     line = re.sub(r'(?:Link|Nguồn|Liên kết)\s*:\s*$', '', line.strip(), flags=re.IGNORECASE)
                         
-        lines[idx] = line
-        
-    return "\n".join(lines)
+    res_text = "\n".join(lines)
+    return strip_rag_hallucinations(res_text)
 
