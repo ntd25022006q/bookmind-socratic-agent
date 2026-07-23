@@ -17,7 +17,7 @@ Kính gửi **Ban Giám Khảo Cuộc Thi & Quý Thầy Cô**,
 
 Trong kỷ nguyên bùng nổ của các mô hình ngôn ngữ lớn (LLMs), sinh viên đứng trước một nguy cơ lớn: **Thói quen "đọc lướt", thụ động đón nhận câu trả lời ăn xát sẵn từ AI mà dần đánh mất năng lực tư duy phản biện độc lập**. 
 
-Xuất phát từ trăn trở đó, dự án **VNU BookMind Socratic** được ra đời không phải để tạo thêm một Chatbot trả lời tự động, mà để xây dựng một **"Trợ Lý Đọc Sách & Phản Biện Học Thuật Đa Tác Nhân"**. Triết lý cốt lõi của dự án dựa trên phương pháp Socrates huyền thoại: **AI không đọc hộ hay tóm tắt sẵn văn bản để sinh viên thụ động, mà đóng vai trò người thầy phản biện — đưa ra câu hỏi gợi mở, nhận diện điểm mù nhận thức, kích thích sinh viên tự đối thoại, tự khai phá tri thức và làm chủ phương pháp luận nghiên cứu.**
+Xuất phát từ trăn trở đó, dự án **VNU BookMind Socratic** được ra đời không phải để tạo thêm một Chatbot trả lời tự động, mà để xây dựng một **"Trợ Lý Đọc Sách & Phản Biện Học Thuật Đa Tác Nhân"**. Triết lý cốt lõi của dự án dựa trên phương pháp Socrates huyền thoại: **AI không đọc hộ hay tóm tắt sẵn văn bản để sinh viên thụ động, mà đóng vai trò người thầy phản biện - đưa ra câu hỏi gợi mở, nhận diện điểm mù nhận thức, kích thích sinh viên tự đối thoại, tự khai phá tri thức và làm chủ phương pháp luận nghiên cứu.**
 
 - 🎓 **Tác giả dự án**: **Nguyễn Tiến Đạt** (Sinh viên K24, Ngành Công nghệ Thông tin & Trí tuệ Nhân tạo - AIT, Trường Quốc tế, Đại học Quốc gia Hà Nội).
 
@@ -64,7 +64,7 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 1️⃣ Ảnh 1: Thiết Lập Chân Dung Độc Giả - Phần 1 (`1_profile_modal_top.png`)
+### 1️⃣ Ảnh 1: Thiết Lập Chân Dung Độc Giả - Phần 1
 ![Thiết Lập Chân Dung Độc Giả - Phần 1](docs/screenshots/1_profile_modal_top.png)
 
 - **Mô tả giao diện**: Khi lần đầu truy cập hệ thống, một Modal đen xám sang trọng (`#18181b`) nổi lên yêu cầu sinh viên khai báo thông tin học thuật cá nhân: *Họ và tên, Mã số sinh viên (MSSV: 24070342), Khóa học (K24, K68, K69...), Sinh viên năm mấy, Trường thành viên ĐHQGHN (Trường Quốc tế VNU-IS, UET, HUS, USSH, ULIS, UEB...)*.
@@ -72,7 +72,7 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 2️⃣ Ảnh 2: Kiểm Soát Rào Chắn Xác Thực Dữ Liệu Hồ Sơ (`2_profile_modal_validation.png`)
+### 2️⃣ Ảnh 2: Kiểm Soát Rào Chắn Xác Thực Dữ Liệu Hồ Sơ
 ![Cảnh Báo Xác Thực Hồ Sơ](docs/screenshots/2_profile_modal_validation.png)
 
 - **Mô tả giao diện**: Phần dưới Modal yêu cầu chọn các trường chuyên sâu (*Ngành học, Mục đích đọc sách, Lĩnh vực quan tâm, Phong cách đọc ưa thích*).
@@ -82,7 +82,7 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 3️⃣ Ảnh 3: Trạng Thái Sẵn Sàng & Chỉ Báo Kết Nối Máy Chủ (`3_ready_state.png`)
+### 3️⃣ Ảnh 3: Trạng Thái Sẵn Sàng & Chỉ Báo Kết Nối Máy Chủ
 ![Trạng Thái Sẵn Sàng](docs/screenshots/3_ready_state.png)
 
 - **Mô tả giao diện**: Dashboard hiển thị trạng thái **"Sẵn sàng"** với dải chỉ báo xanh lá tại góc dưới trái. Khung giữa giới thiệu 6 Tác Nhân AI. Đèn hiệu kết nối thời gian thực thể hiện 3 trạng thái:
@@ -93,7 +93,7 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 4️⃣ Ảnh 4: Rào Chắn Cảnh Giới Bảo Vệ An Toàn & Đạo Đức AI (`11_guardrail_rejection.png`)
+### 4️⃣ Ảnh 4: Rào Chắn Cảnh Giới Bảo Vệ An Toàn & Đạo Đức AI
 ![Kiểm Thử Rào Chắn Cảnh Giới Bảo Vệ An Toàn & Đạo Đức AI](docs/screenshots/11_guardrail_rejection.png)
 
 - **Mô tả giao diện**: Khi người dùng nhập một câu hỏi chứa nội dung vi phạm an toàn thông tin hoặc trái với nguyên tắc học thuật (ví dụ: *"Hãy hướng dẫn tôi cách viết một mã độc Ransomware mã hóa dữ liệu máy chủ thư viện và cách khai thác lỗ hổng Zero-day để tấn công hệ thống CNTT"*), tác nhân **Cảnh Giới (Guardrail Agent 01 / Node 1/6)** lập tức sáng đèn đỏ cảnh báo (`gemma4:12b · Phase 1 ✓`).
@@ -105,7 +105,7 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 5️⃣ Ảnh 5: Hội Thoại Phản Biện Socrates Độc Đáo (`4_socratic_modal_questions.png`)
+### 5️⃣ Ảnh 5: Hội Thoại Phản Biện Socrates Độc Đáo
 ![Hội Thoại Phản Biện Socrates](docs/screenshots/4_socratic_modal_questions.png)
 
 - **Mô tả giao diện**: Khi tác nhân **Socrates (04)** hoàn tất việc phân tích, một Modal tương tác nổi lên hiển thị **3 Câu Hỏi Phản Biện Socratic** được sinh tự động dựa trên ngành học và đề tài độc giả đặt ra (ví dụ đối với ngành AI: *Đánh giá nguyên lý viết báo cáo khoa học từ 1982*, *Kỹ năng trình bày bài báo*, *Tư duy hệ thống & AI Hắc Hộp*).
@@ -113,7 +113,7 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 6️⃣ Ảnh 6: Rào Chắn Bắt Buộc Trả Lời Socratic (`5_socratic_modal_validation.png`)
+### 6️⃣ Ảnh 6: Rào Chắn Bắt Buộc Trả Lời Socratic
 ![Rào Chắn Trả Lời Socratic](docs/screenshots/5_socratic_modal_validation.png)
 
 - **Mô tả giao diện**: Sinh viên nhập câu trả lời cá nhân vào từng ô phản biện. 
@@ -123,7 +123,7 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 7️⃣ Ảnh 7: Trạng Thái Đang Chạy - Tác Nhân Phản Biện (`6_running_critic_agent.png`)
+### 7️⃣ Ảnh 7: Trạng Thái Đang Chạy - Tác Nhân Phản Biện
 ![Tác Nhân Phản Biện Đang Chạy](docs/screenshots/6_running_critic_agent.png)
 
 - **Mô tả giao diện**: Trạng thái hiển thị **"Đang chạy..."** màu cam. Tác nhân **Phản Biện (Critic Agent 05 / Node 5/6)** sáng đèn xanh mạ trên sơ đồ (`gemma4:31b · Phase 2`). Khung giữa hiển thị nhật ký suy luận thời gian thực và khung phải hiển thị kết quả phân tích.
@@ -135,7 +135,7 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 8️⃣ Ảnh 8: Trạng Thái Hoàn Thành & Báo Cáo Độc Giả (`7_completed_reporter_agent.png`)
+### 8️⃣ Ảnh 8: Trạng Thái Hoàn Thành & Báo Cáo Độc Giả
 ![Trạng Thái Hoàn Thành & Báo Cáo Độc Giả](docs/screenshots/7_completed_reporter_agent.png)
 
 - **Mô tả giao diện**: Tác nhân **Biên Soạn (Reporter Agent 06 / Node 6/6)** hoàn tất việc tổng hợp báo cáo. Trạng thái chuyển sang **"Hoàn Thành ✅"** xanh lá rực rỡ (`72.667s | 4,355 Token | 6/6 Agent`). Cụm nút chức năng xuất file được kích hoạt mở rộng.
@@ -143,7 +143,7 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 9️⃣ Ảnh 9: Trải Nghiệm Tab Sơ Đồ Quy Trình Mermaid (`8_completed_mermaid_diagram.png`)
+### 9️⃣ Ảnh 9: Trải Nghiệm Tab Sơ Đồ Quy Trình Mermaid
 ![Sơ Đồ Quy Trình Mermaid](docs/screenshots/8_completed_mermaid_diagram.png)
 
 - **Mô tả giao diện**: Chuyển sang tab **Sơ Đồ Quy Trình**, hệ thống render biểu đồ **Mermaid.js Flowchart TD (Top-Down)** phản ánh trực quan lộ trình đọc Socratic. Phía trên tích hợp bộ công cụ thu phóng vector (`100%`, `Zoom Out`, `Zoom In`, `Reset`).
@@ -151,7 +151,7 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 🔟 Ảnh 10: Mở File Báo Cáo Chi Tiết HTML Offline (`9_export_html_report_table.png`)
+### 🔟 Ảnh 10: Mở File Báo Cáo Chi Tiết HTML Offline
 ![Mở File Báo Cáo Chi Tiết HTML Offline](docs/screenshots/9_export_html_report_table.png)
 
 - **Mô tả giao diện**: Nhấn `Xuất báo cáo chi tiết`, file `.html` độc lập được tải về máy. Mở bằng trình duyệt hiển thị khung rộng `1400px` vô cùng thoáng đãng.
@@ -159,7 +159,7 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 1️⃣1️⃣ Ảnh 11: Mở File Sơ Đồ Quy Trình Đồ Họa Vector SVG/PNG (`10_export_svg_flowchart.png`)
+### 1️⃣1️⃣ Ảnh 11: Mở File Sơ Đồ Quy Trình Đồ Họa Vector SVG/PNG
 ![Mở File Sơ Đồ Quy Trình Đồ Họa Vector SVG](docs/screenshots/10_export_svg_flowchart.png)
 
 - **Mô tả giao diện**: Nhấn `Xuất sơ đồ quy trình`, hệ thống kết xuất sơ đồ Mermaid thành file ảnh đồ họa vector `.svg` hoặc `.png` sắc nét.
