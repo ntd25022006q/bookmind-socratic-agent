@@ -396,7 +396,6 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                 parts[2] = item.get("title", parts[2])
                 parts[3] = item.get("author") or "Trung tâm Thư viện VNU-LIC"
                 parts[4] = str(item.get("date", "2024"))
-                parts[5] = item.get("source") or "VNU Scholar Repository"
 
                 real_url = item.get("url", "")
                 handle_url = item.get("handle_url", "")
@@ -412,9 +411,17 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                     src_label = "Cổng VNU-LIC"
 
                 if handle_url and handle_url != real_url:
-                    parts[6] = f"[Xem Entity]({real_url}) \| [Xem Handle URI]({handle_url}) → {real_url}"
+                    link_str = f"[Xem Entity]({real_url}) \| [Xem Handle URI]({handle_url}) → {real_url}"
                 else:
-                    parts[6] = f"[Xem trực tiếp tại {src_label}]({real_url}) → {real_url}"
+                    link_str = f"[Xem trực tiếp tại {src_label}]({real_url}) → {real_url}"
+
+                if len(parts) >= 8:
+                    parts[5] = item.get("publisher_journal") or item.get("publisher") or "ĐHQGHN"
+                    parts[6] = item.get("source") or "VNU-LIC Repository"
+                    parts[7] = link_str
+                else:
+                    parts[5] = item.get("source") or "VNU Scholar Repository"
+                    parts[6] = link_str
                 
                 lines[idx] = " | ".join(parts)
                 continue
