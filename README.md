@@ -149,6 +149,14 @@ Dưới đây là chi tiết từng bước vận hành thực tế của giao d
 
 ---
 
+### 8️⃣ Bước 8: Hoàn Tất Biên Soạn & Tự Động Kết Thúc Pipeline (`8_reporter_completion.png`)
+![Hoàn Tất Biên Soạn & Tự Động Kết Thúc Pipeline](docs/screenshots/8_reporter_completion.png)
+
+- **Mô tả giao diện**: Tác nhân **Biên Soạn (Reporter Agent 06 / Node 6/6)** hoàn tất việc tổng hợp báo cáo chuyên sâu và đồng bộ bảng 8 cột chuẩn hóa trích xuất từ VNU-LIC. Nhật ký xử lý ghi nhận dòng xác nhận hoàn thành: `Đã biên soạn xong báo cáo đọc sâu Socratic VNU BookMind.`.
+- **Cơ chế tự động chuyển đổi trạng thái (Bulletproof Auto-Complete)**: Ngay khi Tác nhân Biên soạn kết thúc, hệ thống lập tức tự động ngắt bộ đếm thời gian, chuyển trạng thái hệ thống sang **"Hoàn Thành ✅"**, hiển thị cụm nút xuất báo cáo offline và mở lại nút `Khởi Chạy Lại`, loại bỏ hoàn toàn rủi ro treo đếm giờ.
+
+---
+
 ## 📊 Bảng Học Liệu Tham Khảo Chuẩn 8 Cột (Bản Mẫu Minh Họa Quy Chuẩn)
 
 > [!NOTE]

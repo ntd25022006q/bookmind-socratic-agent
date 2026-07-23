@@ -2426,6 +2426,23 @@ function checkServerConnection() {
                 activeStream.node = null;
             }
 
+            // Bulletproof auto-complete fallback when Reporter Agent (Node 6/6) completes
+            if (data.node === 'reporter') {
+                if (window._reporterFallbackTimer) clearTimeout(window._reporterFallbackTimer);
+                window._reporterFallbackTimer = setTimeout(() => {
+                    if (!hasCompletedSuccessfully) {
+                        console.log("[Fallback] Reporter node completed. Auto-completing UI execution state.");
+                        hasCompletedSuccessfully = true;
+                        if (timerInterval) {
+                            clearInterval(timerInterval);
+                            timerInterval = null;
+                        }
+                        highlightPanel('complete');
+                        fetchReport();
+                    }
+                }, 2000);
+            }
+
             saveActiveSearchState('running');
         }
     }
@@ -2927,6 +2944,21 @@ function checkServerConnection() {
             !reportText.includes('Báo cáo chưa được tạo') &&
             !reportText.includes('Report not created')) {
             
+            hasCompletedSuccessfully = true;
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            highlightPanel('complete');
+
+            // Mark all active graph nodes as completed
+            document.querySelectorAll('.graph-node').forEach(n => {
+                if (!n.classList.contains('node-hidden')) {
+                    n.classList.remove('active');
+                    n.classList.add('completed');
+                }
+            });
+
             // Set completed status badges and button states
             statStatus.textContent = 'Hoàn Thành ✅';
             statStatus.style.color = '#16a069';
