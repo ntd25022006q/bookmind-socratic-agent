@@ -394,8 +394,15 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
 
                 parts[1] = str(table_row_count)
                 parts[2] = item.get("title", parts[2])
-                parts[3] = item.get("author") or "-"
-                parts[4] = str(item.get("date", "-"))
+                
+                # Check for advisor in author string
+                raw_author = item.get("author") or "-"
+                if " (Người hướng dẫn: " in raw_author:
+                    main_author, advisor_part = raw_author.split(" (Người hướng dẫn: ")
+                    advisor = advisor_part.rstrip(")")
+                else:
+                    main_author = raw_author
+                    advisor = "-"
 
                 real_url = item.get("url", "")
                 handle_url = item.get("handle_url", "")
@@ -415,11 +422,22 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                 else:
                     link_str = f"[Xem trực tiếp tại {src_label}]({real_url}) → {real_url}"
 
-                if len(parts) >= 8:
+                if len(parts) >= 9:
+                    parts[3] = main_author
+                    parts[4] = advisor
+                    parts[5] = str(item.get("date", "-"))
+                    parts[6] = item.get("publisher_journal") or item.get("publisher") or "-"
+                    parts[7] = item.get("source") or src_label
+                    parts[8] = link_str
+                elif len(parts) >= 8:
+                    parts[3] = main_author
+                    parts[4] = str(item.get("date", "-"))
                     parts[5] = item.get("publisher_journal") or item.get("publisher") or "-"
                     parts[6] = item.get("source") or src_label
                     parts[7] = link_str
                 else:
+                    parts[3] = raw_author
+                    parts[4] = str(item.get("date", "-"))
                     parts[5] = item.get("source") or src_label
                     parts[6] = link_str
                 
