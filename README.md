@@ -113,6 +113,25 @@ Dưới đây là chi tiết từng bước vận hành thực tế của giao d
 
 ---
 
+### 6️⃣ Bước 6: Trải Nghiệm Xuất & Mở File Báo Cáo Chi Tiết HTML Offline (`6_export_html_report.png`)
+![Giao Diện File Báo Cáo Chi Tiết HTML Khung Rộng](docs/screenshots/6_export_html_report.png)
+
+- **Mô tả giao diện**: Khi người dùng nhấn nút `Xuất báo cáo chi tiết`, hệ thống đóng gói toàn bộ nội dung phân tích học thuật thành một file `.html` độc lập với tên file chứa tiêu đề đề tài và thời gian tạo (ví dụ: `BaoCao_De_xuat_sach_...html`). Khi double-click mở file bằng bất kỳ trình duyệt web nào (Chrome, Edge, Firefox), báo cáo hiển thị khung hình rộng rãi `1400px` cực kỳ thoáng đãng, cân đối và dễ quan sát.
+- **Cơ chế vận hành**: File HTML xuất ra tích hợp sẵn bộ mã định dạng CSS chuyên nghiệp:
+  - **Bảng 8 cột chuẩn hóa**: Căn chỉnh chiều rộng từng cột tối ưu (STT 65px căn giữa không bị vỡ dòng đứng, Năm 75px căn giữa, Tên tài liệu 22%, Tác giả 14%, NXB 15%, Nguồn 10%, Link DSpace 23%).
+  - **Link trích dẫn kép DSpace**: Hiển thị liên kết công khai song song (**Xem Entity** và **Xem Handle URI**) kèm địa chỉ URL gốc ở dòng dưới giúp người đọc dễ dàng click trực tiếp hoặc copy link.
+  - **Tự trị không phụ thuộc Internet**: Nhúng sẵn phông chữ Inter, Fira Code và KaTeX render công thức toán học giúp báo cáo xem mượt mà offline.
+
+---
+
+### 7️⃣ Bước 7: Trải Nghiệm Xuất & Mở File Sơ Đồ Quy Trình Đồ Họa Vector SVG/PNG (`7_export_diagram_file.png`)
+![Giao Diện File Sơ Đồ Quy Trình Đồ Họa Vector SVG](docs/screenshots/7_export_diagram_file.png)
+
+- **Mô tả giao diện**: Khi người dùng nhấn nút `Xuất sơ đồ quy trình`, hệ thống kết xuất sơ đồ Mermaid.js dạng **Flowchart TD (Top-Down)** thành file đồ họa vector `.svg` hoặc ảnh `.png` sắc nét (ví dụ: `VNU BookMind_SoDo_QuyTrinh_...svg`). Khi mở bằng trình duyệt hoặc phần mềm xem ảnh, sơ đồ hiển thị rõ ràng từng bước trong lộ trình đọc Socratic của sinh viên từ *Xác Định Mục Tiêu Nghiên Cứu AI $\rightarrow$ Tiếp Cận Học Liệu VNU-LIC $\rightarrow$ Nghiên Cứu Phương Pháp Luận $\rightarrow$ Vận Dụng Câu Hỏi Socratic $\rightarrow$ Nhận Diện Điểm Mù $\rightarrow$ Checkpoint Tự Vấn $\rightarrow$ Hình Thành Tư Duy Nghiên Cứu Chuyên Sâu*.
+- **Cơ chế vận hành**: Ảnh xuất ra tự động nhúng thanh Header thương hiệu **VNU BookMind • Multi-Agent AI System** với dải màu Gradient nổi bật, tỉ lệ chuẩn vector không bị mờ nhòe khi phóng to hay in ấn. Sinh viên có thể dễ dàng chèn file ảnh sơ đồ này vào báo cáo nghiên cứu khoa học, luận văn tốt nghiệp hoặc slide thuyết trình.
+
+---
+
 ## 📊 Bảng Học Liệu Tham Khảo Chuẩn 8 Cột (Bản Mẫu Minh Họa Quy Chuẩn)
 
 > [!NOTE]
