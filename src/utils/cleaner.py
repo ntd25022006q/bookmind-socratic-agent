@@ -385,7 +385,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                 else:
                     src_label = "Cổng VNU-LIC"
 
-                parts[6] = f"[Xem trực tiếp tại {src_label}]({real_url})"
+                parts[6] = f"[Xem trực tiếp tại {src_label}]({real_url}) → {real_url}"
                 
                 lines[idx] = " | ".join(parts)
                 continue
