@@ -65,95 +65,67 @@ Hệ thống kết nối thời gian thực và trích xuất dữ liệu từ 4
 
 ## 📸 Trải Nghiệm Giao Diện & Quy Trình Vận Hành Thời Gian Thực (UI & System State Walkthrough)
 
-Dưới đây là chi tiết từng bước vận hành thực tế của giao diện **VNU BookMind Socratic** trải qua các trạng thái từ **Sẵn sàng** $\rightarrow$ **Đang chạy** $\rightarrow$ **Hội thoại Socratic** $\rightarrow$ **Hoàn thành**:
+Dưới đây là chi tiết từng bước vận hành thực tế của giao diện **VNU BookMind Socratic** qua 5 màn hình trực quan chính:
 
 ---
 
-### 1️⃣ Bước 1: Thiết Lập Chân Dung Độc Giả (Profile Setup Modal)
-![Thiết Lập Chân Dung Độc Giả](docs/screenshots/1_profile_modal.png)
+### 1️⃣ Bước 1: Thiết Lập Chân Dung Độc Giả - Phần 1 (`1_profile_modal_top.png`)
+![Thiết Lập Chân Dung Độc Giả - Phần 1](docs/screenshots/1_profile_modal_top.png)
 
-- **Mô tả giao diện**: Khi lần đầu truy cập hệ thống, một cửa sổ Modal hiện ra bắt buộc sinh viên điền đầy đủ các trường thông tin học thuật cá nhân:
-  - *Họ và tên* & *Mã số sinh viên (MSSV)*
-  - *Khóa học* (ví dụ: K24, K68, K69...)
-  - *Sinh viên năm* (Năm 1, Năm 2, Năm 3, Năm 4, Cao học...)
+- **Mô tả giao diện**: Khi lần đầu truy cập hệ thống, một cửa sổ Modal đen xám sang trọng (`#18181b`) nổi lên yêu cầu sinh viên khai báo thông tin cá nhân. Phần trên bao gồm các trường bắt buộc:
+  - *Họ và tên độc giả* (nhập văn bản tự do, ví dụ: Nguyễn Tiến Đạt)
+  - *Mã số sinh viên (MSSV)* (nhập mã số sinh viên ĐHQGHN)
+  - *Khóa học* (ví dụ: K24, K68, K69...) — trường thông tin mới giúp cá nhân hóa thế hệ sinh viên
+  - *Sinh viên năm mấy* (dạng menu chọn: Năm 1, Năm 2, Năm 3, Năm 4, Khác...)
   - *Trường thành viên ĐHQGHN* (Trường Quốc tế VNU-IS, UET, HUS, USSH, ULIS, UEB...)
-  - *Ngành học* (ví dụ: Khoa học Máy tính, AIT, Ngôn ngữ học...)
-  - *Mục đích đọc sách chính* (Nghiên cứu khoa học, Đọc hiểu sâu chuyên ngành...)
-  - *Lĩnh vực đặc biệt quan tâm* (Công nghệ & AI, KHTN, KHXH&NV, Kinh tế...)
+- **Cơ chế vận hành**: Dữ liệu được lưu trữ an toàn trong `LocalStorage` của trình duyệt dưới dạng JSON mã hóa, giúp duy trì trạng thái đăng nhập qua các phiên truy cập mà không sợ thất thoát dữ liệu.
+
+---
+
+### 2️⃣ Bước 2: Kiểm Soát Rào Chắn Xác Thực Dữ Liệu Hồ Sơ (`2_profile_modal_validation.png`)
+![Cảnh Báo Xác Thực Hồ Sơ](docs/screenshots/2_profile_modal_validation.png)
+
+- **Mô tả giao diện**: Phần dưới của Modal Hồ Sơ yêu cầu chọn các trường học thuật nâng cao:
+  - *Ngành học* (nhập ngành cụ thể, ví dụ: AIT, Khoa học Máy tính, Ngôn ngữ học...)
+  - *Mục đích đọc sách chính* (Nghiên cứu khoa học - NCKH/Khóa luận, Đọc hiểu chuyên ngành...)
+  - *Lĩnh vực đặc biệt quan tâm* (Công nghệ & Trí tuệ nhân tạo AI, KHTN, KHXH&NV...)
   - *Phong cách học & đọc ưa thích* (Phân tích & Phản biện Socratic, Trực quan qua sơ đồ...)
-- **Cơ chế kiểm soát & vận hành**:
-  - **Rào chắn xác thực dữ liệu (Form Validation Alert)**: Nếu độc giả bỏ trống bất kỳ trường thông tin bắt buộc nào và nhấn nút `Lưu & Xác Nhận Hồ Sơ`, hệ thống sẽ kích hoạt cửa sổ cảnh báo hệ thống: `bookmind-socratic-agent.vercel.app says Vui lòng nhập đầy đủ các trường thông tin bắt buộc!`, ngăn chặn việc tiếp tục để đảm bảo dữ liệu đầu vào chuẩn xác.
-  - **Lưu trữ an toàn**: Dữ liệu sau khi xác thực được lưu vào `LocalStorage` của trình duyệt. Tác nhân **Profiler Agent (02)** sẽ truy xuất dữ liệu này để cá nhân hóa toàn bộ danh mục đề xuất học liệu và xây dựng ma trận đối thoại phản biện.
+- **Cơ chế Rào Chắn Xác Thực (Form Validation Alert)**: Nếu độc giả để trống bất kỳ trường thông tin bắt buộc nào (ví dụ: chưa chọn Phong cách đọc) và bấm `Lưu & Xác Nhận Hồ Sơ`, trình duyệt sẽ ngay lập tức bật hộp thoại cảnh báo:
+  > `bookmind-socratic-agent.vercel.app says: Vui lòng nhập đầy đủ các trường thông tin bắt buộc!`
+  Cơ chế này đảm bảo dữ liệu đầu vào gửi tới tác nhân **Profiler Agent (02)** luôn đạt chuẩn mực 100%, không bị khuyết thiếu thông tin.
 
 ---
 
-### 2️⃣ Bước 2: Trạng Thái Sẵn Sàng (Ready State Dashboard)
-![Trạng Thái Sẵn Sàng](docs/screenshots/2_ready_state.png)
+### 3️⃣ Bước 3: Trạng Thái Sẵn Sàng & Chỉ Báo Kết Nối Máy Chủ (`3_ready_state.png`)
+![Trạng Thái Sẵn Sàng](docs/screenshots/3_ready_state.png)
 
-- **Mô tả giao diện**: Giao diện khởi tạo với trạng thái **"Sẵn sàng"** hiển thị màu xanh lá cây tại khung Chỉ số vận hành. Sơ đồ phối hợp 6 Tác nhân ở trên cùng ở chế độ chờ (`0.000s | 0 tk`). Khung Báo cáo học thuật bên phải hiển thị card thông báo *"BÁO CÁO CHƯA ĐƯỢC TẠO"*.
-- **📍 Chỉ Báo Nút Trạng Thái Kết Nối Máy Chủ (Connection Status Dot)**: Nút đèn tròn nhỏ nằm cạnh tiêu đề *Câu Hỏi & Yêu Cầu* phản ánh trực quan 3 giai đoạn kết nối hệ thống:
-  - ⚪ **Chấm màu xám (`#94a3b8`)**: **Khởi tạo ban đầu** — Hệ thống vừa tải trang, chưa có bất kỳ truy vấn hay kết nối nào diễn ra (trạng thái tĩnh, chưa có gì xảy ra).
-  - 🔴 **Chấm màu đỏ (`#ef4444`)**: **Bắt đầu khởi động** — Hệ thống đang gửi tín hiệu Ping kiểm tra hoặc máy chủ Backend đang tiến hành khởi động dịch vụ (đang chờ kết nối).
-  - 🟢 **Chấm màu xanh lá cây (`#10b981`)**: **Kết nối thành công** — Máy chủ API Backend đã phản hồi `200 OK`, hệ thống đã thiết lập kết nối thời gian thực thông suốt và sẵn sàng nhận lệnh phân tích.
-- **Cơ chế vận hành**: Hệ thống lắng nghe yêu cầu nhập từ ô văn bản `Nhập nội dung cần phân tích`. Độc giả có thể nhấn nút `⚡ Kích Hoạt Phân Tích` để gửi truy vấn đến Pipeline 6 Tác nhân.
-
----
-
-### 3️⃣ Bước 3: Đối Thoại Phản Biện Socrates (Socratic Interactive Modal - `3_socratic_modal.png`)
-![Hội Thoại Phản Biện Socrates](docs/screenshots/3_socratic_modal.png)
-
-- **Mô tả giao diện**: Khi tác nhân **Socrates (04)** hoàn tất việc đặt câu hỏi, một cửa sổ Modal nổi lên với tiêu đề **HỘI THOẠI PHẢN BIỆN SOCRATES** hiển thị **3 Câu Hỏi Phản Biện Học Thuật** sinh tự động theo thời gian thực dựa trên hồ sơ cá nhân độc giả và chủ đề nghiên cứu (ví dụ: *Cuốn Writing research papers trong kỷ nguyên AI*, *Chủ nghĩa Thực chứng của Auguste Comte*, *Tính tái lập thí nghiệm trong AI*).
-- **Cơ chế kiểm soát & vận hành**:
-  - **Rào chắn bắt buộc phản biện (HTML5 Required Validation)**: Hệ thống tạm dừng pipeline để buộc độc giả tự suy ngẫm. Nếu sinh viên bấm nút `🚀 Gửi Câu Trả Lời Phản Biện` khi chưa nhập đủ 3 câu trả lời, trình duyệt sẽ hiển thị cảnh báo `Please fill out this field`, bảo đảm độc giả thực sự tham gia đối thoại phản biện chủ động.
-  - **Chuyển tiếp Phase 2**: Sau khi nhập đầy đủ câu trả lời, sinh viên nhấn gửi để chuyển toàn bộ dữ liệu đối thoại sang Tác nhân Phản biện và Biên soạn.
+- **Mô tả giao diện**: Dashboard chính hiển thị trong trạng thái **"Sẵn sàng"** với dải chỉ báo xanh lá rực rỡ tại góc dưới trái. Khung giữa hiển thị bảng hướng dẫn giới thiệu 6 Tác Nhân AI đa nhiệm. Sơ đồ phối hợp tác nhân ở trên cùng hiển thị chỉ số thời gian và token ban đầu (`0.000s | 0 tk`). Khung phải hiển thị card thông báo *"BÁO CÁO CHƯA ĐƯỢC TẠO"*.
+- **📍 Chỉ Báo Nút Trạng Thái Kết Nối Máy Chủ (Connection Status Dot)**: Đèn hiệu nhỏ cạnh tiêu đề *Câu Hỏi & Yêu Cầu* thể hiện 3 trạng thái kết nối thời gian thực:
+  - ⚪ **Chấm màu xám (`#94a3b8`)**: **Khởi tạo ban đầu** — Trang mới tải, chưa có lệnh truy vấn.
+  - 🔴 **Chấm màu đỏ (`#ef4444`)**: **Đang khởi động** — Đang gửi tín hiệu Ping kết nối tới máy chủ Backend Render.
+  - 🟢 **Chấm màu xanh lá (`#10b981`)**: **Kết nối thành công** — API Backend phản hồi `200 OK`, thông suốt 100%.
+- **Cơ chế vận hành**: Độc giả nhập đề tài vào khung `Nhập nội dung cần phân tích` và bấm nút `⚡ Kích Hoạt Phân Tích` để bắt đầu tiến trình 6 Tác nhân.
 
 ---
 
-### 4️⃣ Bước 4: Trạng Thái Đang Chạy - Tác Nhân Phản Biện (Running State - Critic Agent - `4_running_state.png`)
-![Trạng Thái Đang Chạy - Tác Nhân Phản Biện](docs/screenshots/4_running_state.png)
+### 4️⃣ Bước 4: Hội Thoại Phản Biện Socrates Độc Đáo (`4_socratic_modal_questions.png`)
+![Hội Thoại Phản Biện Socrates](docs/screenshots/4_socratic_modal_questions.png)
 
-- **Mô tả giao diện**: Trạng thái hiển thị **"Đang chạy..."** màu cam. Tác nhân **Phản Biện (Critic Agent 05 / Node 5/6)** sáng đèn màu xanh lá mạ trên sơ đồ phối hợp tác nhân (`gemma4:31b · Phase 2`). Khung bên phải hiển thị real-time các câu hỏi Socratic và khung giữa hiển thị nhật ký xử lý.
-- **Cơ chế vận hành**:
-  - **Phân tích Quá trình suy nghĩ (Thinking Process)**: Khung Console Log hiển thị khối tư duy màu xanh lục bảo tối, phân tích trực tiếp chất lượng câu trả lời phản biện của độc giả (sinh viên Nguyễn Tiến Đạt).
-  - **Nhận diện Điểm mù nhận thức (Cognitive Blind Spots) & Thiên kiến**: Agent 05 chỉ ra các rủi ro tư duy chiều sâu của sinh viên như:
-    - 🧠 *Thiên kiến lý tưởng hóa (Idealization Bias)*: Xu hướng tin tưởng tuyệt đối vào quy trình Open Science mà bỏ qua áp lực thương mại hóa và công bố quốc tế (`publish or perish`).
-    - 📚 *Tự tin quá mức vào lý thuyết (Theoretical Overconfidence)*: Việc chuyển dịch tư duy từ Chủ nghĩa Thực chứng sang Chủ nghĩa Bác bỏ (Karl Popper) nhưng coi thường tri thức trực giác.
-    - ⚙️ *Điểm mù về tính thực thi (Implementation Blind Spot)*: Nhầm lẫn giữa giải pháp logic lý thuyết và giới hạn tài nguyên tính toán thực tế (Compute Power / Hardware resources).
+- **Mô tả giao diện**: Khi tác nhân **Socrates (04)** hoàn tất việc phân tích, một Modal tương tác nổi lên trên nền mờ hiển thị **3 Câu Hỏi Phản Biện Socratic** được sinh tự động theo thời gian thực dựa trên ngành học và đề tài độc giả gửi (Ví dụ đối với sinh viên CNTT/AI):
+  1. *Đánh giá nguyên lý viết báo cáo khoa học từ năm 1982 trong kỷ nguyên LLMs...*
+  2. *Vai trò của kỹ năng trình bày bài báo nghiên cứu: là công cụ hỗ trợ hay đích đến tư duy?*
+  3. *Phương pháp tư duy phản biện truyền thống có đủ bao quát đặc thù Hệ thống (Systems Thinking) và thuật toán AI Hắc Hộp (Black-box)?*
+- **Cơ chế vận hành**: Tiến trình pipeline tạm dừng ở Phase 1 để chờ độc giả tự suy ngẫm và nhập câu trả lời vào 3 ô văn bản tối màu.
 
 ---
 
-### 5️⃣ Bước 5: Trạng Thái Hoàn Thành (Completed State & Mermaid Flowchart)
-![Trạng Thái Hoàn Thành](docs/screenshots/5_completed_state.png)
+### 5️⃣ Bước 5: Rào Chắn Bắt Buộc Trả Lời Socratic (`5_socratic_modal_validation.png`)
+![Rào Chắn Trả Lời Socratic](docs/screenshots/5_socratic_modal_validation.png)
 
-- **Mô tả giao diện**: Trạng thái hiển thị **"Hoàn Thành"** màu xanh lá cây kèm icon tích xanh. Tổng thời gian xử lý và tổng số token toàn pipeline được thống kê đầy đủ (ví dụ: `81.954s | 4,491 Token`). Các nút chức năng xuất báo cáo (`Khởi Chạy Lại`, `Xuất báo cáo chi tiết`, `Xuất sơ đồ quy trình`) được kích hoạt.
-- **Cơ chế vận hành**: Khung bên phải cho phép chuyển đổi giữa tab **Báo Cáo Chi Tiết** và tab **Sơ Đồ Quy Trình**. Tab Sơ đồ hiển thị biểu đồ **Mermaid.js Flowchart TD (Top-Down)** phản ánh trực quan lộ trình đọc sách Socratic của độc giả kèm đoạn văn mô tả giải thích chi tiết 3 giai đoạn đọc.
-
----
-
-### 6️⃣ Bước 6: Trải Nghiệm Xuất & Mở File Báo Cáo Chi Tiết HTML Offline (`6_export_html_report.png`)
-![Giao Diện File Báo Cáo Chi Tiết HTML Khung Rộng](docs/screenshots/6_export_html_report.png)
-
-- **Mô tả giao diện**: Khi người dùng nhấn nút `Xuất báo cáo chi tiết`, hệ thống đóng gói toàn bộ nội dung phân tích học thuật thành một file `.html` độc lập với tên file chứa tiêu đề đề tài và thời gian tạo (ví dụ: `BaoCao_De_xuat_sach_...html`). Khi double-click mở file bằng bất kỳ trình duyệt web nào (Chrome, Edge, Firefox), báo cáo hiển thị khung hình rộng rãi `1400px` cực kỳ thoáng đãng, cân đối và dễ quan sát.
-- **Cơ chế vận hành**: File HTML xuất ra tích hợp sẵn bộ mã định dạng CSS chuyên nghiệp:
-  - **Bảng 8 cột chuẩn hóa**: Căn chỉnh chiều rộng từng cột tối ưu (STT 65px căn giữa không bị vỡ dòng đứng, Năm 75px căn giữa, Tên tài liệu 22%, Tác giả 14%, NXB 15%, Nguồn 10%, Link DSpace 23%).
-  - **Link trích dẫn kép DSpace**: Hiển thị liên kết công khai song song (**Xem Entity** và **Xem Handle URI**) kèm địa chỉ URL gốc ở dòng dưới giúp người đọc dễ dàng click trực tiếp hoặc copy link.
-  - **Tự trị không phụ thuộc Internet**: Nhúng sẵn phông chữ Inter, Fira Code và KaTeX render công thức toán học giúp báo cáo xem mượt mà offline.
-
----
-
-### 7️⃣ Bước 7: Trải Nghiệm Xuất & Mở File Sơ Đồ Quy Trình Đồ Họa Vector SVG/PNG (`7_export_diagram_file.png`)
-![Giao Diện File Sơ Đồ Quy Trình Đồ Họa Vector SVG](docs/screenshots/7_export_diagram_file.png)
-
-- **Mô tả giao diện**: Khi người dùng nhấn nút `Xuất sơ đồ quy trình`, hệ thống kết xuất sơ đồ Mermaid.js dạng **Flowchart TD (Top-Down)** thành file đồ họa vector `.svg` hoặc ảnh `.png` sắc nét (ví dụ: `VNU BookMind_SoDo_QuyTrinh_...svg`). Khi mở bằng trình duyệt hoặc phần mềm xem ảnh, sơ đồ hiển thị rõ ràng từng bước trong lộ trình đọc Socratic của sinh viên từ *Xác Định Mục Tiêu Nghiên Cứu AI $\rightarrow$ Tiếp Cận Học Liệu VNU-LIC $\rightarrow$ Nghiên Cứu Phương Pháp Luận $\rightarrow$ Vận Dụng Câu Hỏi Socratic $\rightarrow$ Nhận Diện Điểm Mù $\rightarrow$ Checkpoint Tự Vấn $\rightarrow$ Hình Thành Tư Duy Nghiên Cứu Chuyên Sâu*.
-- **Cơ chế vận hành**: Ảnh xuất ra tự động nhúng thanh Header thương hiệu **VNU BookMind • Multi-Agent AI System** với dải màu Gradient nổi bật, tỉ lệ chuẩn vector không bị mờ nhòe khi phóng to hay in ấn. Sinh viên có thể dễ dàng chèn file ảnh sơ đồ này vào báo cáo nghiên cứu khoa học, luận văn tốt nghiệp hoặc slide thuyết trình.
-
----
-
-### 8️⃣ Bước 8: Hoàn Tất Biên Soạn & Tự Động Kết Thúc Pipeline (`8_reporter_completion.png`)
-![Hoàn Tất Biên Soạn & Tự Động Kết Thúc Pipeline](docs/screenshots/8_reporter_completion.png)
-
-- **Mô tả giao diện**: Tác nhân **Biên Soạn (Reporter Agent 06 / Node 6/6)** hoàn tất việc tổng hợp báo cáo chuyên sâu và đồng bộ bảng 8 cột chuẩn hóa trích xuất từ VNU-LIC. Nhật ký xử lý ghi nhận dòng xác nhận hoàn thành: `Đã biên soạn xong báo cáo đọc sâu Socratic VNU BookMind.`.
-- **Cơ chế tự động chuyển đổi trạng thái (Bulletproof Auto-Complete)**: Ngay khi Tác nhân Biên soạn kết thúc, hệ thống lập tức tự động ngắt bộ đếm thời gian, chuyển trạng thái hệ thống sang **"Hoàn Thành ✅"**, hiển thị cụm nút xuất báo cáo offline và mở lại nút `Khởi Chạy Lại`, loại bỏ hoàn toàn rủi ro treo đếm giờ.
+- **Mô tả giao diện**: Độc giả tiến hành nhập câu trả lời cá nhân vào từng ô phản biện. 
+- **Cơ chế Rào Chắn Bắt Buộc (HTML5 Required Tooltip)**: Nếu độc giả đã nhập câu trả lời cho Câu 1 và Câu 2 nhưng bỏ trống Câu 3 mà bấm nút `🚀 Gửi Câu Trả Lời Phản Biện`, trình duyệt sẽ kích hoạt ngay tooltip cảnh báo màu trắng nổi bật:
+  > ⚠️ `Please fill out this field.`
+  Rào chắn này ngăn chặn việc bỏ trống ô phản biện, buộc độc giả phải hoàn thành đầy đủ cả 3 câu trả lời. Sau khi điền xong và gửi, hệ thống sẽ kích hoạt Phase 2: chuyển tiếp dữ liệu sang tác nhân **Phản Biện (Critic Agent 05)** và **Biên Soạn (Reporter Agent 06)** để phân tích điểm mù nhận thức và xuất báo cáo hoàn chỉnh.
 
 ---
 
