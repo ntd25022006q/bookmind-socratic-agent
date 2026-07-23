@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileInputs = {
         fullname: document.getElementById('prof-fullname'),
         studentId: document.getElementById('prof-student-id'),
+        cohort: document.getElementById('prof-cohort'),
         year: document.getElementById('prof-year'),
         school: document.getElementById('prof-school'),
         major: document.getElementById('prof-major'),
@@ -103,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const profileData = {
             fullname: profileInputs.fullname ? profileInputs.fullname.value.trim() : '',
             studentId: profileInputs.studentId ? profileInputs.studentId.value.trim() : '',
+            cohort: profileInputs.cohort ? profileInputs.cohort.value.trim() : '',
             
             // Core select values (no hardcoded defaults — user must choose)
             yearRaw: profileInputs.year ? profileInputs.year.value : '',
@@ -145,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (profileInputs.fullname && data.fullname) profileInputs.fullname.value = data.fullname;
                 if (profileInputs.studentId && data.studentId) profileInputs.studentId.value = data.studentId;
+                if (profileInputs.cohort && data.cohort) profileInputs.cohort.value = data.cohort;
                 if (profileInputs.major && data.major) profileInputs.major.value = data.major;
                 
                 // Load select raw choices
@@ -172,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function isProfileValid() {
         const fullnameVal = profileInputs.fullname ? profileInputs.fullname.value.trim() : '';
         const studentIdVal = profileInputs.studentId ? profileInputs.studentId.value.trim() : '';
+        const cohortVal = profileInputs.cohort ? profileInputs.cohort.value.trim() : '';
         const majorVal = profileInputs.major ? profileInputs.major.value.trim() : '';
 
         // Require all select fields to be chosen (not empty placeholder '')
@@ -208,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!profileInputs.styleOther || !profileInputs.styleOther.value.trim()) return false;
         }
 
-        return (fullnameVal !== '' && studentIdVal !== '' && majorVal !== '');
+        return (fullnameVal !== '' && studentIdVal !== '' && cohortVal !== '' && majorVal !== '');
     }
 
     function getUserProfileString() {
@@ -220,6 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return [
                 'Họ tên: ' + (data.fullname || ''),
                 'MSSV: ' + (data.studentId || ''),
+                'Khóa học: ' + (data.cohort || ''),
                 'Sinh viên năm: ' + (data.year || ''),
                 'Trường thành viên: ' + (data.school || ''),
                 'Ngành học: ' + (data.major || ''),

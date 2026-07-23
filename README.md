@@ -72,7 +72,7 @@ Dưới đây là chi tiết từng bước vận hành thực tế của giao d
 ### 1️⃣ Bước 1: Thiết Lập Chân Dung Độc Giả (Profile Setup Modal)
 ![Thiết Lập Chân Dung Độc Giả](docs/screenshots/1_profile_modal.png)
 
-- **Mô tả giao diện**: Khi lần đầu truy cập hệ thống, một cửa sổ Modal hiện ra yêu cầu sinh viên điền thông tin học thuật cá nhân: *Họ và tên, MSSV, Sinh viên năm mấy, Trường thành viên ĐHQGHN, Ngành học, Mục đích đọc sách chính, Lĩnh vực quan tâm và Phong cách đọc ưa thích*.
+- **Mô tả giao diện**: Khi lần đầu truy cập hệ thống, một cửa sổ Modal hiện ra yêu cầu sinh viên điền thông tin học thuật cá nhân: *Họ và tên, Mã số sinh viên (MSSV), Khóa học (ví dụ: K24, K68, K69...), Sinh viên năm mấy, Trường thành viên ĐHQGHN, Ngành học, Mục đích đọc sách chính, Lĩnh vực quan tâm và Phong cách đọc ưa thích*.
 - **Cơ chế vận hành**: Thông tin được lưu an toàn vào `LocalStorage` của trình duyệt. Tác nhân **Profiler Agent (02)** sẽ truy xuất dữ liệu này để cá nhân hóa toàn bộ nội dung đề xuất học liệu và xây dựng ma trận đối thoại phản biện.
 
 ---
