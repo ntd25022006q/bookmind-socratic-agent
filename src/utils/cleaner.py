@@ -341,7 +341,15 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         }
     ]
 
-    pool = valid_books if valid_books else default_verified_pool
+    cleaned_pool = []
+    if vnu_lic_results:
+        for b in vnu_lic_results:
+            if isinstance(b, dict) and b.get("title") and b.get("url") and b.get("url") != "-":
+                t_lower = b["title"].lower()
+                if not any(p in t_lower for p in generic_placeholders):
+                    cleaned_pool.append(b)
+
+    pool = cleaned_pool if len(cleaned_pool) >= 3 else default_verified_pool
     table_row_count = 0
 
     for idx, line in enumerate(lines):
@@ -366,7 +374,17 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                 parts[5] = item.get("source") or "VNU Scholar Repository"
 
                 real_url = item.get("url", "")
-                src_label = "VNU Scholar" if "scholar" in real_url else ("Bookworm" if "bookworm" in real_url else "VNU-LIC")
+                if "scholar" in real_url:
+                    src_label = "VNU Scholar"
+                elif "repository" in real_url:
+                    src_label = "VNU Repository"
+                elif "bookworm" in real_url:
+                    src_label = "Bookworm VNU-LIC"
+                elif "opac" in real_url:
+                    src_label = "Koha OPAC"
+                else:
+                    src_label = "Cổng VNU-LIC"
+
                 parts[6] = f"[Xem trực tiếp tại {src_label}]({real_url})"
                 
                 lines[idx] = " | ".join(parts)
