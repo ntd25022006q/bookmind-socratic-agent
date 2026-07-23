@@ -331,7 +331,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         },
         {
             "title": "Animaux Venimeux et Venins",
-            "author": "Philisalix, C.",
+            "author": "Marie Phisalix",
             "date": "1922",
             "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
             "url": "https://lic.vnu.edu.vn/books/animaux-venimeux-et-venins"

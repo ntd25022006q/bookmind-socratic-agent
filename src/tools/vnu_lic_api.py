@@ -495,7 +495,7 @@ def search_vnulic_main(query: str) -> list:
     curated_vnulic = [
         {
             "title": "Animaux Venimeux et Venins",
-            "author": "Philisalix, C.",
+            "author": "Marie Phisalix",
             "publisher": "Paris",
             "date": "1922",
             "slug": "animaux-venimeux-et-venins"
