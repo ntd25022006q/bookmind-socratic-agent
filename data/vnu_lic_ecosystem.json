@@ -1,0 +1,371 @@
+[
+  {
+    "id": 1,
+    "name": "Bookworm PDF Download",
+    "url": "https://bookworm.vnu.edu.vn/Trailer/LB65/bs19_0782.T.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "size_bytes": 782654,
+    "working": true
+  },
+  {
+    "id": 2,
+    "name": "Bookworm PDF Viewer",
+    "url": "https://bookworm.vnu.edu.vn/pdfjs/web/viewer.html?file=/Trailer/LB65/bs19_0782.T.pdf",
+    "status": 200,
+    "content_type": "text/html",
+    "size_bytes": 25689,
+    "working": true
+  },
+  {
+    "id": 3,
+    "name": "Bookworm E-resources Page 1",
+    "url": "https://bookworm.vnu.edu.vn/EdataNew.aspx?pIdx=1&vt=list",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "size_bytes": 89116,
+    "working": true
+  },
+  {
+    "id": 4,
+    "name": "Bookworm E-resources Page 2",
+    "url": "https://bookworm.vnu.edu.vn/EdataNew.aspx?pIdx=2&vt=list",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "size_bytes": 89453,
+    "working": true
+  },
+  {
+    "id": 5,
+    "name": "Bookworm E-resources Page 3",
+    "url": "https://bookworm.vnu.edu.vn/EdataNew.aspx?pIdx=3&vt=list",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "size_bytes": 89935,
+    "working": true
+  },
+  {
+    "id": 6,
+    "name": "Bookworm E-resources Page 4",
+    "url": "https://bookworm.vnu.edu.vn/EdataNew.aspx?pIdx=4&vt=list",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "size_bytes": 90013,
+    "working": true
+  },
+  {
+    "id": 7,
+    "name": "Bookworm E-resources Page 5",
+    "url": "https://bookworm.vnu.edu.vn/EdataNew.aspx?pIdx=5&vt=list",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "size_bytes": 90495,
+    "working": true
+  },
+  {
+    "id": 8,
+    "name": "Bookworm Book Detail (191844)",
+    "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=191844",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "size_bytes": 101787,
+    "working": true
+  },
+  {
+    "id": 9,
+    "name": "Bookworm Cover Image (191844)",
+    "url": "https://bookworm.vnu.edu.vn/ViewEImage.ashx?id=191844",
+    "status": 200,
+    "content_type": "image/png",
+    "size_bytes": 127826,
+    "working": true
+  },
+  {
+    "id": 10,
+    "name": "Bookworm QR Code (191844)",
+    "url": "https://bookworm.vnu.edu.vn/ViewQR.ashx?id=191844",
+    "status": 200,
+    "content_type": "image/png",
+    "size_bytes": 2617,
+    "working": true
+  },
+  {
+    "id": 11,
+    "name": "Bookworm Collection (cID=1)",
+    "url": "https://bookworm.vnu.edu.vn/Collection.aspx?cID=1&id=1",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "size_bytes": 105929,
+    "working": true
+  },
+  {
+    "id": 12,
+    "name": "Bookworm User Guide PDF",
+    "url": "https://bookworm.vnu.edu.vn/hdsd/HUONGDAN_CAIDAT_SUDUNG_BOOKWORM.pdf",
+    "status": 200,
+    "content_type": "application/pdf",
+    "size_bytes": 2778737,
+    "working": true
+  },
+  {
+    "id": 13,
+    "name": "Bookworm Android APK App",
+    "url": "https://bookworm.vnu.edu.vn/app/AdroidVNULIC.apk",
+    "status": 200,
+    "content_type": "application/vnd.android.package-archive",
+    "size_bytes": 116906504,
+    "working": true
+  },
+  {
+    "id": 14,
+    "name": "Bookworm Desktop MSI App",
+    "url": "https://bookworm.vnu.edu.vn/app/LibolVNULIC.msi",
+    "status": 200,
+    "content_type": "application/octet-stream",
+    "size_bytes": 136960000,
+    "working": true
+  },
+  {
+    "id": 15,
+    "name": "Google Play Store App",
+    "url": "https://play.google.com/store/apps/details?id=tve.tve.vnulic",
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "size_bytes": 1076767,
+    "working": true
+  },
+  {
+    "id": 16,
+    "name": "Apple App Store App",
+    "url": "https://apps.apple.com/us/app/vnu-lic/id1325979824",
+    "status": 200,
+    "content_type": "text/html",
+    "size_bytes": 448456,
+    "working": true
+  },
+  {
+    "id": 17,
+    "name": "Bookworm API GetTree Root",
+    "url": "https://bookworm.vnu.edu.vn/API/api/Collection/GetTree?id=%23",
+    "status": 200,
+    "content_type": "application/json; charset=utf-8",
+    "size_bytes": 94,
+    "working": true
+  },
+  {
+    "id": 18,
+    "name": "Scholar Handle View",
+    "url": "https://scholar.vnu.edu.vn/handle/123456789/1",
+    "status": "HTTP Error 404: Not found",
+    "content_type": "",
+    "size_bytes": 0,
+    "working": false
+  },
+  {
+    "id": 19,
+    "name": "Scholar Item JSON API",
+    "url": "https://scholar.vnu.edu.vn/server/api/core/items/adaefded-3cd2-46e6-93fd-a2219053aad5?expand=metadata,bitstreams",
+    "status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "size_bytes": 9592,
+    "working": true
+  },
+  {
+    "id": 20,
+    "name": "Scholar Access Status",
+    "url": "https://scholar.vnu.edu.vn/server/api/core/items/adaefded-3cd2-46e6-93fd-a2219053aad5/accessStatus",
+    "status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "size_bytes": 218,
+    "working": true
+  },
+  {
+    "id": 21,
+    "name": "Scholar Metrics API",
+    "url": "https://scholar.vnu.edu.vn/server/api/core/items/adaefded-3cd2-46e6-93fd-a2219053aad5/metrics",
+    "status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "size_bytes": 4768,
+    "working": true
+  },
+  {
+    "id": 22,
+    "name": "Scholar Browse Date Issued",
+    "url": "https://scholar.vnu.edu.vn/server/api/discover/browses/dateissued/items?size=5",
+    "status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "size_bytes": 40586,
+    "working": true
+  },
+  {
+    "id": 23,
+    "name": "Scholar Browse Authors",
+    "url": "https://scholar.vnu.edu.vn/server/api/discover/browses/author/entries?size=5",
+    "status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "size_bytes": 2796,
+    "working": true
+  },
+  {
+    "id": 24,
+    "name": "Scholar Browse Titles",
+    "url": "https://scholar.vnu.edu.vn/server/api/discover/browses/title/items?size=5",
+    "status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "size_bytes": 49126,
+    "working": true
+  },
+  {
+    "id": 25,
+    "name": "Scholar 21 Communities",
+    "url": "https://scholar.vnu.edu.vn/server/api/core/communities?size=5",
+    "status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "size_bytes": 10122,
+    "working": true
+  },
+  {
+    "id": 26,
+    "name": "LIC Portal Home",
+    "url": "https://lic.vnu.edu.vn/",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 80601,
+    "working": true
+  },
+  {
+    "id": 27,
+    "name": "LIC Portal Services List",
+    "url": "https://lic.vnu.edu.vn/services",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 43105,
+    "working": true
+  },
+  {
+    "id": 28,
+    "name": "LIC Portal Products",
+    "url": "https://lic.vnu.edu.vn/product",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 95066,
+    "working": true
+  },
+  {
+    "id": 29,
+    "name": "LIC Portal Document Guides",
+    "url": "https://lic.vnu.edu.vn/document",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 42119,
+    "working": true
+  },
+  {
+    "id": 30,
+    "name": "LIC Portal Account Check Guide",
+    "url": "https://lic.vnu.edu.vn/document/huong-dan-kiem-tra-tai-khoan-muon-tra",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 41949,
+    "working": true
+  },
+  {
+    "id": 31,
+    "name": "LIC Portal Kho Sách Đông Dương",
+    "url": "https://lic.vnu.edu.vn/kho-sach-dong-duong",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 41798,
+    "working": true
+  },
+  {
+    "id": 32,
+    "name": "LIC Portal News",
+    "url": "https://lic.vnu.edu.vn/news",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 42409,
+    "working": true
+  },
+  {
+    "id": 33,
+    "name": "LIC Portal Events",
+    "url": "https://lic.vnu.edu.vn/events",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 22052,
+    "working": true
+  },
+  {
+    "id": 34,
+    "name": "LIC Portal About Us",
+    "url": "https://lic.vnu.edu.vn/about",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 36834,
+    "working": true
+  },
+  {
+    "id": 35,
+    "name": "LIC Portal Contact",
+    "url": "https://lic.vnu.edu.vn/contact",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 17367,
+    "working": true
+  },
+  {
+    "id": 36,
+    "name": "LIC Portal Account Request Service",
+    "url": "https://lic.vnu.edu.vn/services/dich-vu-cap-tai-khoan-co-so-du-lieu-dien-tu",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 44168,
+    "working": true
+  },
+  {
+    "id": 37,
+    "name": "LIC Portal Document On-Demand Service",
+    "url": "https://lic.vnu.edu.vn/services/dich-vu-cung-cap-tai-lieu-theo-yeu-cau",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 42262,
+    "working": true
+  },
+  {
+    "id": 38,
+    "name": "LIC Portal Digitization Service",
+    "url": "https://lic.vnu.edu.vn/services/dich-vu-so-hoa-tai-lieu",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 55270,
+    "working": true
+  },
+  {
+    "id": 39,
+    "name": "LIC Portal Membership Service",
+    "url": "https://lic.vnu.edu.vn/services/dich-vu-dang-ky-thanh-vien-cua-thu-vien",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 42492,
+    "working": true
+  },
+  {
+    "id": 40,
+    "name": "LIC Portal Library Card Service",
+    "url": "https://lic.vnu.edu.vn/services/dich-vu-lam-the-thu-vien",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 42907,
+    "working": true
+  },
+  {
+    "id": 41,
+    "name": "LIC Portal Study Room Booking Service",
+    "url": "https://lic.vnu.edu.vn/services/dich-vu-dang-ky-phong-hoc-nhom",
+    "status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "size_bytes": 42294,
+    "working": true
+  }
+]
