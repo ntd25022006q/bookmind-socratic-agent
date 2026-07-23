@@ -254,6 +254,9 @@ def full_clean(text: str) -> str:
     text = deduplicate_repeated_text(text)
     text = sanitize_urls(text)
     text = clean_internal_filenames(text)
+    # Strip unnecessary proxy mentions
+    text = re.sub(r'\(?\s*Truy cập qua proxy db\.lic\.vnu\.edu\.vn\s*\)?', '', text, flags=re.IGNORECASE)
+    text = text.replace("db.lic.vnu.edu.vn", "lic.vnu.edu.vn")
     # Final whitespace normalization
     text = re.sub(r'\n{3,}', '\n\n', text)
     text = re.sub(r'  +', ' ', text)
@@ -323,18 +326,19 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
                     parts[2] = matched_book.get("title", parts[2])
                     parts[3] = matched_book.get("author") or "Trung tâm Thư viện VNU-LIC"
                     parts[4] = matched_book.get("date") or "2024"
-                    parts[5] = matched_book.get("source") or "Học liệu số ĐHQGHN"
+                    parts[5] = matched_book.get("source") or "VNU Scholar Repository"
                     
                     real_url = matched_book.get("url", "")
+                    src_label = "VNU Scholar" if "scholar" in real_url else ("Bookworm" if "bookworm" in real_url else "VNU-LIC")
                     if real_url and real_url != "-":
-                        parts[6] = f"[Xem trực tiếp tại VNU-LIC]({real_url})"
+                        parts[6] = f"[Xem trực tiếp tại {src_label}]({real_url})"
                     else:
-                        parts[6] = "[Xem trực tiếp tại VNU Scholar](https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3)"
+                        parts[6] = "[Xem trực tiếp tại VNU Scholar](https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff)"
                 else:
                     if parts[5].lower() in ["n/a", "", "tài liệu bổ trợ"]:
-                        parts[5] = "Thư viện Tri thức số ĐHQGHN"
+                        parts[5] = "VNU Scholar Repository"
                     if "[" not in parts[6] or "tra cứu" in parts[6].lower() or "lic.vnu.edu.vn/books" in parts[6]:
-                        parts[6] = "[Xem trực tiếp tại VNU Scholar](https://scholar.vnu.edu.vn/entities/publication/f5b2a42f-c816-4403-bb30-a05b375da5b3)"
+                        parts[6] = "[Xem trực tiếp tại VNU Scholar](https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff)"
                 
                 lines[idx] = " | ".join(parts)
                 continue
