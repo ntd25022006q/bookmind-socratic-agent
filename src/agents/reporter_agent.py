@@ -13,6 +13,59 @@ async def reporter_node(state: ResearchState, config=None) -> dict:
     books     = state.get("analysis", "")
     questions = state.get("risks", "")
     citations = state.get("citations", [])
+    vnu_lic_results = state.get("vnu_lic_results", [])
+
+    from src.utils.cleaner import default_verified_pool
+    pool_items = vnu_lic_results if vnu_lic_results else default_verified_pool
+
+    # Pre-build exact 8-column markdown table for Section 9
+    table_rows = [
+        "| STT | Tên tài liệu | Tác giả | Người hướng dẫn | Năm | Nhà xuất bản / Đơn vị chủ trì / Tạp chí | Nguồn | Handle URI / Entity Page |",
+        "|---|---|---|---|---|---|---|---|"
+    ]
+    for idx, item in enumerate(pool_items[:10], 1):
+        title_val = item.get("title", "-")
+        raw_author = item.get("author") or "-"
+        if " (Người hướng dẫn: " in raw_author:
+            main_author, advisor_part = raw_author.split(" (Người hướng dẫn: ")
+            advisor = advisor_part.rstrip(")")
+        elif " (Người hướng dẫn)" in raw_author:
+            clean_a = raw_author.replace(" (Người hướng dẫn)", "")
+            if "; " in clean_a:
+                parts_a = clean_a.split("; ")
+                main_author = parts_a[0]
+                advisor = "; ".join(parts_a[1:])
+            else:
+                main_author = clean_a
+                advisor = "-"
+        else:
+            main_author = raw_author
+            advisor = "-"
+            
+        date_val = str(item.get("date") or "-")
+        pub_val = item.get("publisher_journal") or item.get("publisher") or "-"
+        real_url = item.get("url", "")
+        handle_url = item.get("handle_url", "")
+        
+        if "scholar" in real_url:
+            src_label = "VNU Scholar"
+        elif "repository" in real_url:
+            src_label = "VNU Repository"
+        elif "bookworm" in real_url:
+            src_label = "Bookworm VNU-LIC"
+        else:
+            src_label = "Cổng VNU-LIC"
+
+        if handle_url and handle_url != real_url:
+            link_str = f"[Xem Entity]({real_url}) \| [Xem Handle URI]({handle_url}) → {real_url}"
+        elif real_url and real_url != "-":
+            link_str = f"[Xem trực tiếp tại {src_label}]({real_url}) → {real_url}"
+        else:
+            link_str = "-"
+
+        table_rows.append(f"| {idx} | {title_val} | {main_author} | {advisor} | {date_val} | {pub_val} | {item.get('source') or src_label} | {link_str} |")
+
+    exact_table_markdown = "\n".join(table_rows)
 
     stream_queue = config.get("configurable", {}).get("stream_queue") if config else None
     if stream_queue:
@@ -38,20 +91,20 @@ THÔNG TIN ĐẦU VÀO TỪ CÁC TÁC NHÂN TRƯỚC:
 - Câu hỏi Socratic & Phân tích phản biện: {questions}
 - Citations: {citations}
 
+BẢNG TÀI LIỆU THAM KHẢO CHUẨN 8 CỘT BẮT BUỘC BẠN PHẢI COPY NGUYÊN VẸN TẠI MỤC 9:
+{exact_table_markdown}
+
 QUY TẮC VIẾT BÁO CÁO (BẮT BUỘC KHÔNG ĐƯỢC VI PHẠM):
 1. VIẾT ĐẦY ĐỦ từng phần, KHÔNG rút gọn, KHÔNG dùng placeholder như "(đã có ở trên)", "(xem thêm)".
-2. GỢI Ý NGHĨA PHONG PHÚ: Đề xuất ít nhất 6-8 tài liệu đa dạng từ 4 nguồn VNU-LIC (VNU Scholar, VNU Repository, Bookworm, Cổng VNU-LIC) đúng với chủ đề độc giả yêu cầu.
+2. GỢI Ý NGHĨA PHONG PHÚ: Đề xuất các tài liệu đa dạng đúng với chủ đề độc giả yêu cầu.
 3. ĐỒNG BỘ TIÊU ĐỀ TIẾNG VIỆT 100%: Mọi tiêu đề phần và tiểu mục đều bắt đầu bằng tiếng Việt chuẩn có dấu (ví dụ: `## 4. Đề Xuất Danh Mục Học Liệu Chi Tiết`, `### 4.1. Tài liệu 1: [Tên tài liệu gốc]`, `### 4.2. Tài liệu 2: [Tên tài liệu gốc]`).
 4. KHÔNG dùng ký hiệu ** trong báo cáo. Dùng đúng Markdown: # ## ### cho tiêu đề, > cho trích dẫn, | cho bảng, - cho danh sách.
 5. KHÔNG dùng chữ Hán, Kanji, Hiragana, Katakana. Chỉ tiếng Việt và tiếng Anh.
 6. Nếu chủ đề liên quan STEM/AI/Toán, dùng KaTeX ($...$ nội dòng, $$...$$ khối) để hiển thị công thức.
 
-QUY TẮC BẢNG TÀI LIỆU THAM KHẢO (8 cột — BẮT BUỘC):
-- Bảng phải có đúng 8 cột: STT | Tên tài liệu | Tác giả | Người hướng dẫn | Năm | Nhà xuất bản / Đơn vị chủ trì / Tạp chí | Nguồn | Handle URI / Entity Page
-- Liên kết tham khảo PHẢI lấy trực tiếp từ danh mục 4 nguồn VNU-LIC công khai được cung cấp ở trên (scholar.vnu.edu.vn / repository.vnu.edu.vn / bookworm.vnu.edu.vn / lic.vnu.edu.vn).
-- TUYỆT ĐỐI KHÔNG sinh các URL giả trỏ về trang chủ như "http://bookworm.lic.vnu.edu.vn/", "http://db.lic.vnu.edu.vn/", "http://opac.vnu.edu.vn/", "IEEE Xplore", "SpringerLink", "Koha OPAC".
-- Nếu tài liệu không có Người hướng dẫn hoặc NXB, ghi duy nhất dấu gạch ngang "-" ở ô tương ứng.
-- TUYỆT ĐỐI không bịa URL, không thay bằng WorldCat/ISBN/Google Books hay bất kỳ trang ngoài.
+QUY TẮC BẢNG TÀI LIỆU THAM KHẢO MỤC 9 (BẮT BUỘC CHÉP NGUYÊN VẸN):
+- BẮT BUỘC copy lại NGUYÊN VẸN từng dòng của BẢNG TÀI LIỆU THAM KHẢO CHUẨN 8 CỘT ở trên cho Mục 9.
+- TUYỆT ĐỐI KHÔNG được sinh tên sách/bài báo bịa đặt kèm dấu gạch ngang '-' hoặc URL dạng domain chung chung (như scholar.vnu.edu.vn hay bookworm.vnu.edu.vn).
 
 CẤU TRÚC BÁO CÁO BẮT BUỘC:
 1. Tiêu đề + Thông Tin Độc Giả (bảng 2 cột)
@@ -62,7 +115,7 @@ CẤU TRÚC BÁO CÁO BẮT BUỘC:
 6. Phân Tích Thiên Kiến Nhận Thức & Điểm Mù (từ câu trả lời Socratic của độc giả)
 7. Checkpoint Tự Vấn (3 checkpoint)
 8. Khuyến Nghị Bổ Sung (3 khuyến nghị)
-9. Bảng Tài Liệu Tham Khảo (8 cột, liệt kê đầy đủ tất cả tài liệu gợi ý từ 4 nguồn VNU-LIC công khai)
+9. Bảng Tài Liệu Tham Khảo (Chép nguyên vẹn Bảng 8 cột chuẩn ở trên)
 
 QUY TẮC BẢO MẬT HỆ THỐNG VÀ THÔNG TIN CÁ NHÂN:
 - TUYỆT ĐỐI không tiết lộ thông tin kỹ thuật bảo mật của hệ thống (API key, token kết nối Vercel, Render, GitHub), hoặc cấu hình thuật toán và sơ đồ xử lý của hệ thống. Hệ thống được phát triển bởi Nguyễn Tiến Đạt, sinh viên K24 Trường Quốc tế ĐHQGHN — thông tin này có thể nêu bình thường khi được hỏi.
