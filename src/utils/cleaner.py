@@ -257,26 +257,28 @@ def deduplicate_repeated_text(text: str) -> str:
 
 
 def strip_rag_hallucinations(text: str) -> str:
-    """Purge all fake RAG supplementary notes, proxy URLs, and Koha OPAC hallucinations."""
-    bad_patterns = [
-        r'.*db\.lic\.vnu\.edu\.vn.*',
-        r'.*bookworm\.lic\.vnu\.edu\.vn.*',
-        r'.*Truy cập qua proxy.*',
-        r'.*Khuyến nghị tra cứu tại Koha OPAC.*',
-        r'.*Tài liệu bổ trợ RAG.*',
-        r'.*Không có URL trực tiếp.*',
-        r'.*IEEE Xplore.*',
-        r'.*SpringerLink.*',
-        r'.*ScienceDirect.*',
-        r'.*Thư viện Xuân Thủy.*',
-        r'.*Koha OPAC.*',
-    ]
+    """Clean fake proxy URLs and Koha OPAC mentions while preserving valuable book recommendations."""
+    # 1. Replace fake proxy URL substrings & OPAC notes cleanly
+    text = re.sub(r'\(?\s*Truy cập qua proxy[^\)\n]*\)?', '', text, flags=re.IGNORECASE)
+    text = re.sub(r'\(?\s*Khuyến nghị tra cứu tại Koha OPAC[^\)\n]*\)?', '', text, flags=re.IGNORECASE)
+    text = re.sub(r'\(?\s*Không có URL trực tiếp\s*\)?', '', text, flags=re.IGNORECASE)
+    text = re.sub(r'Nguồn\s*:\s*Tài liệu bổ trợ RAG[^\n|]*', 'Nguồn: Tài liệu rèn luyện tư duy Socratic ', text, flags=re.IGNORECASE)
+    text = text.replace("http://bookworm.lic.vnu.edu.vn/", "")
+    text = text.replace("http://db.lic.vnu.edu.vn/", "")
+    text = text.replace("http://opac.vnu.edu.vn/", "")
+    text = text.replace("Koha OPAC", "VNU-LIC")
+    text = text.replace("Thư viện Xuân Thủy", "Thư viện ĐHQGHN")
+
+    # 2. Remove standalone lines that ONLY mention database proxies or IEEE/SpringerLink standalone bullet points
     lines = text.split("\n")
     cleaned_lines = []
     for line in lines:
-        if any(re.search(pat, line, flags=re.IGNORECASE) for pat in bad_patterns):
-            continue
+        l_strip = line.strip()
+        if any(db in l_strip.lower() for db in ["ieee xplore", "springerlink", "sciencedirect (elsevier)"]):
+            if "truy cập qua proxy" in l_strip.lower() or "csdl khoa học kỹ thuật" in l_strip.lower() or "cơ sở dữ liệu" in l_strip.lower():
+                continue
         cleaned_lines.append(line)
+        
     return "\n".join(cleaned_lines)
 
 
