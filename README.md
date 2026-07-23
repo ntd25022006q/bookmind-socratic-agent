@@ -65,7 +65,7 @@ Hệ thống kết nối thời gian thực và trích xuất dữ liệu từ 4
 
 ## 📸 Trải Nghiệm Giao Diện & Quy Trình Vận Hành Thời Gian Thực (UI & System State Walkthrough)
 
-Dưới đây là chi tiết từng bước vận hành thực tế của giao diện **VNU BookMind Socratic** qua 5 màn hình trực quan chính:
+Dưới đây là chi tiết toàn bộ 10 bước vận hành thực tế của giao diện **VNU BookMind Socratic** qua 10 màn hình trực quan chính từ **Thiết lập hồ sơ** $\rightarrow$ **Sẵn sàng** $\rightarrow$ **Hội thoại Socratic** $\rightarrow$ **Đang chạy** $\rightarrow$ **Hoàn thành** $\rightarrow$ **Xuất báo cáo Offline**:
 
 ---
 
@@ -74,7 +74,7 @@ Dưới đây là chi tiết từng bước vận hành thực tế của giao d
 
 - **Mô tả giao diện**: Khi lần đầu truy cập hệ thống, một cửa sổ Modal đen xám sang trọng (`#18181b`) nổi lên yêu cầu sinh viên khai báo thông tin cá nhân. Phần trên bao gồm các trường bắt buộc:
   - *Họ và tên độc giả* (nhập văn bản tự do, ví dụ: Nguyễn Tiến Đạt)
-  - *Mã số sinh viên (MSSV)* (nhập mã số sinh viên ĐHQGHN)
+  - *Mã số sinh viên (MSSV)* (nhập mã số sinh viên ĐHQGHN, ví dụ: 24070342)
   - *Khóa học* (ví dụ: K24, K68, K69...) — trường thông tin mới giúp cá nhân hóa thế hệ sinh viên
   - *Sinh viên năm mấy* (dạng menu chọn: Năm 1, Năm 2, Năm 3, Năm 4, Khác...)
   - *Trường thành viên ĐHQGHN* (Trường Quốc tế VNU-IS, UET, HUS, USSH, ULIS, UEB...)
@@ -126,6 +126,50 @@ Dưới đây là chi tiết từng bước vận hành thực tế của giao d
 - **Cơ chế Rào Chắn Bắt Buộc (HTML5 Required Tooltip)**: Nếu độc giả đã nhập câu trả lời cho Câu 1 và Câu 2 nhưng bỏ trống Câu 3 mà bấm nút `🚀 Gửi Câu Trả Lời Phản Biện`, trình duyệt sẽ kích hoạt ngay tooltip cảnh báo màu trắng nổi bật:
   > ⚠️ `Please fill out this field.`
   Rào chắn này ngăn chặn việc bỏ trống ô phản biện, buộc độc giả phải hoàn thành đầy đủ cả 3 câu trả lời. Sau khi điền xong và gửi, hệ thống sẽ kích hoạt Phase 2: chuyển tiếp dữ liệu sang tác nhân **Phản Biện (Critic Agent 05)** và **Biên Soạn (Reporter Agent 06)** để phân tích điểm mù nhận thức và xuất báo cáo hoàn chỉnh.
+
+---
+
+### 6️⃣ Bước 6: Trạng Thái Đang Chạy - Tác Nhân Phản Biện (`6_running_critic_agent.png`)
+![Tác Nhân Phản Biện Đang Chạy](docs/screenshots/6_running_critic_agent.png)
+
+- **Mô tả giao diện**: Chỉ số trạng thái hiển thị **"Đang chạy..."** màu cam. Tác nhân **Phản Biện (Critic Agent 05 / Node 5/6)** sáng đèn màu xanh lá mạ trên sơ đồ tác nhân (`gemma4:31b · Phase 2`). Khung giữa hiển thị nhật ký suy luận thời gian thực và khung phải hiển thị kết quả phân tích phản biện.
+- **Cơ chế phân tích Quá trình suy nghĩ (Thinking Process)**:
+  - Agent 05 đánh giá trực tiếp câu trả lời của độc giả (Nguyễn Tiến Đạt), chỉ ra 3 điểm mù nhận thức & thiên kiến tư duy chiều sâu:
+    - 🧠 *Thiên kiến "Giá trị Vĩnh cửu" của Quy trình*: Xu hướng thần thánh hóa quy trình chuẩn 1982 mà bỏ qua các phương pháp thực nghiệm phi truyền thống.
+    - 📚 *Ảo tưởng về khả năng diễn đạt của Ngôn ngữ*: Tin rằng văn viết có thể minh bạch hóa toàn bộ cơ chế của AI Hắc Hộp (Black-box models).
+    - ⚙️ *Sự lý tưởng hóa sự kết hợp (Hybridization Bias)*: Sự nhầm lẫn giữa logic lý thuyết chuẩn mực và rào cản tài nguyên thực thi thực tế (`Compute Power`).
+
+---
+
+### 7️⃣ Bước 7: Trạng Thái Hoàn Thành & Báo Cáo Độc Giả (`7_completed_reporter_agent.png`)
+![Trạng Thái Hoàn Thành & Báo Cáo Độc Giả](docs/screenshots/7_completed_reporter_agent.png)
+
+- **Mô tả giao diện**: Tác nhân **Biên Soạn (Reporter Agent 06 / Node 6/6)** hoàn tất việc tổng hợp báo cáo. Trạng thái hiển thị **"Hoàn Thành ✅"** xanh lá rực rỡ với thống kê vận hành đầy đủ: Thời gian `72.667s`, Tổng Token `4,355`, Tác nhân xử lý `6/6`. Cụm nút chức năng (`Khởi Chạy Lại`, `Xuất báo cáo chi tiết`, `Xuất sơ đồ quy trình`) được kích hoạt mở rộng.
+- **Cơ chế hiển thị**: Khung báo cáo chi tiết bên phải hiển thị Mục 1: **Thông Tin Độc Giả** dưới dạng bảng 2 cột chuẩn hóa (`Ngành học & Khóa: AIT - Khóa K24`, `Trường: Trường Quốc tế`...), đảm bảo bảo tồn nguyên văn 100% dữ liệu đăng ký ban đầu.
+
+---
+
+### 8️⃣ Bước 8: Trải Nghiệm Tab Sơ Đồ Quy Trình Mermaid (`8_completed_mermaid_diagram.png`)
+![Sơ Đồ Quy Trình Mermaid](docs/screenshots/8_completed_mermaid_diagram.png)
+
+- **Mô tả giao diện**: Khi chuyển sang tab **Sơ Đồ Quy Trình**, hệ thống render biểu đồ **Mermaid.js Flowchart TD (Top-Down)** phản ánh trực quan lộ trình đọc Socratic. Phía trên tích hợp bộ công cụ thu phóng tỉ lệ vector (`100%`, `Zoom Out`, `Zoom In`, `Reset`).
+- **Cơ chế vận hành**: Khung bên dưới hiển thị đoạn văn **Mô tả chi tiết sơ đồ** giải thích súc tích dải lộ trình 3 giai đoạn: *Xác định mục tiêu $\rightarrow$ Khai thác học liệu VNU-LIC $\rightarrow$ Phản biện Socratic & Nhận diện điểm mù $\rightarrow$ Hoàn thiện tư duy hệ thống*.
+
+---
+
+### 9️⃣ Bước 9: Mở File Báo Cáo Chi Tiết HTML Offline (`9_export_html_report_table.png`)
+![Mở File Báo Cáo Chi Tiết HTML Offline](docs/screenshots/9_export_html_report_table.png)
+
+- **Mô tả giao diện**: Khi nhấn `Xuất báo cáo chi tiết`, file `.html` độc lập được đóng gói tải về máy. Khi mở bằng trình duyệt, báo cáo hiển thị khung hình rộng rãi `1400px` cực kỳ thoáng đãng.
+- **Cơ chế Bảng 8 Cột Trích Dẫn DSpace**: Hiển thị **Mục 9. Bảng Tài Liệu Tham Khảo** chuẩn 8 cột với thiết kế `white-space: nowrap` cho cột STT (`65px`) và Năm (`75px`) không bao giờ vỡ dòng. Mỗi tài liệu trích dẫn đi kèm đường liên kết đôi DSpace công khai (**Xem Entity** và **Xem Handle URI**) kèm URL gốc dòng dưới giúp độc giả click hoặc copy dễ dàng.
+
+---
+
+### 🔟 Bước 10: Mở File Sơ Đồ Quy Trình Đồ Họa Vector SVG/PNG (`10_export_svg_flowchart.png`)
+![Mở File Sơ Đồ Quy Trình Đồ Họa Vector SVG](docs/screenshots/10_export_svg_flowchart.png)
+
+- **Mô tả giao diện**: Khi nhấn `Xuất sơ đồ quy trình`, hệ thống kết xuất sơ đồ Mermaid thành file ảnh đồ họa vector `.svg` hoặc `.png` sắc nét.
+- **Cơ chế ứng dụng**: Biểu đồ hình chữ nhật Top-Down 7 bước chuẩn vector không bị mờ nhòe khi phóng to hay in ấn, sẵn sàng để sinh viên chèn thẳng vào báo cáo nghiên cứu khoa học, luận văn tốt nghiệp hoặc slide thuyết trình học thuật.
 
 ---
 
