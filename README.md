@@ -154,7 +154,15 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 🔟 Ảnh 10: Mở File Báo Cáo Chi Tiết HTML Offline
+### 🔟 Ảnh 10: Nhật Ký Tải Xuất Báo Cáo Offline & Sơ Đồ Vector
+![Nhật Ký Tải Xuất Báo Cáo Offline](docs/screenshots/12_download_history.png)
+
+- **Mô tả giao diện**: Nhật ký tải xuống thực tế trên trình duyệt chứng minh 2 tệp xuất bản độc lập được kết xuất thành công: tệp sơ đồ vector `.svg` (`19.6 KB`) và tệp báo cáo chi tiết `.html` (`27.7 KB`).
+- **Ý nghĩa đối với Ban Giám Khảo**: Đây là bằng chứng thực tế cho thấy tính năng đóng gói báo cáo và đồ họa quy trình vận hành trơn tru 100%, hỗ trợ sinh viên lưu trữ offline hoặc đính kèm trực tiếp vào hồ sơ nghiên cứu khoa học.
+
+---
+
+### 1️⃣1️⃣ Ảnh 11: Mở File Báo Cáo Chi Tiết HTML Offline
 ![Mở File Báo Cáo Chi Tiết HTML Offline](docs/screenshots/9_export_html_report_table.png)
 
 - **Mô tả giao diện**: Nhấn `Xuất báo cáo chi tiết`, tệp HTML độc lập (`BaoCao_De_xuat_sach_giao_trinh_va_tai_lieu_nghien_cuu_ve_tu_duy_pha_20260724.html` - `27.7 KB`) được tải về máy. Mở bằng trình duyệt hiển thị khung rộng `1400px` vô cùng thoáng đãng.
@@ -162,19 +170,11 @@ Dưới đây là chi tiết hành trình trải nghiệm 11 màn hình ảnh mi
 
 ---
 
-### 1️⃣1️⃣ Ảnh 11: Mở File Sơ Đồ Quy Trình Đồ Họa Vector SVG/PNG
+### 1️⃣2️⃣ Ảnh 12: Mở File Sơ Đồ Quy Trình Đồ Họa Vector SVG/PNG
 ![Mở File Sơ Đồ Quy Trình Đồ Họa Vector SVG](docs/screenshots/10_export_svg_flowchart.png)
 
 - **Mô tả giao diện**: Nhấn `Xuất sơ đồ quy trình`, hệ thống kết xuất sơ đồ Mermaid thành tệp đồ họa vector `.svg` sắc nét (`VNU_BookMind_SoDo_QuyTrinh_2026-07-23.svg` - `19.6 KB`).
 - **Cơ chế ứng dụng**: Ảnh chuẩn vector sắc nét không bị mờ nhòe khi phóng to hay in ấn, sẵn sàng để sinh viên chèn thẳng vào báo cáo NCKH hoặc slide thuyết trình luận văn.
-
----
-
-### 1️⃣2️⃣ Ảnh 12: Nhật Ký Tải Xuất Báo Cáo Offline & Sơ Đồ Vector
-![Nhật Ký Tải Xuất Báo Cáo Offline](docs/screenshots/12_download_history.png)
-
-- **Mô tả giao diện**: Nhật ký tải xuống thực tế trên trình duyệt chứng minh 2 tệp xuất bản độc lập được kết xuất thành công: tệp sơ đồ vector `.svg` (`19.6 KB`) và tệp báo cáo chi tiết `.html` (`27.7 KB`).
-- **Ý nghĩa đối với Ban Giám Khảo**: Đây là bằng chứng thực tế cho thấy tính năng đóng gói báo cáo và đồ họa quy trình vận hành trơn tru 100%, hỗ trợ sinh viên lưu trữ offline hoặc đính kèm trực tiếp vào hồ sơ nghiên cứu khoa học.
 
 ---
 
