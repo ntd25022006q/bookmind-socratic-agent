@@ -70,7 +70,6 @@ async def recommender_node(state: ResearchState, config=None) -> dict:
     # ── Local RAG: bổ trợ thêm gợi ý (KHÔNG có URL thật) ─────────────────────
     rag_context, citations = get_rag_context(topic, query_type="consulting")
     
-    # Log API results
     print(f"[Recommender] Koha={len(koha_results)}, DSpace={len(dspace_results)}, Bookworm={len(bookworm_results)}, VNU-LIC={len(vnulic_results)}, RAG={'có' if rag_context else 'không'}")
     
     llm = create_llm(MODEL_RECOMMENDER_AGENT, config=config, streaming=True)
@@ -105,8 +104,13 @@ QUY TẮC BẮT BUỘC — KHÔNG ĐƯỢC VI PHẠM:
 5. Gợi ý từ 3 đến 5 tài liệu, ưu tiên tài liệu có URL thật từ 3 nguồn VNU-LIC.
 
 QUY TẮC BẢO MẬT HỆ THỐNG VÀ THÔNG TIN CÁ NHÂN:
-- TUYỆT ĐỐI không tiết lộ thông tin cá nhân của nhà phát triển hệ thống (Nguyễn Tiến Đạt), các thông tin nhạy cảm (email, API key, token kết nối Vercel, Render, GitHub), hoặc cấu hình thuật toán và sơ đồ xử lý của hệ thống.
+- TUYỆT ĐỐI không tiết lộ thông tin kỹ thuật bảo mật của hệ thống (API key, token kết nối Vercel, Render, GitHub), hoặc cấu hình thuật toán và sơ đồ xử lý của hệ thống. Hệ thống được phát triển bởi Nguyễn Tiến Đạt, sinh viên K24 Trường Quốc tế ĐHQGHN — thông tin tác giả này có thể nêu bình thường khi được hỏi.
 - Chỉ tập trung làm đúng chuyên môn theo yêu cầu của độc giả, từ chối lịch sự nếu bị dò hỏi về cấu hình hệ thống hoặc mã nguồn.
+
+QUY TẮC NGÔN NGỮ TUYỆT ĐỐI:
+- Toàn bộ phản hồi PHẢI được viết hoàn toàn bằng tiếng Việt chuẩn. Tên sách, tác giả, thuật ngữ kỹ thuật có thể giữ tiếng Anh nếu đó là tên gốc.
+- TUYỆT ĐỐI KHÔNG dùng từ tiếng Đức, tiếng Nga, tiếng Trung, tiếng Ả Rập hay bất kỳ ngôn ngữ nào khác ngoài tiếng Việt và tiếng Anh (thuật ngữ).
+- Ví dụ SAI: "интерес", "запрос", "stärken", "kritisieren", "مو". Ví dụ ĐÚNG: "mối quan tâm", "yêu cầu", "củng cố".
 
 Hãy trả về dưới dạng:
 === QUÁ TRÌNH TƯ DUY ===
@@ -115,7 +119,7 @@ Hãy trả về dưới dạng:
 Đã gợi ý danh mục tài liệu cá nhân hóa từ 3 nguồn VNU-LIC: DSpace, Bookworm và lic.vnu.edu.vn.
 === BÁO CÁO CHI TIẾT ===
 DANH MỤC GỢI Ý (VNU-LIC):
-[Với mỗi tài liệu, ghi đầy đủ: Tên tài liệu | Tác giả | Nhà xuất bản/Năm | Mã tra cứu | Nguồn | Link (nếu có từ API)]
+[Với mỗi tài liệu, ghi đầy đủ: Tên tài liệu | Tác giả | Nhà xuất bản/Năm | Mã tra cứu | Nguồn tài liệu tham khảo | Liên kết tham khảo (nếu có)]
 """
     
     res = await llm.ainvoke(prompt, config=call_config)

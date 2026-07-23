@@ -11,13 +11,17 @@ os.environ["ANON_TELEMETRY"] = "False"
 OLLAMA_API_KEY = os.environ.get("OLLAMA_API_KEY", "")
 OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "https://ollama.com/v1")
 
-# Best specialized models on Ollama Cloud - assigned by agent specialty & speed
-MODEL_GUARDRAIL_AGENT    = "gemma4:12b"           # Fast, accurate gatekeeper
-MODEL_PROFILER_AGENT     = "gemma4:12b"           # Fast, accurate reader profiler
-MODEL_RECOMMENDER_AGENT  = "gemma4:12b"           # Fast factual search synthesizer
-MODEL_ANALYST_AGENT      = "gemma4:27b"           # Deep Socratic questioning model
+# Model lineup: diverse gemma4 family + qwq for deep reasoning — no nemotron/gpt-oss
+# gemma4:2b  = ultra-fast gating
+# gemma4:12b = fast, accurate (profiler, recommender)
+# gemma4:27b = balanced deep (analyst, critic, reporter)
+# gemma4:12b fallback for guardrail (speed-critical)
+MODEL_GUARDRAIL_AGENT    = "gemma4:2b"            # Ultra-fast: only decides in/out
+MODEL_PROFILER_AGENT     = "gemma4:12b"           # Fast + accurate reader profiling
+MODEL_RECOMMENDER_AGENT  = "gemma4:12b"           # Fast factual VNU-LIC synthesis
+MODEL_ANALYST_AGENT      = "gemma4:27b"           # Deep Socratic questioning
 MODEL_RISK_ASSESSOR_AGENT= "gemma4:27b"           # Deep cognitive blindspot critic
-MODEL_REPORTER_AGENT     = "gemma4:27b"           # Structured Markdown & Mermaid reporter
+MODEL_REPORTER_AGENT     = "gemma4:27b"           # Structured Markdown reporter
 
 
 import sys

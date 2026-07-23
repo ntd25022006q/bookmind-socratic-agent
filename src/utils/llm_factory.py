@@ -43,16 +43,20 @@ _model_latencies: dict = {}
 _latency_checker_started = False
 _latency_lock = threading.Lock()
 
-# Verifiably free tier / 200 OK models on Ollama Cloud (excluding paid/subscription-only 403 models)
+# Verifiably free tier / 200 OK models on Ollama Cloud sorted by priority
+# Primary: gemma4 family (fast, accurate, Vietnamese-safe, no foreign char bleed)
+# Fallback: other verified free-tier models
 OLLAMA_FREE_CANDIDATES = [
-    "gemma4:31b",
-    "nemotron-3-nano:30b",
-    "gpt-oss:20b",
-    "minimax-m3",
-    "nemotron-3-ultra",
-    "minimax-m2.5",
-    "gpt-oss:120b",
-    "nemotron-3-super",
+    "gemma4:2b",            # Ultra-fast, ideal for gating tasks
+    "gemma4:12b",           # Fast + accurate, general purpose
+    "gemma4:27b",           # Deep reasoning, Socratic analysis
+    "gemma4:31b",           # Largest gemma4, max quality
+    "gemma3:27b",           # Fallback: older gemma generation
+    "gemma3:12b",           # Fallback: older gemma small
+    "llama3.3:70b",         # Fallback: Meta LLaMA deep reasoning
+    "phi4:14b",             # Fallback: Microsoft Phi-4
+    "gpt-oss:20b",          # Fallback: legacy candidate
+    "nemotron-3-super",     # Fallback: NVIDIA nemotron
 ]
 
 def check_model_latencies_sync():
