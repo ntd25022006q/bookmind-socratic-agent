@@ -318,6 +318,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         {
             "title": "A hybrid feature selection method for credit scoring",
             "author": "Ha Van, Sang; Nguyen Ha, Nam; Nguyen Thi Bao, Hien",
+            "publisher_journal": "EAI Endorsed Transactions",
             "date": "2017",
             "source": "VNU Scholar Repository",
             "url": "https://scholar.vnu.edu.vn/entities/publication/9c1b5dd9-167b-4f4f-9084-c5808ec35fff",
@@ -326,6 +327,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         {
             "title": "Using impromptu speaking activities to improve student' fluency: an action research",
             "author": "Bùi, Thị Hồng Hoa",
+            "publisher_journal": "ĐHQGHN - Trường Đại học Ngoại ngữ (ULIS)",
             "date": "2026",
             "source": "VNU Repository (repository.vnu.edu.vn)",
             "url": "https://repository.vnu.edu.vn/entities/publication/e87b7dca-5f05-4dd2-8d84-3ae579fce5ab",
@@ -334,6 +336,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         {
             "title": "The use of pictures in teaching English speaking in an English center",
             "author": "Duong, Tra Mi; Vu, Mai Trang (Người hướng dẫn)",
+            "publisher_journal": "ĐHQGHN - Trường Đại học Ngoại ngữ (ULIS)",
             "date": "2011",
             "source": "VNU Repository (repository.vnu.edu.vn)",
             "url": "https://repository.vnu.edu.vn/entities/publication/1ff731b9-5e12-4f8e-ae8f-b08c34627537",
@@ -342,6 +345,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         {
             "title": "Visualizing atomic orbitals of an electron by Latex",
             "author": "Nguyen Hoang, Hai",
+            "publisher_journal": "European Journal of Physics",
             "date": "2022",
             "source": "VNU Scholar Repository",
             "url": "https://scholar.vnu.edu.vn/entities/publication/6f7669c1-5aa6-4ffb-9d98-dc29bc8585c8",
@@ -350,6 +354,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         {
             "title": "Integration der flüchtlinge auf dem Deutschen arbeitsmarkt = So sánh hai mô hình hỗ trợ người tị nạn...",
             "author": "Đào, Thị Thắm (Người hướng dẫn: Trần, Thị Hạnh)",
+            "publisher_journal": "ĐHQGHN - Trường Đại học Ngoại ngữ (ULIS)",
             "date": "2022",
             "source": "VNU Repository (repository.vnu.edu.vn)",
             "url": "https://repository.vnu.edu.vn/entities/publication/1ff7218c-e60e-4f3a-922d-c017d0a65ec9",
@@ -358,6 +363,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         {
             "title": "Intangible Capital and Growth : Essays on Labor Productivity, Monetary Economics, and Political Economy. Vol. 1",
             "author": "Roth, Felix",
+            "publisher_journal": "Springer",
             "date": "2022",
             "source": "Bookworm VNU-LIC",
             "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=170000"
@@ -365,6 +371,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         {
             "title": "Animaux Venimeux et Venins",
             "author": "Marie Phisalix",
+            "publisher_journal": "Paris",
             "date": "1922",
             "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
             "url": "https://lic.vnu.edu.vn/books/animaux-venimeux-et-venins"
@@ -372,6 +379,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         {
             "title": "Annales de physique. Tome I",
             "author": "A. Cotton",
+            "publisher_journal": "Paris",
             "date": "1931",
             "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
             "url": "https://lic.vnu.edu.vn/books/annales-de-physique-tome-i"
@@ -379,6 +387,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         {
             "title": "Writing research papers : a guide to the process",
             "author": "Weidenborner, Stephen; Caruso, Domenick",
+            "publisher_journal": "St. Martin's Press",
             "date": "1982",
             "source": "Bookworm VNU-LIC",
             "url": "https://bookworm.vnu.edu.vn/EDetail.aspx?id=172500"
@@ -386,6 +395,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         {
             "title": "Auguste comte sa vie",
             "author": "Cresson, André",
+            "publisher_journal": "Presses universitaires de France",
             "date": "1947",
             "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
             "url": "https://lic.vnu.edu.vn/books/auguste-comte-sa-vie"
@@ -393,6 +403,7 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
         {
             "title": "Articles et pamphlets",
             "author": "M. Gorki",
+            "publisher_journal": "Paris",
             "date": "1950",
             "source": "Cổng Thư viện VNU-LIC (lic.vnu.edu.vn)",
             "url": "https://lic.vnu.edu.vn/books/articles-et-pamphlets"
@@ -409,23 +420,43 @@ def enforce_strict_citations(report: str, vnu_lic_results: list) -> str:
 
     pool = cleaned_pool if len(cleaned_pool) >= 3 else default_verified_pool
     table_row_count = 0
+    in_ref_table_context = False
 
     for idx, line in enumerate(lines):
+        line_str = line.strip()
+        if "bảng tài liệu tham khảo" in line_str.lower() or "danh mục tài liệu tham khảo" in line_str.lower() or "tài liệu tham khảo" in line_str.lower():
+            in_ref_table_context = True
+
         # Case A: Table rows
-        if line.strip().startswith("|") and line.strip().endswith("|"):
-            parts = [p.strip() for p in line.split("|")]
+        if line_str.startswith("|") and line_str.endswith("|"):
+            parts = [p.strip() for p in line_str.split("|")]
             if len(parts) >= 4:
                 first_cell = parts[1].lower()
                 second_cell = parts[2].lower()
                 
+                # Check if this table is User Profile table (2-3 columns, no STT/Title header)
+                is_profile_table = any(k in first_cell or k in second_cell for k in ["hồ sơ độc giả", "thông tin độc giả", "độc giả", "trường", "chuyên ngành", "mục tiêu"])
+                if is_profile_table and not in_ref_table_context:
+                    lines[idx] = line
+                    continue
+
                 # Format Header Row to strict 8-Column Schema
                 if "stt" in first_cell or "tên tài liệu" in second_cell:
+                    in_ref_table_context = True
                     lines[idx] = "| STT | Tên tài liệu | Tác giả | Người hướng dẫn | Năm | Nhà xuất bản / Đơn vị chủ trì / Tạp chí | Nguồn | Handle URI / Entity Page |"
                     continue
 
                 # Format Separator Row
                 if "---" in first_cell or "---" in second_cell or "---" in parts[3]:
-                    lines[idx] = "|---|---|---|---|---|---|---|---|"
+                    if in_ref_table_context:
+                        lines[idx] = "|---|---|---|---|---|---|---|---|"
+                    else:
+                        lines[idx] = line
+                    continue
+
+                # Only convert rows inside reference table context
+                if not in_ref_table_context and not first_cell.isdigit():
+                    lines[idx] = line
                     continue
 
                 item = pool[table_row_count % len(pool)]
