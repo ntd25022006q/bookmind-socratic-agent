@@ -19,8 +19,6 @@ Trong kỷ nguyên bùng nổ của các mô hình ngôn ngữ lớn (LLMs), sin
 
 Xuất phát từ trăn trở đó, dự án **VNU BookMind Socratic** được ra đời không phải để tạo thêm một Chatbot trả lời tự động, mà để xây dựng một **"Trợ Lý Đọc Sách & Phản Biện Học Thuật Đa Tác Nhân"**. Triết lý cốt lõi của dự án dựa trên phương pháp Socrates huyền thoại: **AI không đọc hộ hay tóm tắt sẵn văn bản để sinh viên thụ động, mà đóng vai trò người thầy phản biện - đưa ra câu hỏi gợi mở, nhận diện điểm mù nhận thức, kích thích sinh viên tự đối thoại, tự khai phá tri thức và làm chủ phương pháp luận nghiên cứu.**
 
-- 🎓 **Tác giả dự án**: **Nguyễn Tiến Đạt** (Sinh viên K24, Ngành Công nghệ Thông tin & Trí tuệ Nhân tạo - AIT, Trường Quốc tế, Đại học Quốc gia Hà Nội).
-
 ---
 
 ## 💎 Triết Lý Thiết Kế: Tối Ưu Cho Độ Sâu Học Thuật & Chất Lượng Phản Biện
